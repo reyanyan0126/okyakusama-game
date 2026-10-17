@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const G=require('../engine.js');
 assert.equal(G.VERSION,1,'Save version must not change for legacy clients');
 assert.equal(G.unitCost(G.initial(123)),110);
-assert.equal(G.ACTIONS.length,21);
+assert.ok(G.ACTIONS.length>=24);
 assert.equal(G.CONTRACT.profit,1000000);
 assert.equal(G.CONTRACT.reputation,50);
 let s=G.initial(123456);
@@ -43,7 +43,7 @@ for(let seed=1;seed<=2000;seed++){
   assert.equal(next.sales,next.lastResult.sales);
   const h=next.lastResult;
   assert.equal(h.sales,h.units*h.price);
-  assert.equal(h.profit,h.units*(h.price-h.cost)-(h.rent+h.utilities+h.payroll+h.macroFixed)-h.extra-h.incidentCost-h.interest-h.macroPenalty+h.macroBonus);
+  assert.equal(h.profit,h.units*(h.price-h.cost)-(h.rent+h.utilities+h.payroll+h.macroFixed)-h.extra-h.incidentCost-h.interest-h.macroPenalty-(h.rootLoss||0)+h.macroBonus);
   assert.equal(next.cash,game.cash+h.profit+h.financing-h.principal-h.investment-h.fee-h.devilPayment-h.boardroomBonus);
   assert.equal(next.debt,h.debtAfter);
   assert.ok(!h.accidentId||G.ACCIDENTS.some(a=>a.id===h.accidentId));

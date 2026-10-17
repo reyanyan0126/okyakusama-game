@@ -24,7 +24,7 @@ const state={};
 const localStorage={getItem(k){return state[k]??null},setItem(k,v){state[k]=v}};
 let warnings=[];
 const context={document,localStorage,console:{warn:(...x)=>warnings.push(x),log:()=>{}},window:{matchMedia:()=>({matches:true}),setTimeout:fn=>{fn();return 1}},Date,Math,JSON,Number,String,Array,Set,Object,URL:{},confirm:()=>true,location:{protocol:'file:',hostname:''},navigator:{},setTimeout:(fn)=>{fn();return 1},clearTimeout:()=>{}};
-context.window=context;context.matchMedia=()=>({matches:true});vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../engine.js'),'utf8'),context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8'),context);
+context.window=context;context.matchMedia=()=>({matches:true});vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../engine.js'),'utf8'),context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../finance.js'),'utf8'),context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../scene.js'),'utf8'),context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8'),context);
 assert.equal(nodes.titleScreen.hidden,false,'title should show on first load');
 assert.equal(nodes.app.hidden,true,'game should not display behind title');
 nodes.titleStart.click();assert.equal(nodes.contractsScreen.hidden,false,'inbox after start');

@@ -1,4 +1,4 @@
-/* お客様のために。v0.9.5 - visible cash movements, compact boardroom, verified finance ledger. */
+/* お客様のために。v0.9.6 - dynamic shop and office scenes, visible cash movements, compact boardroom, verified finance ledger. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const F=window.FinanceLedger;
@@ -79,6 +79,26 @@ function setFaces(){
  for(const [id,mood,label] of [['bossFace',boss,'店長'],['buyerFace',buyer,'消費者']]){
   $(id).dataset.mood=mood;
   $(id).setAttribute('aria-label',label+'・'+({panic:'パニック',happy:'笑顔',angry:'怒り',sad:'不満',normal:'普通'})[mood]+'の表情');
+ }
+}
+
+
+function renderOfficeScene(){
+ const scene=window.OfficeScene.describe(game);
+ const hero=document.querySelector('#officeView .office-hero');
+ if(!hero)return;
+ const previous=hero.dataset.storeState;
+ hero.dataset.storeState=scene.store;
+ hero.dataset.billLoad=String(scene.bills);
+ hero.dataset.officeState=scene.office;
+ hero.dataset.devil=scene.devil?'yes':'no';
+ hero.dataset.rootIssue=scene.rootIssue;
+ $('officeSceneText').textContent=scene.note;
+ const drawing=document.querySelector('.office-room-art');
+ if(drawing)drawing.setAttribute('aria-label',scene.description+' 雑居ビルの事務所とモグモグマートの現場写真。');
+ if(previous && previous!==scene.store && !reducedMotion()){
+  hero.classList.remove('scene-status-changed');void hero.offsetWidth;
+  hero.classList.add('scene-status-changed');
  }
 }
 
@@ -440,6 +460,7 @@ function paint(){
  $('satValue').textContent=s.sat;$('frustValue').textContent=s.frust;
  $('satBar').style.width=s.sat+'%';$('frustBar').style.width=s.frust+'%';
  setFaces();
+ renderOfficeScene();
  $('goalChip').textContent=`契約利益 ${man(G.goalStatus(s).profit)} / ${man(s.contractGoal)}万`;
  $('moodStatus').textContent=s.frust>=68?'不満爆発寸前':s.sat>=72?'ごきげん':s.frust>=43?'不満が蓄積':'まずまず';
  $('shopStatus').textContent=s.fire>=60?'大炎上':s.fire>=30?'騒動発生':'営業中';
