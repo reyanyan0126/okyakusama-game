@@ -17,6 +17,8 @@ with sync_playwright() as p:
    if width==390:page.locator('#prologueIllustration').screenshot(path=str(root/f'story-visible-{i+1}.png'))
    if i<6:page.locator('#prologueNext').click()
   page.locator('#prologueNext').click()
+  assert page.locator('#modal').is_visible()
+  page.locator('#firstWeekStart').click()
   page.evaluate('''()=>{let s=window.GameEngine.initial(1234);s.lastResult={fireHit:true,memoryEvent:false,actionId:'shrink',actionName:'お手軽サイズに進化',title:'SNSが炎上した',week:s.week-1};s.fire=65;window.testBrief=window.GameEngine.weeklyBrief(s);window.testNext=window.GameEngine.play(s,'apology');}''')
   q=page.evaluate('''()=>({title:window.testBrief.title,quote:window.testBrief.quote,offers:window.GameEngine.weeklyOffers(window.GameEngine.initial(1234)).length,response:window.testNext.lastResult.crisisResponse})''')
   assert 'お手軽サイズ' in q['title'] and '評判' in q['response'] and '炎上度' in q['response'],q
