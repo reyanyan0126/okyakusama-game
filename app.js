@@ -1,0 +1,97 @@
+/* お客様のために。v0.1 - display and local save; no external services. */
+(()=>{'use strict';
+const G=window.GameEngine;
+const STORAGE='okyakusama.save.v1';
+const $=id=>document.getElementById(id);
+const yen=n=>Number(n).toLocaleString('ja-JP');
+const man=n=>(n/10000).toFixed(1);
+const sign=n=>(n>0?'+':'')+yen(n);
+const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+let game;
+let modalNext=null;
+let toastTimer;
+function load(){try{const raw=localStorage.getItem(STORAGE);if(raw)return G.validateSaved(JSON.parse(raw));}catch(err){console.warn('セーブの読み込みに失敗しました',err);}return G.initial(Date.now());}
+function save(){try{localStorage.setItem(STORAGE,JSON.stringify(game));return true;}catch(err){console.warn('保存できませんでした',err);return false;}}
+function toast(msg){$('toast').textContent=msg;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,2800);}
+function rating(s){if(s.skill>=85)return '伝説のコンサル';if(s.skill>=70)return '敏腕コンサル';if(s.skill>=55)return '期待のコンサル';if(s.skill>=35)return '駆け出し';return '要・経営改善';}
+function riskLabel(n){return n>=.17?['高','high','かなり危険']:n>=.08?['中','medium','やや注意']:['低','','比較的落ち着いている'];}
+function paint(){
+ const s=game;
+ $('weekIndicator').textContent=`${Math.min(s.week,12)} / 12`;
+ $('progressBar').style.width=`${s.finished?100:Math.round((s.week-1)/12*100)}%`;
+ $('heroWeek').textContent=s.finished?'12週終了':`第${s.week}週`;
+ $('decisionWeek').textContent=s.finished?'全日程終了':`第${s.week}週`;
+ $('skillValue').textContent=s.skill;$('skillBar').style.width=s.skill+'%';
+ $('payValue').textContent=yen(s.pay);$('notorietyText').textContent=`悪名：${s.notoriety} / 100`;
+ $('consultantTitle').textContent=rating(s);
+ $('repValue').textContent=s.storeRep;$('salesValue').textContent=man(s.sales);$('fireValue').textContent=s.fire;
+ $('satValue').textContent=s.sat;$('frustValue').textContent=s.frust;
+ $('satBar').style.width=s.sat+'%';$('frustBar').style.width=s.frust+'%';
+ $('moodStatus').textContent=s.frust>=68?'不満爆発寸前':s.sat>=72?'ごきげん':s.frust>=43?'不満が蓄積':'まずまず';
+ $('shopStatus').textContent=s.fire>=60?'大炎上':s.fire>=30?'騒動発生':'営業中';
+ if(s.lastResult){$('latestHeadline').textContent=s.lastResult.title;$('latestBody').textContent=s.lastResult.body;}
+ else{$('latestHeadline').textContent='開店準備は万端！';$('latestBody').textContent='今週はあなたの初仕事。まずは経営施策を1つ選んでみよう。';}
+ $('directorQuote').textContent=s.finished?'社長「決算を開いてくれ。心の準備はできていない」':s.fire>=40?'社長「お客様の声が大きい！ ボリュームを下げてくれ！」':s.skill>=75?'社長「君は天才だ。だから来期も安く頼む！」':'社長「利益が欲しい！ ただし苦情は君が聞いてくれ！」';
+ $('actionHeading').textContent=s.finished?'12週間、おつかれさま！':'今週、何をする？';
+ renderActions();renderHistory();
+ $('advanceButton').disabled=false;
+ $('advanceButton').innerHTML=s.finished?'12週間の決算を見る <span aria-hidden="true">↗</span>':'この施策で1週間進める <span aria-hidden="true">↗</span>';
+}
+function renderActions(){const s=game;
+ if(!G.enabled(s,s.selected))s.selected=G.ACTIONS.find(x=>G.enabled(s,x.id)).id;
+ $('actions').innerHTML=G.ACTIONS.map(a=>{
+ const on=s.selected===a.id,disabled=s.finished||!G.enabled(s,a.id);
+ return `<button type="button" class="action-option" role="radio" aria-checked="${on}" ${disabled?'disabled':''} data-id="${esc(a.id)}"><span class="action-emoji" aria-hidden="true">${esc(a.icon)}</span><span class="action-name">${esc(a.name)}</span><span class="action-effect">${esc(a.effect)}</span></button>`;
+ }).join('');
+ const a=G.ACTIONS.find(a=>a.id===s.selected);
+ $('selectedIcon').textContent=a.icon;$('selectedTitle').textContent=a.name;$('selectedDesc').textContent=a.detail;
+ const r=riskLabel(G.previewRisk(s,s.selected)), label=$('riskLabel');label.textContent=r[0];label.className=r[1];
+ $('riskNote').textContent=s.finished?'決算で結果を確認':r[2];
+}
+function renderHistory(){const list=$('historyList');const arr=[...game.history].reverse();$('historyCount').textContent=`${arr.length}件`;
+ if(!arr.length){list.innerHTML='<p class="modal-detail">まだ経営記録はありません。</p>';return;}
+ list.innerHTML=arr.map(h=>`<div class="history-item"><span class="history-week">第${h.week}週</span><div><strong>${esc(h.actionName)}</strong><p>${esc(h.title)}</p></div><span class="history-number">売上 ${man(h.sales)}万</span></div>`).join('');
+}
+function openModal(html,next){$('modalContent').innerHTML=html;modalNext=next||null;$('modal').hidden=false;document.body.style.overflow='hidden';$('modalClose').focus();}
+function closeModal(){if($('modal').hidden)return;$('modal').hidden=true;document.body.style.overflow='';const next=modalNext;modalNext=null;if(next)next();}
+function resultModal(h,finish){
+ const badge=h.fireHit?'大炎上！':h.memoryEvent?'過去の施策が再燃':h.boycottActive?'不買運動中':'経営報告';
+ const tile=(label,big,sub,down=false)=>`<div class="result-tile"><span>${esc(label)}</span><b>${esc(big)}</b><small class="${down?'negative':''}">${esc(sub)}</small></div>`;
+ const val=(n)=>n>0?'+'+n:n.toString();
+ openModal(`<div class="modal-kicker">WEEK ${String(h.week).padStart(2,'0')} / 12 — ${esc(badge)}</div><h2 id="modalTitle">今週の経営結果</h2><div class="modal-news"><strong>${esc(h.title)}</strong><p>${esc(h.body)}</p></div><div class="result-grid">${tile('週間売上',man(h.sales)+'万円','前週比 '+(h.deltaSales>=0?'+':'')+man(h.deltaSales)+'万円',h.deltaSales<0)}${tile('今週の粗利益',man(h.profit)+'万円',h.profit<0?'赤字に転落！':'売上−原価−経費',h.profit<0)}${tile('コンサル報酬',yen(h.fee)+'円','累計 '+yen(game.pay)+'円')}${tile('消費者の不満',game.frust+' / 100','前週比 '+val(h.deltaFrust),h.deltaFrust>0)}</div><div class="modal-comment">${esc(h.ceo)}</div><div class="modal-detail">世間評価 <b>${game.storeRep}/100</b>（${val(h.deltaRep)}） ／ 炎上度 <b>${game.fire}/100</b>（${val(h.deltaFire)}）<br>有能さ <b>${game.skill}/100</b>（${val(h.deltaSkill)}）${h.boycottActive?'<br>⚠️ 不買運動による売上減少が発生':''}</div><div class="modal-actions"><button id="resultContinue" class="primary-btn" type="button">${finish?'12週間の最終決算へ':'わかった！ 次の週へ'} <span aria-hidden="true">↗</span></button></div>`,finish?()=>finishModal():null);
+ $('resultContinue').addEventListener('click',closeModal);
+}
+function finishModal(){
+ const s=game,profit=s.history.reduce((a,x)=>a+x.profit,0),fires=s.history.filter(x=>x.fireHit).length,boycotts=s.history.filter(x=>x.boycottHit).length;
+ const rank=s.skill>=80&&s.storeRep>=65?'理想の経営改革者':s.skill>=75&&s.notoriety>=45?'悪魔の敏腕コンサル':s.skill>=70?'売上の魔術師':s.storeRep<30?'世論と戦うコンサル':'一応、経営改善';
+ const line=s.notoriety>=50?'「稼ぎ方は教わりたい。名前は出さないでほしい」と各社から評判。':s.storeRep>=75?'「お客様のために」を、珍しく本当に実践した人物として語られる。':fires>=2?'「炎上対策の会議」が企業の主力事業になったらしい。':'社長「次はもっと簡単に儲かる方法がいい。もちろん合法で！」';
+ openModal(`<div class="modal-kicker">FINAL REPORT / 全12週間終了</div><h2 id="modalTitle">コンサル会社・最終決算</h2><div class="end-stamp">🏆 ${esc(rank)}</div><div class="result-grid" style="margin-top:15px">${`<div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div>`}${`<div class="result-tile"><span>12週の店の利益</span><b>${man(profit)}万円</b></div>`}${`<div class="result-tile"><span>有能さ / 悪名</span><b>${s.skill} / ${s.notoriety}</b></div>`}${`<div class="result-tile"><span>炎上 / 不買</span><b>${fires}回 / ${boycotts}回</b></div>`}</div><div class="modal-comment">${esc(line)}</div><p class="modal-detail">同じ選択でもイベント抽選で結果は変化するわ。次はどんな経営方針にする？</p><div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい会社で再挑戦する ↗</button></div>`);
+ $('endRestart').addEventListener('click',()=>{if(!confirm('12週間の記録を消して、最初から挑戦しますか？'))return;game=G.initial(Date.now());save();closeModal();paint();toast('新しい経営が始まりました');});
+}
+function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>経営施策を1つ選ぶ。</b>「値上げ」や「品質改善」など8種類。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>12週間経営する。</b>報酬を稼ぎ、企業の信用を守るか、悪名を上げるかは自由。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ ↗</button></div>`);$('aboutClose').addEventListener('click',closeModal);}
+function setup(){
+ game=load();paint();
+ $('actions').addEventListener('click',event=>{const button=event.target.closest('[data-id]');if(!button||button.disabled||game.finished)return;game.selected=button.dataset.id;save();renderActions();});
+ $('advanceButton').addEventListener('click',()=>{
+  if(game.finished){finishModal();return;}
+  try{game=G.play(game,game.selected);if(!save())toast('保存できません。JSON書き出しをご利用ください。');paint();resultModal(game.lastResult,game.finished);}catch(err){toast(err.message||'処理に失敗しました');}
+ });
+ $('aboutButton').addEventListener('click',aboutModal);
+ $('modalClose').addEventListener('click',closeModal);
+ $('modal').querySelector('.modal-backdrop').addEventListener('click',closeModal);
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('modal').hidden)closeModal();});
+ document.querySelectorAll('.hint').forEach(b=>b.addEventListener('click',()=>toast(b.dataset.tip)));
+ $('historyToggle').addEventListener('click',()=>{const p=$('historyPanel');p.hidden=!p.hidden;$('historyToggle').setAttribute('aria-expanded',String(!p.hidden));});
+ $('restartButton').addEventListener('click',()=>{if(!confirm('現在の経営を初期化しますか？（元に戻せません）'))return;game=G.initial(Date.now());save();paint();toast('第1週からスタート！');});
+ $('exportButton').addEventListener('click',()=>{
+  const data=new Blob([JSON.stringify(game,null,2)],{type:'application/json'}),url=URL.createObjectURL(data);const a=document.createElement('a');a.href=url;a.download='okyakusama-save-v1.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('セーブをJSONで書き出しました');
+ });
+ $('importButton').addEventListener('click',()=>$('importInput').click());
+ $('importInput').addEventListener('change',async event=>{const file=event.target.files?.[0];event.target.value='';if(!file)return;
+  try{if(file.size>1024*1024)throw Error('ファイルが大きすぎます');const s=G.validateSaved(JSON.parse(await file.text()));if(!confirm(`第${Math.min(s.week,12)}週のデータを読み込み、今の記録を上書きしますか？`))return;game=s;save();paint();toast('セーブを復元しました');}
+  catch(err){toast('読み込み不可：'+(err.message||'ファイルが不正です'));}
+ });
+ if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('オフライン準備に失敗',err));
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+})();
