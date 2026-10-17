@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8f3e9">
+  <meta name="description" content="売上か、信頼か、それとも炎上か。風刺たっぷりの経営コンサルゲーム『お客様のために。』">
+  <meta property="og:title" content="お客様のために。｜経営コンサルゲーム">
+  <meta property="og:description" content="施策を選んで、笑って、炎上する。12週間のブラックコメディ経営ゲーム。">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <title>お客様のために。｜経営コンサルゲーム</title>
+  <script defer src="engine.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <header class="site-header">
+      <div class="identity">
+        <span class="brand-icon" aria-hidden="true">¥</span>
+        <div><div class="brand-kicker">企業再生（予定）シミュレーター</div><h1>お客様のために<span>。</span></h1></div>
+      </div>
+      <button id="aboutButton" class="header-help" type="button" aria-label="遊び方を表示">？ <span>あそびかた</span></button>
+    </header>
+
+    <main>
+      <div class="topline"><span class="eyebrow">CONSULTING FILE / 001</span><span class="topline-right">12週間チャレンジ <span id="weekIndicator">1 / 12</span></span></div>
+      <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+      <div class="layout">
+        <section class="main-column" aria-labelledby="clientTitle">
+          <article class="client-hero">
+            <div class="hero-copy">
+              <div class="hero-chip"><span class="live-dot"></span> 担当クライアント</div>
+              <h2 id="clientTitle">モグモグマート</h2>
+              <p>町のスーパーを救うのは、あなたの提案。<br>お客様のために。<s>たぶん。</s></p>
+              <div class="hero-meta"><span id="heroWeek">第1週</span><span>食品スーパー編</span></div>
+            </div>
+            <svg class="store-art" viewBox="0 0 212 162" role="img" aria-label="架空のスーパーマーケットのイラスト">
+              <ellipse cx="108" cy="147" rx="95" ry="11" fill="#decbb5" opacity="0.6"/>
+              <path d="M30 70H181V139H30z" fill="#f8e8c6" stroke="#28251f" stroke-width="3"/>
+              <path d="M20 67 33 30H178L192 67z" fill="#e96d52" stroke="#28251f" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M33 30H178L181 39H30z" fill="#fff2d6"/>
+              <path d="M25 57h162v16H25z" fill="#fff2d6" stroke="#28251f" stroke-width="2"/>
+              <path d="M45 57v16m26-16v16m26-16v16m26-16v16m26-16v16m26-16v16" stroke="#e96d52" stroke-width="12"/>
+              <path d="M42 90h46v32H42z" fill="#85c5ac" stroke="#28251f" stroke-width="3"/>
+              <path d="M96 86h41v53H96z" fill="#95b9c6" stroke="#28251f" stroke-width="3"/>
+              <circle cx="130" cy="115" r="3" fill="#28251f"/>
+              <path d="M147 94h21v31h-21z" fill="#f8cc64" stroke="#28251f" stroke-width="2"/>
+              <path d="M151 104h13" stroke="#28251f" stroke-width="2"/>
+              <rect x="53" y="34" width="110" height="21" rx="2" fill="#fff4dd" stroke="#28251f" stroke-width="2"/>
+              <text x="108" y="49" text-anchor="middle" font-size="14" font-weight="900" fill="#28251f">MOGUMOGU</text>
+              <path d="M35 135h146" stroke="#28251f" stroke-width="4" stroke-linecap="round"/>
+              <g transform="translate(5 99)"><path d="M6 24h26l-3-16H10z" fill="#f0ab49" stroke="#28251f" stroke-width="2"/><path d="M12 8 10 1m8 7 1-7m5 7 6-6" stroke="#366c58" stroke-width="3" stroke-linecap="round"/></g>
+            </svg>
+          </article>
+
+          <div class="section-bar"><h3>今週の経営状況</h3><span class="section-sub">ひと目で分かる7つの数字</span></div>
+          <div class="stats-stack">
+            <section class="stats-card consultant" aria-label="コンサルタントの状態">
+              <div class="stats-label"><span class="icon-square blue">♟</span><strong>あなた（コンサル）</strong><span class="mini-badge" id="consultantTitle">駆け出し</span></div>
+              <div class="stats-pair">
+                <div class="stat"><span class="stat-caption">有能さ <button class="hint" data-tip="依頼先からの実績評価。利益や企業の安定で変わります。" aria-label="有能さとは">ⓘ</button></span><div class="stat-value"><b id="skillValue">50</b><small>/100</small></div><div class="mini-track"><span class="bluefill" id="skillBar"></span></div></div>
+                <div class="stat"><span class="stat-caption">累計報酬</span><div class="stat-value"><b id="payValue">0</b><small>円</small></div><div class="stat-foot" id="notorietyText">悪名：5 / 100</div></div>
+              </div>
+            </section>
+            <section class="stats-card shop" aria-label="お店の状態">
+              <div class="stats-label"><span class="icon-square orange">▤</span><strong>お店</strong><span class="mini-badge" id="shopStatus">営業中</span></div>
+              <div class="stats-triplet">
+                <div class="stat"><span class="stat-caption">世間の評価</span><div class="stat-value"><b id="repValue">65</b><small>/100</small></div></div>
+                <div class="stat"><span class="stat-caption">週間売上</span><div class="stat-value"><b id="salesValue">48.0</b><small>万円</small></div></div>
+                <div class="stat"><span class="stat-caption">炎上度 <button class="hint" data-tip="今の批判の広がり。翌週の炎上確率とは別です。" aria-label="炎上度とは">ⓘ</button></span><div class="stat-value danger-value"><b id="fireValue">4</b><small>/100</small></div></div>
+              </div>
+            </section>
+            <section class="stats-card consumers" aria-label="消費者の状態">
+              <div class="stats-label"><span class="icon-square green">♡</span><strong>消費者</strong><span class="mini-badge" id="moodStatus">まずまず</span></div>
+              <div class="stats-pair">
+                <div class="stat"><span class="stat-caption">満足度</span><div class="stat-value"><b id="satValue">66</b><small>/100</small></div><div class="mini-track"><span class="greenfill" id="satBar"></span></div></div>
+                <div class="stat"><span class="stat-caption">フラストレーション</span><div class="stat-value"><b id="frustValue">23</b><small>/100</small></div><div class="mini-track"><span class="redfill" id="frustBar"></span></div></div>
+              </div>
+            </section>
+          </div>
+
+          <section class="news-strip" aria-labelledby="latestHeadline">
+            <span class="news-flag">街の声</span>
+            <div><strong id="latestHeadline">開店準備は万端！</strong><p id="latestBody">今週はあなたの初仕事。まずは経営施策を1つ選んでみよう。</p></div>
+          </section>
+        </section>
+
+        <aside class="action-column" aria-labelledby="actionHeading">
+          <div class="decision-card">
+            <div class="decision-top"><span class="eyebrow">WEEKLY PROPOSAL</span><span class="decision-week" id="decisionWeek">第1週</span></div>
+            <h3 id="actionHeading">今週、何をする？</h3>
+            <p class="action-intro" id="directorQuote">社長「利益が欲しい！ ただし苦情は君が聞いてくれ！」</p>
+            <div id="actions" class="action-grid" role="radiogroup" aria-label="経営施策を選択"></div>
+            <div class="selected-detail"><span class="detail-icon" id="selectedIcon">📦</span><div class="selected-text"><strong id="selectedTitle">容量を減らす</strong><p id="selectedDesc">商品の中身を10g減らして原価削減。</p></div></div>
+            <div class="risk-row"><span>炎上リスク予想</span><strong id="riskLabel">低</strong><span class="risk-caption" id="riskNote">今週は比較的平穏</span></div>
+            <button id="advanceButton" type="button" class="primary-btn">この施策で1週間進める <span aria-hidden="true">↗</span></button>
+            <p class="decision-hint">1週につき1回だけ提案。失敗も経営のうち。</p>
+          </div>
+        </aside>
+      </div>
+      <div class="bottom-area">
+        <button id="historyToggle" class="utility-button" type="button" aria-expanded="false">▤ これまでの経営記録 <span id="historyCount">0件</span> <span class="caret">⌄</span></button>
+        <div id="historyPanel" class="history-panel" hidden><div id="historyList" class="history-list"></div></div>
+        <div class="utility-row"><button id="exportButton" type="button">↓ セーブを書き出す</button><button id="importButton" type="button">↑ セーブを読み込む</button><button id="restartButton" type="button" class="muted-danger">↻ 最初から</button><input id="importInput" type="file" accept="application/json,.json" hidden></div>
+      </div>
+    </main>
+    <footer>これは架空の企業を題材にした風刺ゲームです。実在の商品・企業・人物とは関係ありません。<br>© 2026 お客様のために。 / v0.1</footer>
+  </div>
+
+  <div id="modal" class="modal-layer" hidden><div class="modal-backdrop"></div><div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button id="modalClose" class="modal-x" type="button" aria-label="閉じる">×</button><div id="modalContent"></div></div></div>
+  <div id="toast" role="status" aria-live="polite" class="toast" hidden></div>
+</body>
+</html>
