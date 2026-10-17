@@ -29,7 +29,7 @@
         <button id="titleResume" class="secondary-btn" type="button" hidden>つづきから <span>→</span></button>
         <button id="titleHelp" class="text-btn" type="button">あそびかた</button>
       </div>
-      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.6</p>
+      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.7</p>
     </div>
   </section>
   <section id="contractsScreen" class="entry-screen" aria-label="コンサル依頼一覧" hidden>
@@ -175,7 +175,7 @@
       <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true">💬</span><strong>世論</strong></button>
       <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true">📒</span><strong>記録</strong></button>
     </nav>
-    <footer>フィクション・© 2026 お客様のために。 / v0.6</footer>
+    <footer>フィクション・© 2026 お客様のために。 / v0.7</footer>
   </div>
 
   <section id="proposalSheet" class="proposal-sheet" role="dialog" aria-modal="true" aria-labelledby="proposalTitle" hidden>
@@ -185,6 +185,11 @@
       <h2 id="proposalTitle">どの施策を採用する？</h2>
       <p class="proposal-budget" id="proposalBudget">毎週、固定費が発生します</p>
       <div id="actions" class="action-grid" role="radiogroup" aria-label="経営施策を選択"></div>
+      <div class="investment-zone" aria-label="今週の設備投資">
+        <div class="investment-heading"><strong>🏗️ 将来に投資する？</strong><small>今週の施策とは別に1つ選べる</small></div>
+        <div id="projectChoices" class="project-choices" role="radiogroup" aria-label="追加投資"></div>
+        <p id="projectNote" class="project-note">投資しなくても営業できます。</p>
+      </div>
       <div class="selected-detail"><span class="detail-icon" id="selectedIcon">📦</span><div class="selected-text"><strong id="selectedTitle">選んだ施策</strong><p id="selectedDesc"></p></div></div>
       <div class="risk-row"><span>炎上リスク</span><strong id="riskLabel">低</strong><span class="risk-caption" id="riskNote">比較的穏やか</span></div>
       <button id="advanceButton" class="primary-btn" type="button">この案で営業する →</button>
@@ -205,8 +210,15 @@
         <h2 id="reportTitle">今週の決算！</h2>
         <p class="report-headline" id="reportHeadline"></p>
         <p class="report-description" id="reportDescription"></p>
+        <div id="reportVerdict" class="report-verdict" role="status"><span id="reportVerdictIcon">📈</span><div><strong id="reportVerdictTitle">黒字達成！</strong><small id="reportVerdictSub">今回の施策でお店はどうなった？</small></div></div>
         <div class="report-big-number"><span>今週の売上</span><strong id="reportSales">0万円</strong><small id="reportSalesDiff"></small></div>
-        <div class="report-cashflow"><div><span>🏦 店の残り資金</span><strong id="reportCash">0万円</strong><small id="reportCashChange">増減 ±0万円</small></div><div><span>🏠 固定費・突然の支出</span><strong id="reportExpenses">0万円</strong><small id="reportAccident">今日も平和</small></div></div>
+        <div class="money-flow" aria-label="今週の収支の内訳">
+          <div class="money-flow-title"><strong>💸 今週のお金の流れ</strong><small>色の長さは売上に対する割合</small></div>
+          <div id="moneyFlowRows" class="money-flow-rows"></div>
+          <div class="money-flow-total"><span>最終利益</span><strong id="flowProfit">0万円</strong></div>
+          <div id="investmentResult" class="investment-result" hidden></div>
+        </div>
+        <div class="report-cashflow"><div><span>🏦 店の残り資金</span><strong id="reportCash">0万円</strong><small id="reportCashChange">増減 ±0万円</small></div><div><span>👔 あなたの報酬</span><strong id="reportExpenses">0万円</strong><small id="reportAccident">今日も平和</small></div></div>
         <div class="report-three">
           <div><span>お店の利益</span><strong id="reportProfit">0万円</strong></div>
           <div><span>あなたの報酬</span><strong id="reportPay">0円</strong></div>
@@ -214,7 +226,13 @@
         </div>
         <div class="report-impact" aria-label="今週の変化"><div><span>お店の評判</span><strong id="reportReputationChange">±0</strong></div><div><span>客の満足</span><strong id="reportSatisfactionChange">±0</strong></div><div><span>炎上度</span><strong id="reportFireChange">±0</strong></div></div>
         <p class="report-contract" id="reportGoal">契約目標：累計利益100万円・評判50以上</p><div class="report-reaction"><span id="reportBossFace" class="report-character" aria-label="店長の表情">👨🏻‍💼</span><p class="report-quote" id="reportCeo"></p></div>
-        <p class="report-takeaway" id="reportTakeaway">今週のまとめ</p><p id="reportNext" class="report-next">次の相談が届いています</p>
+        <p class="report-takeaway" id="reportTakeaway">今週のまとめ</p>
+        <div id="accidentDecision" class="accident-decision" hidden>
+          <strong>🚨 トラブルの後始末、どうする？</strong>
+          <p id="accidentDecisionText">追加費用を払って補償すれば、お客の信用を守れるかも。</p>
+          <div class="accident-buttons"><button type="button" id="accidentRepair">💗 補償する</button><button type="button" id="accidentIgnore">💼 費用を抑える</button></div>
+        </div>
+        <p id="reportNext" class="report-next">次の相談が届いています</p>
         <button type="button" id="reportContinue" class="primary-btn">次の経営会議へ <span aria-hidden="true">→</span></button>
       </div>
     </div>

@@ -1,4 +1,4 @@
-/* お客様のために。v0.5 - weekly story dilemmas, contracts and branching endings. */
+/* お客様のために。v0.7 - choice-driven investments, incident decisions and visual results. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const STORAGE='okyakusama.save.v1';
@@ -8,6 +8,7 @@ const man=n=>(n/10000).toFixed(1);
 const sign=n=>(n>0?'+':'')+yen(n);
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 let game;
+let selectedProject=null;
 let modalNext=null;
 let toastTimer;
 let resolving=false;
@@ -28,7 +29,7 @@ function showEntry(mode){
 }
 function chooseMarket(){
  if(game.history.length && !confirm('新しい依頼を受けると、現在の12週チャレンジが初期化されます。先に記録画面からバックアップできます。開始しますか？'))return;
- game=G.initial(Date.now());save();paint();changeScreen('office');showEntry('game');
+ game=G.initial(Date.now());selectedProject=null;save();paint();changeScreen('office');showEntry('game');
  toast('モグモグマートの依頼を受けました！');
 }
 function openProposals(){
@@ -110,11 +111,32 @@ function renderPublic(){
  $('recordsSales').textContent=man(s.history.reduce((sum,h)=>sum+h.sales,0))+'万円';
  $('recordsWeeks').textContent=s.history.length+'週';
 }
+function renderFlow(h){
+ const entries=[
+  {label:'売上',icon:'🛒',amount:h.sales,cls:'revenue'},
+  {label:'仕入れ',icon:'📦',amount:h.units*h.cost,cls:'cost'},
+  {label:'人件費・家賃・光熱',icon:'🏠',amount:(h.rent??75000)+(h.payroll??50000)+(h.utilities??30000),cls:'fixed'},
+  {label:'施策・事故・金利',icon:'⚡',amount:(h.extra??0)+(h.incidentCost??0)+(h.interest??0),cls:'surprise'}
+ ];
+ const denominator=Math.max(...entries.map(x=>Math.abs(x.amount)),1);
+ $('moneyFlowRows').innerHTML=entries.map(e=>`<div class="flow-item"><div class="flow-caption"><span>${e.icon} ${e.label}</span><b>${e.amount<0||e.cls==='revenue'?'+':'−'}${man(Math.abs(e.amount))}万円</b></div><div class="flow-track"><span class="${e.cls}" style="width:${Math.max(1,Math.abs(e.amount)/denominator*100)}%"></span></div></div>`).join('');
+ $('flowProfit').textContent=(h.profit>=0?'+':'')+man(h.profit)+'万円';
+ $('flowProfit').className=h.profit>=0?'positive':'negative';
+ const invested=h.investment??0;
+ $('investmentResult').hidden=!invested;
+ if(invested)$('investmentResult').textContent=`🏗️ ${h.projectLabel||'設備投資'}：${man(invested)}万円を支出（利益には含まず、現金から支払い）`;
+ const loss=h.profit<0,good=h.profit>=95000;
+ $('reportVerdict').className='report-verdict '+(loss?'loss':good?'good':'mid');
+ $('reportVerdictIcon').textContent=loss?'💥':h.fireHit?'🔥':good?'🎉':'🧾';
+ $('reportVerdictTitle').textContent=loss?'赤字！ 資金が減る':h.fireHit?'儲かったけど、大炎上':good?'今週は好調！':'黒字。でも余裕は少ない';
+ $('reportVerdictSub').textContent=`現金 ${man(h.cashBefore??0)}万 → ${man(h.cashAfter??0)}万円`;
+}
 function showWeekReport(h,finish){
  const isFire=h.fireHit,isMemory=h.memoryEvent;
  $('workingScene').hidden=true;$('reportScene').hidden=false;
  $('reportScene').classList.toggle('is-fire',isFire);
  $('reportWeek').textContent='WEEK '+String(h.week).padStart(2,'0')+' / 12';
+ renderFlow(h);
  $('reportIcon').textContent=isFire?'🔥':h.accidentId?(h.accidentIcon||'⚡'):h.boycottHit?'🚫':isMemory?'💥':h.profit<0?'📉':'💰';
  $('reportTitle').textContent=isFire?'大炎上！':h.accidentId?'突発アクシデント！':h.boycottActive?'不買運動発生中！':isMemory?'過去の施策が再燃！':h.profit<0?'赤字の決算…':'今週の決算！';
  $('reportHeadline').textContent=h.title;
@@ -123,8 +145,8 @@ function showWeekReport(h,finish){
  const dc=h.deltaCash??0;
  $('reportCashChange').textContent='先週から '+(dc>=0?'+':'')+man(dc)+'万円';
  $('reportCashChange').style.color=dc<0?'#a93f37':'#397b53';
- $('reportExpenses').textContent=man((h.rent??75000)+(h.payroll??50000)+(h.utilities??30000)+(h.incidentCost||0)+(h.extra>0?h.extra:0))+'万円';
- $('reportAccident').textContent=h.accidentTitle?(h.accidentIcon+' '+h.accidentTitle):'設備・天候トラブルなし';
+ $('reportExpenses').textContent=yen(h.fee)+'円';
+ $('reportAccident').textContent=h.accidentTitle?'⚠️ 事故の補償を検討':'コンサル報酬として獲得';
  $('reportSales').textContent=man(h.sales)+'万円';
  $('reportSalesDiff').textContent='前週比 '+(h.deltaSales>=0?'+':'')+man(h.deltaSales)+'万円';
  $('reportSalesDiff').className=h.deltaSales<0?'falling':'rising';
@@ -142,7 +164,17 @@ function showWeekReport(h,finish){
  $('reportGoal').textContent=`契約目標：利益 ${man(goal.profit)} / ${man(game.contractGoal)}万円・評判 ${goal.reputation} / ${G.CONTRACT.reputation}`;
  const next=G.weeklyBrief(game);
  $('reportNext').textContent=game.finished?'12週間の契約審査が始まります':`次の相談：${next.title}`;
- $('reportContinue').textContent=finish?'12週間の最終決算を見る →':'次の経営会議へ →';
+ const pending=!!h.accidentId&&h.incidentCost>0&&h.accidentResponse===null;
+ $('accidentDecision').hidden=!pending;
+ $('reportScene').classList.toggle('is-pending',pending);
+ if(pending){
+  const cost=Math.min(28000,Math.round(h.incidentCost*.48)+4000);
+  $('accidentRepair').textContent=`💗 補償する −${man(cost)}万円`;
+  $('accidentRepair').disabled=game.cash<cost;
+  $('accidentDecisionText').textContent=game.cash<cost?'補償費が足りません。信用を失っても費用を抑えるしかありません。':'今すぐ補償すれば信用を守れる。見送れば財布は守れる。';
+ }
+ $('reportContinue').disabled=pending;
+ $('reportContinue').textContent=pending?'先にトラブル対応を選んでね':finish?'12週間の最終決算を見る →':'次の経営会議へ →';
  $('reportContinue').focus({preventScroll:true});
 }
 function startWeek(){
@@ -154,7 +186,8 @@ function startWeek(){
  const week=game.week,choice=game.selected;
  let report;
  try{
-  game=G.play(game,choice);
+  game=G.play(game,choice,{project:selectedProject});
+  selectedProject=null;
   report=game.lastResult;
   if(!save())toast('保存できません。JSON書き出しをご利用ください。');
   paint();
@@ -171,7 +204,7 @@ function startWeek(){
  window.setTimeout(()=>{showWeekReport(report,game.finished);resolving=false;},duration);
 }
 function finishWeek(){
- if(resolving)return;
+ if(resolving||$('reportContinue').disabled)return;
  const final=game.finished;
  $('weekScene').hidden=true;
  $('workingScene').hidden=false;$('reportScene').hidden=true;
@@ -209,7 +242,7 @@ function paint(){
  $('overheadCount').textContent='毎週 '+man(155000-(60-s.staff)*800)+'万円';
  $('loanHint').textContent=s.debt>0?' / 借入残 '+man(s.debt)+'万円':'';
  $('proposalBudget').textContent='現金 '+man(s.cash)+'万円 ｜ 家賃・人件費・光熱費で毎週 '+man(155000-(60-s.staff)*800)+'万円';
- $('meetingStatus').textContent=s.cash<120000?'資金が危ない！ 収入を増やすか銀行へ。':'家賃は待ってくれない。施策を決めよう。';
+ $('meetingStatus').textContent=s.cash<120000?'資金が危ない！ 収入を増やすか銀行へ。':`投資Lv：設備${s.upgrades?.equipment??0}・人材${s.upgrades?.people??0}・常連${s.upgrades?.fans??0}`;
  $('repValue').textContent=s.storeRep;$('salesValue').textContent=man(s.sales);$('fireValue').textContent=s.fire;
  $('satValue').textContent=s.sat;$('frustValue').textContent=s.frust;
  $('satBar').style.width=s.sat+'%';$('frustBar').style.width=s.frust+'%';
@@ -222,7 +255,7 @@ function paint(){
  const brief=G.weeklyBrief(s);
  $('directorQuote').textContent=brief.quote;
  $('actionHeading').textContent=brief.title;
- renderActions();renderHistory();renderPublic();
+ renderActions();renderProjects();renderHistory();renderPublic();
  $('advanceButton').disabled=false;
  $('openProposals').textContent=s.finished?'📋 契約結果を見る →':'💼 提案を選ぶ →';
  $('advanceButton').innerHTML=s.finished?'12週間の決算を見る <span aria-hidden="true">↗</span>':'この案で営業する <span aria-hidden="true">↗</span>';
@@ -240,6 +273,19 @@ function renderActions(){const s=game;
  $('riskNote').textContent=s.finished?'決算で結果を確認':r[2];
  $('pitchTone').textContent=G.weeklyBrief(s).quote;
  $('pitchTone').classList.toggle('is-crisis',!s.finished&&G.weeklyBrief(s).id==='crisis');
+}
+function renderProjects(){
+ const s=game,options=G.availableProjects(s);
+ if(selectedProject && options.find(x=>x.id===selectedProject)?.nextCost>s.cash)selectedProject=null;
+ $('projectChoices').innerHTML=[{id:'none',icon:'🪙',name:'投資なし',level:0,nextCost:0,desc:'手元の資金を守る'},...options].map(o=>{
+  const isNone=o.id==='none',cost=o.nextCost;
+  const disabled=!isNone&&(cost===null||s.cash<cost||s.finished);
+  const selected=isNone?selectedProject===null:selectedProject===o.id;
+  const caption=isNone?'0円':cost===null?'最大レベル':man(cost)+'万円';
+  return `<button type="button" class="project-choice ${selected?'is-selected':''}" role="radio" aria-checked="${selected}" data-project="${o.id}" ${disabled?'disabled':''}><span>${o.icon} ${esc(o.name)}</span><small>${isNone?'いつでもOK':`Lv${o.level}/2 · ${caption}`}</small></button>`;
+ }).join('');
+ const found=options.find(x=>x.id===selectedProject);
+ $('projectNote').textContent=found?`投資：${man(found.nextCost)}万円。${found.desc}。翌週以降も効果が続きます。`:'今週は投資せず、現金を確保します。';
 }
 function renderHistory(){const list=$('historyList');const arr=[...game.history].reverse();$('historyCount').textContent=`${arr.length}件`;
  if(!arr.length){list.innerHTML='<p class="modal-detail">まだ経営記録はありません。</p>';return;}
@@ -264,17 +310,26 @@ function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 
 function setup(){
  game=load();paint();showEntry('title');
  $('titleStart').addEventListener('click',()=>showEntry('contracts'));
- $('titleResume').addEventListener('click',()=>{changeScreen('office');showEntry('game');if(game.finished)finishModal();});
+ $('titleResume').addEventListener('click',()=>{
+  changeScreen('office');showEntry('game');
+  if(game.lastResult?.accidentResponse===null&&game.lastResult?.incidentCost>0&&game.lastResult?.accidentId){
+   $('weekScene').hidden=false;$('workingScene').hidden=true;document.body.classList.add('scene-locked');showWeekReport(game.lastResult,game.finished);
+  }else if(game.finished)finishModal();
+ });
  $('titleHelp').addEventListener('click',aboutModal);
  $('contractsBack').addEventListener('click',()=>showEntry('title'));
  $('acceptMarket').addEventListener('click',chooseMarket);
  $('backTitle').addEventListener('click',()=>showEntry('title'));
+ $('projectChoices').addEventListener('click',ev=>{const b=ev.target.closest('[data-project]');if(!b||b.disabled||game.finished)return;selectedProject=b.dataset.project==='none'?null:b.dataset.project;renderProjects();});
  $('actions').addEventListener('click',event=>{const button=event.target.closest('[data-id]');if(!button||button.disabled||game.finished)return;game.selected=button.dataset.id;save();renderActions();});
  $('advanceButton').addEventListener('click',startWeek);
  $('openProposals').addEventListener('click',()=>game.finished?finishModal():openProposals());
  $('closeProposals').addEventListener('click',closeProposals);
  $('closeProposalBackdrop').addEventListener('click',closeProposals);
  $('reportContinue').addEventListener('click',finishWeek);
+ for(const [id,response]of [['accidentRepair','repair'],['accidentIgnore','ignore']])$(id).addEventListener('click',()=>{
+  try{game=G.handleAccident(game,response);save();paint();showWeekReport(game.lastResult,game.finished);toast(game.lastResult.responseText);}catch(err){toast(err.message||'対応できませんでした');}
+ });
  document.querySelectorAll('.game-tab').forEach(b=>b.addEventListener('click',()=>changeScreen(b.dataset.screen)));
  $('aboutButton').addEventListener('click',aboutModal);
  $('modalClose').addEventListener('click',closeModal);
@@ -282,13 +337,13 @@ function setup(){
  document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(!$('proposalSheet').hidden)closeProposals();else if(!$('modal').hidden)closeModal();}});
  document.querySelectorAll('.hint').forEach(b=>b.addEventListener('click',()=>toast(b.dataset.tip)));
  $('historyToggle').addEventListener('click',()=>{const p=$('historyPanel');p.hidden=!p.hidden;$('historyToggle').setAttribute('aria-expanded',String(!p.hidden));});
- $('restartButton').addEventListener('click',()=>{if(!confirm('現在の経営を初期化しますか？（元に戻せません）'))return;game=G.initial(Date.now());save();paint();changeScreen('office');showEntry('contracts');toast('新しい依頼を選んでください');});
+ $('restartButton').addEventListener('click',()=>{if(!confirm('現在の経営を初期化しますか？（元に戻せません）'))return;game=G.initial(Date.now());selectedProject=null;save();paint();changeScreen('office');showEntry('contracts');toast('新しい依頼を選んでください');});
  $('exportButton').addEventListener('click',()=>{
   const data=new Blob([JSON.stringify(game,null,2)],{type:'application/json'}),url=URL.createObjectURL(data);const a=document.createElement('a');a.href=url;a.download='okyakusama-save-v1.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('セーブをJSONで書き出しました');
  });
  $('importButton').addEventListener('click',()=>$('importInput').click());
  $('importInput').addEventListener('change',async event=>{const file=event.target.files?.[0];event.target.value='';if(!file)return;
-  try{if(file.size>1024*1024)throw Error('ファイルが大きすぎます');const s=G.validateSaved(JSON.parse(await file.text()));if(!confirm(`第${Math.min(s.week,12)}週のデータを読み込み、今の記録を上書きしますか？`))return;game=s;save();paint();changeScreen('office');toast('セーブを復元しました');}
+  try{if(file.size>1024*1024)throw Error('ファイルが大きすぎます');const s=G.validateSaved(JSON.parse(await file.text()));if(!confirm(`第${Math.min(s.week,12)}週のデータを読み込み、今の記録を上書きしますか？`))return;game=s;selectedProject=null;save();paint();changeScreen('office');toast('セーブを復元しました');}
   catch(err){toast('読み込み不可：'+(err.message||'ファイルが不正です'));}
  });
  if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('オフライン準備に失敗',err));

@@ -359,3 +359,65 @@ body.entry-mode{background:#f8f3e9}
  .report-next{display:none}
  .report-sheet .primary-btn{margin-top:5px;height:44px;padding:8px}
 }
+
+/* v0.7: actionable upgrades in the strategy drawer */
+.investment-zone{background:#f6f0e3;border:1px solid #decda9;border-radius:13px;padding:10px;margin:10px 0 9px}
+.investment-heading{display:flex;align-items:baseline;justify-content:space-between;gap:6px;margin-bottom:7px}
+.investment-heading strong{font-size:13px}.investment-heading small{color:#856c50;font-size:10px}
+.project-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.project-choice{border:1.5px solid #ddcbb1;border-radius:9px;background:#fffcf6;padding:9px 7px;text-align:left;color:#382f26;font-weight:850;min-height:55px}
+.project-choice.is-selected{border-color:#368167;background:#e5f4e9;box-shadow:inset 0 0 0 1px #368167}
+.project-choice:disabled{opacity:.42}
+.project-choice span,.project-choice small{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.project-choice small{color:#6b6659;margin-top:4px;font-size:10px}
+.project-note{font-size:11px;line-height:1.3;color:#6b5842;margin:7px 0 0}
+/* v0.7: result dashboard emphasizes causality over paragraphs */
+.report-verdict{display:flex;align-items:center;text-align:left;gap:10px;padding:10px 13px;margin:5px 0 8px;background:#e2f3df;border-radius:13px;border:2px solid #6ca681}
+.report-verdict.loss{background:#ffe1d9;border-color:#e88b7d}.report-verdict.mid{background:#fff3d4;border-color:#deb468}
+.report-verdict>span{font-size:32px}.report-verdict strong{font-size:17px;display:block;line-height:1.25}.report-verdict small{font-size:11px;display:block;color:#615c51;margin-top:3px}
+.money-flow{border:1px solid #e2d7be;border-radius:13px;padding:9px 11px;background:#fffefa;margin:9px 0 6px;text-align:left}
+.money-flow-title{display:flex;justify-content:space-between;align-items:baseline;gap:5px;margin-bottom:5px}
+.money-flow-title strong{font-size:12px}.money-flow-title small{font-size:9px;color:#857a65}
+.money-flow-rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 11px}
+.flow-caption{display:flex;justify-content:space-between;gap:5px;align-items:center;white-space:nowrap}
+.flow-caption span{font-size:10px;overflow:hidden;text-overflow:ellipsis}.flow-caption b{font-size:11px;white-space:nowrap}
+.flow-track{margin-top:3px;background:#e7e0d5;height:7px;border-radius:99px;overflow:hidden}
+.flow-track span{display:block;height:100%;width:0;border-radius:99px;animation:flowGrow .65s ease both}
+.flow-track .revenue{background:#3b9f78}.flow-track .cost{background:#dfac46}.flow-track .fixed{background:#c87a55}.flow-track .surprise{background:#c84c4c}
+.money-flow-total{display:flex;align-items:center;justify-content:space-between;margin-top:7px;padding-top:6px;border-top:1px dashed #d8cbb7;font-weight:950;font-size:12px}
+.money-flow-total strong{font-size:20px}.money-flow-total strong.positive{color:#16875e}.money-flow-total strong.negative{color:#c3463c}
+.investment-result{margin-top:5px;border-radius:7px;background:#ecf3e6;padding:7px;font-size:10px;line-height:1.4}
+.accident-decision{padding:11px;background:#fff0de;border:2px solid #e9aa6e;border-radius:12px;text-align:left;margin:9px 0}
+.accident-decision>strong{font-size:13px;display:block}.accident-decision>p{font-size:11px;line-height:1.4;margin:5px 0 9px}
+.accident-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.accident-buttons button{min-height:46px;border:2px solid #54463b;background:#fffaf0;color:#45362d;font-size:12px;font-weight:900;border-radius:10px;padding:8px 4px}
+.accident-buttons button:first-child{background:#e5f5e9;border-color:#368167}
+.accident-buttons button:disabled{opacity:.45}
+.report-sheet #reportContinue:disabled{opacity:.50;cursor:not-allowed}
+.report-scene .report-sheet{max-width:100%}
+@keyframes flowGrow{from{transform:scaleX(.05);transform-origin:left}to{transform:scaleX(1);transform-origin:left}}
+@media(max-width:440px){.money-flow{padding:8px 9px}.flow-caption span{font-size:9px}.flow-caption b{font-size:10px}.report-verdict{padding:8px 10px}.report-verdict strong{font-size:15px}}
+@media(prefers-reduced-motion:reduce){.flow-track span{animation:none}}
+
+/* v0.7 slim results: avoid printing the same numbers three times. */
+.report-scene .report-big-number,.report-scene .report-three{display:none}
+.report-scene .report-icon{display:none}
+.report-scene .report-sheet h2{font-size:19px;margin:2px 0 4px}
+.report-scene .report-headline{white-space:nowrap;text-overflow:ellipsis;overflow:hidden;max-width:100%;font-size:12px}
+.report-scene .report-description{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:10px;line-height:1.35;margin-bottom:4px}
+.report-scene .report-cashflow{margin:6px 0;gap:5px}
+.report-scene .report-cashflow>div{padding:7px}
+.report-scene .report-impact{margin-top:5px}
+.report-scene .report-impact>div{padding:6px 2px}
+.report-scene .report-reaction{margin-top:5px}
+.report-scene .report-takeaway{margin:6px 0;padding:6px}
+.report-scene .report-contract,.report-scene .report-next{display:none}
+.report-scene .report-sheet .primary-btn{position:sticky;bottom:0;z-index:5;box-shadow:0 -6px 13px #fffdfa;background:#e36c4b}
+.report-scene .report-sheet{padding-bottom:10px}
+@media(max-width:440px){.report-scene .report-verdict{margin:3px 0 6px}.report-scene .money-flow{margin:4px 0}.report-scene .report-quote{font-size:10px}}
+
+/* Keep crisis choices unobscured on compact phones. */
+.report-scene.is-pending .report-reaction,.report-scene.is-pending .report-takeaway{display:none}
+.report-scene.is-pending .report-sheet #reportContinue{position:static}
+.report-scene.is-pending .report-description{-webkit-line-clamp:1}
+@media(max-width:440px){.report-scene.is-pending .accident-decision{padding:8px}.report-scene.is-pending .accident-buttons button{min-height:42px;font-size:11px}}
