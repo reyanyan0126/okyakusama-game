@@ -822,3 +822,18 @@ body.entry-mode{background:#f8f3e9}
  #officeView .meeting-actions>.primary-btn{min-height:34px!important}
 }
 @media(prefers-reduced-motion:reduce){.money-sheet *,.money-sheet *::before,.money-sheet *::after{animation:none!important;transition:none!important}}
+
+/* v0.9.5 | diagnosis remains a compact part of the meeting, never a fourth menu. */
+.diagnosis-brief{display:flex;align-items:flex-start;gap:7px;padding:8px 9px;margin:8px 0;background:#e9f5ed;border:1px solid #b7d9c2;border-radius:10px;line-height:1.35}
+.diagnosis-brief>.mini-ill{flex:0 0 23px;width:23px;height:23px}
+.diagnosis-brief>div{min-width:0}
+.diagnosis-brief strong{display:block;font-size:11px;font-weight:900;color:#26694b}
+.diagnosis-brief p{font-size:10px;line-height:1.45;color:#3e5e4d;margin:3px 0 0}
+.diagnosis-brief.is-solved{background:#f2f5f1;border-color:#d9e1d5}
+.root-option{border-color:#5caa83!important;background:#effaf2!important}
+.root-pick{display:block;border-radius:5px;background:#2c7555;color:white;font-size:9px;font-weight:900;padding:3px 5px;max-width:max-content}
+@media(max-width:480px){.diagnosis-brief{margin:6px 0;padding:6px 8px}.diagnosis-brief p{font-size:10px;line-height:1.35}}
+/* In compact office view the field report replaces the ordinary alert; no extra stacked panel. */
+@media(max-width:850px){#officeView .diagnosis-brief{display:none!important}}
+.proposal-diagnosis{padding:8px 10px;margin:7px 0;background:#e9f5ed;border:1px solid #b7d9c2;border-radius:9px;font-size:11px;line-height:1.45;color:#2a6949}
+.proposal-diagnosis strong{font-weight:950}

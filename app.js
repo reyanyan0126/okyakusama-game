@@ -1,4 +1,4 @@
-/* お客様のために。v0.9.4 - visible cash movements, compact boardroom, verified finance ledger. */
+/* お客様のために。v0.9.5 - visible cash movements, compact boardroom, verified finance ledger. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const F=window.FinanceLedger;
@@ -97,6 +97,9 @@ function changeScreen(screen){
  const panel=$(screen+'View');panel.scrollTop=0;
 }
 const REACTIONS={
+ fix_equipment:['冷凍庫を直したら廃棄が減った。当然のことがニュースになる。'],
+ fix_people:['社員を雇ったら働く人が増えた。革命的な経営ですね。'],
+ fix_fans:['客に話を聞いたら客が戻った。報告書は何ページ必要？'],
  raise:['財布が値上げに追いつく予定はありません。','10円くらいって言う人、毎回10円くれ。','商品が成長したのではなく値札が成長した。'],
  lower:['10円引いても人生の苦味は据え置き。','値下げありがとう。先週買った私には関係ないけど。','どうした、今日は急にお客様思いじゃないか。'],
  shrink:['袋を開けたら空気が先に挨拶してきた。','小さくて持ちやすい。買う理由も小さくなった。','ダイエットに協力してくれてありがとう（怒）。'],
@@ -135,6 +138,9 @@ const EXTRA_REACTIONS={
  maintenance:['何も起きなかった成果は、予算査定で消される。']
 };
 const RESULT_PUNCH={
+ fix_equipment:'社長「壊れる前に直すとは……あまりにも先進的だ」',
+ fix_people:'社長「人を増やしたら店が回る？ その理屈は理解したくない」',
+ fix_fans:'社長「固定客が戻った！ 理由は私のカリスマだろう」',
  raise:'社長「価格改定は成長戦略。給与改定は時期尚早」',
  shrink:'社長「中身を減らしたのではない。余白を提供した」',
  staff:'社長「人手不足は、現場の工夫で解決してほしい」',
@@ -265,7 +271,7 @@ function showWeekReport(h,finish){
  $('economyHeadline').textContent=macro?`${macro.tag}｜${macro.name}${h.macroPenalty?'：是正費用 '+man(h.macroPenalty)+'万円':h.macroBonus?'：補助金 +'+man(h.macroBonus)+'万円':''}`:'今週の景気の変化';
 
  $('reportIcon').textContent='';
- $('reportTitle').textContent=isFire?'大炎上！':h.accidentId?'突発アクシデント！':h.boycottActive?'不買運動発生中！':isMemory?'過去の施策が再燃！':h.profit<0?'赤字の決算…':'今週の決算！';
+ $('reportTitle').textContent=isFire?'大炎上！':h.accidentId?'突発アクシデント！':h.rootFixedThisWeek?'再建の突破口を発見！':h.boycottActive?'不買運動発生中！':isMemory?'過去の施策が再燃！':h.profit<0?'赤字の決算…':'今週の決算！';
  $('reportHeadline').textContent=h.title;
  $('reportDescription').textContent=h.devilNote?`${h.devilNote} ${h.body}`:h.body;
  $('reportCash').textContent=man(h.cashAfter??game.cash)+'万円';
@@ -297,7 +303,7 @@ function showWeekReport(h,finish){
   const el=$(id);el.textContent=delta(n);el.className=n===0?'even':((n>0)===positiveGood?'good':'bad');
  }
  $('reportBossFace').innerHTML=`<svg class="mini-ill"><use href="#${isFire?'art-warning':h.profit<0?'art-bill':h.profit>=145000?'art-coin':'art-meeting'}"/></svg>`;
- $('reportTakeaway').textContent=h.rescueChoice&&h.rescueChoice!=='giveup'?`緊急再建に成功！ ${h.rescueName}。代償は残ります`:game.personalFailed?'生活の支払いが限界。契約を続けられません':game.bankrupt?' 資金ショート。経営を続けられません！':h.cashAfter<80000?' 残り資金が危険水準です！':isFire?' 利益より先に評判が燃えました':h.boycottActive?' 不買運動でお客さんが減っています':h.deltaRep<0&&h.profit>0?' 利益は出たけど、お店の信用が低下':h.deltaRep>0?' お店の信用が上がりました':h.profit<0?' 売上より経費が大きい週でした':' 大きなトラブルなく営業できました';
+ $('reportTakeaway').textContent=h.rescueChoice&&h.rescueChoice!=='giveup'?`緊急再建に成功！ ${h.rescueName}。代償は残ります`:game.personalFailed?'生活の支払いが限界。契約を続けられません':game.bankrupt?' 資金ショート。経営を続けられません！':h.cashAfter<80000?' 残り資金が危険水準です！':h.rootFixedThisWeek?' 根本原因を改善！ 来週以降の損失や客離れを抑えられます':isFire?' 利益より先に評判が燃えました':h.boycottActive?' 不買運動でお客さんが減っています':h.deltaRep<0&&h.profit>0?' 利益は出たけど、お店の信用が低下':h.deltaRep>0?' お店の信用が上がりました':h.profit<0?' 売上より経費が大きい週でした':' 大きなトラブルなく営業できました';
  $('reportCeo').textContent=h.ceo;
  const goal=G.goalStatus(game);
  $('reportGoal').textContent=`契約目標：利益 ${man(goal.profit)} / ${man(game.contractGoal)}万円・評判 ${goal.reputation} / ${G.CONTRACT.reputation}`;
@@ -410,7 +416,17 @@ function paint(){
  $('loanHint').textContent=s.debt>0?' / 借入残 '+man(s.debt)+'万円':'';
  $('proposalBudget').textContent='店 '+man(s.cash)+'万 / 自分 '+man(s.personalCash)+'万｜次の養育費 '+(due?'第'+due+'週':'支払済');
  $('meetingStatus').textContent=`経営指標は「詳細ステータス」から確認できます`;
- $('meetingSignal').textContent=G.boardroomSignal(s);
+ const diagnosis=G.rootDiagnosis(s);
+ $('meetingSignal').textContent=diagnosis.active&&!diagnosis.solved&&s.cash>=125000?'現場調査：'+diagnosis.label+'。'+diagnosis.clue:G.boardroomSignal(s);
+ $('diagnosisBrief').hidden=!diagnosis.active;
+ if(diagnosis.active){
+  $('diagnosisBrief').classList.toggle('is-solved',diagnosis.solved);
+  $('diagnosisHeadline').textContent=diagnosis.solved?'根本原因を改善済み':'現場メモ：'+diagnosis.label;
+  $('diagnosisClue').textContent=diagnosis.solved?'対策済み。以前の損失や客離れが収まってきた。':diagnosis.clue+' '+diagnosis.witness;
+ }
+ $('proposalDiagnosis').hidden=!diagnosis.active||diagnosis.solved;
+ if(diagnosis.active&&!diagnosis.solved)$('proposalDiagnosis').textContent='現場の証言：'+diagnosis.clue+' '+diagnosis.witness+' 根本対策の費用は'+(diagnosis.cost/10000).toFixed(1)+'万円。';
+
  const fixedBills=155000-(60-s.staff)*800+macro.fixed;
  const left=s.cash-fixedBills;
  $('meetingBills').textContent='約'+man(fixedBills)+'万円';
@@ -443,7 +459,7 @@ function renderActions(){const s=game;
  $('actions').innerHTML=offers.map(a=>{
  const on=s.selected===a.id,disabled=s.finished||!G.enabled(s,a.id);
  const bonus=G.boardroomDemand(s)?.actionId===a.id;
- return `<button type="button" class="action-option" role="radio" aria-checked="${on}" ${disabled?'disabled':''} data-id="${esc(a.id)}"><span class="action-emoji" aria-hidden="true"><svg class="mini-ill"><use href="#${a.type==='kind'?'art-people':'art-graph'}"/></svg></span><span class="action-name">${esc(a.name)}</span>${bonus?'<span class="boss-pick">社長の推し・臨時報酬</span>':''}<span class="action-effect">${esc(a.effect)}</span></button>`;
+ return `<button type="button" class="action-option${a.id.startsWith('fix_')?' root-option':''}" role="radio" aria-checked="${on}" ${disabled?'disabled':''} data-id="${esc(a.id)}"><span class="action-emoji" aria-hidden="true"><svg class="mini-ill"><use href="#${a.type==='kind'?'art-people':'art-graph'}"/></svg></span><span class="action-name">${esc(a.name)}</span>${bonus?'<span class="boss-pick">社長の推し・臨時報酬</span>':''}${a.id.startsWith('fix_')?'<span class="root-pick">コンサルの根本対策</span>':''}<span class="action-effect">${esc(a.effect)}</span></button>`;
  }).join('');
  const a=G.ACTIONS.find(a=>a.id===s.selected);
  $('selectedIcon').innerHTML=`<svg class="mini-ill"><use href="#${a.type==='kind'?'art-people':'art-graph'}"/></svg>`;$('selectedTitle').textContent=a.name;$('selectedDesc').textContent=a.detail;

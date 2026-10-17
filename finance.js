@@ -19,6 +19,7 @@ function createLedger(h,kind){
    add('社会情勢による固定費',-value(h.macroFixed),'営業');
    add('施策・販促費',-value(h.extra),'営業');
    add('事故による損失',-value(h.incidentCost),'営業');
+   add('古い設備の廃棄ロス',-value(h.rootLoss),'営業');
    add('借入金利',-value(h.interest),'営業');
    add('行政の是正費用',-value(h.macroPenalty),'営業');
    add('補助金',h.macroBonus,'営業');

@@ -58,8 +58,24 @@ const ACTIONS=[
  {id:'maintenance',icon:'',name:'冷蔵庫にお金を使う',effect:'故障対策 / 費用↑',detail:'壊れてから直すよりは安い。社長には難しい概念。',type:'kind'},
  {id:'loan',icon:'',name:'銀行に泣きつく',effect:'運転資金+20万円 / 借金↑',detail:'20万円のつなぎ融資。毎週返済が発生。友情は無利息、銀行は違う。',type:'hard'}
 ];
+// Each new case has one structural problem. Legacy saves keep their original economy unchanged.
+const ROOT_CASES={
+ equipment:{id:'equipment',action:'fix_equipment',label:'設備の老朽化',clue:'冷凍庫の温度計が毎朝ずれている。昨月の修理記録は空欄。',witness:'従業員「廃棄する前提で仕入れている感じです」',cost:30000,solution:'冷凍設備を抜本修理',payoff:'故障リスクを下げ、週1.2万円の廃棄ロスを解消'},
+ people:{id:'people',action:'fix_people',label:'人手不足',clue:'ピーク時にレジが閉まっている。客が並ぶ前に帰っている。',witness:'店長「シフト表には、辞めた人の名前がまだあります」',cost:27000,solution:'欠員補充と現場研修',payoff:'離脱客を減らし、欠勤事故への耐性を高める'},
+ fans:{id:'fans',action:'fix_fans',label:'常連の流出',clue:'新規客は来ているのに、顔なじみの買い物客が戻らない。',witness:'消費者「前は良かった、の前を誰も調べていません」',cost:24000,solution:'常連の信頼を取り戻す',payoff:'失った固定客を呼び戻し、評判が毎週育つ'}
+};
+const ROOT_ACTIONS=Object.values(ROOT_CASES).map(c=>({id:c.action,icon:'',name:c.solution,effect:'根本改善 / 今週の費用'+(c.cost/10000).toFixed(1)+'万円',detail:c.payoff+'。投資は今週の営業費に計上。',type:'kind'}));
+ACTIONS.push(...ROOT_ACTIONS);
 const ACTIONS_BY_ID=Object.fromEntries(ACTIONS.map(a=>[a.id,a]));
+function rootDiagnosis(s){
+ const c=ROOT_CASES[s.rootCause];
+ if(!c)return {active:false,solved:true,title:'従来の契約を継続中',clue:'以前からの経営記録を守って進行します。',witness:'',cost:0};
+ return {...c,active:true,solved:!!s.rootSolved,title:s.rootSolved?'構造的な問題を改善済み':'現場の異変：'+c.label};
+}
 const QUOTES={
+ fix_equipment:'社長「修理しても売上にならないだろう？ ああ、廃棄は減るのか」',
+ fix_people:'社長「社員は家族。給与を払うとなると他人だ」',
+ fix_fans:'社長「常連の声を聞くのか？ 私の声が聞こえないのか」',
  raise:'社長「お客様の購買力を信じている。強く。」',
  lower:'社長「安くなったのはいい。利益はどこへ？」',
  shrink:'社長「環境にも配慮して、商品を軽量化した！」',
@@ -83,6 +99,9 @@ const QUOTES={
  loan:'社長「借金は未来の私が返す。未来の私には期待している！」'
 };
 const NEWS={
+ fix_equipment:['冷蔵庫を直したら廃棄が減った','壊れる前に直す。社長「この革命を新聞に載せろ！」'],
+ fix_people:['現場の人数が戻り始めた','人が働ける人数だけ雇った。社長「大胆な経営だ」'],
+ fix_fans:['離れた常連が戻り始めた','消費者「以前の店が帰ってきた」。社長「何をしたんだ？」'],
  raise:['じわっと値上げ、財布にはずっしり','「お値段に気持ちを込めました」。消費者は値札を二度見。'],
  lower:['10円値下げ、拍手はまばら','「もう一声！」という声も。売り場の空気は少しやわらいだ。'],
  shrink:['「お手軽サイズ」へ進化','社長「持ち運びやすさを追求」。消費者「中身も持ち去られた」。'],
@@ -181,6 +200,11 @@ function weeklyOffers(s){
   if(picks.length>=3)break;
   if(enabled(s,a.id)&&!picks.includes(a.id))picks.push(a.id);
  }
+ // Root repairs compete with regular policy: no extra menu or extra weekly action.
+ const diagnosis=rootDiagnosis(s);
+ if(diagnosis.active&&!diagnosis.solved&&s.week>=2&&s.week<=10&&brief.id!=='crisis'){
+  picks[1]=diagnosis.action;
+ }
  return picks.slice(0,3).map(id=>ACTIONS_BY_ID[id]);
 }
 // The president offers a private performance bonus for the most aggressive boardroom option.
@@ -225,10 +249,10 @@ function ending(s){
 }
 function initial(seed){
  let n=Number(seed);if(!Number.isFinite(n))n=Date.now();n=n>>>0;if(n===0)n=246813579;
- return {version:VERSION,rng:n,rngSeed:n,personalCash:PERSONAL.start,arrears:0,personalFailed:false,pactCount:0,pacts:[],week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:58,fire:4,sat:61,frust:32,sales:480000,profit:61000,cash:195000,contractGoal:CONTRACT.profit,debt:0,maintenance:0,upgrades:blankUpgrades(),lowCashWeeks:0,bankrupt:false,rescuePending:false,rescueUsed:0,ownerFundUsed:false,boycottWeeks:0,memory:[],history:[],lastResult:null};
+ return {version:VERSION,rng:n,rngSeed:n,rootCause:['equipment','people','fans'][n%3],rootSolved:false,personalCash:PERSONAL.start,arrears:0,personalFailed:false,pactCount:0,pacts:[],week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:58,fire:4,sat:61,frust:32,sales:480000,profit:61000,cash:195000,contractGoal:CONTRACT.profit,debt:0,maintenance:0,upgrades:blankUpgrades(),lowCashWeeks:0,bankrupt:false,rescuePending:false,rescueUsed:0,ownerFundUsed:false,boycottWeeks:0,memory:[],history:[],lastResult:null};
 }
 function draw(s){let x=s.rng>>>0;x^=(x<<13);x^=(x>>>17);x^=(x<<5);s.rng=x>>>0;return (s.rng>>>0)/4294967296;}
-function enabled(s,id){switch(id){case'raise':return s.price<260;case'lower':return s.price>150;case'shrink':return s.size>60;case'cheap':return s.quality>30;case'quality':return s.quality<90;case'staff':return s.staff>30;case'restorestaff':return s.staff<60;case'loan':return s.cash<180000&&s.debt<250000;default:return !!ACTIONS_BY_ID[id];}}
+function enabled(s,id){if(id.startsWith('fix_'))return !s.finished&&!s.rootSolved&&ROOT_CASES[s.rootCause]?.action===id;switch(id){case'raise':return s.price<260;case'lower':return s.price>150;case'shrink':return s.size>60;case'cheap':return s.quality>30;case'quality':return s.quality<90;case'staff':return s.staff>30;case'restorestaff':return s.staff<60;case'loan':return s.cash<180000&&s.debt<250000;default:return !!ACTIONS_BY_ID[id];}}
 function risk(s){return cap(.012+s.fire*.0014+Math.max(0,s.frust-23)*.0013+s.notoriety*.00045+Math.max(0,65-s.storeRep)*.0007,.01,.48);}
 function unitCost(s){return int(20+s.size*.9+(s.quality-60)*.65);}
 function adjust(s,changes){for(const [k,v] of Object.entries(changes)){s[k]=cap(int(s[k]+v),0,100);}}
@@ -256,6 +280,9 @@ function applyAction(s,id){let extra=0,discount=0,demandFactor=1,financing=0;
  case'audit':extra=11000;adjust(s,{sat:4,frust:-8,storeRep:7,fire:-8,notoriety:-3});break;
  case'maintenance':extra=26000;s.maintenance=3;adjust(s,{storeRep:1});break;
  case'loan':financing=200000;s.debt+=200000;adjust(s,{skill:-2});break;
+ case'fix_equipment':extra=ROOT_CASES.equipment.cost;s.rootSolved=true;s.upgrades.equipment=Math.min(2,s.upgrades.equipment+1);s.maintenance=3;adjust(s,{storeRep:2,skill:3});break;
+ case'fix_people':extra=ROOT_CASES.people.cost;s.rootSolved=true;s.upgrades.people=Math.min(2,s.upgrades.people+1);s.staff=Math.min(60,s.staff+10);adjust(s,{sat:4,frust:-6,skill:3});break;
+ case'fix_fans':extra=ROOT_CASES.fans.cost;s.rootSolved=true;s.upgrades.fans=Math.min(2,s.upgrades.fans+1);adjust(s,{storeRep:6,sat:5,frust:-5,skill:3});break;
  default:throw new Error('Unknown action');
  }
  return {extra,discount,demandFactor,financing};
@@ -380,13 +407,17 @@ function play(input,id,opts={}){if(input.finished||input.week>MAX_WEEKS)throw Er
   *cap(1+(s.storeRep-65)*.005,.72,1.19)
   *cap(1+(s.sat-66)*.004,.75,1.15)
   *cap(1-(s.frust-23)*.003,.70,1.12);
- demand*=action.demandFactor*demandModifier*macro.demand*devilDemand*(1+.045*s.upgrades.people+.055*s.upgrades.fans)*(.97+draw(s)*.06);
+ // A troubled shop quietly bleeds money or customers until its real problem is fixed.
+ const activeFault=!s.rootSolved?s.rootCause:null;
+ const diagnosisDemand=activeFault==='people'?.90:activeFault==='fans'?.91:1;
+ const rootLoss=activeFault==='equipment'?12000:0;
+ demand*=action.demandFactor*demandModifier*diagnosisDemand*macro.demand*devilDemand*(1+.045*s.upgrades.people+.055*s.upgrades.fans)*(.97+draw(s)*.06);
  const units=cap(int(demand),500,4200),effectivePrice=s.price-action.discount;
  const sales=units*effectivePrice,cost=Math.round(unitCost(s)*macro.cost);
  const rent=75000,utilities=30000,payroll=50000-(60-s.staff)*800;
  const fixed=rent+utilities+payroll+macro.fixed;
  const interest=s.debt>0?3000:0,principal=Math.min(s.debt,10000);
- const profit=units*(effectivePrice-cost)-fixed-action.extra-incidentCost-interest-macroPenalty+macroBonus;
+ const profit=units*(effectivePrice-cost)-fixed-action.extra-incidentCost-interest-macroPenalty-rootLoss+macroBonus;
  const standardProfit=126000;
  let fee=cap(int(8000+Math.max(0,profit-standardProfit)*.07),8000,30000);
  if(fireHit||boycottActive)fee=int(fee*.65);
@@ -410,7 +441,7 @@ function play(input,id,opts={}){if(input.finished||input.week>MAX_WEEKS)throw Er
  s.lowCashWeeks=s.cash<0?s.lowCashWeeks+1:0;
  if(s.cash<0){s.bankrupt=true;s.rescuePending=!s.personalFailed&&rescueOptions(s).length>0;} // The last chance appears before closing.
  if(s.maintenance>0)s.maintenance--;
- const report={rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,boardroomBonus,
+ const report={rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_'),boardroomBonus,
  boardroomDemandId:boardDemand?.actionId||null,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':QUOTES[id],eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,investment,projectId:plan,projectLabel:plan?PROJECTS_BY_ID[plan].name:"なし",incidentCost,accidentResponse:null,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,macroId:macro.id,macroName:macro.name,macroTag:macro.tag,macroDetail:macro.detail,macroPenalty,macroBonus,macroFixed:macro.fixed,devilId:devil,devilNote,devilPayment,personalDevilPayment,personalCashBefore:previous.personalCash,personalCashAfter:s.personalCash,arrearsBefore:previous.arrears,arrearsAfter:s.arrears,personalLiving:PERSONAL.living,supportDue,supportPaid,feeFromStore:fee,personalFailed:s.personalFailed,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
  s.history.push(report);s.lastResult=report;s.week++;
  if(s.week>MAX_WEEKS||s.bankrupt||s.personalFailed)s.finished=true;
@@ -442,6 +473,10 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  if(!Array.isArray(x.history)||x.history.length>12||x.history.some(h=>!h||!Number.isInteger(h.week)||h.week<1||h.week>12||!ACTIONS_BY_ID[h.actionId]||typeof h.title!=='string'||h.title.length>240||typeof h.body!=='string'||h.body.length>400||!Number.isFinite(h.sales)||!Number.isFinite(h.profit)||!Number.isFinite(h.fee)))throw Error('経営記録が不正です');
  if(x.history.length!==x.week-1||x.finished!==(x.week===13||x.bankrupt===true||x.personalFailed===true))throw Error('週数と記録が一致しません');
  const clone=JSON.parse(JSON.stringify(x));
+ // Do not introduce hidden penalties into pre-v0.9.5 runs.
+ if(clone.rootCause===undefined){clone.rootCause='legacy';clone.rootSolved=true;}
+ if(!['equipment','people','fans','legacy'].includes(clone.rootCause)||typeof clone.rootSolved!=='boolean')throw Error('経営診断データが不正です');
+ if(clone.rootCause==='legacy'&&!clone.rootSolved)throw Error('従来セーブの状態が不正です');
  // Existing v0.1-v0.5 saves did not contain these optional financial state fields.
  for(const [name,value]of Object.entries({contractGoal:1800000,debt:0,maintenance:0,lowCashWeeks:0,bankrupt:false,rescuePending:false,rescueUsed:0,ownerFundUsed:false}))if(clone[name]===undefined)clone[name]=value;
  // Saved v0.1-v0.7 games are preserved; new personal-life systems start at the default balance.
@@ -462,7 +497,7 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  return clone;
 }
 function previewRisk(s,id){if(!ACTIONS_BY_ID[id]||!enabled(s,id))return risk(s);const clone=JSON.parse(JSON.stringify(s));applyAction(clone,id);return risk(clone);}
-const engine={VERSION,MAX_WEEKS,CONTRACT,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,boardroomDemand,boardroomSignal,goalStatus,ending,initial,play,handleAccident,rescueOptions,resolveRescue,risk,previewRisk,unitCost,enabled,validateSaved};
+const engine={VERSION,MAX_WEEKS,CONTRACT,ROOT_CASES,rootDiagnosis,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,boardroomDemand,boardroomSignal,goalStatus,ending,initial,play,handleAccident,rescueOptions,resolveRescue,risk,previewRisk,unitCost,enabled,validateSaved};
 root.GameEngine=engine;
 if(typeof module==='object'&&module.exports)module.exports=engine;
 })(typeof globalThis!=='undefined'?globalThis:this);
