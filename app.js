@@ -1,4 +1,4 @@
-/* お客様のために。v0.9.7 - dynamic shop and office scenes, visible cash movements, compact boardroom, verified finance ledger. */
+/* お客様のために。v0.9.8 - illustrated six-scene prologue, compact office, modal accessibility. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const F=window.FinanceLedger;
@@ -20,6 +20,8 @@ let resolving=false;
 let lastScreen='office';
 let entryMode='title';
 let prologueStep=0;
+let statusOrigin=null;
+let weekSceneClosedByUser=false;
 const reducedMotion=()=>window.matchMedia?.('(prefers-reduced-motion: reduce)').matches??false;
 function showEntry(mode){
  entryMode=mode;
@@ -43,7 +45,8 @@ const PROLOGUE=[
  {speaker:'第2幕｜忘れられない約束',title:'養育費だけは、遅れたくない。',text:'離れて暮らす子供への大切なお金。第4週には3万6,000円が必要だ。稼がなければならない理由がある。',art:'art-home',label:'養育費の支払日が記された手帳'},
  {speaker:'第3幕｜一本の電話',title:'「相談だけでも、できますか」',text:'倒産寸前のスーパーから電話。引き受けたい。でも、店を救えなければ自分まで共倒れになる。',art:'art-store',label:'再建依頼の電話が届く'},
  {speaker:'第4幕｜現場で見たもの',title:'店は、まだ生きている。',text:'棚には空きがあり、スタッフは疲れた顔。それでも通い続ける常連がいる。原因を見抜ければ、立て直せるかもしれない。',art:'art-people',label:'再建を待つスーパーの従業員と常連客'},
- {speaker:'第5幕｜経営再建契約',title:'残されたのは、12週間。',text:'店舗資金19万5,000円。店のお金と自分の財布は別。毎週の報酬から生活費を払いながら、店を救うことを決めた。',art:'art-bill',label:'12週間のコンサル契約書'}
+ {speaker:'第5幕｜経営再建契約',title:'残されたのは、12週間。',text:'店舗資金19万5,000円。店のお金と自分の財布は別。毎週の報酬で生活をつなぎながら、店を立て直す契約を結んだ。',art:'art-bill',label:'12週間のコンサル契約書'},
+ {speaker:'第6幕｜事務所の夜',title:'……どうするか。仕方ない。',text:'「炎上しない程度に、消費者を騙そう」……口にした途端、契約書の影が笑った気がした。「程度」という言葉ほど、悪魔の好きなものはない。',art:'art-devil',label:'事務所の机に落ちる悪魔の影と主人公の決意'}
 ];
 function renderPrologue(){
  const item=PROLOGUE[prologueStep];
@@ -51,10 +54,12 @@ function renderPrologue(){
  $('prologueSpeaker').textContent=item.speaker;
  $('prologueHeading').textContent=item.title;
  $('prologueText').textContent=item.text;
- $('prologueArt').setAttribute('href','#'+item.art);
+ $('prologueArt').setAttribute('href','#story-scene-'+(prologueStep+1));
+ $('prologueIllustration').dataset.scene=String(prologueStep+1);
+ $('prologueIllustration').classList.remove('story-art-enter');void $('prologueIllustration').offsetWidth;$('prologueIllustration').classList.add('story-art-enter');
  $('prologueIllustration').setAttribute('aria-label',item.label);
  [...document.querySelectorAll('.prologue-dots span')].forEach((dot,i)=>dot.classList.toggle('current',i===prologueStep));
- $('prologueNext').textContent=prologueStep===PROLOGUE.length-1?'経営を始める →':'次へ →';
+ $('prologueNext').textContent=prologueStep===PROLOGUE.length-1?'覚悟を決めて始める →':'次へ →';
  const card=document.querySelector('.prologue-copy');card.classList.remove('prologue-enter');void card.offsetWidth;card.classList.add('prologue-enter');
 }
 function finishPrologue(){
@@ -63,6 +68,52 @@ function finishPrologue(){
 }
 function advancePrologue(){
  if(prologueStep<PROLOGUE.length-1){prologueStep++;renderPrologue();}else finishPrologue();
+}
+function openStatusSheet(){
+ const s=game;
+ statusOrigin=document.activeElement;
+ const h=s.lastResult;
+ const money=n=>Number(n||0).toLocaleString('ja-JP')+'円';
+ const macro=G.MACROS.find(m=>m.id===s.macroId);
+ const state=s.cash<=0?'資金ショート':s.cash<85000?'資金危機':s.storeRep<35?'信用危機':'再建中';
+ const data=[
+  ['今のお店',state],
+  ['今週の社会情勢',macro?.name||$('macroName').textContent],
+  ['社会情勢の影響',$('macroEffect').textContent],
+  ['累計利益 / 目標',money(G.goalStatus(s).profit)+' / '+money(s.contractGoal)],
+  ['前週の売上',h?money(h.sales):'まだ営業前'],
+  ['前週の営業利益',h?money(h.profit):'まだ営業前'],
+  ['毎週の基本固定費',money(s.overhead??155000)],
+  ['炎上度',String(s.fire)+' / 100'],
+  ['顧客満足度',String(s.sat)+' / 100'],
+  ['顧客の不満',String(s.frust)+' / 100']
+ ];
+ $('statusContent').innerHTML='<p class="status-lead">必要な数字だけ確認できるよ。資金の詳しい入出金は、ホームのお金カードをタップ。</p>'+data.map(([name,value])=>`<div class="status-line"><span>${esc(name)}</span><strong>${esc(value)}</strong></div>`).join('');
+ $('statusReport').hidden=!h;
+ $('statusSheet').hidden=false;document.body.classList.add('scene-locked');
+ $('statusClose').focus({preventScroll:true});
+}
+function closeStatusSheet(){
+ if($('statusSheet').hidden)return;
+ $('statusSheet').hidden=true;
+ if($('proposalSheet').hidden&&$('weekScene').hidden&&$('moneySheet').hidden&&$('modal').hidden)document.body.classList.remove('scene-locked');
+ if(statusOrigin?.isConnected)statusOrigin.focus({preventScroll:true});
+ statusOrigin=null;
+}
+function reopenLastReport(){
+ if(!game.lastResult)return;
+ closeStatusSheet();
+ $('weekScene').hidden=false;$('workingScene').hidden=true;$('shockScene').hidden=true;
+ document.body.classList.add('scene-locked');
+ weekSceneClosedByUser=false;
+ showWeekReport(game.lastResult,game.finished);
+}
+function closeWeekScene(){
+ if($('weekScene').hidden)return;
+ weekSceneClosedByUser=true;
+ $('weekScene').hidden=true;
+ if($('moneySheet').hidden&&$('proposalSheet').hidden&&$('statusSheet').hidden&&$('modal').hidden)document.body.classList.remove('scene-locked');
+ const button=$('openStatusSheet');if(button&&!$('officeView').hidden)button.focus({preventScroll:true});
 }
 function openProposals(){
  if(resolving||!$('weekScene').hidden||game.finished)return;
@@ -372,6 +423,7 @@ function startWeek(){
   if(!save())toast('保存できません。JSON書き出しをご利用ください。');
   paint();
  }catch(err){resolving=false;$('advanceButton').disabled=false;toast(err.message||'処理に失敗しました');return;}
+ weekSceneClosedByUser=false;
  $('weekScene').hidden=false;
  $('workingScene').hidden=false;
  $('shockScene').hidden=true;
@@ -556,7 +608,7 @@ function finishModal(){
  openModal(`<div class="modal-kicker">${s.bankrupt?'EMERGENCY / 資金ショート':'FINAL REPORT / 12週間の契約審査'}</div><h2 id="modalTitle">${outcome.passed?' 契約達成！':' 契約結果のお知らせ'}</h2><div class="end-stamp"><svg class="mini-ill"><use href="#art-document"/></svg> ${esc(outcome.name)}</div><div class="result-grid" style="margin-top:15px"><div class="result-tile"><span>累計利益 / 目標</span><b>${man(goal.profit)} / ${man(s.contractGoal)}万</b><small>${goal.profit>=s.contractGoal?'利益目標クリア':'利益目標まで'+man(goal.profitGap)+'万円'}</small></div><div class="result-tile"><span>評判 / 条件</span><b>${s.storeRep} / 50</b><small>${s.storeRep>=50?'信用条件クリア':'信用条件まであと'+goal.repGap}</small></div><div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div><div class="result-tile"><span>炎上回数</span><b>${fires}回</b></div></div><div class="modal-comment">${esc(outcome.line)}</div><p class="modal-detail">主人公の財布：${man(s.personalCash)}万円 ／ 養育費未払い：${man(s.arrears)}万円 ／ 悪魔の契約：${s.pactCount}回。お店だけでなく、あなた自身も生き残れた？</p><div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい依頼を探す </button></div>`);
  $('endRestart').addEventListener('click',()=>{closeModal();showEntry('contracts');});
 }
-function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>依頼を受ける。</b>タイトルからモグモグマートを選ぶ。</li><li><b>相談に答える。</b>店長や社長からの問題に4つの対応策から選ぶ。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>生き残る。</b>店舗資金と主人公の生活費を別々に管理。毎週の生活費・第4・8・12週の養育費を払おう。</li><li><b>社会情勢と悪魔。</b>景気や行政で売上・原価が変化。悪魔に助けを求めると期限付きの代償が発生する。</li><li><b>契約達成。</b>12週間で利益100万円・評判50以上。店の倒産や生活破綻で途中終了。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ </button></div>`);$('aboutClose').addEventListener('click',closeModal);}
+function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>依頼を受ける。</b>タイトルからモグモグマートを選ぶ。</li><li><b>相談に答える。</b>店長や社長からの問題に3つの対応策から選ぶ。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>生き残る。</b>店舗資金と主人公の生活費を別々に管理。毎週の生活費・第4・8・12週の養育費を払おう。</li><li><b>社会情勢と悪魔。</b>景気や行政で売上・原価が変化。悪魔に助けを求めると期限付きの代償が発生する。</li><li><b>契約達成。</b>12週間で利益100万円・評判50以上。店の倒産や生活破綻で途中終了。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ </button></div>`);$('aboutClose').addEventListener('click',closeModal);}
 function setup(){
  game=load();paint();showEntry('title');
  $('titleStart').addEventListener('click',()=>showEntry('contracts'));
@@ -586,7 +638,24 @@ function setup(){
  $('moneyClose').addEventListener('click',closeMoney);
  $('moneyDone').addEventListener('click',closeMoney);
  $('moneyBackdrop').addEventListener('click',closeMoney);
- $('openProposals').addEventListener('click',()=>{if(game.rescuePending){$('weekScene').hidden=false;document.body.classList.add('scene-locked');showRescueScene();}else if(game.finished)finishModal();else openProposals();});
+ $('openStatusSheet').addEventListener('click',openStatusSheet);
+ $('statusClose').addEventListener('click',closeStatusSheet);
+ $('statusBackdrop').addEventListener('click',closeStatusSheet);
+ $('statusDone').addEventListener('click',closeStatusSheet);
+ $('statusReport').addEventListener('click',reopenLastReport);
+ $('weekSceneClose').addEventListener('click',closeWeekScene);
+ // Block only rapid double-tap zoom on game dialogs. Normal taps, scrolling and pinch remain available.
+ for(const panel of document.querySelectorAll('.proposal-sheet,.money-sheet,.status-sheet,.week-scene,.modal-layer')){
+  let lastTap=0;
+  panel.addEventListener('touchend',event=>{
+   const now=Date.now();
+   if(now-lastTap<310&&event.touches.length===0&&event.changedTouches.length===1){event.preventDefault();lastTap=0;}
+   else lastTap=now;
+  },{passive:false});
+  panel.addEventListener('dblclick',event=>event.preventDefault());
+ }
+
+ $('openProposals').addEventListener('click',()=>{if(game.rescuePending){$('weekScene').hidden=false;document.body.classList.add('scene-locked');showRescueScene();}else if(game.lastResult?.accidentResponse===null&&game.lastResult?.incidentCost>0&&game.lastResult?.accidentId){reopenLastReport();}else if(game.finished)finishModal();else openProposals();});
  $('closeProposals').addEventListener('click',closeProposals);
  $('closeProposalBackdrop').addEventListener('click',closeProposals);
  $('reportContinue').addEventListener('click',finishWeek);
@@ -599,7 +668,7 @@ function setup(){
  $('aboutButton').addEventListener('click',aboutModal);
  $('modalClose').addEventListener('click',closeModal);
  $('modal').querySelector('.modal-backdrop').addEventListener('click',closeModal);
- document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(!$('moneySheet').hidden){closeMoney();return;}if(!$('proposalSheet').hidden)closeProposals();else if(!$('modal').hidden)closeModal();}});
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(!$('moneySheet').hidden){closeMoney();return;}if(!$('statusSheet').hidden){closeStatusSheet();return;}if(!$('weekScene').hidden){closeWeekScene();return;}if(!$('proposalSheet').hidden)closeProposals();else if(!$('modal').hidden)closeModal();}});
  document.querySelectorAll('.hint').forEach(b=>b.addEventListener('click',()=>toast(b.dataset.tip)));
  $('historyToggle').addEventListener('click',()=>{const p=$('historyPanel');p.hidden=!p.hidden;$('historyToggle').setAttribute('aria-expanded',String(!p.hidden));});
  $('restartButton').addEventListener('click',()=>{if(!confirm('現在の経営を初期化しますか？（元に戻せません）'))return;game=G.initial(Date.now());selectedProject=null;selectedDevil=null;save();paint();changeScreen('office');showEntry('contracts');toast('新しい依頼を選んでください');});

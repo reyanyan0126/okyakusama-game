@@ -30,7 +30,7 @@ assert.equal(nodes.app.hidden,true,'game should not display behind title');
 nodes.titleStart.click();assert.equal(nodes.contractsScreen.hidden,false,'inbox after start');
 assert.equal(nodes.titleScreen.hidden,true);
 nodes.acceptMarket.click();assert.equal(nodes.prologueScreen.hidden,false,'intro after accepting contract');
-for(let step=2;step<=5;step++){nodes.prologueNext.click();assert.equal(nodes.prologueCounter.textContent,`0${step} / 05`);}
+for(let step=2;step<=6;step++){nodes.prologueNext.click();assert.equal(nodes.prologueCounter.textContent,`0${step} / 06`);}
 nodes.prologueNext.click();assert.equal(nodes.app.hidden,false,'game after intro');
 assert.equal(nodes.officeView.hidden,false);
 assert.equal(nodes.bossFace.dataset.mood,'normal');assert.equal(nodes.buyerFace.dataset.mood,'normal');
