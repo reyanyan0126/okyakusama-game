@@ -1,4 +1,4 @@
-/* お客様のために。v1.1.0 - thirty-week turnaround and survival economics, social shocks and devil pacts. */
+/* お客様のために。v1.2.0 - thirty-week turnaround and survival economics, social shocks and devil pacts. */
 (function(root){
 'use strict';
 const VERSION = 1, MAX_WEEKS = 30;
@@ -296,8 +296,62 @@ function ending(s){
 }
 function initial(seed){
  let n=Number(seed);if(!Number.isFinite(n))n=Date.now();n=n>>>0;if(n===0)n=246813579;
- return {version:VERSION,campaignWeeks:MAX_WEEKS,rng:n,rngSeed:n,rootCause:['equipment','people','fans'][n%3],rootSolved:false,personalCash:PERSONAL.start,arrears:0,personalFailed:false,pactCount:0,pacts:[],week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:58,fire:4,sat:61,frust:32,sales:480000,profit:61000,cash:195000,contractGoal:CONTRACT.profit,debt:0,maintenance:0,upgrades:blankUpgrades(),lowCashWeeks:0,bankrupt:false,rescuePending:false,rescueUsed:0,ownerFundUsed:false,boycottWeeks:0,memory:[],history:[],lastResult:null};
+ return {version:VERSION,campaignWeeks:MAX_WEEKS,rng:n,rngSeed:n,rootCause:['equipment','people','fans'][n%3],rootSolved:false,momentum:0,personalCash:PERSONAL.start,arrears:0,personalFailed:false,pactCount:0,pacts:[],week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:58,fire:4,sat:61,frust:32,sales:480000,profit:61000,cash:195000,contractGoal:CONTRACT.profit,debt:0,maintenance:0,upgrades:blankUpgrades(),lowCashWeeks:0,bankrupt:false,rescuePending:false,rescueUsed:0,ownerFundUsed:false,boycottWeeks:0,memory:[],history:[],lastResult:null};
 }
+
+/* Three outcomes: a failed action performs at 80%, ordinary success at
+ * 100%, and a big success at 135%. Full spending costs still apply. */
+const BOLD_POLICIES=new Set(['raise','shrink','cheap','staff','points','stamp','pop','blame','airtax','photo','apologybot']);
+const STEADY_POLICIES=new Set(['quality','explain','restorestaff','recall','loyalty','audit','maintenance','bills','ceocut','fix_equipment','fix_people','fix_fans']);
+function performanceOdds(s,id){
+ if(!ACTIONS_BY_ID[id]||!enabled(s,id))return null;
+ const bold=BOLD_POLICIES.has(id),steady=STEADY_POLICIES.has(id);
+ let great=bold?21:steady?13:17, failure=bold?33:steady?15:23;
+ const skill=cap(Number(s.skill)||0,0,100),momentum=cap(Number.isInteger(s.momentum)?s.momentum:0,0,3);
+ failure-=Math.round((skill-50)/12)+momentum*2;
+ great+=Math.round((skill-50)/22)+momentum*2;
+ if(s.fire>=50){failure+=bold?8:4;great-=3;}
+ if(s.frust>=70)failure+=3;
+ failure-=(s.upgrades?.people||0)*2;
+ const brief=weeklyBrief(s);
+ if(brief.id==='crisis'&&['apology','recall','explain','loyalty'].includes(id)){failure-=5;great+=3;}
+ if(brief.id==='rival'&&['sale','local','stamp'].includes(id))failure-=4;
+ if(brief.id==='bento'&&['quality','tasting','cheap'].includes(id))failure-=3;
+ failure=cap(failure,6,53);great=cap(great,5,33);
+ return {failure,success:100-failure-great,great,kind:bold?'high':steady?'steady':'standard'};
+}
+function resolvePerformance(s,id){
+ const odds=performanceOdds(s,id),roll=draw(s)*100;
+ const tier=roll<odds.failure?'failure':roll<odds.failure+odds.success?'success':'great';
+ return {tier,roll,odds,multiplier:tier==='failure'?.80:tier==='great'?1.35:1};
+}
+const PERFORMANCE_NUMBERS=['price','size','quality','staff','sat','frust','storeRep','fire','notoriety','skill'];
+function applyPerformance(s,id,action,before,result){
+ if(result.tier==='success')return action;
+ const multiplier=result.multiplier;
+ for(const key of PERFORMANCE_NUMBERS){
+  const diff=s[key]-before[key];
+  const rate=result.tier==='failure'&&BOLD_POLICIES.has(id)&&['frust','fire','notoriety'].includes(key)&&diff>0?1.10:multiplier;
+  const bounds=key==='price'?[150,260]:key==='size'?[60,100]:key==='quality'?[30,90]:key==='staff'?[30,100]:[0,100];
+  s[key]=cap(int(before[key]+diff*rate),...bounds);
+ }
+ action.demandFactor=1+(action.demandFactor-1)*multiplier;
+ if(action.extra<0)action.extra=int(action.extra*multiplier);
+ if(result.tier==='failure'&&BOLD_POLICIES.has(id))adjust(s,{fire:3,frust:3,storeRep:-2});
+ if(id==='loan'){
+  const funded=Math.min(200000,int(action.financing*multiplier));
+  s.debt+=funded-action.financing;action.financing=funded;
+ }
+ if(id==='maintenance'&&result.tier==='failure')s.maintenance=Math.min(s.maintenance,2);
+ if(id.startsWith('fix_')&&result.tier==='failure'){
+  s.rootSolved=false;
+  if(id==='fix_equipment'){s.upgrades.equipment=Math.max(0,s.upgrades.equipment-1);s.maintenance=1;}
+  if(id==='fix_people')s.upgrades.people=Math.max(0,s.upgrades.people-1);
+  if(id==='fix_fans')s.upgrades.fans=Math.max(0,s.upgrades.fans-1);
+ }
+ return action;
+}
+
 function draw(s){let x=s.rng>>>0;x^=(x<<13);x^=(x>>>17);x^=(x<<5);s.rng=x>>>0;return (s.rng>>>0)/4294967296;}
 function enabled(s,id){if(id.startsWith('fix_'))return !s.finished&&!s.rootSolved&&ROOT_CASES[s.rootCause]?.action===id;switch(id){case'raise':return s.price<260;case'lower':return s.price>150;case'shrink':return s.size>60;case'cheap':return s.quality>30;case'quality':return s.quality<90;case'staff':return s.staff>30;case'restorestaff':return s.staff<60;case'loan':return s.cash<180000&&s.debt<250000;default:return !!ACTIONS_BY_ID[id];}}
 function risk(s){return cap(.012+s.fire*.0014+Math.max(0,s.frust-23)*.0013+s.notoriety*.00045+Math.max(0,65-s.storeRep)*.0007,.01,.48);}
@@ -384,7 +438,10 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  const investment=plan?projectCost(s,plan):0;
  if(plan)s.upgrades[plan]++;
  const previous={sales:s.sales,rep:s.storeRep,sat:s.sat,frust:s.frust,fire:s.fire,skill:s.skill,cash:s.cash,personalCash:s.personalCash,arrears:s.arrears};
- const action=applyAction(s,id);
+ const performance=resolvePerformance(s,id);
+ const beforeAction=Object.fromEntries(PERFORMANCE_NUMBERS.map(key=>[key,s[key]]));
+ const action=applyPerformance(s,id,applyAction(s,id),beforeAction,performance);
+ s.momentum=performance.tier==='failure'?0:Math.min(3,(s.momentum||0)+(performance.tier==='great'?2:1));
  // Capture the effect of the player's decision itself, before random accidents,
  // weather, boycotts and macroeconomics add their own changes.
  const directImpact={rep:s.storeRep-previous.rep,fire:s.fire-previous.fire,sat:s.sat-previous.sat,frust:s.frust-previous.frust};
@@ -499,7 +556,7 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  s.lowCashWeeks=s.cash<0?s.lowCashWeeks+1:0;
  if(s.cash<0){s.bankrupt=true;s.rescuePending=!s.personalFailed&&rescueOptions(s).length>0;} // The last chance appears before closing.
  if(s.maintenance>0)s.maintenance--;
- const report={crisisResponse,rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_'),boardroomBonus,
+ const report={performanceTier:performance.tier,performanceRoll:performance.roll,performanceOdds:performance.odds,performanceMultiplier:performance.multiplier,momentumAfter:s.momentum,crisisResponse,rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_')&&s.rootSolved,boardroomBonus,
  boardroomDemandId:boardDemand?.actionId||null,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':QUOTES[id],eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,investment,projectId:plan,projectLabel:plan?PROJECTS_BY_ID[plan].name:"なし",incidentCost,accidentResponse:accident?.positive?'not_needed':null,accidentPositive:!!accident?.positive,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,macroId:macro.id,macroName:macro.name,macroTag:macro.tag,macroDetail:macro.detail,macroPenalty,macroBonus,macroFixed:macro.fixed,devilId:devil,devilNote,devilPayment,personalDevilPayment,personalCashBefore:previous.personalCash,personalCashAfter:s.personalCash,arrearsBefore:previous.arrears,arrearsAfter:s.arrears,personalLiving:PERSONAL.living,supportDue,supportPaid,feeFromStore:fee,personalFailed:s.personalFailed,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
  s.history.push(report);s.lastResult=report;s.week++;
  if(s.week>campaignWeeks(s)||s.bankrupt||s.personalFailed)s.finished=true;
@@ -542,6 +599,8 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  // Existing v0.1-v0.5 saves did not contain these optional financial state fields.
  for(const [name,value]of Object.entries({contractGoal:1800000,debt:0,maintenance:0,lowCashWeeks:0,bankrupt:false,rescuePending:false,rescueUsed:0,ownerFundUsed:false}))if(clone[name]===undefined)clone[name]=value;
  // Saved v0.1-v0.7 games are preserved; new personal-life systems start at the default balance.
+ if(clone.momentum===undefined)clone.momentum=0;
+ if(!Number.isInteger(clone.momentum)||clone.momentum<0||clone.momentum>3)throw Error('施策連続達成データが不正です');
  for(const [name,value]of Object.entries({personalCash:PERSONAL.start,arrears:0,personalFailed:false,pactCount:0,pacts:[]}))if(clone[name]===undefined)clone[name]=value;
  if(clone.rngSeed===undefined)clone.rngSeed=clone.rng;
  if(!Number.isSafeInteger(clone.personalCash)||clone.personalCash<0||clone.personalCash>10000000||!Number.isSafeInteger(clone.arrears)||clone.arrears<0||clone.arrears>10000000||typeof clone.personalFailed!=='boolean'||!Number.isInteger(clone.pactCount)||clone.pactCount<0||clone.pactCount>2||!Number.isInteger(clone.rngSeed)||clone.rngSeed<=0||clone.rngSeed>4294967295)throw Error('生活資金データが不正です');
@@ -559,7 +618,7 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  return clone;
 }
 function previewRisk(s,id){if(!ACTIONS_BY_ID[id]||!enabled(s,id))return risk(s);const clone=JSON.parse(JSON.stringify(s));applyAction(clone,id);return risk(clone);}
-const engine={VERSION,MAX_WEEKS,campaignWeeks,LEGACY_WEEKS,CONTRACT,ROOT_CASES,rootDiagnosis,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,boardroomDemand,boardroomSignal,goalStatus,ending,initial,play,handleAccident,rescueOptions,resolveRescue,risk,previewRisk,unitCost,enabled,validateSaved};
+const engine={VERSION,MAX_WEEKS,campaignWeeks,LEGACY_WEEKS,CONTRACT,ROOT_CASES,rootDiagnosis,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,boardroomDemand,boardroomSignal,goalStatus,ending,initial,play,handleAccident,rescueOptions,resolveRescue,risk,performanceOdds,previewRisk,unitCost,enabled,validateSaved};
 root.GameEngine=engine;
 if(typeof module==='object'&&module.exports)module.exports=engine;
 })(typeof globalThis!=='undefined'?globalThis:this);
