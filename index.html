@@ -22,7 +22,7 @@
         <span class="brand-icon" aria-hidden="true">¥</span>
         <div><div class="brand-kicker">企業再生（予定）シミュレーター</div><h1>お客様のために<span>。</span></h1></div>
       </div>
-      <button id="aboutButton" class="header-help" type="button" aria-label="遊び方を表示">？ <span>あそびかた</span></button>
+      <button id="aboutButton" class="header-help" type="button" aria-label="遊び方を表示">？ <span>遊び方</span></button>
     </header>
 
     <main>
@@ -59,7 +59,7 @@
             <div class="shop-open-sign" aria-hidden="true">OPEN</div>
           </article>
 
-          <div class="section-bar"><h3>今週の経営状況</h3><span class="section-sub">ひと目で分かる7つの数字</span></div>
+          <div class="section-bar"><h3>今週の経営状況</h3><span class="section-sub">7つの経営指標</span></div>
           <div class="stats-stack">
             <section class="stats-card consultant" aria-label="コンサルタントの状態">
               <div class="stats-label"><span class="icon-square blue">♟</span><strong>あなた（コンサル）</strong><span class="mini-badge" id="consultantTitle">駆け出し</span></div>
@@ -94,7 +94,7 @@
         <aside class="action-column" aria-labelledby="actionHeading">
           <div class="decision-card">
             <div class="decision-top"><span class="eyebrow">WEEKLY PROPOSAL</span><span class="decision-week" id="decisionWeek">第1週</span></div>
-            <h3 id="actionHeading">今週、何をする？</h3>
+            <h3 id="actionHeading">今週、何をする？</h3><span id="pitchTone" class="pitch-tone">今週の4つの提案</span>
             <p class="action-intro" id="directorQuote">社長「利益が欲しい！ ただし苦情は君が聞いてくれ！」</p>
             <div id="actions" class="action-grid" role="radiogroup" aria-label="経営施策を選択"></div>
             <div class="selected-detail"><span class="detail-icon" id="selectedIcon">📦</span><div class="selected-text"><strong id="selectedTitle">容量を減らす</strong><p id="selectedDesc">商品の中身を10g減らして原価削減。</p></div></div>
@@ -117,7 +117,7 @@
           <div class="voice-metric"><span>😤 不満</span><b id="voiceFrust">23</b><div class="voice-track"><span id="voiceFrustBar" class="warm"></span></div></div>
         </div>
         <div class="public-news"><span class="live-pill">● 街の速報</span><h3 id="voiceHeadline">開店準備は万端！</h3><p id="voiceBody">まだ話題になる出来事はありません。</p></div>
-        <div class="section-bar"><h3>みんなのひとこと</h3><span class="section-sub">架空の口コミ</span></div>
+        <div class="section-bar"><h3>みんなのひとこと</h3><span class="section-sub">みんなの本音</span></div>
         <div id="publicFeed" class="social-feed"></div>
       </section>
       <section id="recordsView" class="view-panel" role="region" aria-label="経営記録" hidden>
@@ -135,7 +135,7 @@
       <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true">💬</span><strong>世論</strong></button>
       <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true">📒</span><strong>記録</strong></button>
     </nav>
-    <footer>これは架空の企業を題材にした風刺ゲームです。実在の商品・企業・人物とは関係ありません。<br>© 2026 お客様のために。 / v0.2</footer>
+    <footer>フィクション・© 2026 お客様のために。 / v0.3</footer>
   </div>
 
   <div id="weekScene" class="week-scene" role="dialog" aria-modal="true" aria-label="今週の経営結果" hidden>

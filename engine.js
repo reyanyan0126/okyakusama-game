@@ -1,4 +1,4 @@
-/* お客様のために。v0.1 - original offline game simulation engine. */
+/* お客様のために。v0.3 - game engine with weekly pitch lineup. */
 (function(root){
 'use strict';
 const VERSION = 1, MAX_WEEKS = 12;
@@ -12,7 +12,12 @@ const ACTIONS=[
  {id:'quality',icon:'✨',name:'品質アップ',effect:'満足↑ / 原価↑',detail:'良い原料に切り替える。評判回復の一手。',minMax:'quality',type:'kind'},
  {id:'staff',icon:'👥',name:'人員を減らす',effect:'経費↓ / 接客↓',detail:'人件費を抑える。レジ待ちが長くなるかも。',minMax:'staff',type:'hard'},
  {id:'explain',icon:'📣',name:'きちんと説明',effect:'信頼↑ / 費用↑',detail:'価格・容量変更を説明する。広報費1万円。',type:'kind'},
- {id:'sale',icon:'🎉',name:'1週間セール',effect:'客数↑ / 経費↑',detail:'今週だけ15円引き。広告費1.2万円が必要。',type:'kind'}
+ {id:'sale',icon:'🎉',name:'1週間セール',effect:'客数↑ / 経費↑',detail:'今週だけ15円引き。広告費1.2万円が必要。',type:'kind'},
+ {id:'points',icon:'🪙',name:'ポイント還元縮小',effect:'経費↓ / 不満↑',detail:'ポイントの還元費を削減。「持続可能な還元」を発表。',type:'hard'},
+ {id:'pop',icon:'📢',name:'派手な宣伝',effect:'客数↑ / 炎上↑',detail:'宣伝に力を入れる。期待が膨らみすぎると反発も。',type:'hard'},
+ {id:'tasting',icon:'🥄',name:'試食サービス',effect:'客数↑ / 費用↑',detail:'試食で商品の良さを伝える。今週の経費は増える。',type:'kind'},
+ {id:'local',icon:'🥬',name:'地元野菜フェア',effect:'満足↑ / 経費↑',detail:'地元産の商品を集めて特設売り場を作る。',type:'kind'},
+ {id:'restorestaff',icon:'🧑‍💼',name:'レジの増員',effect:'満足↑ / 経費↑',detail:'減らしたスタッフを戻す。行列と不満を減らそう。',type:'kind'}
 ];
 const ACTIONS_BY_ID=Object.fromEntries(ACTIONS.map(a=>[a.id,a]));
 const QUOTES={
@@ -23,7 +28,12 @@ const QUOTES={
  quality:'社長「良いものを作る。利益もついてきてくれ。」',
  staff:'社長「少数精鋭だ！ 少数の方から苦情が来ているが！」',
  explain:'社長「説明責任を果たした。何を説明したかも説明しよう。」',
- sale:'社長「お客様の笑顔！ 私の電卓は泣いている！」'
+ sale:'社長「お客様の笑顔！ 私の電卓は泣いている！」',
+ points:'社長「ポイントは気持ち。気持ちは経費で落ちない。」',
+ pop:'社長「広告の声だけデカくしてみた。商品は通常運転だ。」',
+ tasting:'社長「試食を配ったら会議室のお菓子が消えた！」',
+ local:'社長「地元愛で売ろう。広告費は全国区だが！」',
+ restorestaff:'社長「レジ待ちゼロ！ 人件費は見ないことにする。」'
 };
 const NEWS={
  raise:['じわっと値上げ、財布にはずっしり','「お値段に気持ちを込めました」。消費者は値札を二度見。'],
@@ -33,12 +43,19 @@ const NEWS={
  quality:['味にこだわり、経費は悲鳴','口コミ「最近おいしくなった」。経理「最近つらくなった」。'],
  staff:['レジの行列が大盛況','社長「人の集まる店になった！」。それ、待ち行列です。'],
  explain:['異例の「ちゃんと説明」会見','「容量と価格について正直に説明」。消費者「最初からそれでいい」。'],
- sale:['セール開催！レジは大忙し','「お買い得！」の声が続出。社長は粗利益の計算を始めた。']
+ sale:['セール開催！レジは大忙し','「お買い得！」の声が続出。社長は粗利益の計算を始めた。'],
+ points:['ポイント制度が進化（当社比）','お客様「還元率だけ先に未来へ行った」。社長は拍手。'],
+ pop:['特大広告で客が集まる','期待だけ先に最高値を更新。肝心の商品はいつもの味。'],
+ tasting:['試食で売り場に行列','「食べたら買う」が増加。社長「無料なのに売れる！」'],
+ local:['地元野菜が人気に','お客様「こういうのでいい」。社長「普通すぎて逆に不安だ」。'],
+ restorestaff:['レジの行列が短くなる','お客様「ちゃんと人がいる！」。社長「今まで何だったのか」。']
 };
 const MEMORY_NEWS={
  shrink:['過去の容量変更が再注目','昔のパッケージ写真が拡散。「思い出だけは大容量」。'],
  cheap:['旧商品の味を懐かしむ投稿が話題','「昔はもっとおいしかった」と比較レビューが増加。'],
- staff:['レジ待ち体験談が拡散','「長すぎて季節が変わった」。客が行列の写真を投稿。']
+ staff:['レジ待ち体験談が拡散','「長すぎて季節が変わった」。客が行列の写真を投稿。'],
+ points:['ポイント改定が掘り返される','昔の明細が発掘。「還元されていたのは期待だけ」。'],
+ pop:['広告と実物の温度差が話題','「広告が一番おいしそう」。消費者が冷静な比較投稿。']
 };
 const INCIDENTAL=[
  {id:'good',title:'常連客の口コミが好評',body:'「なんだかんだ便利」。そんな声が少し増えた。',demand:1.09,rep:2,sat:2,fire:-2},
@@ -46,12 +63,25 @@ const INCIDENTAL=[
  {id:'trend',title:'お弁当需要が急増',body:'街のイベントで買い物客が増えた。社長は実力だと言い張る。',demand:1.12,rep:1,sat:0,fire:0},
  {id:'review',title:'レシートの長さが話題に',body:'「買ったのはおにぎり1つ。レシートは卒業証書」。',demand:1,rep:0,sat:0,fire:4}
 ];
+function weeklyOffers(s){
+ const available=ACTIONS.filter(a=>enabled(s,a.id));
+ const hard=available.filter(a=>a.type==='hard');
+ const kind=available.filter(a=>a.type==='kind');
+ // Some weeks favor aggressive pitches, while others favor normal improvements.
+ const aggressive=s.week%3===1;
+ const slots=aggressive?{hard:3,kind:1}:s.week%3===2?{hard:1,kind:3}:{hard:2,kind:2};
+ const chosen=[];
+ const rank=(a)=>{let v=2166136261;for(const c of a.id+':'+s.week+':'+s.rng){v=Math.imul(v^c.charCodeAt(0),16777619)>>>0;}return v;};
+ const choose=(arr,count)=>{arr.sort((a,b)=>rank(a)-rank(b));for(const a of arr){if(chosen.length>=4||count<=0)break;if(!chosen.some(b=>b.id===a.id)){chosen.push(a);count--;}}};
+ choose(hard,slots.hard);choose(kind,slots.kind);choose(available,4-chosen.length);
+ return chosen.sort((a,b)=>rank(a)-rank(b));
+}
 function initial(seed){
  let n=Number(seed);if(!Number.isFinite(n))n=Date.now();n=n>>>0;if(n===0)n=246813579;
  return {version:VERSION,rng:n,week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:65,fire:4,sat:66,frust:23,sales:480000,profit:126000,cash:250000,boycottWeeks:0,memory:[],history:[],lastResult:null};
 }
 function draw(s){let x=s.rng>>>0;x^=(x<<13);x^=(x>>>17);x^=(x<<5);s.rng=x>>>0;return (s.rng>>>0)/4294967296;}
-function enabled(s,id){switch(id){case'raise':return s.price<260;case'lower':return s.price>150;case'shrink':return s.size>60;case'cheap':return s.quality>30;case'quality':return s.quality<90;case'staff':return s.staff>30;default:return !!ACTIONS_BY_ID[id];}}
+function enabled(s,id){switch(id){case'raise':return s.price<260;case'lower':return s.price>150;case'shrink':return s.size>60;case'cheap':return s.quality>30;case'quality':return s.quality<90;case'staff':return s.staff>30;case'restorestaff':return s.staff<60;default:return !!ACTIONS_BY_ID[id];}}
 function risk(s){return cap(.012+s.fire*.0014+Math.max(0,s.frust-23)*.0013+s.notoriety*.00045+Math.max(0,65-s.storeRep)*.0007,.01,.48);}
 function unitCost(s){return int(20+s.size*.9+(s.quality-60)*.65);}
 function adjust(s,changes){for(const [k,v] of Object.entries(changes)){s[k]=cap(int(s[k]+v),0,100);}}
@@ -66,6 +96,11 @@ function applyAction(s,id){let extra=0,discount=0,demandFactor=1;
  case'staff':s.staff-=10;adjust(s,{sat:-4,frust:6,storeRep:-2,fire:4,notoriety:1});maybeRemember(s,'staff',.40);break;
  case'explain':extra=10000;adjust(s,{sat:2,frust:-7,storeRep:4,fire:-6,notoriety:-3});break;
  case'sale':discount=15;extra=12000;demandFactor=1.15;adjust(s,{sat:3,frust:-4,storeRep:1,fire:-1});break;
+ case'points':extra=-8000;adjust(s,{sat:-3,frust:6,storeRep:-2,fire:6,notoriety:3});maybeRemember(s,'points',.42);break;
+ case'pop':extra=23000;demandFactor=1.13;adjust(s,{sat:-2,frust:5,storeRep:-1,fire:5,notoriety:2});maybeRemember(s,'pop',.35);break;
+ case'tasting':extra=17000;demandFactor=1.1;adjust(s,{sat:4,frust:-3,storeRep:2,fire:-1,notoriety:-1});break;
+ case'local':extra=11000;demandFactor=1.07;adjust(s,{sat:5,frust:-4,storeRep:3,fire:-2,notoriety:-1});break;
+ case'restorestaff':s.staff+=10;extra=8000;adjust(s,{sat:5,frust:-5,storeRep:3,fire:-3,notoriety:-2});break;
  default:throw new Error('Unknown action');
  }
  return {extra,discount,demandFactor};
@@ -130,7 +165,7 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  return clone;
 }
 function previewRisk(s,id){if(!ACTIONS_BY_ID[id]||!enabled(s,id))return risk(s);const clone=JSON.parse(JSON.stringify(s));applyAction(clone,id);return risk(clone);}
-const engine={VERSION,MAX_WEEKS,ACTIONS,initial,play,risk,previewRisk,unitCost,enabled,validateSaved};
+const engine={VERSION,MAX_WEEKS,ACTIONS,weeklyOffers,initial,play,risk,previewRisk,unitCost,enabled,validateSaved};
 root.GameEngine=engine;
 if(typeof module==='object'&&module.exports)module.exports=engine;
 })(typeof globalThis!=='undefined'?globalThis:this);

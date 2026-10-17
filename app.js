@@ -1,4 +1,4 @@
-/* お客様のために。v0.2 - scene transitions and original save compatibility. */
+/* お客様のために。v0.3 - compact fixed navigation and rotating weekly pitches and original save compatibility. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const STORAGE='okyakusama.save.v1';
@@ -25,8 +25,24 @@ function changeScreen(screen){
   const active=tab.dataset.screen===screen;
   tab.classList.toggle('active',active);tab.setAttribute('aria-pressed',String(active));
  }
- window.scrollTo({top:0,behavior:'auto'});
+ const panel=$(screen+'View');panel.scrollTop=0;
 }
+const REACTIONS={
+ raise:['財布が値上げに追いつく予定はありません。','10円くらいって言う人、毎回10円くれ。','商品が成長したのではなく値札が成長した。'],
+ lower:['10円引いても人生の苦味は据え置き。','値下げありがとう。先週買った私には関係ないけど。','どうした、今日は急にお客様思いじゃないか。'],
+ shrink:['袋を開けたら空気が先に挨拶してきた。','小さくて持ちやすい。買う理由も小さくなった。','ダイエットに協力してくれてありがとう（怒）。'],
+ cheap:['味が変わった？ 私の舌が経営会議に出てないだけ？','原材料は減った。社長の自信だけ増えた。','懐かしい味は思い出の中でしか買えないのか。'],
+ quality:['珍しくちゃんと改善してる。どうしたの？','味が良くなった。経理さんは生きて。','普通にうれしいニュースで逆に驚く。'],
+ staff:['セルフレジの次はセルフ品出しかな。','レジ待ち中に季節がひとつ進んだ。','人件費削減の成果を客の時間で支払っている。'],
+ explain:['説明だけで好感度が上がる業界ってすごい。','謝っただけでニュースになる世界。','最初から言ってよ。でも説明はありがとう。'],
+ sale:['安い！ でも昨日買った。泣きたい。','特売を見て財布が緊急招集された。','セールに来たのに買う予定の物は定価。'],
+ points:['ポイントって貯めるものじゃなくて消えるもの？','改定のお知らせ、得する部分だけ小さい字。','持続可能なのは店の利益だけで草。'],
+ pop:['広告の写真、実物より栄養ありそう。','宣伝に感動した。商品はまだ見てない。','期待は大盛り。中身は普通盛り。'],
+ tasting:['今日の試食が一番ちゃんとした昼ごはん。','おいしい。珍しく文句を言う場所がない。','タダで食べさせてくれるのが一番誠実。'],
+ local:['地元の野菜、社長の言い訳より新鮮。','こういう普通の努力でいいんだよ。','やればできるのに、なんで普段やらない？'],
+ restorestaff:['店員さんがいる！ 近未来のスーパーか？','レジが速い。文明が戻ってきた。','人が働いているだけで感動できる時代。']
+};
+const PUBLIC_NAMES=['買い物歴20年','節約が趣味','お弁当評論家','元・常連','レシート収集家','今日も特売待ち'];
 function renderPublic(){
  const s=game;
  $('voiceTrust').textContent=s.storeRep+' / 100';
@@ -36,11 +52,16 @@ function renderPublic(){
  $('voiceSatBar').style.width=s.sat+'%';
  $('voiceFrustBar').style.width=s.frust+'%';
  $('voiceFace').textContent=s.fire>=50?'🔥':s.frust>=60?'😡':s.sat>=75?'🥰':s.frust>=35?'😕':'🙂';
- $('voiceMoodQuote').textContent=s.fire>=50?'「もうニュースを見るのも怖いわ」':s.frust>=60?'「値上げは分かる。でも説明して！」':s.sat>=75?'「最近、いいお店になったね！」':'「今日もいつもの買い物に来たよ」';
+ $('voiceMoodQuote').textContent=s.fire>=50?'「社長の謝罪より、商品の説明が聞きたい」':s.frust>=60?'「お客様のために？ 誰のお客様？」':s.sat>=75?'「最近ちょっといいじゃない！」':'「悪くはない。褒めてないけど」';
  $('voiceHeadline').textContent=s.lastResult?.title??'開店準備は万端！';
  $('voiceBody').textContent=s.lastResult?.body??'まだ話題になる出来事はありません。';
- const feed=s.history.slice(-4).reverse();
- $('publicFeed').innerHTML=feed.length?feed.map((h,i)=>`<article class="social-post"><span class="post-avatar" aria-hidden="true">${h.fireHit?'😠':h.memoryEvent?'🤔':h.eventType==='good'?'😍':'🧑'}</span><div><div class="post-name">まちの人 ${h.week}週目<span>・架空の投稿</span></div><p>${esc(h.title)}。${esc(h.body)}</p><small>♡ ${18+h.week*7+i*13}　 ↻ ${2+h.week+i}</small></div></article>`).join(''):'<div class="empty-feed">まだ口コミがありません。<br>経営を始めてみましょう！</div>';
+ const feed=s.history.slice(-8).reverse();
+ $('publicFeed').innerHTML=feed.length?feed.map((h,i)=>{
+ const comments=REACTIONS[h.actionId]||['ま、次の決算を見ようか。'];
+ const c=comments[(h.week+i)%comments.length];
+ const person=PUBLIC_NAMES[(h.week*3+i)%PUBLIC_NAMES.length];
+ return `<article class="social-post"><span class="post-avatar" aria-hidden="true">${h.fireHit?'🔥':h.memoryEvent?'🧐':h.eventType==='good'?'🥰':'🧑'}</span><div><div class="post-name">${esc(person)} <span>・第${h.week}週</span></div><p>${esc(c)}</p><small>♡ ${18+h.week*7+i*13}　 ↻ ${2+h.week+i}</small></div></article>`;
+ }).join(''):'<div class="empty-feed">まだ口コミはありません。<br>まずは1週間、経営してみよう！</div>';
  $('recordsPay').textContent=yen(s.pay)+'円';
  $('recordsSales').textContent=man(s.history.reduce((sum,h)=>sum+h.sales,0))+'万円';
  $('recordsWeeks').textContent=s.history.length+'週';
@@ -131,15 +152,17 @@ function paint(){
  $('advanceButton').innerHTML=s.finished?'12週間の決算を見る <span aria-hidden="true">↗</span>':'この施策で1週間進める <span aria-hidden="true">↗</span>';
 }
 function renderActions(){const s=game;
- if(!G.enabled(s,s.selected))s.selected=G.ACTIONS.find(x=>G.enabled(s,x.id)).id;
- $('actions').innerHTML=G.ACTIONS.map(a=>{
+ const offers=G.weeklyOffers(s);
+ if(!offers.some(x=>x.id===s.selected))s.selected=offers[0].id;
+ $('actions').innerHTML=offers.map(a=>{
  const on=s.selected===a.id,disabled=s.finished||!G.enabled(s,a.id);
  return `<button type="button" class="action-option" role="radio" aria-checked="${on}" ${disabled?'disabled':''} data-id="${esc(a.id)}"><span class="action-emoji" aria-hidden="true">${esc(a.icon)}</span><span class="action-name">${esc(a.name)}</span><span class="action-effect">${esc(a.effect)}</span></button>`;
  }).join('');
  const a=G.ACTIONS.find(a=>a.id===s.selected);
  $('selectedIcon').textContent=a.icon;$('selectedTitle').textContent=a.name;$('selectedDesc').textContent=a.detail;
- const r=riskLabel(G.previewRisk(s,s.selected)), label=$('riskLabel');label.textContent=r[0];label.className=r[1];
+ const r=riskLabel(G.previewRisk(s,s.selected)),label=$('riskLabel');label.textContent=r[0];label.className=r[1];
  $('riskNote').textContent=s.finished?'決算で結果を確認':r[2];
+ $('pitchTone').textContent=s.week%3===1?'今週は強気の提案が多め':s.week%3===2?'今週は堅実な提案が多め':'攻めと守りの提案が半々';
 }
 function renderHistory(){const list=$('historyList');const arr=[...game.history].reverse();$('historyCount').textContent=`${arr.length}件`;
  if(!arr.length){list.innerHTML='<p class="modal-detail">まだ経営記録はありません。</p>';return;}
@@ -161,7 +184,7 @@ function finishModal(){
  openModal(`<div class="modal-kicker">FINAL REPORT / 全12週間終了</div><h2 id="modalTitle">コンサル会社・最終決算</h2><div class="end-stamp">🏆 ${esc(rank)}</div><div class="result-grid" style="margin-top:15px">${`<div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div>`}${`<div class="result-tile"><span>12週の店の利益</span><b>${man(profit)}万円</b></div>`}${`<div class="result-tile"><span>有能さ / 悪名</span><b>${s.skill} / ${s.notoriety}</b></div>`}${`<div class="result-tile"><span>炎上 / 不買</span><b>${fires}回 / ${boycotts}回</b></div>`}</div><div class="modal-comment">${esc(line)}</div><p class="modal-detail">同じ選択でもイベント抽選で結果は変化するわ。次はどんな経営方針にする？</p><div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい会社で再挑戦する ↗</button></div>`);
  $('endRestart').addEventListener('click',()=>{if(!confirm('12週間の記録を消して、最初から挑戦しますか？'))return;game=G.initial(Date.now());save();closeModal();paint();changeScreen('office');toast('新しい経営が始まりました');});
 }
-function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>経営施策を1つ選ぶ。</b>「値上げ」や「品質改善」など8種類。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>12週間経営する。</b>報酬を稼ぎ、企業の信用を守るか、悪名を上げるかは自由。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ ↗</button></div>`);$('aboutClose').addEventListener('click',closeModal);}
+function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>経営施策を1つ選ぶ。</b>今週届いた4件の提案から選ぶ（内容は毎週入れ替わる）。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>12週間経営する。</b>報酬を稼ぎ、企業の信用を守るか、悪名を上げるかは自由。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ ↗</button></div>`);$('aboutClose').addEventListener('click',closeModal);}
 function setup(){
  game=load();paint();
  $('actions').addEventListener('click',event=>{const button=event.target.closest('[data-id]');if(!button||button.disabled||game.finished)return;game.selected=button.dataset.id;save();renderActions();});
