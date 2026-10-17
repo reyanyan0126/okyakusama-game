@@ -21,7 +21,9 @@ for(let seed=1;seed<=40;seed++){
   assert.equal(offers.length,4,'four offers week '+s.week+' seed '+seed);
   assert.equal(new Set(offers.map(o=>o.id)).size,4,'no duplicate offers');
   assert(offers.every(a=>G.enabled(s,a.id)),'disabled option leaked');
-  s=G.play(s,offers[(seed+wk)%4].id);
+  const chosen=offers[(seed+wk)%4].id;
+  s=G.play(s,chosen);
+  assert(s.staff>=30&&s.staff<=60,`invalid staff seed=${seed}, week=${wk}, action=${chosen}, tier=${s.lastResult.performanceTier}, staff=${s.staff}, previous staff=${s.history[wk-1]?.staff}`);
   assert.equal(G.validateSaved(s).history.length,s.history.length,'valid save');
   if(s.rescuePending){const o=G.rescueOptions(s);s=G.resolveRescue(s,o.length?o[0].id:'giveup');}
   if(s.lastResult?.accidentId&&!s.lastResult.accidentPositive&&s.lastResult.incidentCost>0&&s.lastResult.accidentResponse===null)s=G.handleAccident(s,'ignore');
