@@ -1,4 +1,4 @@
-/* お客様のために。v0.8 - survival finance, devil pacts, visual shock scenes. */
+/* お客様のために。v0.9 - survival finance, devil pacts, visual shock scenes. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const STORAGE='okyakusama.save.v1';
@@ -97,7 +97,7 @@ function renderPublic(){
  $('voiceFrust').textContent=s.frust;
  $('voiceSatBar').style.width=s.sat+'%';
  $('voiceFrustBar').style.width=s.frust+'%';
- $('voiceFace').textContent=s.fire>=50?'🔥':s.frust>=60?'😡':s.sat>=75?'🥰':s.frust>=35?'😕':'🙂';
+ $('voiceFace').innerHTML=`<svg class="mini-ill"><use href="#${s.fire>=50?'art-fire':s.frust>=60?'art-warning':s.sat>=75?'art-smile':'art-people'}"/></svg>`;
  $('voiceMoodQuote').textContent=s.fire>=50?'「社長の謝罪より、商品の説明が聞きたい」':s.frust>=60?'「お客様のために？ 誰のお客様？」':s.sat>=75?'「最近ちょっといいじゃない！」':'「悪くはない。褒めてないけど」';
  $('voiceHeadline').textContent=s.lastResult?.title??'開店準備は万端！';
  $('voiceBody').textContent=s.lastResult?.body??'まだ話題になる出来事はありません。';
@@ -106,7 +106,7 @@ function renderPublic(){
  const comments=REACTIONS[h.actionId]||['ま、次の決算を見ようか。'];
  const c=comments[(h.week+i)%comments.length];
  const person=PUBLIC_NAMES[(h.week*3+i)%PUBLIC_NAMES.length];
- return `<article class="social-post"><span class="post-avatar" aria-hidden="true">${h.fireHit?'🔥':h.memoryEvent?'🧐':h.eventType==='good'?'🥰':'🧑'}</span><div><div class="post-name">${esc(person)} <span>・第${h.week}週</span></div><p>${esc(c)}</p><small>♡ ${18+h.week*7+i*13}　 ↻ ${2+h.week+i}</small></div></article>`;
+ return `<article class="social-post"><span class="post-avatar" aria-hidden="true"><svg class="mini-ill"><use href="#${h.fireHit?'art-fire':h.memoryEvent?'art-warning':h.eventType==='good'?'art-smile':'art-people'}"/></svg></span><div><div class="post-name">${esc(person)} <span>・第${h.week}週</span></div><p>${esc(c)}</p><small>いいね ${18+h.week*7+i*13}　 ↻ ${2+h.week+i}</small></div></article>`;
  }).join(''):'<div class="empty-feed">まだ口コミはありません。<br>まずは1週間、経営してみよう！</div>';
  $('recordsPay').textContent=yen(s.pay)+'円';
  $('recordsSales').textContent=man(s.history.reduce((sum,h)=>sum+h.sales,0))+'万円';
@@ -115,13 +115,13 @@ function renderPublic(){
 }
 function renderFlow(h){
  const entries=[
-  {label:'売上',icon:'🛒',amount:h.sales,cls:'revenue'},
-  {label:'仕入れ',icon:'📦',amount:h.units*h.cost,cls:'cost'},
+  {label:'売上',icon:'',amount:h.sales,cls:'revenue'},
+  {label:'仕入れ',icon:'',amount:h.units*h.cost,cls:'cost'},
   {label:'人件費・家賃・光熱',icon:'',amount:(h.rent??75000)+(h.payroll??50000)+(h.utilities??30000)+(h.macroFixed??0),cls:'fixed'},
   {label:'施策・事故・金利',icon:'',amount:(h.extra??0)+(h.incidentCost??0)+(h.interest??0)+(h.macroPenalty??0)-(h.macroBonus??0),cls:'surprise'}
  ];
  const denominator=Math.max(...entries.map(x=>Math.abs(x.amount)),1);
- $('moneyFlowRows').innerHTML=entries.map(e=>`<div class="flow-item"><div class="flow-caption"><span>${e.icon} ${e.label}</span><b>${e.amount<0||e.cls==='revenue'?'+':'−'}${man(Math.abs(e.amount))}万円</b></div><div class="flow-track"><span class="${e.cls}" style="width:${Math.max(1,Math.abs(e.amount)/denominator*100)}%"></span></div></div>`).join('');
+ $('moneyFlowRows').innerHTML=entries.map(e=>`<div class="flow-item"><div class="flow-caption"><span>${e.label}</span><b>${e.amount<0||e.cls==='revenue'?'+':'−'}${man(Math.abs(e.amount))}万円</b></div><div class="flow-track"><span class="${e.cls}" style="width:${Math.max(1,Math.abs(e.amount)/denominator*100)}%"></span></div></div>`).join('');
  $('flowProfit').textContent=(h.profit>=0?'+':'')+man(h.profit)+'万円';
  $('flowProfit').className=h.profit>=0?'positive':'negative';
  const extraNote=h.devilNote?` ／ ${h.devilNote}`:'';
@@ -130,7 +130,7 @@ function renderFlow(h){
  if(invested)$('investmentResult').textContent=`${h.projectLabel||'設備投資'}：${man(invested)}万円を現金から支出`;
  const loss=h.profit<0,good=h.profit>=95000;
  $('reportVerdict').className='report-verdict '+(loss?'loss':good?'good':'mid');
- $('reportVerdictIcon').textContent=loss?'💥':h.fireHit?'🔥':good?'🎉':'🧾';
+ $('reportVerdictIcon').innerHTML=`<svg class="mini-ill"><use href="#${loss?'art-warning':h.fireHit?'art-fire':good?'art-graph':'art-document'}"/></svg>`;
  $('reportVerdictTitle').textContent=loss?'赤字！ 資金が減る':h.fireHit?'儲かったけど、大炎上':good?'今週は好調！':'黒字。でも余裕は少ない';
  $('reportVerdictSub').textContent=`現金 ${man(h.cashBefore??0)}万 → ${man(h.cashAfter??0)}万円`;
 }
@@ -143,7 +143,7 @@ function showWeekReport(h,finish){
  const macro=G.MACROS.find(x=>x.id===h.macroId);
  $('economyHeadline').textContent=macro?`${macro.tag}｜${macro.name}${h.macroPenalty?'：是正費用 '+man(h.macroPenalty)+'万円':h.macroBonus?'：補助金 +'+man(h.macroBonus)+'万円':''}`:'今週の景気の変化';
 
- $('reportIcon').textContent=isFire?'🔥':h.accidentId?(h.accidentIcon||'⚡'):h.boycottHit?'🚫':isMemory?'💥':h.profit<0?'📉':'💰';
+ $('reportIcon').textContent='';
  $('reportTitle').textContent=isFire?'大炎上！':h.accidentId?'突発アクシデント！':h.boycottActive?'不買運動発生中！':isMemory?'過去の施策が再燃！':h.profit<0?'赤字の決算…':'今週の決算！';
  $('reportHeadline').textContent=h.title;
  $('reportDescription').textContent=h.devilNote?`${h.devilNote} ${h.body}`:h.body;
@@ -152,7 +152,7 @@ function showWeekReport(h,finish){
  $('reportCashChange').textContent='先週から '+(dc>=0?'+':'')+man(dc)+'万円';
  $('reportCashChange').style.color=dc<0?'#a93f37':'#397b53';
  $('reportExpenses').textContent=man(h.personalCashAfter??game.personalCash)+'万円';
- $('reportAccident').textContent=`報酬 +${man(h.fee)}万 / 生活費 −${man(h.personalLiving??0)}万${h.supportDue?' / 養育費期限':''}${h.arrearsAfter?' / 未払い '+man(h.arrearsAfter)+'万':''}`;
+ $('reportAccident').textContent=`報酬 +${man(h.fee)}万${h.boardroomBonus?' / 社長指示 +'+man(h.boardroomBonus)+'万':''} / 生活費 −${man(h.personalLiving??0)}万${h.supportDue?' / 養育費期限':''}${h.arrearsAfter?' / 未払い '+man(h.arrearsAfter)+'万':''}`;
  $('reportSales').textContent=man(h.sales)+'万円';
  $('reportSalesDiff').textContent='前週比 '+(h.deltaSales>=0?'+':'')+man(h.deltaSales)+'万円';
  $('reportSalesDiff').className=h.deltaSales<0?'falling':'rising';
@@ -163,8 +163,8 @@ function showWeekReport(h,finish){
  for(const [id,n,positiveGood] of [['reportReputationChange',h.deltaRep,true],['reportSatisfactionChange',h.deltaSat,true],['reportFireChange',h.deltaFire,false]]){
   const el=$(id);el.textContent=delta(n);el.className=n===0?'even':((n>0)===positiveGood?'good':'bad');
  }
- $('reportBossFace').textContent=isFire?'😱':h.profit<0?'😰':h.profit>=145000?'🤑':'👨🏻‍💼';
- $('reportTakeaway').textContent=game.personalFailed?'生活の支払いが限界。契約を続けられません':game.bankrupt?'💸 資金ショート。経営を続けられません！':h.cashAfter<80000?'🚨 残り資金が危険水準です！':isFire?'⚠️ 利益より先に評判が燃えました':h.boycottActive?'⚠️ 不買運動でお客さんが減っています':h.deltaRep<0&&h.profit>0?'💰 利益は出たけど、お店の信用が低下':h.deltaRep>0?'👏 お店の信用が上がりました':h.profit<0?'📉 売上より経費が大きい週でした':'✅ 大きなトラブルなく営業できました';
+ $('reportBossFace').innerHTML=`<svg class="mini-ill"><use href="#${isFire?'art-warning':h.profit<0?'art-bill':h.profit>=145000?'art-coin':'art-meeting'}"/></svg>`;
+ $('reportTakeaway').textContent=game.personalFailed?'生活の支払いが限界。契約を続けられません':game.bankrupt?' 資金ショート。経営を続けられません！':h.cashAfter<80000?' 残り資金が危険水準です！':isFire?' 利益より先に評判が燃えました':h.boycottActive?' 不買運動でお客さんが減っています':h.deltaRep<0&&h.profit>0?' 利益は出たけど、お店の信用が低下':h.deltaRep>0?' お店の信用が上がりました':h.profit<0?' 売上より経費が大きい週でした':' 大きなトラブルなく営業できました';
  $('reportCeo').textContent=h.ceo;
  const goal=G.goalStatus(game);
  $('reportGoal').textContent=`契約目標：利益 ${man(goal.profit)} / ${man(game.contractGoal)}万円・評判 ${goal.reputation} / ${G.CONTRACT.reputation}`;
@@ -175,7 +175,7 @@ function showWeekReport(h,finish){
  $('reportScene').classList.toggle('is-pending',pending);
  if(pending){
   const cost=Math.min(28000,Math.round(h.incidentCost*.48)+4000);
-  $('accidentRepair').textContent=`💗 補償する −${man(cost)}万円`;
+  $('accidentRepair').textContent=` 補償する −${man(cost)}万円`;
   $('accidentRepair').disabled=game.cash<cost;
   $('accidentDecisionText').textContent=game.cash<cost?'補償費が足りません。信用を失っても費用を抑えるしかありません。':'今すぐ補償すれば信用を守れる。見送れば財布は守れる。';
  }
@@ -270,7 +270,12 @@ function paint(){
  $('overheadCount').textContent='毎週 '+man(155000-(60-s.staff)*800)+'万円';
  $('loanHint').textContent=s.debt>0?' / 借入残 '+man(s.debt)+'万円':'';
  $('proposalBudget').textContent='店 '+man(s.cash)+'万 / 自分 '+man(s.personalCash)+'万｜次の養育費 '+(due?'第'+due+'週':'支払済');
- $('meetingStatus').textContent=s.cash<120000?'資金が危ない！ 収入を増やすか銀行へ。':`投資Lv：設備${s.upgrades?.equipment??0}・人材${s.upgrades?.people??0}・常連${s.upgrades?.fans??0}`;
+ $('meetingStatus').textContent=`経営指標は「詳細ステータス」から確認できます`;
+ $('meetingSignal').textContent=G.boardroomSignal(s);
+ const deal=G.boardroomDemand(s);
+ $('meetingDeal').hidden=!deal;
+ if(deal)$('meetingDealText').textContent=`社長案で報酬 +${yen(deal.bonus)}円（店の資金から）`;
+ $('proposalMeetingTarget').textContent=deal?`社長の推し案「${deal.actionName}」で個人報酬 +${yen(deal.bonus)}円（店負担）`:'社長の臨時報酬なし。利益と信用で勝負。';
  $('repValue').textContent=s.storeRep;$('salesValue').textContent=man(s.sales);$('fireValue').textContent=s.fire;
  $('satValue').textContent=s.sat;$('frustValue').textContent=s.frust;
  $('satBar').style.width=s.sat+'%';$('frustBar').style.width=s.frust+'%';
@@ -285,15 +290,16 @@ function paint(){
  $('actionHeading').textContent=brief.title;
  renderActions();renderProjects();renderDevil();renderHistory();renderPublic();
  $('advanceButton').disabled=false;
- $('openProposals').textContent=s.finished?'📋 契約結果を見る →':'💼 提案を選ぶ →';
- $('advanceButton').innerHTML=s.finished?'12週間の決算を見る <span aria-hidden="true">↗</span>':'この案で営業する <span aria-hidden="true">↗</span>';
+ $('openProposals').textContent=s.finished?'契約結果を見る →':'3つの作戦を比較する →';
+ $('advanceButton').innerHTML=s.finished?'12週間の決算を見る <span aria-hidden="true"></span>':'この案で営業する <span aria-hidden="true"></span>';
 }
 function renderActions(){const s=game;
  const offers=s.finished?[G.ACTIONS.find(a=>a.id===s.selected)||G.ACTIONS[0]]:G.weeklyOffers(s);
  if(!s.finished&&!offers.some(x=>x.id===s.selected))s.selected=offers[0].id;
  $('actions').innerHTML=offers.map(a=>{
  const on=s.selected===a.id,disabled=s.finished||!G.enabled(s,a.id);
- return `<button type="button" class="action-option" role="radio" aria-checked="${on}" ${disabled?'disabled':''} data-id="${esc(a.id)}"><span class="action-emoji" aria-hidden="true"><svg class="mini-ill"><use href="#${a.type==='kind'?'art-people':'art-graph'}"/></svg></span><span class="action-name">${esc(a.name)}</span><span class="action-effect">${esc(a.effect)}</span></button>`;
+ const bonus=G.boardroomDemand(s)?.actionId===a.id;
+ return `<button type="button" class="action-option" role="radio" aria-checked="${on}" ${disabled?'disabled':''} data-id="${esc(a.id)}"><span class="action-emoji" aria-hidden="true"><svg class="mini-ill"><use href="#${a.type==='kind'?'art-people':'art-graph'}"/></svg></span><span class="action-name">${esc(a.name)}</span>${bonus?'<span class="boss-pick">社長の推し・臨時報酬</span>':''}<span class="action-effect">${esc(a.effect)}</span></button>`;
  }).join('');
  const a=G.ACTIONS.find(a=>a.id===s.selected);
  $('selectedIcon').innerHTML=`<svg class="mini-ill"><use href="#${a.type==='kind'?'art-people':'art-graph'}"/></svg>`;$('selectedTitle').textContent=a.name;$('selectedDesc').textContent=a.detail;
@@ -305,12 +311,12 @@ function renderActions(){const s=game;
 function renderProjects(){
  const s=game,options=G.availableProjects(s);
  if(selectedProject && options.find(x=>x.id===selectedProject)?.nextCost>s.cash)selectedProject=null;
- $('projectChoices').innerHTML=[{id:'none',icon:'🪙',name:'投資なし',level:0,nextCost:0,desc:'手元の資金を守る'},...options].map(o=>{
+ $('projectChoices').innerHTML=[{id:'none',icon:'',name:'投資なし',level:0,nextCost:0,desc:'手元の資金を守る'},...options].map(o=>{
   const isNone=o.id==='none',cost=o.nextCost;
   const disabled=!isNone&&(cost===null||s.cash<cost||s.finished);
   const selected=isNone?selectedProject===null:selectedProject===o.id;
   const caption=isNone?'0円':cost===null?'最大レベル':man(cost)+'万円';
-  return `<button type="button" class="project-choice ${selected?'is-selected':''}" role="radio" aria-checked="${selected}" data-project="${o.id}" ${disabled?'disabled':''}><span>${o.icon} ${esc(o.name)}</span><small>${isNone?'いつでもOK':`Lv${o.level}/2 · ${caption}`}</small></button>`;
+  return `<button type="button" class="project-choice ${selected?'is-selected':''}" role="radio" aria-checked="${selected}" data-project="${o.id}" ${disabled?'disabled':''}><span><svg class="mini-ill"><use href="#${o.id==='equipment'?'art-warning':o.id==='people'?'art-people':o.id==='fans'?'art-heart':'art-coin'}"/></svg> ${esc(o.name)}</span><small>${isNone?'いつでもOK':`Lv${o.level}/2 · ${caption}`}</small></button>`;
  }).join('');
  const found=options.find(x=>x.id===selectedProject);
  $('projectNote').textContent=found?`投資：${man(found.nextCost)}万円。${found.desc}。翌週以降も効果が続きます。`:'今週は投資せず、現金を確保します。';
@@ -335,16 +341,16 @@ function resultModal(h,finish){
  const badge=h.fireHit?'大炎上！':h.accidentId?h.accidentTitle:h.memoryEvent?'過去の施策が再燃':h.boycottActive?'不買運動中':'経営報告';
  const tile=(label,big,sub,down=false)=>`<div class="result-tile"><span>${esc(label)}</span><b>${esc(big)}</b><small class="${down?'negative':''}">${esc(sub)}</small></div>`;
  const val=(n)=>n>0?'+'+n:n.toString();
- openModal(`<div class="modal-kicker">WEEK ${String(h.week).padStart(2,'0')} / 12 — ${esc(badge)}</div><h2 id="modalTitle">今週の経営結果</h2><div class="modal-news"><strong>${esc(h.title)}</strong><p>${esc(h.body)}</p></div><div class="result-grid">${tile('週間売上',man(h.sales)+'万円','前週比 '+(h.deltaSales>=0?'+':'')+man(h.deltaSales)+'万円',h.deltaSales<0)}${tile('今週の粗利益',man(h.profit)+'万円',h.profit<0?'赤字に転落！':'売上−原価−経費',h.profit<0)}${tile('コンサル報酬',yen(h.fee)+'円','累計 '+yen(game.pay)+'円')}${tile('店の資金',man(h.cashAfter??game.cash)+'万円','前週比 '+man(h.deltaCash||0)+'万円',(h.deltaCash||0)<0)}</div><div class="modal-comment">${esc(h.ceo)}</div><div class="modal-detail">世間評価 <b>${game.storeRep}/100</b>（${val(h.deltaRep)}） ／ 炎上度 <b>${game.fire}/100</b>（${val(h.deltaFire)}）<br>有能さ <b>${game.skill}/100</b>（${val(h.deltaSkill)}）${h.boycottActive?'<br>⚠️ 不買運動による売上減少が発生':''}</div><div class="modal-actions"><button id="resultContinue" class="primary-btn" type="button">${finish?'12週間の最終決算へ':'わかった！ 次の週へ'} <span aria-hidden="true">↗</span></button></div>`,finish?()=>finishModal():null);
+ openModal(`<div class="modal-kicker">WEEK ${String(h.week).padStart(2,'0')} / 12 — ${esc(badge)}</div><h2 id="modalTitle">今週の経営結果</h2><div class="modal-news"><strong>${esc(h.title)}</strong><p>${esc(h.body)}</p></div><div class="result-grid">${tile('週間売上',man(h.sales)+'万円','前週比 '+(h.deltaSales>=0?'+':'')+man(h.deltaSales)+'万円',h.deltaSales<0)}${tile('今週の粗利益',man(h.profit)+'万円',h.profit<0?'赤字に転落！':'売上−原価−経費',h.profit<0)}${tile('コンサル報酬',yen(h.fee)+'円','累計 '+yen(game.pay)+'円')}${tile('店の資金',man(h.cashAfter??game.cash)+'万円','前週比 '+man(h.deltaCash||0)+'万円',(h.deltaCash||0)<0)}</div><div class="modal-comment">${esc(h.ceo)}</div><div class="modal-detail">世間評価 <b>${game.storeRep}/100</b>（${val(h.deltaRep)}） ／ 炎上度 <b>${game.fire}/100</b>（${val(h.deltaFire)}）<br>有能さ <b>${game.skill}/100</b>（${val(h.deltaSkill)}）${h.boycottActive?'<br> 不買運動による売上減少が発生':''}</div><div class="modal-actions"><button id="resultContinue" class="primary-btn" type="button">${finish?'12週間の最終決算へ':'わかった！ 次の週へ'} <span aria-hidden="true"></span></button></div>`,finish?()=>finishModal():null);
  $('resultContinue').addEventListener('click',closeModal);
 }
 function finishModal(){
  const s=game,goal=G.goalStatus(s),outcome=G.ending(s);
  const fires=s.history.filter(h=>h.fireHit).length;
- openModal(`<div class="modal-kicker">${s.bankrupt?'EMERGENCY / 資金ショート':'FINAL REPORT / 12週間の契約審査'}</div><h2 id="modalTitle">${outcome.passed?'🎉 契約達成！':'📋 契約結果のお知らせ'}</h2><div class="end-stamp">${esc(outcome.icon)} ${esc(outcome.name)}</div><div class="result-grid" style="margin-top:15px"><div class="result-tile"><span>累計利益 / 目標</span><b>${man(goal.profit)} / ${man(s.contractGoal)}万</b><small>${goal.profit>=s.contractGoal?'利益目標クリア':'利益目標まで'+man(goal.profitGap)+'万円'}</small></div><div class="result-tile"><span>評判 / 条件</span><b>${s.storeRep} / 50</b><small>${s.storeRep>=50?'信用条件クリア':'信用条件まであと'+goal.repGap}</small></div><div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div><div class="result-tile"><span>炎上回数</span><b>${fires}回</b></div></div><div class="modal-comment">${esc(outcome.line)}</div><p class="modal-detail">主人公の財布：${man(s.personalCash)}万円 ／ 養育費未払い：${man(s.arrears)}万円 ／ 悪魔の契約：${s.pactCount}回。お店だけでなく、あなた自身も生き残れた？</p><div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい依頼を探す ↗</button></div>`);
+ openModal(`<div class="modal-kicker">${s.bankrupt?'EMERGENCY / 資金ショート':'FINAL REPORT / 12週間の契約審査'}</div><h2 id="modalTitle">${outcome.passed?' 契約達成！':' 契約結果のお知らせ'}</h2><div class="end-stamp"><svg class="mini-ill"><use href="#art-document"/></svg> ${esc(outcome.name)}</div><div class="result-grid" style="margin-top:15px"><div class="result-tile"><span>累計利益 / 目標</span><b>${man(goal.profit)} / ${man(s.contractGoal)}万</b><small>${goal.profit>=s.contractGoal?'利益目標クリア':'利益目標まで'+man(goal.profitGap)+'万円'}</small></div><div class="result-tile"><span>評判 / 条件</span><b>${s.storeRep} / 50</b><small>${s.storeRep>=50?'信用条件クリア':'信用条件まであと'+goal.repGap}</small></div><div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div><div class="result-tile"><span>炎上回数</span><b>${fires}回</b></div></div><div class="modal-comment">${esc(outcome.line)}</div><p class="modal-detail">主人公の財布：${man(s.personalCash)}万円 ／ 養育費未払い：${man(s.arrears)}万円 ／ 悪魔の契約：${s.pactCount}回。お店だけでなく、あなた自身も生き残れた？</p><div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい依頼を探す </button></div>`);
  $('endRestart').addEventListener('click',()=>{closeModal();showEntry('contracts');});
 }
-function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>依頼を受ける。</b>タイトルからモグモグマートを選ぶ。</li><li><b>相談に答える。</b>店長や社長からの問題に4つの対応策から選ぶ。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>生き残る。</b>店舗資金と主人公の生活費を別々に管理。毎週の生活費・第4・8・12週の養育費を払おう。</li><li><b>社会情勢と悪魔。</b>景気や行政で売上・原価が変化。悪魔に助けを求めると期限付きの代償が発生する。</li><li><b>契約達成。</b>12週間で利益100万円・評判50以上。店の倒産や生活破綻で途中終了。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ ↗</button></div>`);$('aboutClose').addEventListener('click',closeModal);}
+function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>依頼を受ける。</b>タイトルからモグモグマートを選ぶ。</li><li><b>相談に答える。</b>店長や社長からの問題に4つの対応策から選ぶ。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>生き残る。</b>店舗資金と主人公の生活費を別々に管理。毎週の生活費・第4・8・12週の養育費を払おう。</li><li><b>社会情勢と悪魔。</b>景気や行政で売上・原価が変化。悪魔に助けを求めると期限付きの代償が発生する。</li><li><b>契約達成。</b>12週間で利益100万円・評判50以上。店の倒産や生活破綻で途中終了。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ </button></div>`);$('aboutClose').addEventListener('click',closeModal);}
 function setup(){
  game=load();paint();showEntry('title');
  $('titleStart').addEventListener('click',()=>showEntry('contracts'));

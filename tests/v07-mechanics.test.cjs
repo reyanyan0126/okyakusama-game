@@ -14,7 +14,7 @@ assert.equal(all[0].nextCost,45000);
  assert.equal(baseline.upgrades.equipment,0);
  assert.equal(equip.lastResult.investment,45000);
  assert.equal(equip.lastResult.projectId,'equipment');
- assert.equal(equip.lastResult.cashAfter-equip.lastResult.cashBefore,equip.lastResult.profit+equip.lastResult.financing-equip.lastResult.principal-equip.lastResult.investment-equip.lastResult.fee-equip.lastResult.devilPayment);
+ assert.equal(equip.lastResult.cashAfter-equip.lastResult.cashBefore,equip.lastResult.profit+equip.lastResult.financing-equip.lastResult.principal-equip.lastResult.investment-equip.lastResult.fee-equip.lastResult.devilPayment-equip.lastResult.boardroomBonus);
  assert.equal(G.validateSaved(JSON.parse(JSON.stringify(equip))).upgrades.equipment,1);
  assert.throws(()=>G.play(s,'shrink',{project:'nonsense'}));
  checked++;
@@ -37,7 +37,7 @@ let incidents=0, repairs=0, closures=0;
 for(let seed=1;seed<=3500;seed++){
  let s=G.initial(seed*1234567),fresh=G.initial(seed*1234567);
  for(let week=1;week<=12&&!s.finished;week++){
-  let choice=G.weeklyOffers(s)[(seed+week)%4]?.id;
+  let choice=G.weeklyOffers(s)[(seed+week)%3]?.id;
   const projects=G.availableProjects(s).filter(p=>p.nextCost!==null&&p.nextCost<=s.cash);
   const project=projects.length&&week%4===0?projects[seed%projects.length].id:null;
   const prevCash=s.cash;

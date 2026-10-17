@@ -1,4 +1,4 @@
-/* お客様のために。v0.8 - survival economics, social shocks and devil pacts. */
+/* お客様のために。v0.9 - boardroom pressure and survival economics, social shocks and devil pacts. */
 (function(root){
 'use strict';
 const VERSION = 1, MAX_WEEKS = 12;
@@ -6,9 +6,9 @@ const CONTRACT={profit:1000000,reputation:50}; // 12-week client success conditi
 // Persistent investments are a second tactical choice. Their costs are capital outlays,
 // not P&L expenses. A player can choose at most one per week, or skip investing.
 const PROJECTS=[
- {id:'equipment',icon:'🧊',name:'設備を更新',costs:[45000,62000],desc:'故障リスクと事故被害を減らす'},
- {id:'people',icon:'🧑‍🍳',name:'スタッフを育てる',costs:[35000,52000],desc:'売上と接客力が毎週少し上がる'},
- {id:'fans',icon:'🤝',name:'常連を増やす',costs:[42000,59000],desc:'固定客が増え、評判が積み上がる'}
+ {id:'equipment',icon:'',name:'設備を更新',costs:[45000,62000],desc:'故障リスクと事故被害を減らす'},
+ {id:'people',icon:'',name:'スタッフを育てる',costs:[35000,52000],desc:'売上と接客力が毎週少し上がる'},
+ {id:'fans',icon:'',name:'常連を増やす',costs:[42000,59000],desc:'固定客が増え、評判が積み上がる'}
 ];
 const PROJECTS_BY_ID=Object.fromEntries(PROJECTS.map(x=>[x.id,x]));
 const blankUpgrades=()=>({equipment:0,people:0,fans:0});
@@ -36,27 +36,27 @@ function pactAvailable(s){return !s.finished&&s.week<=9&&(s.pactCount||0)<2&&!(s
 const cap=(n,min,max)=>Math.max(min,Math.min(max,n));
 const int=(n)=>Math.round(n);
 const ACTIONS=[
- {id:'raise',icon:'💴',name:'「原材料のため」10円値上げ',effect:'利益↑ / 不満↑',detail:'価格を10円上げる。売れ行きには影響が出るかも。',minMax:'price',type:'hard'},
- {id:'lower',icon:'🏷️',name:'渾身の10円値下げ',effect:'人気↑ / 利益↓',detail:'価格を10円下げる。買いやすさで勝負。',minMax:'price',type:'kind'},
- {id:'shrink',icon:'📦',name:'お手軽サイズに進化',effect:'原価↓ / 不満↑',detail:'10g減らして「食べやすい」と発表。表示は正確、評判は別問題。',minMax:'size',type:'hard'},
- {id:'cheap',icon:'🥣',name:'昔の味は思い出の中に',effect:'原価↓ / 品質↓',detail:'原材料を見直して原価を抑える。味の変化に注意。',minMax:'quality',type:'hard'},
- {id:'quality',icon:'✨',name:'本当においしくする',effect:'満足↑ / 原価↑',detail:'信じられないが、原料をよくして味で勝負する。',minMax:'quality',type:'kind'},
- {id:'staff',icon:'👥',name:'行列こそ人気の証',effect:'経費↓ / 接客↓',detail:'人件費を削減。レジに並ぶ時間はお客様にプレゼント。',minMax:'staff',type:'hard'},
- {id:'explain',icon:'📣',name:'まさかの正直な説明',effect:'信頼↑ / 費用↑',detail:'全部ちゃんと説明する。広報費1万円。社長が不安そう。',type:'kind'},
- {id:'sale',icon:'🎉',name:'店長、反省セール',effect:'客数↑ / 経費↑',detail:'今週だけ15円引き。広告費1.2万円が必要。',type:'kind'},
- {id:'points',icon:'🪙',name:'ポイント制度の「進化」',effect:'経費↓ / 不満↑',detail:'還元率を減らして「制度を進化」。進化先は誰の財布？',type:'hard'},
- {id:'pop',icon:'📢',name:'広告の方が大盛り',effect:'客数↑ / 炎上↑',detail:'商品より先に広告だけ豪華に。期待だけが一人歩き。',type:'hard'},
- {id:'tasting',icon:'🥄',name:'胃袋で説得する',effect:'客数↑ / 費用↑',detail:'試食で商品の良さを伝える。今週の経費は増える。',type:'kind'},
- {id:'local',icon:'🥬',name:'地元と真面目に組む',effect:'満足↑ / 経費↑',detail:'地元産の商品を集めて特設売り場を作る。',type:'kind'},
- {id:'restorestaff',icon:'🧑‍💼',name:'人間のレジを復活',effect:'満足↑ / 経費↑',detail:'減らしたスタッフを戻す。行列と不満を減らそう。',type:'kind'},
- {id:'apology',icon:'🎙️',name:'社長を謝罪会見に出す',effect:'火消し↑ / 費用↑',detail:'社長の額に汗。真摯に説明して、炎上を鎮める。',type:'kind'},
- {id:'recall',icon:'🚚',name:'売り場を本気で立て直す',effect:'信用↑ / 利益↓↓',detail:'商品の品質と量を回復。お金はかかるが、次の常連を守る。',type:'kind'},
- {id:'blame',icon:'🫥',name:'「誤解」で押し通す',effect:'利益↑↑ / 炎上↑↑',detail:'説明を避けて一時的にコスト削減。火に油かもしれない。',type:'hard'},
- {id:'loyalty',icon:'📝',name:'常連の苦情を全部読む',effect:'信頼↑ / 経費↑',detail:'耳の痛い声ほど改善に使う。社長は耳栓を探している。',type:'kind'},
- {id:'stamp',icon:'🎟️',name:'「今だけ！」特別企画',effect:'売上↑↑ / 反動注意',detail:'本当に期間限定の販促で集客。来週の期待値も上がる。',type:'hard'},
- {id:'audit',icon:'🔎',name:'数字を正直に見せる',effect:'信用↑ / 費用↑',detail:'価格と原価の説明会。社長がグラフを見たがらない。',type:'kind'},
- {id:'maintenance',icon:'🛠️',name:'冷蔵庫にお金を使う',effect:'故障対策 / 費用↑',detail:'壊れてから直すよりは安い。社長には難しい概念。',type:'kind'},
- {id:'loan',icon:'🏦',name:'銀行に泣きつく',effect:'運転資金+20万円 / 借金↑',detail:'20万円のつなぎ融資。毎週返済が発生。友情は無利息、銀行は違う。',type:'hard'}
+ {id:'raise',icon:'',name:'「原材料のため」10円値上げ',effect:'利益↑ / 不満↑',detail:'価格を10円上げる。売れ行きには影響が出るかも。',minMax:'price',type:'hard'},
+ {id:'lower',icon:'',name:'渾身の10円値下げ',effect:'人気↑ / 利益↓',detail:'価格を10円下げる。買いやすさで勝負。',minMax:'price',type:'kind'},
+ {id:'shrink',icon:'',name:'お手軽サイズに進化',effect:'原価↓ / 不満↑',detail:'10g減らして「食べやすい」と発表。表示は正確、評判は別問題。',minMax:'size',type:'hard'},
+ {id:'cheap',icon:'',name:'昔の味は思い出の中に',effect:'原価↓ / 品質↓',detail:'原材料を見直して原価を抑える。味の変化に注意。',minMax:'quality',type:'hard'},
+ {id:'quality',icon:'',name:'本当においしくする',effect:'満足↑ / 原価↑',detail:'信じられないが、原料をよくして味で勝負する。',minMax:'quality',type:'kind'},
+ {id:'staff',icon:'',name:'行列こそ人気の証',effect:'経費↓ / 接客↓',detail:'人件費を削減。レジに並ぶ時間はお客様にプレゼント。',minMax:'staff',type:'hard'},
+ {id:'explain',icon:'',name:'まさかの正直な説明',effect:'信頼↑ / 費用↑',detail:'全部ちゃんと説明する。広報費1万円。社長が不安そう。',type:'kind'},
+ {id:'sale',icon:'',name:'店長、反省セール',effect:'客数↑ / 経費↑',detail:'今週だけ15円引き。広告費1.2万円が必要。',type:'kind'},
+ {id:'points',icon:'',name:'ポイント制度の「進化」',effect:'経費↓ / 不満↑',detail:'還元率を減らして「制度を進化」。進化先は誰の財布？',type:'hard'},
+ {id:'pop',icon:'',name:'広告の方が大盛り',effect:'客数↑ / 炎上↑',detail:'商品より先に広告だけ豪華に。期待だけが一人歩き。',type:'hard'},
+ {id:'tasting',icon:'',name:'胃袋で説得する',effect:'客数↑ / 費用↑',detail:'試食で商品の良さを伝える。今週の経費は増える。',type:'kind'},
+ {id:'local',icon:'',name:'地元と真面目に組む',effect:'満足↑ / 経費↑',detail:'地元産の商品を集めて特設売り場を作る。',type:'kind'},
+ {id:'restorestaff',icon:'',name:'人間のレジを復活',effect:'満足↑ / 経費↑',detail:'減らしたスタッフを戻す。行列と不満を減らそう。',type:'kind'},
+ {id:'apology',icon:'',name:'社長を謝罪会見に出す',effect:'火消し↑ / 費用↑',detail:'社長の額に汗。真摯に説明して、炎上を鎮める。',type:'kind'},
+ {id:'recall',icon:'',name:'売り場を本気で立て直す',effect:'信用↑ / 利益↓↓',detail:'商品の品質と量を回復。お金はかかるが、次の常連を守る。',type:'kind'},
+ {id:'blame',icon:'',name:'「誤解」で押し通す',effect:'利益↑↑ / 炎上↑↑',detail:'説明を避けて一時的にコスト削減。火に油かもしれない。',type:'hard'},
+ {id:'loyalty',icon:'',name:'常連の苦情を全部読む',effect:'信頼↑ / 経費↑',detail:'耳の痛い声ほど改善に使う。社長は耳栓を探している。',type:'kind'},
+ {id:'stamp',icon:'',name:'「今だけ！」特別企画',effect:'売上↑↑ / 反動注意',detail:'本当に期間限定の販促で集客。来週の期待値も上がる。',type:'hard'},
+ {id:'audit',icon:'',name:'数字を正直に見せる',effect:'信用↑ / 費用↑',detail:'価格と原価の説明会。社長がグラフを見たがらない。',type:'kind'},
+ {id:'maintenance',icon:'',name:'冷蔵庫にお金を使う',effect:'故障対策 / 費用↑',detail:'壊れてから直すよりは安い。社長には難しい概念。',type:'kind'},
+ {id:'loan',icon:'',name:'銀行に泣きつく',effect:'運転資金+20万円 / 借金↑',detail:'20万円のつなぎ融資。毎週返済が発生。友情は無利息、銀行は違う。',type:'hard'}
 ];
 const ACTIONS_BY_ID=Object.fromEntries(ACTIONS.map(a=>[a.id,a]));
 const QUOTES={
@@ -123,17 +123,17 @@ const INCIDENTAL=[
 // A turn may contain a weighted operational accident. The bad outcomes are not guaranteed;
 // preparation, staffing and customer trust change their odds and/or severity.
 const ACCIDENTS=[
- {id:'freezer',icon:'🧊',title:'冷凍庫が突然ストライキ',body:'冷凍庫「これ以上、企業努力に付き合えません」。食材を廃棄した。',cost:90000,demand:.89,sat:-4,rep:-2,fire:2,frust:4,weight:s=>(s.maintenance>0?.18:1.15)*(.62**(s.upgrades?.equipment??0))},
- {id:'power',icon:'⚡',title:'レジ設備がダウン！',body:'社長「レジを減らせとは言った。動かすなとは言ってない！」',cost:52000,demand:.84,sat:-3,rep:-1,fire:0,frust:4,weight:s=>(s.maintenance>0?.30:1)*(.67**(s.upgrades?.equipment??0))},
- {id:'waste',icon:'🥬',title:'野菜の在庫が大爆発',body:'廃棄コストが増加。社長「廃棄したのは希望だけではなかった」。',cost:64000,demand:.97,sat:0,rep:0,fire:0,frust:0,weight:s=>1.0},
- {id:'absent',icon:'😷',title:'レジ担当がまとめて欠勤',body:'「少数精鋭」の少数が今日は全員いません。',cost:28000,demand:.82,sat:-2,rep:-2,fire:2,frust:4,weight:s=>(s.staff<50?1.7:.6)*(.65**(s.upgrades?.people??0))},
- {id:'delivery',icon:'🚚',title:'配送トラックが渋滞',body:'今週の目玉商品は「入荷予定」の札です。',cost:32000,demand:.88,sat:-2,rep:-1,fire:0,frust:2,weight:s=>1},
- {id:'complaint',icon:'📱',title:'昔のレシートが発掘される',body:'「この量で、この値段だった時代があるらしい」。社長が記憶喪失に。',cost:14000,demand:.93,sat:-2,rep:-4,fire:9,frust:7,weight:s=>(s.frust>45||s.notoriety>35?1.7:.35)},
- {id:'rival',icon:'🏷️',title:'競合が突然半額祭り',body:'社長「うちは定価で信念を売っている！」。客は半額の方に走った。',cost:0,demand:.79,sat:0,rep:0,fire:0,frust:0,weight:s=>1},
- {id:'rain',icon:'☔',title:'大雨で客足が減る',body:'客足は雨宿りに行った。家賃は雨でも休まない。',cost:9000,demand:.78,sat:0,rep:0,fire:0,frust:0,weight:s=>1},
- {id:'viral',icon:'📺',title:'店員の神対応がバズる！',body:'「普通に親切」が大ニュース。社長「これも私の指導です」。',cost:0,demand:1.22,sat:4,rep:4,fire:-4,frust:-3,weight:s=>(s.staff>=55?1.1:.35)*(1+.2*(s.upgrades?.people??0))},
- {id:'festival',icon:'🎊',title:'近所でお祭り開催！',body:'買い物客が急増。社長「市場を動かしたのは私だ」。',cost:5000,demand:1.30,sat:1,rep:1,fire:0,frust:0,weight:s=>1},
- {id:'donation',icon:'🥖',title:'余ったパンが人気商品に',body:'地域活動で評判が上がった。社長「これ、広告費にできない？」',cost:13000,demand:1.10,sat:3,rep:3,fire:-2,frust:-1,weight:s=>(s.storeRep>=40?1:.6)}
+ {id:'freezer',icon:'',title:'冷凍庫が突然ストライキ',body:'冷凍庫「これ以上、企業努力に付き合えません」。食材を廃棄した。',cost:90000,demand:.89,sat:-4,rep:-2,fire:2,frust:4,weight:s=>(s.maintenance>0?.18:1.15)*(.62**(s.upgrades?.equipment??0))},
+ {id:'power',icon:'',title:'レジ設備がダウン！',body:'社長「レジを減らせとは言った。動かすなとは言ってない！」',cost:52000,demand:.84,sat:-3,rep:-1,fire:0,frust:4,weight:s=>(s.maintenance>0?.30:1)*(.67**(s.upgrades?.equipment??0))},
+ {id:'waste',icon:'',title:'野菜の在庫が大爆発',body:'廃棄コストが増加。社長「廃棄したのは希望だけではなかった」。',cost:64000,demand:.97,sat:0,rep:0,fire:0,frust:0,weight:s=>1.0},
+ {id:'absent',icon:'',title:'レジ担当がまとめて欠勤',body:'「少数精鋭」の少数が今日は全員いません。',cost:28000,demand:.82,sat:-2,rep:-2,fire:2,frust:4,weight:s=>(s.staff<50?1.7:.6)*(.65**(s.upgrades?.people??0))},
+ {id:'delivery',icon:'',title:'配送トラックが渋滞',body:'今週の目玉商品は「入荷予定」の札です。',cost:32000,demand:.88,sat:-2,rep:-1,fire:0,frust:2,weight:s=>1},
+ {id:'complaint',icon:'',title:'昔のレシートが発掘される',body:'「この量で、この値段だった時代があるらしい」。社長が記憶喪失に。',cost:14000,demand:.93,sat:-2,rep:-4,fire:9,frust:7,weight:s=>(s.frust>45||s.notoriety>35?1.7:.35)},
+ {id:'rival',icon:'',title:'競合が突然半額祭り',body:'社長「うちは定価で信念を売っている！」。客は半額の方に走った。',cost:0,demand:.79,sat:0,rep:0,fire:0,frust:0,weight:s=>1},
+ {id:'rain',icon:'',title:'大雨で客足が減る',body:'客足は雨宿りに行った。家賃は雨でも休まない。',cost:9000,demand:.78,sat:0,rep:0,fire:0,frust:0,weight:s=>1},
+ {id:'viral',icon:'',title:'店員の神対応がバズる！',body:'「普通に親切」が大ニュース。社長「これも私の指導です」。',cost:0,demand:1.22,sat:4,rep:4,fire:-4,frust:-3,weight:s=>(s.staff>=55?1.1:.35)*(1+.2*(s.upgrades?.people??0))},
+ {id:'festival',icon:'',title:'近所でお祭り開催！',body:'買い物客が急増。社長「市場を動かしたのは私だ」。',cost:5000,demand:1.30,sat:1,rep:1,fire:0,frust:0,weight:s=>1},
+ {id:'donation',icon:'',title:'余ったパンが人気商品に',body:'地域活動で評判が上がった。社長「これ、広告費にできない？」',cost:13000,demand:1.10,sat:3,rep:3,fire:-2,frust:-1,weight:s=>(s.storeRep>=40?1:.6)}
 ];
 function accidentOdds(s){return cap(.32+(s.staff<50?.09:0)+(s.frust>60?.08:0)-(s.maintenance>0?.12:0)-.055*(s.upgrades?.equipment??0),.10,.55);}
 function selectAccident(s){
@@ -165,21 +165,45 @@ function weeklyBrief(s){
   const cause=prev.memoryEvent?'過去の施策が発掘された！':prev.fireHit?'SNSで炎上！':'苦情が止まらない！';
   return {id:'crisis',title:cause+' 緊急会議',quote:'社長「君の提案だったよね？ さあ、どう収拾する？」',choices:['apology','recall','blame','explain']};
  }
- if(s.cash<135000)return {id:'cash',title:'🚨 今週の支払いが迫る！',quote:'経理「現金が足りません。社長の声量では振り込めません！」',choices:['loan','raise','staff','sale']};
+ if(s.cash<135000)return {id:'cash',title:' 今週の支払いが迫る！',quote:'経理「現金が足りません。社長の声量では振り込めません！」',choices:['loan','raise','staff','sale']};
  return BRIEFS[Math.min(s.week-1,BRIEFS.length-1)];
 }
 function weeklyOffers(s){
  if(s.finished)return [];
  const brief=weeklyBrief(s),picks=[];
  for(const id of brief.choices){if(enabled(s,id)&&!picks.includes(id))picks.push(id);}
- if(s.cash<145000&&enabled(s,'loan')&&!picks.includes('loan')){picks[3]='loan';}
- // Physical constraints may disable a preselected action; always offer four playable decisions.
- const seedOrder=ACTIONS.map(a=>a.id).sort((a,b)=>{
-  const hash=str=>{let v=2166136261;for(const c of str+':'+s.week+':'+s.rng){v=Math.imul(v^c.charCodeAt(0),16777619)>>>0;}return v;};
-  return hash(a)-hash(b);
- });
- for(const id of seedOrder){if(picks.length>=4)break;if(enabled(s,id)&&!picks.includes(id))picks.push(id);}
- return picks.slice(0,4).map(id=>ACTIONS_BY_ID[id]);
+ // Emergency financing is always a possible sacrifice when insolvency looms.
+ if(s.cash<145000&&enabled(s,'loan')&&!picks.includes('loan')){
+  if(picks.length>=3)picks[2]='loan';else picks.push('loan');
+ }
+ const hash=(str)=>{let v=2166136261;for(const c of str+':'+s.week+':'+s.rng){v=Math.imul(v^c.charCodeAt(0),16777619)>>>0;}return v;};
+ for(const a of [...ACTIONS].sort((a,b)=>hash(a.id)-hash(b.id))){
+  if(picks.length>=3)break;
+  if(enabled(s,a.id)&&!picks.includes(a.id))picks.push(a.id);
+ }
+ return picks.slice(0,3).map(id=>ACTIONS_BY_ID[id]);
+}
+// The president offers a private performance bonus for the most aggressive boardroom option.
+// It comes from the client's cash, not thin air. A player can decline without penalty.
+function boardroomDemand(s){
+ if(s.finished)return null;
+ const choices=weeklyOffers(s);
+ const hard=choices.find(x=>x.type==='hard'&&x.id!=='loan');
+ if(!hard)return null;
+ const bonus=5000+(s.week%3)*1000;
+ return {actionId:hard.id,actionName:hard.name,bonus,
+  line:'社長の内緒話「その案で頼む。成功報酬は私が決めた。会社の金で。」'};
+}
+function boardroomSignal(s){
+ if(s.finished)return '契約期間が終了。次は最終審査です。';
+ if(s.cash<125000)return '資金危機：来週の支払いが滞るおそれ';
+ if(s.fire>=45||s.frust>=66)return '炎上警戒：苦情が広がりつつある';
+ if(s.staff<=40)return '人手不足：欠勤とレジ停止に注意';
+ if(s.maintenance===0&&(s.upgrades?.equipment??0)===0&&s.week>=3)return '設備老朽化：故障の兆候あり';
+ if(s.arrears>0)return '生活危機：養育費の未払いが残っています';
+ const due=PERSONAL.dueWeeks.find(w=>w>=s.week);
+ if(due!==undefined&&due-s.week<=1)return '支払期限：もうすぐ養育費が必要です';
+ return '今のところ落ち着いている。ただし請求書は毎週届く。';
 }
 function goalStatus(s){
  const profit=s.history.reduce((n,h)=>n+h.profit,0),target=s.contractGoal??1800000;
@@ -190,14 +214,14 @@ function goalStatus(s){
 function ending(s){
  const g=goalStatus(s),fires=s.history.filter(h=>h.fireHit).length;
  if(!s.finished)return null;
- if(s.personalFailed)return {icon:'📬',name:'請求書だけは出世した',line:'店は残った。しかし生活と養育費が回らず、契約を手放した。悪魔は更新書類を持ってきた。',passed:false};
- if(s.bankrupt)return {icon:'💸',name:'資金ショート！契約強制終了',line:'家賃も仕入れも待ってくれない。社長「店の資金繰りは君の担当だったよね？」',passed:false};
- if(g.passed&&s.notoriety>=35)return {icon:'😈',name:'悪魔の敏腕コンサル',line:'利益は達成。社長は大喜び。過去の発言は検索しないでほしいらしい。',passed:true};
- if(g.passed&&s.storeRep>=75)return {icon:'🏆',name:'優良店の改革者',line:'利益も信頼も守った。社長「こんなまともな結末、想定外だ！」',passed:true};
- if(g.passed)return {icon:'💼',name:'契約更新！',line:'目標達成。社長「次もよろしく。もちろん報酬は相談で！」',passed:true};
- if(s.storeRep<25||fires>=3)return {icon:'📦',name:'責任者、荷物をまとめる',line:'社長「すべて君の提案だった。私は最後まで応援していたぞ！」',passed:false};
- if(g.profitGap===0)return {icon:'🔥',name:'黒字の代償',line:'利益目標は達成。しかし店の評判は契約条件に届かなかった。',passed:false};
- return {icon:'📉',name:'契約満了、更新なし',line:'社長「努力は評価する。目標は未達だ。私の給料は守ってくれ。」',passed:false};
+ if(s.personalFailed)return {icon:'',name:'請求書だけは出世した',line:'店は残った。しかし生活と養育費が回らず、契約を手放した。悪魔は更新書類を持ってきた。',passed:false};
+ if(s.bankrupt)return {icon:'',name:'資金ショート！契約強制終了',line:'家賃も仕入れも待ってくれない。社長「店の資金繰りは君の担当だったよね？」',passed:false};
+ if(g.passed&&s.notoriety>=35)return {icon:'',name:'悪魔の敏腕コンサル',line:'利益は達成。社長は大喜び。過去の発言は検索しないでほしいらしい。',passed:true};
+ if(g.passed&&s.storeRep>=75)return {icon:'',name:'優良店の改革者',line:'利益も信頼も守った。社長「こんなまともな結末、想定外だ！」',passed:true};
+ if(g.passed)return {icon:'',name:'契約更新！',line:'目標達成。社長「次もよろしく。もちろん報酬は相談で！」',passed:true};
+ if(s.storeRep<25||fires>=3)return {icon:'',name:'責任者、荷物をまとめる',line:'社長「すべて君の提案だった。私は最後まで応援していたぞ！」',passed:false};
+ if(g.profitGap===0)return {icon:'',name:'黒字の代償',line:'利益目標は達成。しかし店の評判は契約条件に届かなかった。',passed:false};
+ return {icon:'',name:'契約満了、更新なし',line:'社長「努力は評価する。目標は未達だ。私の給料は守ってくれ。」',passed:false};
 }
 function initial(seed){
  let n=Number(seed);if(!Number.isFinite(n))n=Date.now();n=n>>>0;if(n===0)n=246813579;
@@ -241,7 +265,7 @@ function play(input,id,opts={}){if(input.finished||input.week>MAX_WEEKS)throw Er
  if(devil!==null&&(!DEVIL_OFFERS.some(x=>x.id===devil)||!pactAvailable(input)))throw Error('悪魔と契約できません');
  const plan=opts?.project??null;
  if(plan!==null){const cost=projectCost(input,plan);if(!PROJECTS_BY_ID[plan]||cost===null)throw Error('この設備投資は選べません');if(input.cash<cost)throw Error('投資資金が足りません');}
- const s=JSON.parse(JSON.stringify(input)),theWeek=s.week,brief=weeklyBrief(input);
+ const s=JSON.parse(JSON.stringify(input)),theWeek=s.week,brief=weeklyBrief(input),boardDemand=boardroomDemand(input);
  if(!s.upgrades)s.upgrades=blankUpgrades();
  const investment=plan?projectCost(s,plan):0;
  if(plan)s.upgrades[plan]++;
@@ -291,7 +315,7 @@ function play(input,id,opts={}){if(input.finished||input.week>MAX_WEEKS)throw Er
  if(due.length){const m=due[0];memoryEvent=true;title=MEMORY_NEWS[m.kind][0];body=MEMORY_NEWS[m.kind][1];eventType='memory';adjust(s,{frust:5,fire:8,storeRep:-3});}
  const chance=risk(s),roll=draw(s);
  if(roll<chance){
-  fireHit=true;eventType='fire';title='🔥 SNSで大炎上！';body=memoryEvent?'過去の施策が再燃。「これは偶然ではなく経営方針」とまで話題に。':'「お客様のために」がトレンド入り。引用符だけが好意的。';
+  fireHit=true;eventType='fire';title=' SNSで大炎上！';body=memoryEvent?'過去の施策が再燃。「これは偶然ではなく経営方針」とまで話題に。':'「お客様のために」がトレンド入り。引用符だけが好意的。';
   adjust(s,{fire:27,frust:10,sat:-5,storeRep:-9,notoriety:11,skill:-6});
   demandModifier*=.82;
   const boycottChance=cap(.25+s.frust*.0015,.25,.40);
@@ -336,7 +360,9 @@ function play(input,id,opts={}){if(input.finished||input.week>MAX_WEEKS)throw Er
  s.sales=sales;s.profit=profit;
  // Weekly operating bills are deducted even when no initiative is taken. Loan principal is a cash-flow item, not P&L.
  // The consulting fee is actual money leaving the client's account.
- s.cash+=profit+action.financing-principal-investment-fee-devilPayment;s.debt-=principal;s.pay+=fee;
+ const boardroomBonus=boardDemand?.actionId===id?boardDemand.bonus:0;
+ s.cash+=profit+action.financing-principal-investment-fee-devilPayment-boardroomBonus;
+ s.personalCash+=boardroomBonus;s.debt-=principal;s.pay+=fee+boardroomBonus;
  const supportDue=PERSONAL.dueWeeks.includes(theWeek)?PERSONAL.support:0;
  s.personalCash+=fee-PERSONAL.living-personalDevilPayment;
  let supportPaid=0;
@@ -349,7 +375,8 @@ function play(input,id,opts={}){if(input.finished||input.week>MAX_WEEKS)throw Er
  s.lowCashWeeks=s.cash<0?s.lowCashWeeks+1:0;
  if(s.cash<0){s.bankrupt=true;} // Store insolvency is an immediate game-over.
  if(s.maintenance>0)s.maintenance--;
- const report={week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':QUOTES[id],eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,investment,projectId:plan,projectLabel:plan?PROJECTS_BY_ID[plan].name:"なし",incidentCost,accidentResponse:null,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,macroId:macro.id,macroName:macro.name,macroTag:macro.tag,macroDetail:macro.detail,macroPenalty,macroBonus,macroFixed:macro.fixed,devilId:devil,devilNote,devilPayment,personalDevilPayment,personalCashBefore:previous.personalCash,personalCashAfter:s.personalCash,arrearsBefore:previous.arrears,arrearsAfter:s.arrears,personalLiving:PERSONAL.living,supportDue,supportPaid,feeFromStore:fee,personalFailed:s.personalFailed,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
+ const report={week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,boardroomBonus,
+ boardroomDemandId:boardDemand?.actionId||null,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':QUOTES[id],eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,investment,projectId:plan,projectLabel:plan?PROJECTS_BY_ID[plan].name:"なし",incidentCost,accidentResponse:null,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,macroId:macro.id,macroName:macro.name,macroTag:macro.tag,macroDetail:macro.detail,macroPenalty,macroBonus,macroFixed:macro.fixed,devilId:devil,devilNote,devilPayment,personalDevilPayment,personalCashBefore:previous.personalCash,personalCashAfter:s.personalCash,arrearsBefore:previous.arrears,arrearsAfter:s.arrears,personalLiving:PERSONAL.living,supportDue,supportPaid,feeFromStore:fee,personalFailed:s.personalFailed,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
  s.history.push(report);s.lastResult=report;s.week++;
  if(s.week>MAX_WEEKS||s.bankrupt||s.personalFailed)s.finished=true;
  if(!weeklyOffers(s).some(a=>a.id===s.selected))s.selected=s.finished?s.selected:weeklyOffers(s)[0].id;
@@ -399,7 +426,7 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  return clone;
 }
 function previewRisk(s,id){if(!ACTIONS_BY_ID[id]||!enabled(s,id))return risk(s);const clone=JSON.parse(JSON.stringify(s));applyAction(clone,id);return risk(clone);}
-const engine={VERSION,MAX_WEEKS,CONTRACT,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,goalStatus,ending,initial,play,handleAccident,risk,previewRisk,unitCost,enabled,validateSaved};
+const engine={VERSION,MAX_WEEKS,CONTRACT,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,boardroomDemand,boardroomSignal,goalStatus,ending,initial,play,handleAccident,risk,previewRisk,unitCost,enabled,validateSaved};
 root.GameEngine=engine;
 if(typeof module==='object'&&module.exports)module.exports=engine;
 })(typeof globalThis!=='undefined'?globalThis:this);

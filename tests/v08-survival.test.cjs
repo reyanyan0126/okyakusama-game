@@ -17,11 +17,11 @@ for(let seed=1;seed<=2500;seed++){
  assert.equal(first.lastResult.personalLiving,G.PERSONAL.living);
  assert.equal(first.lastResult.macroId,macro.id);
  assert.equal(first.cash,first.lastResult.cashAfter);
- assert.equal(first.cash,s.cash+first.lastResult.profit+first.lastResult.financing-first.lastResult.principal-first.lastResult.investment-first.lastResult.fee-first.lastResult.devilPayment);
+ assert.equal(first.cash,s.cash+first.lastResult.profit+first.lastResult.financing-first.lastResult.principal-first.lastResult.investment-first.lastResult.fee-first.lastResult.devilPayment-first.lastResult.boardroomBonus);
  s=first;
  while(!s.finished){
   const choices=G.weeklyOffers(s);
-  assert.equal(choices.length,4);
+  assert.equal(choices.length,3);
   let k=choices[(seed+s.week)%choices.length].id;
   s=G.play(s,k);
   assert.equal(s.cash,s.lastResult.cashAfter);
