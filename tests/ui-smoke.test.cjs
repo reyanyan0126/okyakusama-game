@@ -43,7 +43,7 @@ assert.match(nodes.proposalBudget.textContent,/店/);
 assert.match(html,/契約条件/);
 nodes.advanceButton.click();assert.equal(nodes.proposalSheet.hidden,true);assert.equal(nodes.reportScene.hidden,false,'report should open after week');
 assert.ok(nodes.reportTakeaway.textContent.length>0);
-assert.match(nodes.reportCash.textContent,/万円/);
+assert.match(nodes.reportCash.innerHTML,/万円/);
 assert.ok(nodes.reportReputationChange.textContent.length>0);
 assert.match(nodes.reportGoal.textContent,/契約目標/);
 assert.match(nodes.reportNext.textContent,/次の相談/);

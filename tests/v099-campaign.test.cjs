@@ -11,8 +11,8 @@ for(let seed=1;seed<=1100;seed++){
  let s=G.initial(seed*17),seen=[];
  while(!s.finished){
   const offers=G.weeklyOffers(s);
-  assert.equal(offers.length,3);
-  assert.equal(new Set(offers.map(x=>x.id)).size,3);
+  assert.equal(offers.length,4,`seed=${seed} week=${s.week} brief=${G.weeklyBrief(s).id} offers=${offers.map(a=>a.id)}`);
+  assert.equal(new Set(offers.map(x=>x.id)).size,4);
   const before=s.cash;
   const h0=s;
   s=G.play(s,offers[(s.week+seed)%3].id);

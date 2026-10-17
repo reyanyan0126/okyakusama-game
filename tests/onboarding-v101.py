@@ -22,7 +22,7 @@ with sync_playwright() as p:
         page.locator('#prologueNext').click()
         assert page.locator('#modal').is_visible(), 'guide should display directly after intro'
         guide=page.locator('#modalContent').inner_text()
-        for word in ['30週間','3つの作戦を見る','この案で営業する','評判50以上']:
+        for word in ['30週間','4つの作戦を見る','この案で営業する','評判50以上']:
             assert word in guide,(width,word)
         assert page.locator('#firstWeekStart').is_visible()
         rect=page.locator('#firstWeekStart').bounding_box()
@@ -33,7 +33,7 @@ with sync_playwright() as p:
         assert page.locator('#weekIndicator').inner_text()=='1 / 30'
         # Record one week so that "Continue" becomes available on the title screen.
         page.locator('#openProposals').click()
-        assert page.locator('.action-option').count()==3
+        assert page.locator('.action-option').count()==4
         page.locator('#advanceButton').click()
         page.locator('#reportScene').wait_for(state='visible',timeout=10000)
         if not page.locator('#reportContinue').is_enabled():
@@ -45,7 +45,7 @@ with sync_playwright() as p:
         page.locator('#titleResume').click()
         assert not page.locator('#modal').is_visible(), 'resume must not reopen onboarding'
         page.locator('#openProposals').click()
-        assert page.locator('.action-option').count()==3
+        assert page.locator('.action-option').count()==4
         page.locator('#closeProposals').click()
         assert not errors,(width,errors)
         print('PASS onboarding',width,height,flush=True)

@@ -963,3 +963,56 @@ body.entry-mode{background:#f8f3e9}
 .crisis-response p{margin:0;font-size:11px;line-height:1.75;}
 /* First-week guide: short enough for small iPhone screens. */
 .first-week-guide p{margin:8px 0 10px;line-height:1.65}.first-week-guide ol{margin:9px 0 10px;padding-left:21px}.first-week-guide li{margin-bottom:7px}.first-week-guide .first-week-goal{border:1px solid #e3d4b8;background:#fff3d8;border-radius:9px;padding:9px 11px;font-weight:900;color:#463322;font-size:12px}.first-week-guide+.modal-actions{margin-top:11px}
+
+
+/* v1.1.0: compact, readable, always-visible operating metrics. No added navigation. */
+#officeView .store-dashboard{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;margin:7px 0 5px}
+#officeView .store-dashboard>div{min-width:0;border:1px solid #ddd1c0;border-radius:8px;background:#fffcf5;padding:7px 7px 6px;display:flex;flex-direction:column;gap:2px}
+#officeView .store-dashboard span{font-size:10px;font-weight:800;color:#7e6c57;white-space:nowrap}
+#officeView .store-dashboard strong{font-size:clamp(14px,1.5vw,19px);line-height:1.2;font-variant-numeric:tabular-nums;letter-spacing:-.035em;color:#3b3027;white-space:nowrap}
+#officeView .store-dashboard strong small{font-size:9px;margin-left:1px;font-weight:700;color:#806f5e;letter-spacing:0}
+#officeView .store-dashboard>div:nth-child(2) strong{color:#346b50}
+#officeView .office-status-link{margin-top:2px}
+.status-group{margin:8px 0 12px}
+.status-group h3{font-size:12px;letter-spacing:.01em;margin:0 0 3px;background:#efe5d4;color:#534332;padding:8px 9px;border-radius:7px}
+.status-group .status-line{padding:7px 4px}
+.working-illustration{display:block;width:min(84vw,320px);height:auto;aspect-ratio:320/165;margin:17px auto 10px;border-radius:13px;box-shadow:3px 4px 0 #725942;overflow:hidden;filter:drop-shadow(0 2px 2px #352c2218)}
+.working-action{display:inline-block;max-width:95%;padding:6px 11px;border-radius:8px;background:#f7e9c8;border:1px solid #bfa783;color:#49392d;font-size:12px;font-weight:900;line-height:1.45;overflow-wrap:anywhere;margin-bottom:13px}
+.working-illustration{animation:policy-scene-in .4s ease-out both}
+@keyframes policy-scene-in{from{opacity:.55;transform:translateY(7px) scale(.975)}to{opacity:1;transform:none}}
+#officeView .number-rolling,.report-cashflow .number-rolling{font-variant-numeric:tabular-nums;transition:color .15s}
+#officeView .number-rising,.report-cashflow .number-rising{color:#277653!important}
+#officeView .number-falling,.report-cashflow .number-falling{color:#c4513e!important}
+.number-rising::after{content:" ↗";font-size:12px;vertical-align:middle;white-space:nowrap}
+.number-falling::after{content:" ↘";font-size:12px;vertical-align:middle;white-space:nowrap}
+@media(max-width:850px){
+ #officeView .office-hero{height:clamp(112px,18dvh,143px)!important}
+ #officeView .office-vitals{gap:5px!important;margin-top:6px!important}
+ #officeView .office-vitals .play-stat{min-height:0!important;padding:7px 6px!important}
+ #officeView .office-vitals .play-stat strong{font-size:clamp(16px,4.8vw,23px)!important}
+ #officeView .office-vitals .play-stat.personal>strong{font-size:clamp(11px,3.55vw,17px)!important}
+ #officeView .office-vitals .cash-hint{display:none!important}
+ #officeView .store-dashboard{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin:6px 0 5px}
+ #officeView .store-dashboard>div{padding:4px 7px}
+ #officeView .store-dashboard span{font-size:9px}
+ #officeView .store-dashboard strong{font-size:15px}
+ #officeView .office-status-link{min-height:31px}
+ #officeView .office-hero-caption{bottom:6px}
+ #officeView .world-ribbon{margin-top:6px!important}
+ #officeView .news-strip{margin-top:4px!important}
+ #officeView .decision-card{padding:9px 10px!important}
+ .working-scene h2{font-size:21px}
+ .working-scene>.loading-note{margin-top:7px}
+ .working-illustration{width:min(79vw,295px);margin-top:12px}
+ .working-action{margin-bottom:9px}
+}
+@media(max-width:380px){
+ #officeView .store-dashboard strong{font-size:14px}
+ #officeView .store-dashboard strong small{font-size:8px}
+ #officeView .office-vitals .play-stat strong{font-size:15px!important}
+ #officeView .office-vitals .play-stat.personal>strong{font-size:11px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .working-illustration{animation:none!important}
+ .number-rolling{animation:none!important;transition:none!important}
+}

@@ -1,4 +1,4 @@
-/* お客様のために。v1.0.1 - thirty-week turnaround and survival economics, social shocks and devil pacts. */
+/* お客様のために。v1.1.0 - thirty-week turnaround and survival economics, social shocks and devil pacts. */
 (function(root){
 'use strict';
 const VERSION = 1, MAX_WEEKS = 30;
@@ -213,9 +213,9 @@ function weeklyBrief(s){
  if(prev&&(prev.fireHit||prev.memoryEvent||s.fire>=57)){
   const old=prev.actionName||'直前の施策';
   const context=prev.memoryEvent?'過去の施策が再び話題に':prev.fireHit?`先週「${old}」の営業中に炎上`:'SNSでの批判が長期化';
-  // Recovery always has three distinct approaches with different costs and risks.
+  // Crisis meetings offer four distinct, context-specific approaches with different costs and risks.
   const evidence=prev.memoryEvent||!prev.actionId||['shrink','cheap','photo','airtax','points'].includes(prev.actionId);
-  return {id:'crisis',title:`${context}！ 緊急会議`,quote:evidence?'消費者「謝罪文より、商品の改善を見せてください」。社長「写真は小さく載せよう」':'店長「苦情の電話が止まりません」。社長「先に誰の責任か決めよう」',choices:evidence?['apology','recall','blame']:['apology','explain','blame'],cause:context};
+  return {id:'crisis',title:`${context}！ 緊急会議`,quote:evidence?'消費者「謝罪文より、商品の改善を見せてください」。社長「写真は小さく載せよう」':'店長「苦情の電話が止まりません」。社長「先に誰の責任か決めよう」',choices:evidence?['apology','recall','explain','blame']:['apology','explain','loyalty','blame'],cause:context};
  }
  if(s.cash<135000)return {id:'cash',title:' 今週の支払いが迫る！',quote:'経理「現金が足りません。社長の声量では振り込めません！」',choices:['loan','raise','staff','sale']};
  if(s.week===campaignWeeks(s))return BRIEFS.find(x=>x.id==='final');
@@ -231,11 +231,11 @@ function weeklyOffers(s){
  for(const id of brief.choices){if(enabled(s,id)&&!picks.includes(id))picks.push(id);}
  // Emergency financing is always a possible sacrifice when insolvency looms.
  if(brief.id!=='crisis'&&s.cash<145000&&enabled(s,'loan')&&!picks.includes('loan')){
-  if(picks.length>=3)picks[2]='loan';else picks.push('loan');
+  if(picks.length>=4)picks[3]='loan';else picks.push('loan');
  }
  const hash=(str)=>{let v=2166136261;for(const c of str+':'+s.week+':'+s.rng){v=Math.imul(v^c.charCodeAt(0),16777619)>>>0;}return v;};
  for(const a of [...ACTIONS].sort((a,b)=>hash(a.id)-hash(b.id))){
-  if(picks.length>=3)break;
+  if(picks.length>=4)break;
   if(enabled(s,a.id)&&!picks.includes(a.id))picks.push(a.id);
  }
  // Root repairs compete with regular policy: no extra menu or extra weekly action.
@@ -243,7 +243,16 @@ function weeklyOffers(s){
  if(diagnosis.active&&!diagnosis.solved&&s.week>=2&&s.week<=Math.min(24,campaignWeeks(s)-2)&&brief.id!=='crisis'){
   picks[1]=diagnosis.action;
  }
- return picks.slice(0,3).map(id=>ACTIONS_BY_ID[id]);
+ // A fallback action may already be the root repair. Replacing slot 2 must
+ // never leave two identical actions or reduce the displayed four choices.
+ const unique=[...new Set(picks)];
+ if(unique.length<4){
+  for(const a of [...ACTIONS].sort((a,b)=>hash(a.id)-hash(b.id))){
+   if(unique.length>=4)break;
+   if(enabled(s,a.id)&&!unique.includes(a.id))unique.push(a.id);
+  }
+ }
+ return unique.slice(0,4).map(id=>ACTIONS_BY_ID[id]);
 }
 // The president offers a private performance bonus for the most aggressive boardroom option.
 // It comes from the client's cash, not thin air. A player can decline without penalty.
