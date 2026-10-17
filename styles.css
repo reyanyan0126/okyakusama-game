@@ -946,3 +946,13 @@ body.entry-mode{background:#f8f3e9}
 .story-art-enter[data-scene="6"] .story-devil-shadow{animation:devil-shadow-in 1s ease both;transform-origin:221px 108px}
 @keyframes devil-shadow-in{from{opacity:0;transform:scale(.80)}to{opacity:.65;transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.story-art-enter .prologue-art,.story-art-enter .story-devil-shadow{animation:none!important}}
+
+/* v0.9.9 - story phone rings before answering; no new menus on home */
+.phone-signal{position:absolute;z-index:5;top:12px;right:18px;display:none;align-items:end;gap:5px;pointer-events:none}
+.phone-signal span{display:block;width:5px;height:8px;background:#b86633;border-radius:6px;box-shadow:0 0 4px #fff4be}
+.phone-signal span:nth-child(2){height:17px}.phone-signal span:nth-child(3){height:25px}
+.phone-ringing .phone-signal{display:flex;animation:signal-pop .44s ease-in-out infinite alternate}
+.phone-ringing .prologue-art{animation:phone-call-vibe .19s ease-in-out 6 alternate!important;transform-origin:50% 70%}
+@keyframes phone-call-vibe{from{transform:translateX(-3px) rotate(-1deg)}to{transform:translateX(3px) rotate(1deg)}}
+@keyframes signal-pop{from{opacity:.48;transform:scale(.95)}to{opacity:1;transform:scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.phone-ringing .prologue-art,.phone-ringing .phone-signal{animation:none!important}}
