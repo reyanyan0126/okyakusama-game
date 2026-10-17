@@ -29,7 +29,10 @@ assert.equal(nodes.titleScreen.hidden,false,'title should show on first load');
 assert.equal(nodes.app.hidden,true,'game should not display behind title');
 nodes.titleStart.click();assert.equal(nodes.contractsScreen.hidden,false,'inbox after start');
 assert.equal(nodes.titleScreen.hidden,true);
-nodes.acceptMarket.click();assert.equal(nodes.app.hidden,false,'game after accepting contract');
+nodes.acceptMarket.click();assert.equal(nodes.prologueScreen.hidden,false,'intro after accepting contract');
+nodes.prologueNext.click();assert.equal(nodes.prologueCounter.textContent,'02 / 03');
+nodes.prologueNext.click();assert.equal(nodes.prologueCounter.textContent,'03 / 03');
+nodes.prologueNext.click();assert.equal(nodes.app.hidden,false,'game after intro');
 assert.equal(nodes.officeView.hidden,false);
 assert.equal(nodes.bossFace.dataset.mood,'normal');assert.equal(nodes.buyerFace.dataset.mood,'normal');
 assert.ok(nodes.actions.innerHTML.includes('action-option'));
@@ -52,4 +55,4 @@ tabs[2].click();nodes.backTitle.click();assert.equal(nodes.titleScreen.hidden,fa
 nodes.titleResume.click();assert.equal(nodes.app.hidden,false);assert.equal(nodes.officeView.hidden,false);
 for(let i=1;i<12;i++){if(JSON.parse(state['okyakusama.save.v1']).finished)break;nodes.openProposals.click();nodes.advanceButton.click();if(nodes.reportContinue.disabled)nodes.accidentIgnore.click();nodes.reportContinue.click();}
 const final=JSON.parse(state['okyakusama.save.v1']);assert.equal(final.finished,true);assert.equal(final.history.length,final.week-1);
-console.log('PASS: title→contracts→client→proposals→budget result→resume→finished campaign');
+console.log('PASS: title→contracts→prologue→client→proposals→budget result→resume→finished campaign');

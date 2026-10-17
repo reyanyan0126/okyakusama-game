@@ -576,3 +576,109 @@ body.entry-mode{background:#f8f3e9}
 @keyframes rescue-pulse{from{transform:rotate(-6deg) scale(.95)}to{transform:rotate(6deg) scale(1.04)}}
 @media(max-height:700px){.rescue-scene{align-items:flex-start}.rescue-card{padding:13px;gap:7px}.rescue-art{width:43px;height:43px}.rescue-card h2{font-size:19px}.rescue-option{min-height:53px}}
 @media(prefers-reduced-motion:reduce){.rescue-card,.rescue-art{animation:none!important}}
+
+/* v0.9.2 – Small consultancy office instead of a supermarket dashboard */
+#officeView .office-hero{height:220px!important;min-height:0;position:relative;padding:0!important;background:#e4d3b6;border-color:#47392f;isolation:isolate;overflow:hidden}
+#officeView .office-hero::before,#officeView .office-hero::after{display:none!important}
+.office-room-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1}
+.office-hero-heading{position:absolute;top:10px;left:12px;right:12px;display:flex;align-items:center;justify-content:space-between;gap:6px;z-index:2}
+.office-nameplate{font-size:10px;font-weight:900;background:#fff8e8e8;border:1px solid #b59a76;border-radius:7px;padding:5px 8px;color:#503e33;white-space:nowrap}
+.office-week{font-weight:950;font-size:11px;white-space:nowrap;color:#fff8df;background:#41352e;border-radius:6px;padding:5px 8px}
+.office-hero-caption{position:absolute;z-index:2;bottom:9px;left:11px;background:rgba(255,250,233,.96);border:1.5px solid #574437;border-radius:10px;padding:7px 10px;max-width:65%;box-shadow:2px 2px 0 rgba(69,47,28,.2)}
+.office-hero-caption>span:first-child{color:#9e7255;font-weight:950;font-size:9px}
+#officeView .office-hero h2{font-size:clamp(18px,2.6vw,23px)!important;margin:1px 0!important;line-height:1.2;letter-spacing:-.04em}
+.office-under{font-size:10px;color:#795b45;font-weight:800;display:block;line-height:1.35}
+.office-visitors{position:absolute;z-index:2;bottom:9px;right:11px;display:flex;gap:6px;align-items:flex-end}
+#officeView .office-visitors .cast-portrait{display:flex;align-items:center;flex-direction:column;gap:0;background:#fff6e5d9;border-radius:7px;border:1px solid #9b8066;padding:3px}
+#officeView .office-visitors .portrait{height:34px;width:32px;transform:none;box-shadow:none}
+#officeView .office-visitors .cast-portrait small{font-size:9px;line-height:1.4}
+.office-phone-ringing{transform-origin:512px 151px;animation:office-ring .85s ease-in-out infinite alternate}
+@keyframes office-ring{from{opacity:.3;transform:translateX(-3px)}to{opacity:1;transform:translateX(2px)}}
+#officeView .office-vitals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:8px!important}
+#officeView .office-vitals .play-stat{min-width:0;padding:9px 10px;display:flex;flex-direction:column;justify-content:start;gap:3px;border-radius:12px;background:#fffdf7;border:1.5px solid #dacbb7;box-shadow:0 2px 0 #dacbb7}
+#officeView .office-vitals .play-stat.personal{background:#ecf5ee;border-color:#b7d4ba}
+#officeView .office-vitals .play-stat.money{background:#fff1d8;border-color:#dcc69d}
+#officeView .office-vitals .play-stat.trust{background:#f8f4ee;border-color:#e1d5c5}
+#officeView .office-vitals .play-stat>span:first-child{font-size:10px;line-height:1.2;color:#63594e;font-weight:900;white-space:nowrap}
+#officeView .office-vitals .play-stat>strong{font-size:clamp(17px,2.3vw,26px);line-height:1.3;color:#29231f;letter-spacing:-.045em;white-space:nowrap;font-variant-numeric:tabular-nums}
+#officeView .office-vitals .play-stat.personal>strong{color:#397458}
+#officeView .office-vitals .play-stat.money.in-danger>strong{color:#b34b39}
+#officeView .office-vitals .play-stat strong small{font-size:10px;color:#716457}
+#officeView .office-vitals .play-stat em{font-size:9px;line-height:1.25;font-style:normal;white-space:normal;color:#a05b3a}
+#officeView .office-vitals .vital-secondary{display:block;font-weight:800;color:#726558;line-height:1.3;font-size:9px;overflow-wrap:anywhere}
+#officeView .office-vitals .vital-secondary b{font-size:11px;color:#3e332c;font-variant-numeric:tabular-nums}
+#officeView .office-vitals .vital-secondary b small{font-size:9px}
+#officeView .office-vitals .play-meter{height:4px;margin:1px 0 1px}
+#officeView .office-vitals .tiny-meter{display:none}
+#officeView .office-details{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:6px;font-size:10px;color:#736455;font-weight:850}
+#officeView .office-details .week-expenses{display:none!important}
+#officeView .world-ribbon{margin-top:6px;min-height:35px;padding:6px 9px}
+#officeView .world-ribbon strong{font-size:12px}
+#officeView .advanced-stats{margin-top:5px}
+#officeView .advanced-stats:not([open]) .stats-stack{display:none!important}
+#officeView .advanced-stats>summary{padding:5px 9px;min-height:27px;border:1px solid #e1d5c3;background:#faf5ed;border-radius:8px;font-weight:800;font-size:10px;color:#7c6e5e}
+#officeView .advanced-stats .stats-stack{margin-top:5px}
+#officeView .decision-card{gap:8px!important}
+#officeView .decision-card .meeting-alert{background:#fff8e7}
+
+/* Prologue: three short story beats, not a long tutorial */
+.prologue-screen{background:radial-gradient(circle at 30% 16%,#f3d2a1,#ece2d1 55%,#dcc8ab)}
+.prologue-card{max-width:425px;text-align:center;padding:18px 21px}
+.prologue-top{display:flex;justify-content:space-between;color:#947052;letter-spacing:.12em;font-weight:950;font-size:11px}
+.prologue-illustration{height:178px;margin:15px 0 12px;border:2px solid #5b4739;border-radius:14px;background:linear-gradient(#ded0b8 0 60%,#bd9875 60%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.prologue-illustration::before{content:"";position:absolute;width:80px;height:67px;top:16px;left:13%;background:linear-gradient(#b8d4d5,#acc7d0);border:8px solid #f4efdc;box-shadow:0 0 0 3px #685445}
+.prologue-illustration::after{content:"";position:absolute;width:130px;height:20px;bottom:17px;right:7%;background:#875d43;border:2px solid #583c2e;border-radius:4px;box-shadow:0 12px 0 #634732}
+.prologue-art{z-index:1;width:158px;height:158px;filter:drop-shadow(4px 5px 0 rgba(70,49,31,.17))}
+.prologue-copy{min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+.prologue-speaker{display:inline-block;color:#955b3e;background:#f7e4c7;border-radius:40px;padding:5px 12px;font-size:11px;font-weight:950}
+.prologue-copy h2{font-size:23px;line-height:1.35;margin:10px 0 7px;letter-spacing:-.04em}
+.prologue-copy p{font-size:13px;line-height:1.7;font-weight:700;color:#63574b;margin:0;max-width:350px}
+.prologue-enter{animation:prologue-in .3s ease both}
+@keyframes prologue-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.prologue-dots{display:flex;justify-content:center;gap:6px;margin:5px 0 17px}
+.prologue-dots span{height:6px;width:6px;background:#d8c6ab;border-radius:6px;transition:width .2s}
+.prologue-dots span.current{background:#dc7557;width:22px}
+.prologue-skip{padding:12px;border:0;background:transparent;color:#7f7162;font-size:11px;font-weight:800}
+@media(max-height:690px){.prologue-illustration{height:115px;margin:10px 0}.prologue-art{width:105px;height:105px}.prologue-copy{min-height:130px}.prologue-copy h2{font-size:20px}.prologue-copy p{font-size:12px}.prologue-card{padding:13px 17px}.prologue-dots{margin:4px 0 10px}}
+@media(max-width:850px){
+ #officeView .layout{gap:7px!important}
+ #officeView .office-hero{height:clamp(140px,22dvh,188px)!important;flex:none!important}
+ #officeView .office-hero-caption{bottom:6px;left:7px;padding:6px 8px;max-width:70%}
+ #officeView .office-hero h2{font-size:18px!important}
+ #officeView .office-hero-heading{top:7px;left:7px;right:7px}
+ #officeView .office-nameplate{font-size:9px;padding:4px 6px}
+ #officeView .office-under{font-size:8px}
+ #officeView .office-visitors{right:6px;bottom:7px;gap:3px}
+ #officeView .office-visitors .portrait{height:28px;width:28px}
+ #officeView .office-visitors .cast-portrait small{font-size:8px}
+ #officeView .office-vitals{margin-top:6px!important;gap:5px}
+ #officeView .office-vitals .play-stat{padding:6px 7px!important;gap:2px!important}
+ #officeView .office-vitals .play-stat>strong{font-size:20px!important}
+ #officeView .office-vitals .play-stat.personal>strong{font-size:19px!important}
+ #officeView .office-vitals .play-stat em{font-size:8px!important}
+ #officeView .office-vitals .vital-secondary{font-size:9px}
+ #officeView .office-vitals .vital-secondary b{font-size:10px}
+ #officeView .advanced-stats{margin-top:3px}
+ #officeView .advanced-stats>summary{padding:3px 8px;min-height:24px}
+ #officeView .world-ribbon{min-height:30px;padding:3px 7px;margin-top:4px}
+ #officeView .office-details{margin-top:4px;font-size:9px}
+ #officeView .decision-card{padding:8px 10px!important;gap:3px!important}
+ #officeView .decision-card .meeting-icon{height:39px;width:42px}
+ #officeView .decision-card .meeting-ill{height:36px;width:36px}
+}
+@media(max-width:850px) and (max-height:740px){
+ #officeView .office-hero{height:120px!important}
+ #officeView .office-vitals .play-stat em{display:none!important}
+ #officeView .office-vitals .play-stat>strong{font-size:17px!important}
+ #officeView .office-vitals .play-stat.personal>strong{font-size:17px!important}
+ #officeView .world-ribbon{display:none!important}
+ #officeView .advanced-stats>summary{display:none!important}
+ #officeView .office-under{display:none}
+}
+@media(prefers-reduced-motion:reduce){.office-phone-ringing,.prologue-enter{animation:none!important}}
+
+/* Details remain reachable even on short phones. Open as a compact sheet. */
+#officeView .advanced-stats[open]{position:fixed;left:12px;right:12px;bottom:calc(var(--footer-h) + env(safe-area-inset-bottom) + 7px);width:auto;z-index:110;padding:12px;background:#fffaf2;border:2px solid #544035;border-radius:15px;box-shadow:0 0 0 100vmax rgba(36,29,23,.35),3px 4px 0 #544035;max-height:70dvh;overflow-y:auto;margin:0}
+#officeView .advanced-stats[open] .stats-stack{display:grid!important;gap:8px}
+#officeView .advanced-stats[open] summary{min-height:32px;font-size:12px;padding:7px;background:#f2e1c2;color:#4d3e33}
+@media(max-width:850px) and (max-height:740px){#officeView .advanced-stats>summary{display:flex!important;font-size:9px;padding:3px 7px;min-height:22px}}

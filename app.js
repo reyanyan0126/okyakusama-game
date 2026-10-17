@@ -15,11 +15,13 @@ let toastTimer;
 let resolving=false;
 let lastScreen='office';
 let entryMode='title';
+let prologueStep=0;
 const reducedMotion=()=>window.matchMedia?.('(prefers-reduced-motion: reduce)').matches??false;
 function showEntry(mode){
  entryMode=mode;
  $('titleScreen').hidden=mode!=='title';
  $('contractsScreen').hidden=mode!=='contracts';
+ $('prologueScreen').hidden=mode!=='prologue';
  $('app').hidden=mode!=='game';
  document.body.classList.toggle('entry-mode',mode!=='game');
  if(mode==='title'){
@@ -30,8 +32,31 @@ function showEntry(mode){
 }
 function chooseMarket(){
  if(game.history.length && !confirm('新しい依頼を受けると、現在の12週チャレンジが初期化されます。先に記録画面からバックアップできます。開始しますか？'))return;
+ prologueStep=0;renderPrologue();showEntry('prologue');
+}
+const PROLOGUE=[
+ {speaker:'ある朝の事務所',title:'通帳残高、28,000円。',text:'依頼はゼロ。養育費の支払期限は近い。机にあるのは冷めたコーヒーと請求書。',art:'art-wallet',label:'生活費が残り少ない事務所の机'},
+ {speaker:'突然の電話',title:'「来月まで持ちません」',text:'町のスーパーから再建の依頼。社長は「利益は欲しい。苦情は君が対応してくれ」と言う。',art:'art-store',label:'モグモグマートからの依頼'},
+ {speaker:'12週間の契約',title:'店の資金、19万5,000円。',text:'店が潰れても失職、自分の生活が尽きても終了。3つの案を選び、両方を救い抜け。',art:'art-bill',label:'12週間の経営再建契約書'}
+];
+function renderPrologue(){
+ const item=PROLOGUE[prologueStep];
+ $('prologueCounter').textContent=`0${prologueStep+1} / 03`;
+ $('prologueSpeaker').textContent=item.speaker;
+ $('prologueHeading').textContent=item.title;
+ $('prologueText').textContent=item.text;
+ $('prologueArt').setAttribute('href','#'+item.art);
+ $('prologueIllustration').setAttribute('aria-label',item.label);
+ [...document.querySelectorAll('.prologue-dots span')].forEach((dot,i)=>dot.classList.toggle('current',i===prologueStep));
+ $('prologueNext').textContent=prologueStep===PROLOGUE.length-1?'経営を始める →':'次へ →';
+ const card=document.querySelector('.prologue-copy');card.classList.remove('prologue-enter');void card.offsetWidth;card.classList.add('prologue-enter');
+}
+function finishPrologue(){
  game=G.initial(Date.now());selectedProject=null;selectedDevil=null;save();paint();changeScreen('office');showEntry('game');
- toast('モグモグマートの依頼を受けました！');
+ toast('初めての経営会議が始まります');
+}
+function advancePrologue(){
+ if(prologueStep<PROLOGUE.length-1){prologueStep++;renderPrologue();}else finishPrologue();
 }
 function openProposals(){
  if(resolving||!$('weekScene').hidden||game.finished)return;
@@ -382,6 +407,8 @@ function setup(){
  $('titleHelp').addEventListener('click',aboutModal);
  $('contractsBack').addEventListener('click',()=>showEntry('title'));
  $('acceptMarket').addEventListener('click',chooseMarket);
+ $('prologueNext').addEventListener('click',advancePrologue);
+ $('prologueSkip').addEventListener('click',finishPrologue);
  $('backTitle').addEventListener('click',()=>showEntry('title'));
  $('projectChoices').addEventListener('click',ev=>{const b=ev.target.closest('[data-project]');if(!b||b.disabled||game.finished)return;selectedProject=b.dataset.project==='none'?null:b.dataset.project;renderProjects();});
  $('devilChoices').addEventListener('click',event=>{const b=event.target.closest('[data-devil]');if(!b||b.disabled)return;selectedDevil=b.dataset.devil==='none'?null:b.dataset.devil;renderDevil();});

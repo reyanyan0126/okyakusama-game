@@ -53,7 +53,7 @@
         <button id="titleResume" class="secondary-btn" type="button" hidden>つづきから <span>→</span></button>
         <button id="titleHelp" class="text-btn" type="button">あそびかた</button>
       </div>
-      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.9.1</p>
+      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.9.2</p>
     </div>
   </section>
   <section id="contractsScreen" class="entry-screen" aria-label="コンサル依頼一覧" hidden>
@@ -68,6 +68,22 @@
       <article class="contract-item not-ready" aria-disabled="true"><div class="contract-icon" aria-hidden="true"><svg class="contract-svg" aria-hidden="true"><use href="#art-burger"/></svg></div><div class="contract-copy"><span class="contract-status">準備中</span><h3>スマイルバーガー</h3><p>「ポテトの未来を小さくしたい」</p></div></article>
       <article class="contract-item not-ready" aria-disabled="true"><div class="contract-icon" aria-hidden="true"><svg class="contract-svg" aria-hidden="true"><use href="#art-shirt"/></svg></div><div class="contract-copy"><span class="contract-status">準備中</span><h3>FUKU-FUKU</h3><p>「閉店セールを永遠に続けたい」</p></div></article>
       <p class="contracts-footnote">ほかの業種は、今後のアップデートで追加予定。</p>
+    </div>
+  </section>
+  <section id="prologueScreen" class="entry-screen prologue-screen" aria-label="依頼前の短い物語" hidden>
+    <div class="entry-card prologue-card">
+      <div class="prologue-top"><span>PROLOGUE</span><span id="prologueCounter">01 / 03</span></div>
+      <div class="prologue-illustration" id="prologueIllustration" aria-hidden="true">
+        <svg class="prologue-art" viewBox="0 0 320 175"><use id="prologueArt" href="#art-wallet" x="68" y="12" width="184" height="153"/></svg>
+      </div>
+      <div class="prologue-copy" aria-live="polite">
+        <span id="prologueSpeaker" class="prologue-speaker">ある朝の事務所</span>
+        <h2 id="prologueHeading">通帳残高、28,000円。</h2>
+        <p id="prologueText">離婚後の生活はぎりぎり。養育費の期限が近づくのに、依頼はゼロだった。</p>
+      </div>
+      <div class="prologue-dots" aria-label="物語の進行状況"><span class="current"></span><span></span><span></span></div>
+      <button type="button" id="prologueNext" class="primary-btn">次へ →</button>
+      <button type="button" id="prologueSkip" class="prologue-skip">ストーリーをスキップ</button>
     </div>
   </section>
   <div id="app" class="app-shell">
@@ -85,48 +101,50 @@
       <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
       <div class="layout">
         <section class="main-column" aria-labelledby="clientTitle">
-          <article class="client-hero">
-            <div class="hero-copy">
-              <div class="hero-chip"><span class="live-dot"></span> 倒産危機のクライアント</div>
-              <h2 id="clientTitle">モグモグマート</h2>
-              <p>町のスーパーを救うのは、あなたの提案。<br>お客様のために。<s>たぶん。</s></p>
-              <div class="hero-meta"><span id="heroWeek">第1週</span><span>食品スーパー編</span></div>
-            </div>
-            <div class="hero-cast" aria-label="店長と消費者の表情">
-              <div class="cast-shop"><svg class="store-art" viewBox="0 0 212 162" role="img" aria-label="架空のスーパーマーケットのイラスト">
-              <ellipse cx="108" cy="147" rx="95" ry="11" fill="#decbb5" opacity="0.6"/>
-              <path d="M30 70H181V139H30z" fill="#f8e8c6" stroke="#28251f" stroke-width="3"/>
-              <path d="M20 67 33 30H178L192 67z" fill="#e96d52" stroke="#28251f" stroke-width="3" stroke-linejoin="round"/>
-              <path d="M33 30H178L181 39H30z" fill="#fff2d6"/>
-              <path d="M25 57h162v16H25z" fill="#fff2d6" stroke="#28251f" stroke-width="2"/>
-              <path d="M45 57v16m26-16v16m26-16v16m26-16v16m26-16v16m26-16v16" stroke="#e96d52" stroke-width="12"/>
-              <path d="M42 90h46v32H42z" fill="#85c5ac" stroke="#28251f" stroke-width="3"/>
-              <path d="M96 86h41v53H96z" fill="#95b9c6" stroke="#28251f" stroke-width="3"/>
-              <circle cx="130" cy="115" r="3" fill="#28251f"/>
-              <path d="M147 94h21v31h-21z" fill="#f8cc64" stroke="#28251f" stroke-width="2"/>
-              <path d="M151 104h13" stroke="#28251f" stroke-width="2"/>
-              <rect x="53" y="34" width="110" height="21" rx="2" fill="#fff4dd" stroke="#28251f" stroke-width="2"/>
-              <text x="108" y="49" text-anchor="middle" font-size="14" font-weight="900" fill="#28251f">MOGUMOGU</text>
-              <path d="M35 135h146" stroke="#28251f" stroke-width="4" stroke-linecap="round"/>
-              <g transform="translate(5 99)"><path d="M6 24h26l-3-16H10z" fill="#f0ab49" stroke="#28251f" stroke-width="2"/><path d="M12 8 10 1m8 7 1-7m5 7 6-6" stroke="#366c58" stroke-width="3" stroke-linecap="round"/></g>
-            </svg></div>
+          <article class="client-hero office-hero" aria-label="小さなコンサル事務所。仕事机と未払いの請求書">
+            <svg class="office-room-art" viewBox="0 0 560 250" role="img" aria-label="雑居ビルの事務所。窓、電話、請求書の山、モグモグマートの依頼書、机に向かう主人公">
+              <defs><pattern id="office-wall" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M0 0H24" stroke="#d2c2a5" opacity=".27"/></pattern></defs>
+              <rect width="560" height="250" fill="#e8d6b5"/><rect width="560" height="168" fill="url(#office-wall)"/>
+              <path d="M0 168H560V250H0Z" fill="#bc9a72"/><path d="M0 168H560" stroke="#8b6b50" stroke-width="6"/>
+              <!-- one drafty window, with grey city buildings -->
+              <rect x="19" y="24" width="134" height="111" rx="7" fill="#f8f2df" stroke="#62554a" stroke-width="5"/>
+              <rect x="29" y="34" width="114" height="91" fill="#bcd8db"/>
+              <path d="M29 95V125H143V74l-22-15v36l-24-21v21L77 50v45L55 80V95Z" fill="#a7adb0"/>
+              <path d="M85 31V129M28 80H145" stroke="#faf5e7" stroke-width="6"/>
+              <!-- wall calendar and overdue bill -->
+              <g transform="rotate(7 213 45)"><rect x="175" y="20" width="75" height="79" rx="3" fill="#fff9e7" stroke="#665447" stroke-width="3"/><rect x="175" y="20" width="75" height="20" fill="#db8067"/><path d="M186 52h49M186 63h49M186 74h32" stroke="#c2ad98" stroke-width="4"/><path d="M230 79l11 9M241 79l-11 9" stroke="#b75242" stroke-width="4"/></g>
+              <!-- pinned client brief -->
+              <g transform="rotate(-6 370 58)"><rect x="324" y="20" width="108" height="91" rx="4" fill="#fff6d7" stroke="#776047" stroke-width="3"/><circle cx="378" cy="27" r="5" fill="#d36857"/><text x="378" y="48" font-size="12" font-weight="900" text-anchor="middle" fill="#6b4d40">MOGUMOGU</text><path d="M342 62h73M342 73h59M342 84h64" stroke="#aa9a7f" stroke-width="4"/></g>
+              <!-- work lamp -->
+              <path d="M505 144l23-64M528 80l-26-28" stroke="#424542" stroke-width="7" stroke-linecap="round"/><path d="M486 64q17-31 42-5l-14 13Z" fill="#f3c86d" stroke="#554a40" stroke-width="3"/><ellipse cx="507" cy="157" rx="24" ry="5" fill="#454c46"/>
+              <!-- protagonist silhouette leaning over desk -->
+              <path d="M300 133Q319 109 343 131L365 188H274Z" fill="#5f7c79" stroke="#463c37" stroke-width="4"/><circle cx="319" cy="117" r="22" fill="#f4c59e" stroke="#433730" stroke-width="3"/><path d="M297 112Q299 85 321 92Q350 91 343 117L332 103L303 106Z" fill="#3b3530"/><circle cx="312" cy="117" r="2.5" fill="#392e2a"/><circle cx="328" cy="117" r="2.5" fill="#392e2a"/><path d="M315 127q6-5 12 0" stroke="#6a4940" stroke-width="2" fill="none"/>
+              <!-- small office desk -->
+              <path d="M158 177H528L545 197H140Z" fill="#a66f49" stroke="#62432e" stroke-width="4"/><rect x="160" y="197" width="370" height="17" fill="#785139" stroke="#62432e" stroke-width="3"/><path d="M183 213v33M505 213v33" stroke="#62432e" stroke-width="13"/>
+              <!-- unopened mail and urgent invoices -->
+              <rect x="172" y="161" width="90" height="19" rx="2" fill="#fcf7ea" stroke="#624d43" stroke-width="2"/><path d="m172 163 45 14 45-14" fill="none" stroke="#b79d84" stroke-width="2"/><rect x="186" y="153" width="70" height="8" fill="#fff5e2" stroke="#624d43"/>
+              <rect x="375" y="163" width="102" height="15" rx="2" fill="#f7efd7" stroke="#78624a" stroke-width="2"/><path d="M388 169h70" stroke="#c6b696" stroke-width="3"/><circle cx="460" cy="166" r="6" fill="#cb705e"/>
+              <!-- battered phone -->
+              <rect x="467" y="151" width="54" height="25" rx="6" fill="#535653" stroke="#353831" stroke-width="3"/><path d="M475 149Q496 133 512 149" stroke="#414541" stroke-width="7" stroke-linecap="round" fill="none"/>
+              <g class="office-phone-ringing"><path d="M527 140q14-4 12-16M522 132q7-7 4-12" stroke="#e4a049" stroke-width="3" stroke-linecap="round" fill="none"/></g>
+              <!-- coffee cup -->
+              <path d="M278 169h30v17q-14 8-30 0Z" fill="#f9f5ea" stroke="#665144" stroke-width="3"/><path d="M307 172q14 0 7 11h-7" fill="none" stroke="#665144" stroke-width="3"/>
+            </svg>
+            <div class="office-hero-heading"><span class="office-nameplate">雑居ビル3階 ／ コンサル事務所</span><span id="heroWeek" class="office-week">第1週</span></div>
+            <div class="office-hero-caption"><span>担当案件</span><h2 id="clientTitle">モグモグマート</h2><span class="office-under">倒産寸前。残された時間は12週間。</span></div>
+            <div class="office-visitors" aria-label="相談者と消費者の様子">
               <div class="cast-portrait"><div id="bossFace" class="portrait boss-portrait" data-mood="normal" role="img" aria-label="店長・普通の表情"><span class="portrait-hair"></span><span class="portrait-eyes"><i></i><i></i></span><span class="portrait-mouth"></span><span class="portrait-tie"></span></div><small>店長</small></div>
               <div class="cast-portrait"><div id="buyerFace" class="portrait buyer-portrait" data-mood="normal" role="img" aria-label="消費者・普通の表情"><span class="portrait-hair"></span><span class="portrait-eyes"><i></i><i></i></span><span class="portrait-mouth"></span></div><small>消費者</small></div>
             </div>
-            <div class="tiny-customers" aria-hidden="true"><span class="walker walker-one"><svg class="mini-ill" aria-hidden="true"><use href="#art-people"/></svg></span><span class="walker walker-two"><svg class="mini-ill" aria-hidden="true"><use href="#art-cart"/></svg></span></div>
-            <div class="shop-open-sign" aria-hidden="true">OPEN</div>
           </article>
-
-          <div class="life-ribbon" aria-label="主人公の生活状況"><svg class="ribbon-ill"><use href="#art-wallet"/></svg><div><small>主人公の財布</small><strong id="personalBalance">2.8万円</strong></div><div class="life-due"><small>次の養育費</small><strong id="supportDue">第4週・3.6万円</strong></div><span id="arrearsBadge" class="arrears-badge" hidden>未払い</span></div>
-          <div class="world-ribbon" id="worldRibbon"><svg class="ribbon-ill"><use href="#art-bill"/></svg><div><small>今週の世の中</small><strong id="macroName">物価高</strong></div><span id="macroEffect">仕入れ価格が高騰中</span></div>
-          <div class="section-bar"><h3>今週の経営状況</h3><span class="section-sub" id="goalChip">契約利益 0 / 100万</span></div>
-          <section class="play-stats" aria-label="経営状況をひと目で確認">
-            <div class="play-stat money"><span><svg class="mini-ill"><use href="#art-store"/></svg> 店の資金</span><strong id="cashCount">25.0<small>万円</small></strong><em id="cashTrend">毎週、家賃などがかかります</em></div>
-            <div class="play-stat profit"><span><svg class="mini-ill"><use href="#art-graph"/></svg> 今週の利益</span><strong id="netCount">12.6<small>万円</small></strong><em>赤字なら資金が減る</em></div>
-            <div class="play-stat trust"><span><svg class="mini-ill" aria-hidden="true"><use href="#art-heart"/></svg> お店の評判</span><strong id="repCount">65<small>/100</small></strong><div class="play-meter"><i id="repMeter"></i></div></div>
-            <div class="play-stat danger"><span><svg class="mini-ill"><use href="#art-fire"/></svg> 炎上度</span><strong id="heatCount">4<small>/100</small></strong><div class="play-meter"><i id="heatMeter"></i></div></div>
+          <section class="office-vitals play-stats" aria-label="今週の重要ステータス">
+            <div class="play-stat money"><span><svg class="mini-ill"><use href="#art-store"/></svg> 店の資金</span><strong id="cashCount">19.5<small>万円</small></strong><em id="cashTrend">資金を守ろう</em><span class="vital-secondary">先週利益 <b id="netCount">6.1<small>万円</small></b></span></div>
+            <div class="play-stat personal"><span><svg class="mini-ill"><use href="#art-wallet"/></svg> 自分の財布</span><strong id="personalBalance">2.8万円</strong><span class="vital-secondary">養育費 <b id="supportDue">第4週・3.6万円</b></span><span id="arrearsBadge" class="arrears-badge" hidden>未払い</span></div>
+            <div class="play-stat trust"><span><svg class="mini-ill"><use href="#art-heart"/></svg> お店の評判</span><strong id="repCount">58<small>/100</small></strong><div class="play-meter"><i id="repMeter"></i></div><span class="vital-secondary">炎上 <b id="heatCount">4<small>/100</small></b><span class="tiny-meter"><i id="heatMeter"></i></span></span></div>
           </section>
-          <div class="week-expenses">家賃・人件費・光熱費 <strong id="overheadCount">毎週 約15.5万円</strong><span id="loanHint"></span></div>
+          <div class="world-ribbon" id="worldRibbon"><svg class="ribbon-ill"><use href="#art-bill"/></svg><div><small>社会情勢</small><strong id="macroName">物価高</strong></div><span id="macroEffect">仕入れ価格が高騰中</span></div>
+          <div class="office-details"><span id="goalChip">契約利益 0 / 100万</span><span class="week-expenses">固定費 <strong id="overheadCount">毎週 約15.5万円</strong><span id="loanHint"></span></span></div>
+          <details class="advanced-stats" id="advancedStats"><summary>経営の詳細を見る</summary>
           <div class="stats-stack">
             <section class="stats-card consultant" aria-label="コンサルタントの状態">
               <div class="stats-label"><span class="icon-square blue"><svg class="mini-ill" aria-hidden="true"><use href="#art-meeting"/></svg></span><strong>あなた（コンサル）</strong><span class="mini-badge" id="consultantTitle">駆け出し</span></div>
@@ -152,6 +170,7 @@
             </section>
           </div>
 
+          </details>
           <section class="news-strip" aria-labelledby="latestHeadline">
             <span class="news-flag">街の声</span>
             <div><strong id="latestHeadline">開店準備は万端！</strong><p id="latestBody">今週はあなたの初仕事。まずは経営施策を1つ選んでみよう。</p></div>
@@ -203,7 +222,7 @@
       <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-people"/></svg></span><strong>世論</strong></button>
       <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-bill"/></svg></span><strong>記録</strong></button>
     </nav>
-    <footer>フィクション・2026 お客様のために。 / v0.9.1</footer>
+    <footer>フィクション・2026 お客様のために。 / v0.9.2</footer>
   </div>
 
   <section id="proposalSheet" class="proposal-sheet" role="dialog" aria-modal="true" aria-labelledby="proposalTitle" hidden>
