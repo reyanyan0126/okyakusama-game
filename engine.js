@@ -437,10 +437,11 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  if(plan!==null){const cost=projectCost(input,plan);if(!PROJECTS_BY_ID[plan]||cost===null)throw Error('この設備投資は選べません');if(input.cash<cost)throw Error('投資資金が足りません');}
  const s=JSON.parse(JSON.stringify(input)),theWeek=s.week,brief=weeklyBrief(input),boardDemand=boardroomDemand(input);
  if(!s.upgrades)s.upgrades=blankUpgrades();
+ // Publishable odds are evaluated before this week's optional investment, whose benefits start next week.
+ const performance=resolvePerformance(s,id);
  const investment=plan?projectCost(s,plan):0;
  if(plan)s.upgrades[plan]++;
  const previous={sales:s.sales,rep:s.storeRep,sat:s.sat,frust:s.frust,fire:s.fire,skill:s.skill,cash:s.cash,personalCash:s.personalCash,arrears:s.arrears};
- const performance=resolvePerformance(s,id);
  const beforeAction=Object.fromEntries(PERFORMANCE_NUMBERS.map(key=>[key,s[key]]));
  const action=applyPerformance(s,id,applyAction(s,id),beforeAction,performance);
  s.momentum=performance.tier==='failure'?0:Math.min(3,(s.momentum||0)+(performance.tier==='great'?2:1));
