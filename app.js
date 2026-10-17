@@ -1,4 +1,4 @@
-/* お客様のために。v0.9.6 - dynamic shop and office scenes, visible cash movements, compact boardroom, verified finance ledger. */
+/* お客様のために。v0.9.7 - dynamic shop and office scenes, visible cash movements, compact boardroom, verified finance ledger. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const F=window.FinanceLedger;
@@ -7,7 +7,7 @@ const $=id=>document.getElementById(id);
 const yen=n=>Number(n).toLocaleString('ja-JP');
 const man=n=>(n/10000).toFixed(1);
 const sign=n=>(n>0?'+':'')+yen(n);
-const moneyChange=n=>(n>0?'＋':n<0?'−':'±')+man(Math.abs(n))+'万円';
+const moneyChange=n=>(n>0?'＋':n<0?'−':'±')+yen(Math.abs(n))+'円';
 const cashClass=n=>n>0?'up':n<0?'down':'flat';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -39,13 +39,15 @@ function chooseMarket(){
  prologueStep=0;renderPrologue();showEntry('prologue');
 }
 const PROLOGUE=[
- {speaker:'ある朝の事務所',title:'通帳残高、28,000円。',text:'依頼はゼロ。養育費の支払期限は近い。机にあるのは冷めたコーヒーと請求書。',art:'art-wallet',label:'生活費が残り少ない事務所の机'},
- {speaker:'突然の電話',title:'「来月まで持ちません」',text:'町のスーパーから再建の依頼。社長は「利益は欲しい。苦情は君が対応してくれ」と言う。',art:'art-store',label:'モグモグマートからの依頼'},
- {speaker:'12週間の契約',title:'店の資金、19万5,000円。',text:'店が潰れても失職、自分の生活が尽きても終了。3つの案を選び、両方を救い抜け。',art:'art-bill',label:'12週間の経営再建契約書'}
+ {speaker:'第1幕｜雑居ビル3階',title:'最後の2万8,000円。',text:'独立したものの、仕事はずっとゼロ。机の上には請求書。家賃を払えば、財布はさらに軽くなる。',art:'art-wallet',label:'支払いが積もる小さな事務所'},
+ {speaker:'第2幕｜忘れられない約束',title:'養育費だけは、遅れたくない。',text:'離れて暮らす子供への大切なお金。第4週には3万6,000円が必要だ。稼がなければならない理由がある。',art:'art-home',label:'養育費の支払日が記された手帳'},
+ {speaker:'第3幕｜一本の電話',title:'「相談だけでも、できますか」',text:'倒産寸前のスーパーから電話。引き受けたい。でも、店を救えなければ自分まで共倒れになる。',art:'art-store',label:'再建依頼の電話が届く'},
+ {speaker:'第4幕｜現場で見たもの',title:'店は、まだ生きている。',text:'棚には空きがあり、スタッフは疲れた顔。それでも通い続ける常連がいる。原因を見抜ければ、立て直せるかもしれない。',art:'art-people',label:'再建を待つスーパーの従業員と常連客'},
+ {speaker:'第5幕｜経営再建契約',title:'残されたのは、12週間。',text:'店舗資金19万5,000円。店のお金と自分の財布は別。毎週の報酬から生活費を払いながら、店を救うことを決めた。',art:'art-bill',label:'12週間のコンサル契約書'}
 ];
 function renderPrologue(){
  const item=PROLOGUE[prologueStep];
- $('prologueCounter').textContent=`0${prologueStep+1} / 03`;
+ $('prologueCounter').textContent=`0${prologueStep+1} / 0${PROLOGUE.length}`;
  $('prologueSpeaker').textContent=item.speaker;
  $('prologueHeading').textContent=item.title;
  $('prologueText').textContent=item.text;
@@ -57,7 +59,7 @@ function renderPrologue(){
 }
 function finishPrologue(){
  game=G.initial(Date.now());selectedProject=null;selectedDevil=null;save();paint();changeScreen('office');showEntry('game');
- toast('初めての経営会議が始まります');
+ toast('依頼開始。まずは店の資金と、自分の生活費を確認しよう');
 }
 function advancePrologue(){
  if(prologueStep<PROLOGUE.length-1){prologueStep++;renderPrologue();}else finishPrologue();
@@ -232,25 +234,38 @@ function setMoneyKind(kind){
  const h=game.lastResult;
  const opening=kind==='store'?game.cash:game.personalCash;
  const data=h?F.createLedger(h,kind):F.createLedger(null,kind);
- const current=h?data.end:opening;
- const previous=h?data.start:opening;
- const change=h?data.delta:0;
- $('moneyTitle').textContent=kind==='store'?'お店の資金明細':'主人公の家計簿';
- $('moneyOverview').innerHTML=`<div class="money-comparison"><div><span>${h?'先週の残高':'ゲーム開始時点'}</span><strong>${currency(previous)}</strong></div><div class="money-arrow">→</div><div><span>現在の残高</span><strong>${currency(current)}</strong></div></div><div class="money-outcome ${cashClass(change)}">${h?'この週の変化':'まだ営業していません'} <strong>${h?moneyChange(change):'±0円'}</strong></div>`;
+ const current=h?data.end:opening, previous=h?data.start:opening;
+ const delta=h?data.delta:0;
+ $('moneyTitle').textContent=kind==='store'?'お店のお金':'自分のお金';
+ $('moneyOverview').innerHTML=`<div class="money-comparison"><div><span>${h?'先週の残高':'開始時点'}</span><strong>${currency(previous)}</strong></div><div class="money-arrow">→</div><div><span>いまの残高</span><strong>${currency(current)}</strong></div></div><div class="money-outcome ${cashClass(delta)}">${h?'差し引き':'初期残高'} <strong>${h?moneyChange(delta):currency(current)}</strong></div>`;
  if(!h){
   const overhead=155000-(60-game.staff)*800+G.currentMacro(game).fixed;
-  $('moneyLines').innerHTML=kind==='store'?`<div class="money-ledger-note">毎週の固定費だけで約${currency(overhead)}。さらに仕入れ代がかかり、売上や経費によって週末の資金が変わります。</div>`:`<div class="money-ledger-note">毎週の生活費 ${currency(G.PERSONAL.living)}。第4・8・12週には養育費 ${currency(G.PERSONAL.support)}。店から受け取る報酬が生活費の原資です。</div>`;
-  $('moneyExplainer').textContent='最初の1週間を営業すると、入金と支出を1円単位で確認できます。';
+  $('moneyQuestion').textContent=kind==='store'?'なぜ店の資金が減る？ 売上があっても、仕入れや固定費の支払いがあるからです。':'どうして自分の財布が減る？ 店から報酬が入りますが、毎週の生活費と、4週ごとの養育費を支払うからです。';
+  $('moneyLines').innerHTML=kind==='store'?`<div class="money-simple-row"><span>店の残高</span><strong>${currency(opening)}</strong></div><div class="money-simple-row"><span>毎週の固定費（売上・仕入れとは別）</span><strong class="down">−${currency(overhead)}</strong></div>`:`<div class="money-simple-row"><span>今週の報酬</span><strong>営業後に確定</strong></div><div class="money-simple-row"><span>毎週の生活費</span><strong class="down">−${currency(G.PERSONAL.living)}</strong></div><div class="money-simple-row"><span>第4・8・12週の養育費</span><strong class="down">−${currency(G.PERSONAL.support)}</strong></div>`;
+  $('moneyExplainer').textContent='営業後、実際の入金・支払いがここに表示されます。';
   return;
  }
- const rows=data.rows.map(r=>`<div class="money-line"><span>${esc(r.label)}</span><strong class="${cashClass(r.amount)}">${r.amount>0?'+':'−'}${currency(Math.abs(r.amount))}</strong></div>`).join('');
- let operating='';
+ const totals=`<div class="money-totals"><div>入ったお金<strong class="up">＋${currency(data.inTotal)}</strong></div><div>払ったお金<strong class="down">−${currency(data.outTotal)}</strong></div></div>`;
+ let summary='';
  if(kind==='store'){
-  operating=`<div class="money-ledger-note"><strong>営業の結果：${data.sections[0].amount>=0?'+':'−'}${currency(Math.abs(data.sections[0].amount))}</strong><small>ここに融資・設備投資・コンサル報酬などの資金移動が加わります。利益と現金の増減は違います。</small></div>`;
+  const sum=group=>data.rows.filter(x=>x.group===group).reduce((t,x)=>t+x.amount,0);
+  const transfer= sum('資金移動');
+  summary=`<div class="money-simple-row"><span>① 営業収支（売上 − 仕入れ等）</span><strong class="${cashClass(sum('営業'))}">${moneyChange(sum('営業'))}</strong></div><div class="money-simple-row"><span>② 借入・投資・報酬など</span><strong class="${cashClass(transfer)}">${moneyChange(transfer)}</strong></div>`;
+  const paid=(h.fee||0)+(h.boardroomBonus||0);
+  $('moneyQuestion').textContent=paid?`店がコンサルに払った ${currency(paid)} は、自分の財布では収入になります。店の資金と自分のお金は別々です。`:'店の利益と口座残高は別です。投資・借入・返済でも現金が動きます。';
+ }else{
+  const earnings=(h.fee||0)+(h.boardroomBonus||0);
+  const personalCosts=(h.personalLiving||0)+(h.supportPaid||0)+(h.personalDevilPayment||0);
+  const otherIn=data.rows.filter(r=>r.amount>0&&!['店からのコンサル報酬','社長からの特別報酬'].includes(r.label)).reduce((a,r)=>a+r.amount,0);
+  summary=`<div class="money-simple-row"><span>① 店からの報酬</span><strong class="up">＋${currency(earnings)}</strong></div><div class="money-simple-row"><span>② 生活費</span><strong class="down">−${currency(h.personalLiving||0)}</strong></div><div class="money-simple-row"><span>③ 養育費${h.supportDue?'（支払期限）':''}</span><strong class="${h.supportPaid?'down':'flat'}">${h.supportPaid?'−':''}${currency(h.supportPaid||0)}</strong></div>${h.personalDevilPayment?`<div class="money-simple-row"><span>④ 悪魔への返済</span><strong class="down">−${currency(h.personalDevilPayment)}</strong></div>`:''}${otherIn?`<div class="money-simple-row"><span>その他の入金（悪魔の前借り等）</span><strong class="up">＋${currency(otherIn)}</strong></div>`:''}`;
+  $('moneyQuestion').textContent=personalCosts>earnings?`報酬 ${currency(earnings)} より支払い ${currency(personalCosts)} が多かったため、財布が減りました。`:`今週は報酬 ${currency(earnings)} に対して、支払いは ${currency(personalCosts)}。残りが生活資金です。`;
+  if(h.arrearsAfter)$('moneyQuestion').textContent+=` 養育費未払い：${currency(h.arrearsAfter)}。`;
  }
- $('moneyLines').innerHTML=`<div class="money-totals"><div>入ってきたお金 <strong class="up">+${currency(data.inTotal)}</strong></div><div>出ていったお金 <strong class="down">−${currency(data.outTotal)}</strong></div></div>${operating}<div class="money-item-head">1円単位の入出金</div>${rows||'<div class="money-ledger-note">記録された入出金はありません。</div>'}<div class="money-ledger-end"><span>残高の計算</span><strong>${currency(previous)} ＋ ${currency(data.inTotal)} − ${currency(data.outTotal)} ＝ ${currency(current)}</strong></div>`;
- $('moneyExplainer').textContent=data.note;
+ const rows=data.rows.map(r=>`<div class="money-line"><span>${esc(r.label)}</span><strong class="${cashClass(r.amount)}">${r.amount>=0?'＋':'−'}${currency(Math.abs(r.amount))}</strong></div>`).join('');
+ $('moneyLines').innerHTML=`${totals}<div class="money-quick-summary">${summary}</div><details class="money-detail-list"><summary>1円単位の明細を見る</summary>${rows||'<p>明細はありません</p>'}<div class="money-ledger-end"><span>検算</span><strong>${currency(previous)} ＋ ${currency(data.inTotal)} − ${currency(data.outTotal)} ＝ ${currency(current)}</strong></div></details>`;
+ $('moneyExplainer').textContent=data.residual!==0?'旧セーブなどで未記録の差額があるため、明細には調整行を表示しています。':'上の合計はすべて円単位。入金 − 支払い ＝ 残高の増減です。';
 }
+
 function openMoney(kind='store',source){
  moneyReturnFocus=source||document.activeElement;
  setMoneyKind(kind);
@@ -296,11 +311,11 @@ function showWeekReport(h,finish){
  $('reportDescription').textContent=h.devilNote?`${h.devilNote} ${h.body}`:h.body;
  $('reportCash').textContent=man(h.cashAfter??game.cash)+'万円';
  const dc=h.deltaCash??0;
- $('reportCashChange').textContent='口座の増減 '+moneyChange(dc);
+ $('reportCashChange').textContent='今週 '+moneyChange(dc);
  $('reportCashChange').className='money-change '+cashClass(dc);
- $('reportExpenses').textContent=man(h.personalCashAfter??game.personalCash)+'万円';
+ $('reportExpenses').textContent=currency(h.personalCashAfter??game.personalCash);
  const dp=(h.personalCashAfter??game.personalCash)-(h.personalCashBefore??0);
- $('reportPersonalChange').textContent='財布の増減 '+moneyChange(dp);
+ $('reportPersonalChange').textContent='今週 '+moneyChange(dp);
  $('reportPersonalChange').className='money-change '+cashClass(dp);
  const storeLines=[['営業利益',h.profit],['融資など',h.financing||0],['悪魔の援助',h.devilId==='shop'?G.DEVIL_OFFERS.find(x=>x.id==='shop')?.gain||0:0],['返済',-(h.principal||0)],['設備投資',-(h.investment||0)],['コンサル報酬',-((h.fee||0)+(h.boardroomBonus||0))],['悪魔への返済',-(h.devilPayment||0)],['緊急再建',h.rescueAmount||0],['事故補償',-(h.remedyCost||0)]];
  const personalLines=[['報酬',(h.fee||0)+(h.boardroomBonus||0)],['生活費',-(h.personalLiving||0)],['養育費',-(h.supportPaid||0)],['悪魔への返済',-(h.personalDevilPayment||0)],['悪魔の援助',h.devilId==='personal'?G.DEVIL_OFFERS.find(x=>x.id==='personal')?.gain||0:0]];
@@ -405,9 +420,9 @@ function rating(s){if(s.skill>=85)return '伝説のコンサル';if(s.skill>=70)
 function riskLabel(n){return n>=.17?['高','high','かなり危険']:n>=.08?['中','medium','やや注意']:['低','','比較的落ち着いている'];}
 function paint(){
  const s=game;
- $('personalBalance').textContent=man(s.personalCash)+'万円';
+ $('personalBalance').textContent=currency(s.personalCash);
  const due=G.PERSONAL.dueWeeks.find(w=>w>=s.week);
- $('supportDue').textContent=due?`第${due}週・${man(G.PERSONAL.support)}万円`:'今期の支払い終了';
+ $('supportDue').textContent=due?`第${due}週 ${currency(G.PERSONAL.support)}`:'今期の支払い終了';
  $('arrearsBadge').hidden=!s.arrears;
  $('arrearsBadge').textContent='未払い '+man(s.arrears)+'万';
  const macro=G.currentMacro(s);
@@ -427,9 +442,10 @@ function paint(){
  $('repMeter').style.width=s.storeRep+'%';$('heatMeter').style.width=s.fire+'%';
  const shopDiff=s.lastResult?.deltaCash??0;
  const personalDiff=s.history.length?(s.personalCash-(s.lastResult?.personalCashBefore??s.personalCash)):0;
- $('cashTrend').textContent=s.history.length?'前週から '+moneyChange(shopDiff):'開始時点';
+ $('cashTrend').textContent=s.history.length?'今週 '+moneyChange(shopDiff):'開始時点';
  $('cashTrend').className='cash-delta '+(s.history.length?cashClass(shopDiff):'flat');
- $('personalTrend').textContent=s.history.length?'前週から '+moneyChange(personalDiff):'開始時点';
+ $('personalTrend').textContent=s.history.length?'今週 '+moneyChange(personalDiff):'開始時点';
+ if($('personalFlow')){const h=s.lastResult; $('personalFlow').textContent=h?`入 +${yen((h.fee||0)+(h.boardroomBonus||0))} / 出 −${yen((h.personalLiving||0)+(h.supportPaid||0)+(h.personalDevilPayment||0))}`:'生活費 毎週7,000円';}
  $('personalTrend').className='cash-delta '+(s.history.length?cashClass(personalDiff):'flat');
  document.querySelector('.play-stat.money').classList.toggle('in-danger',s.cash<120000);
  $('overheadCount').textContent='毎週 '+man(155000-(60-s.staff)*800)+'万円';

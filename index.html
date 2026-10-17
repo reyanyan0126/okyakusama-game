@@ -56,7 +56,7 @@
         <button id="titleResume" class="secondary-btn" type="button" hidden>つづきから <span>→</span></button>
         <button id="titleHelp" class="text-btn" type="button">あそびかた</button>
       </div>
-      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.9.6</p>
+      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.9.7</p>
     </div>
   </section>
   <section id="contractsScreen" class="entry-screen" aria-label="コンサル依頼一覧" hidden>
@@ -75,7 +75,7 @@
   </section>
   <section id="prologueScreen" class="entry-screen prologue-screen" aria-label="依頼前の短い物語" hidden>
     <div class="entry-card prologue-card">
-      <div class="prologue-top"><span>PROLOGUE</span><span id="prologueCounter">01 / 03</span></div>
+      <div class="prologue-top"><span>PROLOGUE</span><span id="prologueCounter">01 / 05</span></div>
       <div class="prologue-illustration" id="prologueIllustration" aria-hidden="true">
         <svg class="prologue-art" viewBox="0 0 320 175"><use id="prologueArt" href="#art-wallet" x="68" y="12" width="184" height="153"/></svg>
       </div>
@@ -84,7 +84,7 @@
         <h2 id="prologueHeading">通帳残高、28,000円。</h2>
         <p id="prologueText">離婚後の生活はぎりぎり。養育費の期限が近づくのに、依頼はゼロだった。</p>
       </div>
-      <div class="prologue-dots" aria-label="物語の進行状況"><span class="current"></span><span></span><span></span></div>
+      <div class="prologue-dots" aria-label="物語の進行状況"><span class="current"></span><span></span><span></span><span></span><span></span></div>
       <button type="button" id="prologueNext" class="primary-btn">次へ →</button>
       <button type="button" id="prologueSkip" class="prologue-skip">ストーリーをスキップ</button>
     </div>
@@ -170,13 +170,33 @@
             <div class="office-hero-heading"><span class="office-nameplate">雑居ビル3階 ／ コンサル事務所</span><span id="heroWeek" class="office-week">第1週</span></div>
             <div class="office-hero-caption"><span>担当案件</span><h2 id="clientTitle">モグモグマート</h2><span id="officeSceneText" class="office-under" aria-live="polite">開店したばかり。再建はここから。</span></div>
             <div class="office-visitors" aria-label="相談者と消費者の様子">
-              <div class="cast-portrait"><div id="bossFace" class="portrait boss-portrait" data-mood="normal" role="img" aria-label="店長・普通の表情"><span class="portrait-hair"></span><span class="portrait-eyes"><i></i><i></i></span><span class="portrait-mouth"></span><span class="portrait-tie"></span></div><small>店長</small></div>
-              <div class="cast-portrait"><div id="buyerFace" class="portrait buyer-portrait" data-mood="normal" role="img" aria-label="消費者・普通の表情"><span class="portrait-hair"></span><span class="portrait-eyes"><i></i><i></i></span><span class="portrait-mouth"></span></div><small>消費者</small></div>
+              <div class="cast-portrait cast-avatar"><svg id="bossFace" class="face-art" data-mood="normal" viewBox="0 0 52 66" role="img" aria-label="店長・普通の表情">
+      <path d="M8 58Q9 47 25 47Q43 47 44 58V63H8Z" fill="#6c9893" stroke="#483930" stroke-width="2"/>
+      <ellipse cx="26" cy="30" rx="18" ry="23" fill="#f0ba93" stroke="#45352e" stroke-width="2.5"/><path d="M8 22Q4 5 26 5Q47 4 44 24L37 17L30 13L21 19L12 18Z" fill="#41322c" stroke="#352a25" stroke-width="2"/>
+      <g class="face-eyes"><ellipse cx="20" cy="30" rx="2.2" ry="3.2" fill="#302821"/><ellipse cx="33" cy="30" rx="2.2" ry="3.2" fill="#302821"/></g>
+      <g class="face-angry-brows" stroke="#302821" stroke-width="2.7" stroke-linecap="round"><path d="M15 23l8 3M37 23l-8 3"/></g>
+      <path class="face-mouth face-mouth-normal" d="M21 40Q26 43 31 40" stroke="#8b5146" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+      <path class="face-mouth face-mouth-happy" d="M19 39Q26 51 33 39Z" fill="#b55d58" stroke="#7b4037" stroke-width="1.8"/>
+      <path class="face-mouth face-mouth-angry" d="M21 44Q26 37 31 44" stroke="#904b40" stroke-width="2.7" fill="none" stroke-linecap="round"/>
+      <ellipse class="face-mouth face-mouth-panic" cx="26" cy="42" rx="4.6" ry="6.5" fill="#9f5149" stroke="#793c39" stroke-width="1.8"/>
+      <path d="M26 50l-5 5 5 6 5-6Z" fill="#bd604f" stroke="#49322b" stroke-width="1.4"/>
+    </svg><small>店長</small></div>
+              <div class="cast-portrait cast-avatar"><svg id="buyerFace" class="face-art" data-mood="normal" viewBox="0 0 52 66" role="img" aria-label="消費者・普通の表情">
+      <path d="M8 58Q9 47 25 47Q43 47 44 58V63H8Z" fill="#d6a077" stroke="#483930" stroke-width="2"/>
+      <ellipse cx="26" cy="30" rx="18" ry="23" fill="#f6c8a5" stroke="#45352e" stroke-width="2.5"/><path d="M8 24Q4 5 26 5Q48 6 44 27L40 39L37 20L29 15L18 18L12 36Z" fill="#76503c" stroke="#4b352a" stroke-width="2"/>
+      <g class="face-eyes"><ellipse cx="20" cy="30" rx="2.2" ry="3.2" fill="#302821"/><ellipse cx="33" cy="30" rx="2.2" ry="3.2" fill="#302821"/></g>
+      <g class="face-angry-brows" stroke="#302821" stroke-width="2.7" stroke-linecap="round"><path d="M15 23l8 3M37 23l-8 3"/></g>
+      <path class="face-mouth face-mouth-normal" d="M21 40Q26 43 31 40" stroke="#8b5146" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+      <path class="face-mouth face-mouth-happy" d="M19 39Q26 51 33 39Z" fill="#b55d58" stroke="#7b4037" stroke-width="1.8"/>
+      <path class="face-mouth face-mouth-angry" d="M21 44Q26 37 31 44" stroke="#904b40" stroke-width="2.7" fill="none" stroke-linecap="round"/>
+      <ellipse class="face-mouth face-mouth-panic" cx="26" cy="42" rx="4.6" ry="6.5" fill="#9f5149" stroke="#793c39" stroke-width="1.8"/>
+      <path d="M11 58Q25 46 40 58" stroke="#da9a72" stroke-width="10"/>
+    </svg><small>消費者</small></div>
             </div>
           </article>
           <section class="office-vitals play-stats" aria-label="今週の重要ステータス">
-            <button id="officeStoreMoney" class="play-stat money cash-open" type="button" aria-label="お店のお金の流れを見る"><span><svg class="mini-ill"><use href="#art-store"/></svg> 店の資金</span><strong id="cashCount">19.5<small>万円</small></strong><em id="cashTrend" class="cash-delta">ゲーム開始時点</em><span class="cash-hint">内訳を確認 ›</span></button>
-            <button id="officePersonalMoney" class="play-stat personal cash-open" type="button" aria-label="自分のお金の流れを見る"><span><svg class="mini-ill"><use href="#art-wallet"/></svg> 自分の財布</span><strong id="personalBalance">2.8万円</strong><em id="personalTrend" class="cash-delta">ゲーム開始時点</em><span class="vital-secondary">養育費 <b id="supportDue">第4週・3.6万円</b></span><span id="arrearsBadge" class="arrears-badge" hidden>未払い</span><span class="cash-hint">内訳を確認 ›</span></button>
+            <button id="officeStoreMoney" class="play-stat money cash-open" type="button" aria-label="お店のお金の流れを見る"><span><svg class="mini-ill"><use href="#art-store"/></svg> 店の資金</span><strong id="cashCount">19.5<small>万円</small></strong><em id="cashTrend" class="cash-delta">ゲーム開始時点</em><span class="cash-hint">お金の理由を見る ›</span></button>
+            <button id="officePersonalMoney" class="play-stat personal cash-open" type="button" aria-label="自分のお金の流れを見る"><span><svg class="mini-ill"><use href="#art-wallet"/></svg> 自分の財布</span><strong id="personalBalance">28,000円</strong><em id="personalTrend" class="cash-delta">ゲーム開始時点</em><span id="personalFlow" class="vital-flow">毎週 生活費 7,000円</span><span class="vital-secondary">養育費 <b id="supportDue">第4週・3.6万円</b></span><span id="arrearsBadge" class="arrears-badge" hidden>未払い</span><span class="cash-hint">入金・支払いを見る ›</span></button>
             <div class="play-stat trust"><span><svg class="mini-ill"><use href="#art-heart"/></svg> お店の評判</span><strong id="repCount">58<small>/100</small></strong><div class="play-meter"><i id="repMeter"></i></div><span class="vital-secondary">炎上 <b id="heatCount">4<small>/100</small></b><span class="tiny-meter"><i id="heatMeter"></i></span></span></div>
           </section>
           <div class="world-ribbon" id="worldRibbon"><svg class="ribbon-ill"><use href="#art-bill"/></svg><div><small>社会情勢</small><strong id="macroName">物価高</strong></div><span id="macroEffect">仕入れ価格が高騰中</span></div>
@@ -353,8 +373,8 @@
     <div class="money-sheet-panel">
       <div class="money-sheet-top"><div><span>ACCOUNT BOOK</span><h2 id="moneyTitle">お金の流れ</h2></div><button type="button" id="moneyClose" aria-label="お金の流れを閉じる">閉じる ×</button></div>
       <div class="money-tabs" role="tablist" aria-label="財布の切り替え"><button type="button" id="moneyStoreTab" role="tab" aria-selected="true">お店のお金</button><button type="button" id="moneyPersonalTab" role="tab" aria-selected="false">自分のお金</button></div>
-      <div id="moneyPanel" role="tabpanel" aria-live="polite"><div id="moneyOverview"></div><div id="moneyLines" class="money-lines"></div><p id="moneyExplainer" class="money-explainer"></p></div>
-      <button type="button" id="moneyDone" class="primary-btn">わかった、会議へ戻る →</button>
+      <div id="moneyPanel" role="tabpanel" aria-live="polite"><div id="moneyOverview"></div><div id="moneyQuestion" class="money-question" aria-live="polite"></div><div id="moneyLines" class="money-lines"></div><p id="moneyExplainer" class="money-explainer"></p></div>
+      <button type="button" id="moneyDone" class="primary-btn">閉じる</button>
     </div>
   </section>
   <div id="modal" class="modal-layer" hidden><div class="modal-backdrop"></div><div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button id="modalClose" class="modal-x" type="button" aria-label="閉じる">×</button><div id="modalContent"></div></div></div>
