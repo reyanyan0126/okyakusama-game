@@ -27,10 +27,11 @@ for(const e of ST.EPISODES){
  const follow=G.weeklyBrief(after);
  assert.equal(follow.phase,'follow','follow must be available');
  assert.equal(follow.choices.length,4);
- const continuation=G.play(after,follow.choices[0]);
+ const followAction=G.weeklyOffers(after)[0].id;
+ const continuation=G.play(after,followAction);
  assert.equal(continuation.lastResult.storyEvent.phase,'follow');
  assert.equal(continuation.storyArcs[0].stage,'echo');
- continuation.week=e.week+5;continuation.lastResult={actionId:follow.choices[0],fireHit:false,memoryEvent:false};
+ continuation.week=e.week+5;continuation.lastResult={actionId:followAction,fireHit:false,memoryEvent:false};
  const echo=G.play(continuation,G.weeklyOffers(continuation)[0].id);
  assert.equal(echo.storyJournal.length,1,'echo recorded '+e.id);
  assert(echo.lastResult.storyEcho.length===1,'echo surfaced in result');
