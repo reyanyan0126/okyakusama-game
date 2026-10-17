@@ -961,3 +961,5 @@ body.entry-mode{background:#f8f3e9}
 .crisis-response{background:#fff2dd;border:1.5px solid #dba66e;border-radius:12px;padding:11px 13px;margin:10px 0;color:#46342b;font-size:12px;line-height:1.65;}
 .crisis-response strong{display:block;font-size:12px;margin-bottom:4px;}
 .crisis-response p{margin:0;font-size:11px;line-height:1.75;}
+/* First-week guide: short enough for small iPhone screens. */
+.first-week-guide p{margin:8px 0 10px;line-height:1.65}.first-week-guide ol{margin:9px 0 10px;padding-left:21px}.first-week-guide li{margin-bottom:7px}.first-week-guide .first-week-goal{border:1px solid #e3d4b8;background:#fff3d8;border-radius:9px;padding:9px 11px;font-weight:900;color:#463322;font-size:12px}.first-week-guide+.modal-actions{margin-top:11px}
