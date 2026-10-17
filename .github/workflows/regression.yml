@@ -1,0 +1,27 @@
+name: Game regression tests
+on:
+  pull_request:
+  push:
+    branches:
+      - fix/v1.0.1-contextual-incidents
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run Node game tests
+        run: |
+          for test in tests/*.test.cjs; do node "$test"; done
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install browser test dependencies
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Test first-run tutorial, resume and three-way crisis choices
+        run: python tests/onboarding-v101.py
