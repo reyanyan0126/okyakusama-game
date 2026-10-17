@@ -8,6 +8,7 @@ on:
       - feature/v1.2.0-outcomes-comedy
       - feature/v1.3.0-consequence-arcs
       - feature/v1.4.0-week-theater
+      - feature/v1.5.0-art-storyboards
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -19,7 +20,7 @@ jobs:
           node-version: '22'
       - name: Run Node game tests
         run: |
-          for test in tests/crisis-v100.test.cjs tests/four-choice-v110.test.cjs tests/outcome-v120.test.cjs tests/story-v130.test.cjs tests/theater-v140.test.cjs tests/onboarding-v101.test.cjs tests/ui-smoke.test.cjs tests/v099-campaign.test.cjs tests/finance-v094.test.cjs tests/v095-rootcause.test.cjs; do node "$test"; done
+          for test in tests/crisis-v100.test.cjs tests/four-choice-v110.test.cjs tests/outcome-v120.test.cjs tests/story-v130.test.cjs tests/theater-v140.test.cjs tests/storyboards-v150.test.cjs tests/onboarding-v101.test.cjs tests/ui-smoke.test.cjs tests/v099-campaign.test.cjs tests/finance-v094.test.cjs tests/v095-rootcause.test.cjs; do node "$test"; done
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -34,3 +35,4 @@ jobs:
           python tests/outcome-v120.py
           python tests/story-v130.py
           python tests/theater-v140.py
+          python tests/storyboards-v150.py
