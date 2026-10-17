@@ -332,7 +332,7 @@ function applyPerformance(s,id,action,before,result){
  for(const key of PERFORMANCE_NUMBERS){
   const diff=s[key]-before[key];
   const rate=result.tier==='failure'&&BOLD_POLICIES.has(id)&&['frust','fire','notoriety'].includes(key)&&diff>0?1.10:multiplier;
-  const bounds=key==='price'?[150,260]:key==='size'?[60,100]:key==='quality'?[30,90]:key==='staff'?[30,100]:[0,100];
+  const bounds=key==='price'?[150,260]:key==='size'?[60,100]:key==='quality'?[30,90]:key==='staff'?[30,60]:[0,100];
   s[key]=cap(int(before[key]+diff*rate),...bounds);
  }
  action.demandFactor=1+(action.demandFactor-1)*multiplier;
