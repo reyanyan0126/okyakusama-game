@@ -31,6 +31,15 @@ with sync_playwright() as p:
         page.locator('#firstWeekStart').click()
         assert not page.locator('#modal').is_visible()
         assert page.locator('#weekIndicator').inner_text()=='1 / 30'
+        # Record one week so that "Continue" becomes available on the title screen.
+        page.locator('#openProposals').click()
+        assert page.locator('.action-option').count()==3
+        page.locator('#advanceButton').click()
+        page.locator('#reportScene').wait_for(state='visible',timeout=10000)
+        if not page.locator('#reportContinue').is_enabled():
+            page.locator('#accidentIgnore').click()
+        page.locator('#reportContinue').click()
+        assert page.locator('#weekIndicator').inner_text()=='2 / 30'
         page.locator('.game-tab[data-screen="records"]').click()
         page.locator('#backTitle').click()
         page.locator('#titleResume').click()
