@@ -1,4 +1,4 @@
-/* お客様のために。v0.9.9 - 30-week chapters, incoming-call animation and concise optional actions, compact office, modal accessibility. */
+/* お客様のために。v1.0.0 - 30-week chapters, incoming-call animation and concise optional actions, compact office, modal accessibility. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const F=window.FinanceLedger;
@@ -55,8 +55,10 @@ function renderPrologue(){
  $('prologueSpeaker').textContent=item.speaker;
  $('prologueHeading').textContent=item.title;
  $('prologueText').textContent=item.text;
- const illustrationStep=prologueStep<=2?prologueStep+1:prologueStep===3?3:prologueStep;
+ const illustrationStep=prologueStep+1;
  $('prologueArt').setAttribute('href','#story-scene-'+illustrationStep);
+ $('prologueArt').setAttribute('x','0');$('prologueArt').setAttribute('y','0');
+ $('prologueArt').setAttribute('width','320');$('prologueArt').setAttribute('height','175');
  $('prologueIllustration').dataset.scene=String(illustrationStep);
  $('prologueIllustration').classList.toggle('phone-ringing',prologueStep===2);
  $('prologueIllustration').classList.remove('story-art-enter');void $('prologueIllustration').offsetWidth;$('prologueIllustration').classList.add('story-art-enter');
@@ -363,6 +365,8 @@ function showWeekReport(h,finish){
  $('reportTitle').textContent=isFire?'大炎上！':h.accidentId?(h.accidentPositive?'うれしい臨時ニュース！':'突発アクシデント！'):h.rootFixedThisWeek?'再建の突破口を発見！':h.boycottActive?'不買運動発生中！':isMemory?'過去の施策が再燃！':h.profit<0?'赤字の決算…':'今週の決算！';
  $('reportHeadline').textContent=h.title;
  $('reportDescription').textContent=h.devilNote?`${h.devilNote} ${h.body}`:h.body;
+ $('crisisResponseBox').hidden=!h.crisisResponse;
+ $('crisisResponseText').textContent=h.crisisResponse||'';
  $('reportCash').textContent=man(h.cashAfter??game.cash)+'万円';
  const dc=h.deltaCash??0;
  $('reportCashChange').textContent='今週 '+moneyChange(dc);

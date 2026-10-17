@@ -956,3 +956,8 @@ body.entry-mode{background:#f8f3e9}
 @keyframes phone-call-vibe{from{transform:translateX(-3px) rotate(-1deg)}to{transform:translateX(3px) rotate(1deg)}}
 @keyframes signal-pop{from{opacity:.48;transform:scale(.95)}to{opacity:1;transform:scale(1.1)}}
 @media (prefers-reduced-motion:reduce){.phone-ringing .prologue-art,.phone-ringing .phone-signal{animation:none!important}}
+
+/* v1.0.0: readable follow-up that separates a decision's direct effect from later surprises */
+.crisis-response{background:#fff2dd;border:1.5px solid #dba66e;border-radius:12px;padding:11px 13px;margin:10px 0;color:#46342b;font-size:12px;line-height:1.65;}
+.crisis-response strong{display:block;font-size:12px;margin-bottom:4px;}
+.crisis-response p{margin:0;font-size:11px;line-height:1.75;}

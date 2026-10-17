@@ -1,4 +1,4 @@
-/* お客様のために。v0.9.9 - thirty-week turnaround and survival economics, social shocks and devil pacts. */
+/* お客様のために。v1.0.0 - thirty-week turnaround and survival economics, social shocks and devil pacts. */
 (function(root){
 'use strict';
 const VERSION = 1, MAX_WEEKS = 30;
@@ -211,8 +211,11 @@ function weeklyBrief(s){
  if(s.finished)return {id:'done',title:'契約期間が終了しました',quote:'社長「審査結果を聞こう。座っていいか？」',choices:[]};
  const prev=s.lastResult;
  if(prev&&(prev.fireHit||prev.memoryEvent||s.fire>=57)){
-  const cause=prev.memoryEvent?'過去の施策が発掘された！':prev.fireHit?'SNSで炎上！':'苦情が止まらない！';
-  return {id:'crisis',title:cause+' 緊急会議',quote:'社長「君の提案だったよね？ さあ、どう収拾する？」',choices:['apology','recall','blame','explain']};
+  const old=prev.actionName||'直前の施策';
+  const context=prev.memoryEvent?'過去の施策が再び話題に':prev.fireHit?`先週「${old}」の営業中に炎上`:'SNSでの批判が長期化';
+  // Recovery always has three distinct approaches with different costs and risks.
+  const evidence=prev.memoryEvent||!prev.actionId||['shrink','cheap','photo','airtax','points'].includes(prev.actionId);
+  return {id:'crisis',title:`${context}！ 緊急会議`,quote:evidence?'消費者「謝罪文より、商品の改善を見せてください」。社長「写真は小さく載せよう」':'店長「苦情の電話が止まりません」。社長「先に誰の責任か決めよう」',choices:evidence?['apology','recall','blame']:['apology','explain','blame'],cause:context};
  }
  if(s.cash<135000)return {id:'cash',title:' 今週の支払いが迫る！',quote:'経理「現金が足りません。社長の声量では振り込めません！」',choices:['loan','raise','staff','sale']};
  if(s.week===campaignWeeks(s))return BRIEFS.find(x=>x.id==='final');
@@ -373,6 +376,11 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  if(plan)s.upgrades[plan]++;
  const previous={sales:s.sales,rep:s.storeRep,sat:s.sat,frust:s.frust,fire:s.fire,skill:s.skill,cash:s.cash,personalCash:s.personalCash,arrears:s.arrears};
  const action=applyAction(s,id);
+ // Capture the effect of the player's decision itself, before random accidents,
+ // weather, boycotts and macroeconomics add their own changes.
+ const directImpact={rep:s.storeRep-previous.rep,fire:s.fire-previous.fire,sat:s.sat-previous.sat,frust:s.frust-previous.frust};
+ const crisisResponse=brief.id==='crisis'?`${brief.cause||'前週の炎上'}に対して「${ACTIONS_BY_ID[id].name}」を実行。対策そのものの効果：評判 ${directImpact.rep>=0?'+':''}${directImpact.rep}、炎上度 ${directImpact.fire>=0?'+':''}${directImpact.fire}、満足度 ${directImpact.sat>=0?'+':''}${directImpact.sat}。※決算の最終変化には新たな事故・景気・口コミも反映。`:'';
+
  const macro=currentMacro(s);
  let devilNote='',devilDemand=1,devilPayment=0,personalDevilPayment=0;
  if(devil){
@@ -482,7 +490,7 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  s.lowCashWeeks=s.cash<0?s.lowCashWeeks+1:0;
  if(s.cash<0){s.bankrupt=true;s.rescuePending=!s.personalFailed&&rescueOptions(s).length>0;} // The last chance appears before closing.
  if(s.maintenance>0)s.maintenance--;
- const report={rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_'),boardroomBonus,
+ const report={crisisResponse,rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_'),boardroomBonus,
  boardroomDemandId:boardDemand?.actionId||null,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':QUOTES[id],eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,investment,projectId:plan,projectLabel:plan?PROJECTS_BY_ID[plan].name:"なし",incidentCost,accidentResponse:accident?.positive?'not_needed':null,accidentPositive:!!accident?.positive,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,macroId:macro.id,macroName:macro.name,macroTag:macro.tag,macroDetail:macro.detail,macroPenalty,macroBonus,macroFixed:macro.fixed,devilId:devil,devilNote,devilPayment,personalDevilPayment,personalCashBefore:previous.personalCash,personalCashAfter:s.personalCash,arrearsBefore:previous.arrears,arrearsAfter:s.arrears,personalLiving:PERSONAL.living,supportDue,supportPaid,feeFromStore:fee,personalFailed:s.personalFailed,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
  s.history.push(report);s.lastResult=report;s.week++;
  if(s.week>campaignWeeks(s)||s.bankrupt||s.personalFailed)s.finished=true;
