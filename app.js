@@ -1,4 +1,4 @@
-/* お客様のために。v1.0.0 - 30-week chapters, incoming-call animation and concise optional actions, compact office, modal accessibility. */
+/* お客様のために。v1.0.1 - 30-week chapters, incoming-call animation and concise optional actions, compact office, modal accessibility. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const F=window.FinanceLedger;
@@ -69,7 +69,7 @@ function renderPrologue(){
 }
 function finishPrologue(){
  game=G.initial(Date.now());selectedProject=null;selectedDevil=null;save();paint();changeScreen('office');showEntry('game');
- toast('依頼開始。まずは店の資金と、自分の生活費を確認しよう');
+ showFirstWeekGuide();
 }
 function advancePrologue(){
  if(prologueStep<PROLOGUE.length-1){prologueStep++;renderPrologue();}else finishPrologue();
@@ -362,7 +362,7 @@ function showWeekReport(h,finish){
  $('economyHeadline').textContent=macro?`${macro.tag}｜${macro.name}${h.macroPenalty?'：是正費用 '+man(h.macroPenalty)+'万円':h.macroBonus?'：補助金 +'+man(h.macroBonus)+'万円':''}`:'今週の景気の変化';
 
  $('reportIcon').textContent='';
- $('reportTitle').textContent=isFire?'大炎上！':h.accidentId?(h.accidentPositive?'うれしい臨時ニュース！':'突発アクシデント！'):h.rootFixedThisWeek?'再建の突破口を発見！':h.boycottActive?'不買運動発生中！':isMemory?'過去の施策が再燃！':h.profit<0?'赤字の決算…':'今週の決算！';
+ $('reportTitle').textContent=isFire?'大炎上！':isMemory?'過去の施策が再燃！':h.accidentId?(h.accidentPositive?'うれしい臨時ニュース！':'突発アクシデント！'):h.rootFixedThisWeek?'再建の突破口を発見！':h.boycottActive?'不買運動発生中！':h.profit<0?'赤字の決算…':'今週の決算！';
  $('reportHeadline').textContent=h.title;
  $('reportDescription').textContent=h.devilNote?`${h.devilNote} ${h.body}`:h.body;
  $('crisisResponseBox').hidden=!h.crisisResponse;
@@ -616,6 +616,11 @@ function finishModal(){
  const fires=s.history.filter(h=>h.fireHit).length;
  openModal(`<div class="modal-kicker">${s.bankrupt?'EMERGENCY / 資金ショート':'FINAL REPORT / 契約の最終審査'}</div><h2 id="modalTitle">${outcome.passed?' 契約達成！':' 契約結果のお知らせ'}</h2><div class="end-stamp"><svg class="mini-ill"><use href="#art-document"/></svg> ${esc(outcome.name)}</div><div class="result-grid" style="margin-top:15px"><div class="result-tile"><span>累計利益 / 目標</span><b>${man(goal.profit)} / ${man(s.contractGoal)}万</b><small>${goal.profit>=s.contractGoal?'利益目標クリア':'利益目標まで'+man(goal.profitGap)+'万円'}</small></div><div class="result-tile"><span>評判 / 条件</span><b>${s.storeRep} / 50</b><small>${s.storeRep>=50?'信用条件クリア':'信用条件まであと'+goal.repGap}</small></div><div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div><div class="result-tile"><span>炎上回数</span><b>${fires}回</b></div></div><div class="modal-comment">${esc(outcome.line)}</div><p class="modal-detail">主人公の財布：${man(s.personalCash)}万円 ／ 養育費未払い：${man(s.arrears)}万円 ／ 悪魔の契約：${s.pactCount}回。お店だけでなく、あなた自身も生き残れた？</p><div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい依頼を探す </button></div>`);
  $('endRestart').addEventListener('click',()=>{closeModal();showEntry('contracts');});
+}
+function showFirstWeekGuide(){
+ openModal(`<div class="modal-kicker">はじめての経営 / WEEK 01</div><h2 id="modalTitle">さあ、最初の経営会議よ。</h2><div class="modal-detail first-week-guide"><p>あなたの仕事は、<b>30週間でモグモグマートを立て直すこと。</b> まずは、たった3つの操作だけ覚えてね。</p><ol><li><b>今週の課題を読む</b> — 社長や店長からの相談を確認。</li><li><b>「3つの作戦を見る」</b> — 対応策を1つ選ぶ。投資と悪魔の契約は任意よ。</li><li><b>「この案で営業する」</b> — 1週間が進み、決算で結果と原因を確認できるわ。</li></ol><p><b>忘れないで：</b>店の資金・自分の財布・お店の評判は別々。お金だけ増やしても、信用を失えば再建失敗よ。</p><p class="first-week-goal">契約目標：累計利益255万円 ＋ 評判50以上</p></div><div class="modal-actions"><button id="firstWeekStart" class="primary-btn" type="button">わかった！ 今週の課題を見る →</button></div>`);
+ $('firstWeekStart').addEventListener('click',()=>{closeModal();$('openProposals').focus({preventScroll:true});});
+ $('firstWeekStart').focus({preventScroll:true});
 }
 function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>依頼を受ける。</b>タイトルからモグモグマートを選ぶ。</li><li><b>相談に答える。</b>店長や社長からの問題に3つの対応策から選ぶ。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>生き残る。</b>店舗資金と主人公の生活費を別々に管理。毎週の生活費・4週間ごとの養育費を払おう。</li><li><b>社会情勢と悪魔。</b>景気や行政で売上・原価が変化。悪魔に助けを求めると期限付きの代償が発生する。</li><li><b>契約達成。</b>30週間で利益255万円・評判50以上。店の倒産や生活破綻で途中終了。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ </button></div>`);$('aboutClose').addEventListener('click',closeModal);}
 function setup(){
