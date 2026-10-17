@@ -318,6 +318,17 @@ function performanceOdds(s,id){
  if(s.fire>=50){failure+=bold?8:4;great-=3;}
  if(s.frust>=70)failure+=3;
  failure-=(s.upgrades?.people||0)*2;
+ // Trust earned across episodes changes practical success odds. These are
+ // small bounded modifiers, separate from the displayed random draw.
+ const relationships=s.cast||{boss:0,manager:0,customers:0};
+ if(steady){
+  failure-=Math.round(((relationships.manager||0)+(relationships.customers||0))/18);
+  great+=Math.round((relationships.customers||0)/28);
+ }
+ if(bold){
+  failure-=Math.round((relationships.customers||0)/30);
+  great+=Math.round((relationships.boss||0)/30);
+ }
  const brief=weeklyBrief(s);
  if(brief.id==='crisis'&&['apology','recall','explain','loyalty'].includes(id)){failure-=5;great+=3;}
  if(brief.id==='rival'&&['sale','local','stamp'].includes(id))failure-=4;
