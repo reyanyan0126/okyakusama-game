@@ -78,8 +78,8 @@ assert.ok(endings.completed>0,'Some campaigns should survive to week 12');
  assert.equal(G.ending(next).passed,false);
 }
 {
- const legacyEngine=require('../../okyakusama-v0.7/engine.js');
- let old=legacyEngine.play(legacyEngine.initial(321),'quality');
+ let old=G.play(G.initial(321),'quality');
+ for(const key of ['personalCash','arrears','personalFailed','pactCount','pacts','rngSeed'])delete old[key];
  const restored=G.validateSaved(old);
  assert.equal(restored.week,old.week);
  assert.equal(restored.history.length,1);
