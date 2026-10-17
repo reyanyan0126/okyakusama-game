@@ -159,10 +159,11 @@ function reopenLastReport(){
  $('weekScene').hidden=false;$('workingScene').hidden=true;$('shockScene').hidden=true;
  document.body.classList.add('scene-locked');
  weekSceneClosedByUser=false;
- showWeekReport(game.lastResult,game.finished);
+ if(pendingAccident(game.lastResult))resumeTheater();else showWeekReport(game.lastResult,game.finished);
 }
 function closeWeekScene(){
  if($('weekScene').hidden)return;
+ if(resolving || pendingAccident(game.lastResult) || game.rescuePending){toast('先に今週の結果と必要な対応を確認してください');return;}
  weekSceneClosedByUser=true;
  $('weekScene').hidden=true;
  if($('moneySheet').hidden&&$('proposalSheet').hidden&&$('statusSheet').hidden&&$('modal').hidden)document.body.classList.remove('scene-locked');
@@ -184,6 +185,8 @@ function setFaces(){
  const buyer=s.frust>=65?'angry':s.sat>=75?'happy':s.frust>=40?'sad':'normal';
  for(const [id,mood,label] of [['bossFace',boss,'店長'],['buyerFace',buyer,'消費者']]){
   $(id).dataset.mood=mood;
+  $(id).setAttribute('viewBox','0 0 80 100');
+  $(id).innerHTML=T.person(id==='bossFace'?'manager':'customer',40,62,({panic:'worry',happy:'joy',angry:'anger',sad:'down',normal:'normal'})[mood],'idle',1);
   $(id).setAttribute('aria-label',label+'・'+({panic:'パニック',happy:'笑顔',angry:'怒り',sad:'不満',normal:'普通'})[mood]+'の表情');
  }
 }
@@ -201,6 +204,7 @@ function renderOfficeScene(){
  hero.dataset.rootIssue=scene.rootIssue;
  $('officeSceneText').textContent=scene.note;
  const drawing=document.querySelector('.office-room-art');
+ if(drawing){drawing.setAttribute('viewBox','0 0 360 230');drawing.innerHTML=T.art(scene.store==='scandal'?'media':scene.rootIssue==='repair'?'maintenance':'office',scene.store==='busy'?'joy':scene.store==='critical'?'worry':scene.store==='closed'?'down':'normal','still');}
  if(drawing)drawing.setAttribute('aria-label',scene.description+' 雑居ビルの事務所とモグモグマートの現場写真。');
  if(previous && previous!==scene.store && !reducedMotion()){
   hero.classList.remove('scene-status-changed');void hero.offsetWidth;
@@ -383,6 +387,7 @@ function closeMoney(){
  if(moneyReturnFocus?.isConnected)moneyReturnFocus.focus({preventScroll:true});
 }
 function showRescueScene(){
+ hideTheater();setPresentation('settlement');
  $('workingScene').hidden=true;$('shockScene').hidden=true;$('reportScene').hidden=true;
  $('rescueScene').hidden=false;
  $('rescueDeficit').textContent=man(-game.cash)+'万円';
@@ -400,6 +405,7 @@ function applyRescue(id){
 }
 function showWeekReport(h,finish){
  if(game.rescuePending&&!(h.accidentId&&h.incidentCost>0&&h.accidentResponse===null)){showRescueScene();return;}
+ hideTheater();setPresentation('settlement');
  $('rescueScene').hidden=true;
  const isFire=h.fireHit,isMemory=h.memoryEvent;
  $('workingScene').hidden=true;$('reportScene').hidden=false;
@@ -495,6 +501,10 @@ function showWeekReport(h,finish){
  }
  $('reportContinue').disabled=pending;
  $('reportContinue').textContent=pending?'先にトラブル対応を選んでね':finish?'最終決算を見る →':'次の経営会議へ →';
+ $('reportTitle').textContent='今週の決算';
+ $('settlementProfit').textContent=moneyChange(h.profit);
+ $('settlementProfit').className=cashClass(h.profit);
+ $('reportScene').scrollTop=0;
  $('reportContinue').focus({preventScroll:true});
 }
 
@@ -544,26 +554,82 @@ function startWeek(){
  $('workingAction').dataset.outcome=report.performanceTier||'success';
  $('workingMessage').textContent='現場へ施策を伝えて、今週の営業を進めています…';
  document.body.classList.add('scene-locked');
- const duration=reducedMotion()?120:1400;
- window.setTimeout(()=>{$('workingMessage').textContent='仕入れ・売上・評判の変化を集計中…';},duration*.40);
- window.setTimeout(()=>{$('workingMessage').textContent='今週の結果を発表します！';},duration*.72);
- window.setTimeout(()=>{
-  const notable=report.fireHit||report.accidentId||report.devilPayment||report.personalDevilPayment;
-  if(notable&&!reducedMotion()){
-   $('workingScene').hidden=true;$('shockScene').hidden=false;
-   const positive=!!report.accidentPositive&&!report.fireHit&&!report.memoryEvent;
-   $('shockScene').classList.toggle('positive',positive);
-   const crisis=report.fireHit?{title:'炎上速報！',label:'SOCIAL CRISIS',text:'週刊報告より先に、批判が届きました',art:'art-fire'}:
-    report.accidentId?{title:report.accidentTitle,label:positive?'GOOD NEWS':'EMERGENCY',text:positive?'うれしい知らせ！ 売上や評判が上向きました':'設備と資金に想定外の負荷が発生',art:positive?'art-people':report.accidentId==='freezer'?'art-warning':'art-bill'}:
-    {title:'悪魔の取り立て',label:'PAYMENT DUE',text:'契約書に書いてあった期限が来ました',art:'art-devil'};
-   $('shockLabel').textContent=crisis.label;$('shockTitle').textContent=crisis.title;$('shockText').textContent=crisis.text;
-   $('shockUse').setAttribute('href','#'+crisis.art);
-   window.setTimeout(()=>{$('shockScene').hidden=true;showWeekReport(report,game.finished);resolving=false;},950);
-  }else{showWeekReport(report,game.finished);resolving=false;}
- },duration);
+ game.presentation={week:report.week,stage:'working',newsIndex:0};save();
+ beginTheater(report);
+
+}
+
+const T=window.WeekTheater;
+let theaterTimers=[],newsIndex=0;
+const pendingAccident=h=>!!h?.accidentId&&!h.accidentPositive&&h.incidentCost>0&&h.accidentResponse===null;
+function setPresentation(stage){if(!game.lastResult)return;game.presentation={week:game.lastResult.week,stage,newsIndex};save();}
+function clearTheaterTimers(){theaterTimers.forEach(clearTimeout);theaterTimers=[];}
+function hideTheater(){clearTheaterTimers();for(const id of ['workingScene','shockScene','outcomeScene','newsScene','reportScene','rescueScene'])$(id).hidden=true;resolving=false;}
+function installTheaterLayout(){
+ const title=document.querySelector('.title-visual');if(title)title.innerHTML=T.art('arc_register_boss','worry','still');
+ const introIds=['intro-bills','intro-calendar','intro-phone','office','shop','contract','intro-shadow'];
+ introIds.forEach((id,i)=>{const symbol=$('story-scene-'+(i+1));if(symbol){symbol.setAttribute('viewBox','0 0 360 230');symbol.innerHTML=T.art(id,i<4?'worry':'normal','still');}});
+ const detail=$('financialDetail');
+ for(const selector of ['#reportHeadline','#reportDescription','#storyEvent','#storyEcho','#performanceReport','#crisisResponseBox','#reportVerdict','#economyReport','#reportSatire','.report-impact','#reportGoal','.report-reaction']){
+  const el=document.querySelector(selector);if(el)detail.append(el);
+ }
+ $('newsDecision').append($('accidentDecision'));
+}
+function beginTheater(h){
+ clearTheaterTimers();resolving=true;
+ const lines=T.captions[T.setting(h.actionId)];
+ $('workingComic').innerHTML=T.art(h.actionId,'normal','work');
+ $('workingMessage').textContent=lines[0];
+ $('workingSkip').focus({preventScroll:true});
+ const duration=reducedMotion()?350:3600;
+ if(!reducedMotion())[1,2].forEach((n)=>theaterTimers.push(setTimeout(()=>{$('workingMessage').textContent=lines[n];},n*1100)));
+ theaterTimers.push(setTimeout(showOutcome,duration));
+}
+function showOutcome(){
+ if($('workingScene').hidden)return;
+ hideTheater();setPresentation('outcome');const h=game.lastResult,tier=h.performanceTier||'success';
+ $('outcomeScene').hidden=false;$('outcomeScene').dataset.tier=tier;
+ $('outcomeTitle').textContent={failure:'失敗…',success:'成功！',great:'大成功！'}[tier];
+ $('outcomePolicy').textContent=h.actionName;
+ const mood=tier==='great'?'joy':tier==='failure'?'down':'normal';
+ $('outcomeArt').innerHTML=T.art(h.actionId,mood,'result');
+ const policy=G.STORIES.POLICIES_BY_ID[h.actionId];
+ $('outcomeText').textContent=policy?.[tier]||h.storyEvent?.text||(tier==='failure'?'現場は手順に追われ、狙った効果を十分に出せなかった。':tier==='great'?'現場の工夫がかみ合い、想定を上回る手応えがあった。':'現場で方針を共有し、計画どおりに施策を実行できた。');
+ const impact=h.actionImpact;
+ $('outcomeImpact').innerHTML=impact?[['評判',impact.rep],['満足度',impact.sat],['炎上度',impact.fire]].map(([label,n])=>`<div><span>${label}</span><strong class="${n<0?'down':label==='炎上度'?'flat':'up'}">${sign(n)}</strong></div>`).join(''):'<p>この記録には施策単独の増減がありません。週全体の数字は決算で確認できます。</p>';
+ $('outcomeQuote').textContent=h.storyEvent?.quote||(tier==='failure'?'店長「うまくいかなかった。でも、次の手は一緒に考えます」':(game.cast?.manager||0)<-10?'店長「成果は出ました。現場の声にも耳を傾けてください」':tier==='great'?'店長「みんな、よくやってくれました！」':'店長「一つずつ、立て直していきましょう」');
+ const odds=h.performanceOdds;
+ $('outcomeOdds').textContent=odds?`失敗 ${odds.failure}%・成功 ${odds.success}%・大成功 ${odds.great}%。効果倍率 ${h.performanceMultiplier}倍。費用は通常どおり。臨時ニュースは別判定です。`:'旧バージョンの記録です。';
+ $('outcomeNext').textContent=T.news(h,G).length?'臨時ニュースへ →':'今週の決算へ →';
+ $('outcomeScene').scrollTop=0;$('outcomeTitle').focus({preventScroll:true});
+}
+function renderNews(){
+ hideTheater();const h=game.lastResult,items=T.news(h,G);
+ if(newsIndex>=items.length&&pendingAccident(h))newsIndex=Math.max(0,items.findIndex(item=>item.title===h.accidentTitle));
+ if(newsIndex>=items.length){showWeekReport(h,game.finished);return;}
+ const item=items[newsIndex];setPresentation('news');$('newsScene').hidden=false;$('newsScene').dataset.kind=item.kind;
+ $('newsStep').textContent=`03 / 04 · ${item.kind==='memory'?'過去の選択から':'臨時ニュース'} ${newsIndex+1} / ${items.length}`;
+ $('newsTitle').textContent=item.title;$('newsText').textContent=item.text;
+ $('newsArt').innerHTML=T.art(h.accidentId==='freezer'?'maintenance':item.kind==='memory'?h.actionId:'media',item.kind==='positive'?'joy':item.kind==='memory'?'anger':'worry','news');
+ const pending=pendingAccident(h),isAccident=item.title===h.accidentTitle;
+ $('accidentDecision').hidden=!(pending&&isAccident);
+ if(pending&&isAccident){const cost=Math.min(28000,Math.round(h.incidentCost*.48)+4000);$('accidentRepair').textContent=`補償する −${man(cost)}万円`;$('accidentRepair').disabled=game.cash<cost;$('accidentDecisionText').textContent=game.cash<cost?'補償費が不足しています。費用を抑える対応を選んでください。':'追加費用で信用を守るか、費用を抑えるかを選んでください。';}
+ // Other news may precede the accident; advancing to its mandatory decision is allowed.
+ $('newsNext').disabled=pending&&isAccident;
+ $('newsNext').textContent=pending&&isAccident?'先に対応を選んでください':newsIndex+1<items.length?'次のニュースへ →':'今週の決算へ →';
+ $('newsScene').scrollTop=0;$('newsTitle').focus({preventScroll:true});
+}
+function resumeTheater(){
+ $('weekScene').hidden=false;document.body.classList.add('scene-locked');
+ const stage=game.presentation?.stage;newsIndex=Number.isInteger(game.presentation?.newsIndex)?Math.max(0,game.presentation.newsIndex):0;
+ if(stage==='working'||stage==='outcome'){hideTheater();$('workingScene').hidden=false;showOutcome();}
+ else if(stage==='news'){renderNews();}
+ else if(pendingAccident(game.lastResult)){newsIndex=0;renderNews();}
+ else showWeekReport(game.lastResult,game.finished);
 }
 function finishWeek(){
- if(resolving||$('reportContinue').disabled)return;
+ if(resolving||$('reportContinue').disabled||pendingAccident(game.lastResult)||game.rescuePending)return;
+ game.presentation=null;save();
  const final=game.finished;
  $('weekScene').hidden=true;
  $('workingScene').hidden=false;$('shockScene').hidden=true;$('reportScene').hidden=true;$('rescueScene').hidden=true;
@@ -752,12 +818,13 @@ function showFirstWeekGuide(){
 }
 function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>依頼を受ける。</b>タイトルからモグモグマートを選ぶ。</li><li><b>相談に答える。</b>店長や社長からの問題に4つの対応策から選ぶ。施策ごとに失敗・成功・大成功の確率が違う。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。選んだ対応は、数週間後に後日談となって返ってくる。</li><li><b>生き残る。</b>店舗資金と主人公の生活費を別々に管理。毎週の生活費・4週間ごとの養育費を払おう。</li><li><b>社会情勢と悪魔。</b>景気や行政で売上・原価が変化。悪魔に助けを求めると期限付きの代償が発生する。</li><li><b>契約達成。</b>30週間で利益255万円・評判50以上。店の倒産や生活破綻で途中終了。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ </button></div>`);$('aboutClose').addEventListener('click',closeModal);}
 function setup(){
- game=load();paint();showEntry('title');
+ game=load();installTheaterLayout();paint();showEntry('title');
  $('titleStart').addEventListener('click',()=>showEntry('contracts'));
  $('titleResume').addEventListener('click',()=>{
   changeScreen('office');showEntry('game');
-  if(game.rescuePending||game.lastResult?.accidentResponse===null&&game.lastResult?.incidentCost>0&&game.lastResult?.accidentId){
-   $('weekScene').hidden=false;$('workingScene').hidden=true;document.body.classList.add('scene-locked');showWeekReport(game.lastResult,game.finished);
+  if(game.presentation?.week===game.lastResult?.week){resumeTheater();}
+  else if(game.rescuePending||game.lastResult?.accidentResponse===null&&game.lastResult?.incidentCost>0&&game.lastResult?.accidentId){
+   resumeTheater();
   }else if(game.finished)finishModal();
  });
  $('titleHelp').addEventListener('click',aboutModal);
@@ -770,6 +837,9 @@ function setup(){
  $('devilChoices').addEventListener('click',event=>{const b=event.target.closest('[data-devil]');if(!b||b.disabled)return;selectedDevil=b.dataset.devil==='none'?null:b.dataset.devil;renderDevil();});
  $('actions').addEventListener('click',event=>{const button=event.target.closest('[data-id]');if(!button||button.disabled||game.finished)return;game.selected=button.dataset.id;save();renderActions();});
  $('advanceButton').addEventListener('click',startWeek);
+ $('workingSkip').addEventListener('click',showOutcome);
+ $('outcomeNext').addEventListener('click',()=>{if($('outcomeScene').hidden)return;newsIndex=0;renderNews();});
+ $('newsNext').addEventListener('click',()=>{if($('newsScene').hidden||$('newsNext').disabled)return;newsIndex++;renderNews();});
  $('officeStoreMoney').addEventListener('click',()=>openMoney('store',$('officeStoreMoney')));
  $('officePersonalMoney').addEventListener('click',()=>openMoney('personal',$('officePersonalMoney')));
  $('meetingMoneyButton').addEventListener('click',()=>openMoney('store',$('meetingMoneyButton')));
@@ -804,7 +874,7 @@ function setup(){
  $('rescueChoices').addEventListener('click',e=>{const b=e.target.closest('[data-rescue]');if(b)applyRescue(b.dataset.rescue);});
  $('rescueGiveUp').addEventListener('click',()=>applyRescue('giveup'));
  for(const [id,response]of [['accidentRepair','repair'],['accidentIgnore','ignore']])$(id).addEventListener('click',()=>{
-  try{game=G.handleAccident(game,response);save();paint();showWeekReport(game.lastResult,game.finished);toast(game.lastResult.responseText);}catch(err){toast(err.message||'対応できませんでした');}
+  try{game=G.handleAccident(game,response);save();paint();renderNews();toast(game.lastResult.responseText);}catch(err){toast(err.message||'対応できませんでした');}
  });
  document.querySelectorAll('.game-tab').forEach(b=>b.addEventListener('click',()=>changeScreen(b.dataset.screen)));
  $('aboutButton').addEventListener('click',aboutModal);

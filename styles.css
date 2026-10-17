@@ -1075,3 +1075,91 @@ body.entry-mode{background:#f8f3e9}
 .story-pulse[hidden]{display:none!important}
 @media(max-width:440px){.story-event{padding:8px}.story-event-art{margin:5px auto}.story-event>strong{font-size:13px}.story-event>p{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.story-event-art{animation:none!important}}
+
+/* v1.4.0 — one job per screen; warm paper and restrained teal. */
+.week-scene{background:#eee8dc;overscroll-behavior:contain;padding-top:env(safe-area-inset-top);}
+.week-scene-close{z-index:12!important;min-height:44px;background:#fffaf0!important;color:#4d534f!important;}
+.theater-panel{width:min(100%,480px);margin:auto;padding:62px 20px max(24px,env(safe-area-inset-bottom));height:100%;max-height:100dvh;overflow-y:auto;box-sizing:border-box;color:#343e3d;}
+.theater-panel[hidden],.comic-scene[hidden],#workingIllustration[hidden]{display:none!important;}
+.theater-step{font-size:12px;letter-spacing:.08em;font-weight:800;color:#65756e;margin:0 0 10px;}
+.theater-panel h2{font-size:34px;line-height:1.2;letter-spacing:.03em;margin:0 0 12px;outline:none;}
+.theater-policy{font-size:17px;font-weight:800;line-height:1.55;margin:0 0 12px;}
+.comic-scene{display:block;width:100%;height:auto;max-height:265px;overflow:hidden;border-radius:18px;}
+.theater-line{font-size:16px;line-height:1.8;margin:16px 0;}
+.theater-panel blockquote{font-size:14px;line-height:1.7;margin:16px 0;padding:12px 14px;border-left:3px solid #a8b7a0;background:#faf6ec;border-radius:0 10px 10px 0;}
+.theater-impact{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.theater-impact div{padding:10px 5px;text-align:center;border-radius:12px;background:#faf7ee;}
+.theater-impact span{display:block;font-size:12px;color:#667269;}
+.theater-impact strong{font-size:23px;}
+.theater-panel details{font-size:13px;line-height:1.7;color:#657069;margin:14px 0;}
+.theater-panel summary{min-height:44px;display:flex;align-items:center;cursor:pointer;}
+.theater-panel summary:before{content:'＋';margin-right:8px;}
+.theater-panel .primary-btn{position:sticky;bottom:0;margin-top:16px;min-height:52px;background:#315e56;color:#fffdf5;box-shadow:0 0 0 7px #eee8dc;}
+#outcomeScene[data-tier=great] h2{color:#9b722b;}
+#outcomeScene[data-tier=failure] h2{color:#6b6273;}
+#newsScene[data-kind=warning] .theater-step{color:#9a5948;}
+#newsScene[data-kind=warning] h2{font-size:28px;border-left:5px solid #b5755b;padding-left:12px;}
+#newsScene[data-kind=positive] h2{color:#397062;font-size:28px;}
+#newsScene[data-kind=memory] .comic-scene{filter:sepia(.3);}
+#newsScene .accident-decision{margin:14px 0;border-color:#bca68a;background:#faf5e8;}
+#newsScene .accident-buttons{display:grid;grid-template-columns:1fr;gap:9px;}
+#newsScene button{min-height:48px;white-space:normal;}
+.working-scene{width:min(100%,480px);margin:auto;padding:64px 20px 28px!important;box-sizing:border-box;gap:12px!important;overflow-y:auto;}
+#workingComic{width:100%;}
+#workingAction{font-size:20px!important;color:#374f48!important;line-height:1.5;animation:none!important;}
+#workingMessage{min-height:54px;font-size:15px!important;line-height:1.8;}
+#workingSkip{padding:12px 24px;border:1px solid #9eaaa0;border-radius:12px;color:#40564e;background:#faf7ee;min-height:48px;}
+.working-scene h2{font-size:16px!important;}
+.work-progress span{animation-duration:3.6s!important;}
+.report-scene{padding:62px 16px 24px!important;background:#eee8dc!important;overflow-y:auto;}
+.report-sheet{max-width:448px!important;background:#faf7ee!important;border:1px solid #d9d5c7!important;padding:20px!important;box-shadow:none!important;}
+#reportTitle{font-size:27px!important;}
+#reportIcon{display:none;}
+.settlement-profit{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14px;padding:14px 0;border-bottom:1px solid #d8dfd4;}
+.settlement-profit strong{font-size:23px;}
+.report-cashflow{margin-top:16px!important;}
+.report-cashflow strong{font-size:23px!important;}
+.report-cashflow>div{background:#f0ede2!important;border-color:#d9dbcf!important;}
+.report-cashflow .cash-why{display:none;}
+.report-takeaway{font-size:15px!important;background:#e4ebe1!important;color:#3c564b!important;}
+.report-next{font-size:14px!important;background:transparent!important;line-height:1.7;}
+.financial-detail{font-size:14px;}
+.financial-detail .story-event-art{display:none;}
+#reportContinue{background:#315e56!important;color:#fff!important;min-height:52px;}
+.theater-impact .up,.settlement-profit .up{color:#34735e;}
+.theater-impact .down,.settlement-profit .down{color:#985b4c;}
+.theater-impact .flat,.settlement-profit .flat{color:#5e6662;}
+.action-option{min-height:72px;}
+.action-option .action-name{font-size:15px;line-height:1.5;}
+:focus-visible{outline:3px solid #669a91;outline-offset:3px;}
+.comic-scene .arm{transform-box:fill-box;transform-origin:top center;}
+.phase-work .pose-scan .arm-right{animation:scan-arm .85s ease-in-out infinite alternate;}
+.phase-work .pose-work .arm-right,.phase-work .pose-gesture .arm-right{animation:gesture-arm 1.2s ease-in-out infinite alternate;}
+.phase-work .pose-carry{animation:carry-worker 3.5s ease-in-out infinite;}
+.phase-work .pose-reach .arm-left{animation:reach-arm 1.4s ease-in-out infinite alternate;}
+.phase-work .scan-item{animation:scan-item 1.7s ease-in-out infinite;}
+.phase-work .scan-light{animation:flash .85s steps(2) infinite;}
+.phase-work .robot{animation:robot-roll 2.6s ease-in-out infinite alternate;}
+.phase-work .camera-flash{animation:flash 1.6s steps(2) infinite;}
+.phase-result .mood-joy .arm-right{animation:gesture-arm .8s ease-in-out 3 alternate;}
+.phase-result .mood-down .head{transform:translateY(4px) rotate(4deg);transform-box:fill-box;transform-origin:bottom center;}
+.phase-news .news-notifications{animation:news-arrive .4s ease-out both;}
+.celebration{animation:flash 1.3s ease-in-out 3;}
+@keyframes scan-arm{to{transform:rotate(-32deg)}}
+@keyframes gesture-arm{to{transform:rotate(-65deg)}}
+@keyframes reach-arm{to{transform:rotate(25deg)}}
+@keyframes carry-worker{0%,100%{transform:translateX(-9px)}50%{transform:translateX(12px)}}
+@keyframes scan-item{0%{transform:translateX(-30px)}100%{transform:translateX(25px)}}
+@keyframes robot-roll{to{transform:translateX(12px)}}
+@keyframes flash{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes news-arrive{from{transform:translateY(15px);opacity:0}to{transform:translateY(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){.comic-scene *,.work-progress span{animation:none!important;transition:none!important;}.number-rolling{animation:none!important;}}
+@media(max-width:380px){.theater-panel{padding-left:16px;padding-right:16px;}.report-sheet{padding:16px!important;}.report-cashflow strong{font-size:21px!important;}}
+.title-visual{height:auto!important;padding:0!important;margin:16px 0!important;display:block!important;}
+.title-visual .comic-scene{max-height:185px;}
+.title-logo-mark{display:none!important;}
+.title-card{padding-top:24px!important;}
+
+.report-scene #reportNext{display:block!important;white-space:normal;overflow:visible;margin:14px 0;}
+.topline-right{white-space:nowrap;flex-shrink:0;}
+.topline .eyebrow{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}

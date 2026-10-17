@@ -1,3 +1,4 @@
+from theater_helpers import finish_theater
 """v1.1.0 mobile integration: four contextual choices, scenes and six-metric dashboard."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -33,6 +34,7 @@ with sync_playwright() as p:
         page.locator('#advanceButton').click()
         assert page.locator('#workingArtUse').get_attribute('href')=='#policy-scene-price'
         assert '値札' in page.locator('#workingAction').inner_text()
+        finish_theater(page)
         page.locator('#reportScene').wait_for(state='visible',timeout=10000)
         assert '万円' in page.locator('#reportCash').inner_text()
         if not page.locator('#reportContinue').is_enabled():

@@ -1,3 +1,4 @@
+from theater_helpers import finish_theater
 """v1.0.1: new-contract onboarding, resume safety and compact iPhone UI."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -35,6 +36,7 @@ with sync_playwright() as p:
         page.locator('#openProposals').click()
         assert page.locator('.action-option').count()==4
         page.locator('#advanceButton').click()
+        finish_theater(page)
         page.locator('#reportScene').wait_for(state='visible',timeout=10000)
         if not page.locator('#reportContinue').is_enabled():
             page.locator('#accidentIgnore').click()

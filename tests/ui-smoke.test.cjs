@@ -13,6 +13,7 @@ class Element {
   setAttribute(k,v){this.attrs[k]=v}
   getAttribute(k){return this.attrs[k]}
   querySelector(){return new Element('child')}
+  append(){}
   focus(){}
   click(){this.dispatch('click')}
 }
@@ -25,6 +26,7 @@ const localStorage={getItem(k){return state[k]??null},setItem(k,v){state[k]=v}};
 let warnings=[];
 const context={document,localStorage,console:{warn:(...x)=>warnings.push(x),log:()=>{}},window:{matchMedia:()=>({matches:true}),setTimeout:fn=>{fn();return 1}},Date,Math,JSON,Number,String,Array,Set,Object,URL:{},confirm:()=>true,location:{protocol:'file:',hostname:''},navigator:{},setTimeout:(fn)=>{fn();return 1},clearTimeout:()=>{}};
 context.window=context;context.matchMedia=()=>({matches:true});vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../stories.js'),'utf8'),context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../engine.js'),'utf8'),context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../finance.js'),'utf8'),context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../scene.js'),'utf8'),context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8'),context);
+function drainTheater(){if(!nodes.outcomeScene.hidden)nodes.outcomeNext.click();for(let n=0;n<10&&!nodes.newsScene.hidden;n++){if(!nodes.accidentDecision.hidden)nodes.accidentIgnore.click();nodes.newsNext.click();}if(!nodes.rescueScene.hidden)nodes.rescueGiveUp.click();}
 assert.equal(nodes.titleScreen.hidden,false,'title should show on first load');
 assert.equal(nodes.app.hidden,true,'game should not display behind title');
 nodes.titleStart.click();assert.equal(nodes.contractsScreen.hidden,false,'inbox after start');
@@ -41,7 +43,7 @@ assert.equal(nodes.proposalSheet.hidden,true);
 nodes.openProposals.click();assert.equal(nodes.proposalSheet.hidden,false);
 assert.match(nodes.proposalBudget.textContent,/店/);
 assert.match(html,/契約条件/);
-nodes.advanceButton.click();assert.equal(nodes.proposalSheet.hidden,true);assert.equal(nodes.reportScene.hidden,false,'report should open after week');
+nodes.advanceButton.click();drainTheater();assert.equal(nodes.proposalSheet.hidden,true);assert.equal(nodes.reportScene.hidden,false,'report should open after week');
 assert.ok(nodes.reportTakeaway.textContent.length>0);
 assert.match(nodes.reportCash.innerHTML,/万円/);
 assert.ok(nodes.reportReputationChange.textContent.length>0);
@@ -52,6 +54,6 @@ nodes.reportContinue.click();assert.equal(nodes.weekScene.hidden,true);
 assert.equal(JSON.parse(state['okyakusama.save.v1']).week,2);
 tabs[2].click();nodes.backTitle.click();assert.equal(nodes.titleScreen.hidden,false);assert.equal(nodes.titleResume.hidden,false,'resume after progress');
 nodes.titleResume.click();assert.equal(nodes.app.hidden,false);assert.equal(nodes.officeView.hidden,false);
-for(let i=1;i<30;i++){if(JSON.parse(state['okyakusama.save.v1']).finished)break;nodes.openProposals.click();nodes.advanceButton.click();if(nodes.reportContinue.disabled)nodes.accidentIgnore.click();nodes.reportContinue.click();}
+for(let i=1;i<30;i++){if(JSON.parse(state['okyakusama.save.v1']).finished)break;nodes.openProposals.click();nodes.advanceButton.click();drainTheater();if(nodes.reportContinue.disabled)nodes.accidentIgnore.click();nodes.reportContinue.click();}
 const final=JSON.parse(state['okyakusama.save.v1']);assert.equal(final.finished,true);assert.equal(final.history.length,final.week-1);
 console.log('PASS: title→contracts→prologue→client→proposals→budget result→resume→finished campaign');
