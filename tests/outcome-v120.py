@@ -1,3 +1,4 @@
+from theater_helpers import finish_theater
 """v1.2.0: verify legible odds, outcome report, policy illustration on mobile."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -21,7 +22,9 @@ with sync_playwright() as p:
         page.locator('.action-option[data-id="shrink"]').click()
         page.locator('#advanceButton').click()
         assert page.locator('#workingArtUse').get_attribute('href')=='#policy-scene-tiny'
+        finish_theater(page)
         page.locator('#reportScene').wait_for(state='visible',timeout=10000)
+        page.locator('#financialDetail').evaluate('(el)=>el.open=true')
         assert page.locator('#performanceReport').is_visible()
         assert page.locator('#performanceName').inner_text() in ['失敗…','成功！','大成功！']
         assert '80％' in page.locator('#performanceMessage').inner_text() or '100％' in page.locator('#performanceMessage').inner_text() or '135％' in page.locator('#performanceMessage').inner_text()

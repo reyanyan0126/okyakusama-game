@@ -1,3 +1,4 @@
+from theater_helpers import finish_theater
 """v1.3.0 authored story mobile flow and current-save restoration."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -21,6 +22,7 @@ with sync_playwright() as p:
   page.locator('#firstWeekStart').click()
   page.locator('#openProposals').click()
   page.locator('#advanceButton').click()
+  finish_theater(page)
   page.locator('#reportScene').wait_for(state='visible',timeout=15000)
   if not page.locator('#reportContinue').is_enabled():
    page.locator('#accidentIgnore').click()
@@ -33,7 +35,9 @@ with sync_playwright() as p:
   page.locator('.action-option[data-id="arc_register_boss"]').click()
   page.locator('#advanceButton').click()
   assert page.locator('#workingArtUse').get_attribute('href')=='#policy-scene-story-register'
+  finish_theater(page)
   page.locator('#reportScene').wait_for(state='visible',timeout=15000)
+  page.locator('#financialDetail').evaluate('(el)=>el.open=true')
   assert page.locator('#storyEvent').is_visible()
   assert page.locator('#storyArtUse').get_attribute('href')=='#story-cut-register'
   assert page.locator('#storyTierUse').get_attribute('href') in ['#story-tier-failure','#story-tier-success','#story-tier-great']
