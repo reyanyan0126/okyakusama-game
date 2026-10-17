@@ -29,10 +29,10 @@ with sync_playwright() as p:
         assert page.locator('.action-option').count()==4
         assert len(page.locator('.action-option').all_inner_texts())==4
         page.locator('.action-option[data-id="raise"]').click()
-        assert '値上げ' in page.locator('#selectedTitle').inner_text()
+        assert '値札' in page.locator('#selectedTitle').inner_text()
         page.locator('#advanceButton').click()
         assert page.locator('#workingArtUse').get_attribute('href')=='#policy-scene-price'
-        assert '値上げ' in page.locator('#workingAction').inner_text()
+        assert '値札' in page.locator('#workingAction').inner_text()
         page.locator('#reportScene').wait_for(state='visible',timeout=10000)
         assert '万円' in page.locator('#reportCash').inner_text()
         if not page.locator('#reportContinue').is_enabled():

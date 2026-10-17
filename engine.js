@@ -1,4 +1,4 @@
-/* お客様のために。v1.1.0 - thirty-week turnaround and survival economics, social shocks and devil pacts. */
+/* お客様のために。v1.2.0 - thirty-week turnaround and survival economics, social shocks and devil pacts. */
 (function(root){
 'use strict';
 const VERSION = 1, MAX_WEEKS = 30;
@@ -38,32 +38,32 @@ function pactAvailable(s){return !s.finished&&s.week<=campaignWeeks(s)-3&&(s.pac
 const cap=(n,min,max)=>Math.max(min,Math.min(max,n));
 const int=(n)=>Math.round(n);
 const ACTIONS=[
- {id:'raise',icon:'',name:'「原材料のため」10円値上げ',effect:'利益↑ / 不満↑',detail:'価格を10円上げる。売れ行きには影響が出るかも。',minMax:'price',type:'hard'},
- {id:'lower',icon:'',name:'渾身の10円値下げ',effect:'人気↑ / 利益↓',detail:'価格を10円下げる。買いやすさで勝負。',minMax:'price',type:'kind'},
- {id:'shrink',icon:'',name:'お手軽サイズに進化',effect:'原価↓ / 不満↑',detail:'10g減らして「食べやすい」と発表。表示は正確、評判は別問題。',minMax:'size',type:'hard'},
- {id:'cheap',icon:'',name:'昔の味は思い出の中に',effect:'原価↓ / 品質↓',detail:'原材料を見直して原価を抑える。味の変化に注意。',minMax:'quality',type:'hard'},
- {id:'quality',icon:'',name:'本当においしくする',effect:'満足↑ / 原価↑',detail:'信じられないが、原料をよくして味で勝負する。',minMax:'quality',type:'kind'},
- {id:'staff',icon:'',name:'行列こそ人気の証',effect:'経費↓ / 接客↓',detail:'人件費を削減。レジに並ぶ時間はお客様にプレゼント。',minMax:'staff',type:'hard'},
- {id:'explain',icon:'',name:'まさかの正直な説明',effect:'信頼↑ / 費用↑',detail:'全部ちゃんと説明する。広報費1万円。社長が不安そう。',type:'kind'},
- {id:'sale',icon:'',name:'店長、反省セール',effect:'客数↑ / 経費↑',detail:'今週だけ15円引き。広告費1.2万円が必要。',type:'kind'},
- {id:'points',icon:'',name:'ポイント制度の「進化」',effect:'経費↓ / 不満↑',detail:'還元率を減らして「制度を進化」。進化先は誰の財布？',type:'hard'},
- {id:'pop',icon:'',name:'広告の方が大盛り',effect:'客数↑ / 炎上↑',detail:'商品より先に広告だけ豪華に。期待だけが一人歩き。',type:'hard'},
- {id:'tasting',icon:'',name:'胃袋で説得する',effect:'客数↑ / 費用↑',detail:'試食で商品の良さを伝える。今週の経費は増える。',type:'kind'},
- {id:'local',icon:'',name:'地元と真面目に組む',effect:'満足↑ / 経費↑',detail:'地元産の商品を集めて特設売り場を作る。',type:'kind'},
- {id:'restorestaff',icon:'',name:'人間のレジを復活',effect:'満足↑ / 経費↑',detail:'減らしたスタッフを戻す。行列と不満を減らそう。',type:'kind'},
- {id:'apology',icon:'',name:'社長を謝罪会見に出す',effect:'火消し↑ / 費用↑',detail:'社長の額に汗。真摯に説明して、炎上を鎮める。',type:'kind'},
- {id:'recall',icon:'',name:'売り場を本気で立て直す',effect:'信用↑ / 利益↓↓',detail:'商品の品質と量を回復。お金はかかるが、次の常連を守る。',type:'kind'},
- {id:'blame',icon:'',name:'「誤解」で押し通す',effect:'利益↑↑ / 炎上↑↑',detail:'説明を避けて一時的にコスト削減。火に油かもしれない。',type:'hard'},
- {id:'loyalty',icon:'',name:'常連の苦情を全部読む',effect:'信頼↑ / 経費↑',detail:'耳の痛い声ほど改善に使う。社長は耳栓を探している。',type:'kind'},
- {id:'stamp',icon:'',name:'「今だけ！」特別企画',effect:'売上↑↑ / 反動注意',detail:'本当に期間限定の販促で集客。来週の期待値も上がる。',type:'hard'},
- {id:'audit',icon:'',name:'数字を正直に見せる',effect:'信用↑ / 費用↑',detail:'価格と原価の説明会。社長がグラフを見たがらない。',type:'kind'},
- {id:'maintenance',icon:'',name:'冷蔵庫にお金を使う',effect:'故障対策 / 費用↑',detail:'壊れてから直すよりは安い。社長には難しい概念。',type:'kind'},
- {id:'loan',icon:'',name:'銀行に泣きつく',effect:'運転資金+20万円 / 借金↑',detail:'20万円のつなぎ融資。毎週返済が発生。友情は無利息、銀行は違う。',type:'hard'},
- {id:'airtax',icon:'',name:'「快適な買い物環境維持費」新設',effect:'今週の利益↑ / 不満↑↑',detail:'架空の追加料金を正当化する皮肉な施策。短期利益は上がるが怒りが蓄積する。',type:'hard'},
- {id:'photo',icon:'',name:'広告の弁当だけ具材を増やす',effect:'集客↑ / 炎上リスク↑↑',detail:'写真は豪華、現物は平常運転。比較画像が残るリスク。',type:'hard'},
- {id:'ceocut',icon:'',name:'まず社長の役員報酬を削る',effect:'経費↓ / 社長は不機嫌',detail:'現場の負担ではなく役員の取り分を見直す。社長の臨時報酬は期待できない。',type:'kind'},
- {id:'bills',icon:'',name:'会議より先に請求書を読む',effect:'無駄な経費↓ / 少し地味',detail:'経費の無駄を潰す。社長「そんなことより次の会議の議題を考えよう」',type:'kind'},
- {id:'apologybot',icon:'',name:'謝罪文をAIに丸投げ',effect:'火消し↑ / 再炎上注意',detail:'全員に同じ「心よりお詫び」を送る。早いが誠意を問われるかも。',type:'hard'}
+ {id:'raise',icon:'',name:'値札だけが出世する朝',effect:'利益↑ / 不満↑',detail:'値札だけ10円昇進。お客様の給与は据え置き。',minMax:'price',type:'hard'},
+ {id:'lower',icon:'',name:'社長のボーナスより10円値下げ',effect:'人気↑ / 利益↓',detail:'価格を10円下げる。買いやすさで勝負。',minMax:'price',type:'kind'},
+ {id:'shrink',icon:'',name:'内容量を10gほど空気に返す',effect:'原価↓ / 不満↑',detail:'袋の大きさはそのまま。中身10g減を「持ちやすく進化」と発表。',minMax:'size',type:'hard'},
+ {id:'cheap',icon:'',name:'「おふくろの味」を社長の記憶で再現',effect:'原価↓ / 品質↓',detail:'原材料を見直して原価を抑える。味の変化に注意。',minMax:'quality',type:'hard'},
+ {id:'quality',icon:'',name:'社長に内緒で本当においしくする',effect:'満足↑ / 原価↑',detail:'信じられないが、原料をよくして味で勝負する。',minMax:'quality',type:'kind'},
+ {id:'staff',icon:'',name:'レジの行列を観光名所に認定',effect:'経費↓ / 接客↓',detail:'人手を削減。最後尾の看板だけ豪華になる。',minMax:'staff',type:'hard'},
+ {id:'explain',icon:'',name:'値札より先に本音を並べる',effect:'信頼↑ / 費用↑',detail:'全部ちゃんと説明する。広報費1万円。社長が不安そう。',type:'kind'},
+ {id:'sale',icon:'',name:'売るほど社長が青ざめる反省セール',effect:'客数↑ / 経費↑',detail:'今週だけ15円引き。広告費1.2万円が必要。',type:'kind'},
+ {id:'points',icon:'',name:'貯まるのは怒りだけポイント改革',effect:'経費↓ / 不満↑',detail:'ポイント還元を減らして「制度が身軽に」。お客様の顔は重い。',type:'hard'},
+ {id:'pop',icon:'',name:'商品より広告が3倍おいしそう',effect:'客数↑ / 炎上↑',detail:'POPを超大盛りに。実物との面会は慎重に。',type:'hard'},
+ {id:'tasting',icon:'',name:'社長のお昼ご飯を試食台に転用',effect:'客数↑ / 費用↑',detail:'試食で味を伝える。社長の昼食も顧客体験に貢献。',type:'kind'},
+ {id:'local',icon:'',name:'地元野菜と社長の地元愛を並べる',effect:'満足↑ / 経費↑',detail:'地元産の商品を集めて特設売り場を作る。',type:'kind'},
+ {id:'restorestaff',icon:'',name:'社長の椅子を減らしレジを増やす',effect:'満足↑ / 経費↑',detail:'減らしたスタッフを戻す。行列と不満を減らそう。',type:'kind'},
+ {id:'apology',icon:'',name:'謝罪会見に社長を生身で出す',effect:'火消し↑ / 費用↑',detail:'替え玉も録画もなし。社長本人が説明し、汗とマイクが止まらない。',type:'kind'},
+ {id:'recall',icon:'',name:'パッケージでなく中身を増量する',effect:'信用↑ / 利益↓↓',detail:'商品の品質と量を回復。お金はかかるが、次の常連を守る。',type:'kind'},
+ {id:'blame',icon:'',name:'苦情は「誤解」、拍手は「本音」',effect:'利益↑↑ / 炎上↑↑',detail:'批判を言い訳で押し返す。次週のスクショには勝てない。',type:'hard'},
+ {id:'loyalty',icon:'',name:'常連の苦情100連発・社長耐久会',effect:'信頼↑ / 経費↑',detail:'不満を最後まで聞いて改善する。社長には途中退席禁止。',type:'kind'},
+ {id:'stamp',icon:'',name:'本当に今だけの「今だけ！」祭り',effect:'売上↑↑ / 反動注意',detail:'本当に期間限定の販促で集客。来週の期待値も上がる。',type:'hard'},
+ {id:'audit',icon:'',name:'社長の報酬以外を丸裸にする決算会',effect:'信用↑ / 費用↑',detail:'帳簿と価格を公開。役員報酬の欄だけ社長が隠す。',type:'kind'},
+ {id:'maintenance',icon:'',name:'冷凍庫を祈りから修理へ切り替える',effect:'故障対策 / 費用↑',detail:'壊れてから直すよりは安い。社長には難しい概念。',type:'kind'},
+ {id:'loan',icon:'',name:'銀行に「来週は絶対」を提出',effect:'運転資金+20万円 / 借金↑',detail:'20万円のつなぎ融資。毎週返済が発生。友情は無利息、銀行は違う。',type:'hard'},
+ {id:'airtax',icon:'',name:'空気を吸った分だけ「快適料」',effect:'今週の利益↑ / 不満↑↑',detail:'買い物環境の追加料金。景気よく吸えるのは社長だけ。',type:'hard'},
+ {id:'photo',icon:'',name:'弁当写真だけ五つ星シェフ',effect:'集客↑ / 炎上リスク↑↑',detail:'撮影用の弁当だけ豪華。比較写真が来週の主役になるかも。',type:'hard'},
+ {id:'ceocut',icon:'',name:'社長の豪華椅子から予算を捻出',effect:'経費↓ / 社長は不機嫌',detail:'役員報酬を削って節約。社長の不機嫌が室内気圧を下げる。',type:'kind'},
+ {id:'bills',icon:'',name:'社長の長話を削って請求書を読む',effect:'無駄な経費↓ / 少し地味',detail:'経費の無駄を潰す。社長「そんなことより次の会議の議題を考えよう」',type:'kind'},
+ {id:'apologybot',icon:'',name:'謝罪AIに社長の顔を学習させる',effect:'火消し↑ / 再炎上注意',detail:'定型謝罪をAIに量産させる。反省しているのはAI？社長？',type:'hard'}
 ];
 // Each new case has one structural problem. Legacy saves keep their original economy unchanged.
 const ROOT_CASES={
@@ -296,8 +296,64 @@ function ending(s){
 }
 function initial(seed){
  let n=Number(seed);if(!Number.isFinite(n))n=Date.now();n=n>>>0;if(n===0)n=246813579;
- return {version:VERSION,campaignWeeks:MAX_WEEKS,rng:n,rngSeed:n,rootCause:['equipment','people','fans'][n%3],rootSolved:false,personalCash:PERSONAL.start,arrears:0,personalFailed:false,pactCount:0,pacts:[],week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:58,fire:4,sat:61,frust:32,sales:480000,profit:61000,cash:195000,contractGoal:CONTRACT.profit,debt:0,maintenance:0,upgrades:blankUpgrades(),lowCashWeeks:0,bankrupt:false,rescuePending:false,rescueUsed:0,ownerFundUsed:false,boycottWeeks:0,memory:[],history:[],lastResult:null};
+ return {version:VERSION,campaignWeeks:MAX_WEEKS,rng:n,rngSeed:n,rootCause:['equipment','people','fans'][n%3],rootSolved:false,momentum:0,personalCash:PERSONAL.start,arrears:0,personalFailed:false,pactCount:0,pacts:[],week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:58,fire:4,sat:61,frust:32,sales:480000,profit:61000,cash:195000,contractGoal:CONTRACT.profit,debt:0,maintenance:0,upgrades:blankUpgrades(),lowCashWeeks:0,bankrupt:false,rescuePending:false,rescueUsed:0,ownerFundUsed:false,boycottWeeks:0,memory:[],history:[],lastResult:null};
 }
+
+/* Three outcomes: a failed action performs at 80%, ordinary success at
+ * 100%, and a big success at 135%. Full spending costs still apply. */
+const BOLD_POLICIES=new Set(['raise','shrink','cheap','staff','points','stamp','pop','blame','airtax','photo','apologybot']);
+const STEADY_POLICIES=new Set(['quality','explain','restorestaff','recall','loyalty','audit','maintenance','bills','ceocut','fix_equipment','fix_people','fix_fans']);
+function performanceOdds(s,id){
+ if(!ACTIONS_BY_ID[id]||!enabled(s,id))return null;
+ const bold=BOLD_POLICIES.has(id),steady=STEADY_POLICIES.has(id);
+ let great=bold?21:steady?13:17, failure=bold?33:steady?15:23;
+ const skill=cap(Number(s.skill)||0,0,100),momentum=cap(Number.isInteger(s.momentum)?s.momentum:0,0,3);
+ failure-=Math.round((skill-50)/12)+momentum*2;
+ great+=Math.round((skill-50)/22)+momentum*2;
+ if(s.fire>=50){failure+=bold?8:4;great-=3;}
+ if(s.frust>=70)failure+=3;
+ failure-=(s.upgrades?.people||0)*2;
+ const brief=weeklyBrief(s);
+ if(brief.id==='crisis'&&['apology','recall','explain','loyalty'].includes(id)){failure-=5;great+=3;}
+ if(brief.id==='rival'&&['sale','local','stamp'].includes(id))failure-=4;
+ if(brief.id==='bento'&&['quality','tasting','cheap'].includes(id))failure-=3;
+ failure=cap(failure,6,53);great=cap(great,5,33);
+ return {failure,success:100-failure-great,great,kind:bold?'high':steady?'steady':'standard'};
+}
+function resolvePerformance(s,id){
+ // Mix two rounds before the outcome draw: xorshift's first value from a small seed is strongly biased.
+ const odds=performanceOdds(s,id);draw(s);draw(s);
+ const roll=draw(s)*100;
+ const tier=roll<odds.failure?'failure':roll<odds.failure+odds.success?'success':'great';
+ return {tier,roll,odds,multiplier:tier==='failure'?.80:tier==='great'?1.35:1};
+}
+const PERFORMANCE_NUMBERS=['price','size','quality','staff','sat','frust','storeRep','fire','notoriety','skill'];
+function applyPerformance(s,id,action,before,result){
+ if(result.tier==='success')return action;
+ const multiplier=result.multiplier;
+ for(const key of PERFORMANCE_NUMBERS){
+  const diff=s[key]-before[key];
+  const rate=result.tier==='failure'&&BOLD_POLICIES.has(id)&&['frust','fire','notoriety'].includes(key)&&diff>0?1.10:multiplier;
+  const bounds=key==='price'?[150,260]:key==='size'?[60,100]:key==='quality'?[30,90]:key==='staff'?[30,60]:[0,100];
+  s[key]=cap(int(before[key]+diff*rate),...bounds);
+ }
+ action.demandFactor=1+(action.demandFactor-1)*multiplier;
+ if(action.extra<0)action.extra=int(action.extra*multiplier);
+ if(result.tier==='failure'&&BOLD_POLICIES.has(id))adjust(s,{fire:3,frust:3,storeRep:-2});
+ if(id==='loan'){
+  const funded=Math.min(200000,int(action.financing*multiplier));
+  s.debt+=funded-action.financing;action.financing=funded;
+ }
+ if(id==='maintenance'&&result.tier==='failure')s.maintenance=Math.min(s.maintenance,2);
+ if(id.startsWith('fix_')&&result.tier==='failure'){
+  s.rootSolved=false;
+  if(id==='fix_equipment'){s.upgrades.equipment=Math.max(0,s.upgrades.equipment-1);s.maintenance=1;}
+  if(id==='fix_people')s.upgrades.people=Math.max(0,s.upgrades.people-1);
+  if(id==='fix_fans')s.upgrades.fans=Math.max(0,s.upgrades.fans-1);
+ }
+ return action;
+}
+
 function draw(s){let x=s.rng>>>0;x^=(x<<13);x^=(x>>>17);x^=(x<<5);s.rng=x>>>0;return (s.rng>>>0)/4294967296;}
 function enabled(s,id){if(id.startsWith('fix_'))return !s.finished&&!s.rootSolved&&ROOT_CASES[s.rootCause]?.action===id;switch(id){case'raise':return s.price<260;case'lower':return s.price>150;case'shrink':return s.size>60;case'cheap':return s.quality>30;case'quality':return s.quality<90;case'staff':return s.staff>30;case'restorestaff':return s.staff<60;case'loan':return s.cash<180000&&s.debt<250000;default:return !!ACTIONS_BY_ID[id];}}
 function risk(s){return cap(.012+s.fire*.0014+Math.max(0,s.frust-23)*.0013+s.notoriety*.00045+Math.max(0,65-s.storeRep)*.0007,.01,.48);}
@@ -306,19 +362,19 @@ function adjust(s,changes){for(const [k,v] of Object.entries(changes)){s[k]=cap(
 function maybeRemember(s,kind,p){if(draw(s)<p){s.memory.push({kind,due:s.week+2+Math.floor(draw(s)*4)});}}
 function applyAction(s,id){let extra=0,discount=0,demandFactor=1,financing=0;
  switch(id){
- case'raise':demandFactor=1.09;s.price+=10;adjust(s,{sat:-3,frust:7,storeRep:-2,fire:4,notoriety:2});break;
- case'lower':s.price-=10;adjust(s,{sat:4,frust:-5,storeRep:2,fire:-2,notoriety:-1});break;
- case'shrink':demandFactor=1.13;s.size-=10;adjust(s,{sat:-5,frust:9,storeRep:-3,fire:5,notoriety:3});maybeRemember(s,'shrink',.58);break;
- case'cheap':demandFactor=1.11;s.quality-=10;adjust(s,{sat:-5,frust:7,storeRep:-2,fire:4,notoriety:2});maybeRemember(s,'cheap',.48);break;
- case'quality':s.quality+=10;adjust(s,{sat:7,frust:-5,storeRep:3,fire:-3,notoriety:-2});break;
- case'staff':demandFactor=1.07;s.staff-=10;adjust(s,{sat:-4,frust:6,storeRep:-2,fire:4,notoriety:1});maybeRemember(s,'staff',.40);break;
+ case'raise':demandFactor=1.09;s.price=Math.min(260,s.price+10);adjust(s,{sat:-3,frust:7,storeRep:-2,fire:4,notoriety:2});break;
+ case'lower':s.price=Math.max(150,s.price-10);adjust(s,{sat:4,frust:-5,storeRep:2,fire:-2,notoriety:-1});break;
+ case'shrink':demandFactor=1.13;s.size=Math.max(60,s.size-10);adjust(s,{sat:-5,frust:9,storeRep:-3,fire:5,notoriety:3});maybeRemember(s,'shrink',.58);break;
+ case'cheap':demandFactor=1.11;s.quality=Math.max(30,s.quality-10);adjust(s,{sat:-5,frust:7,storeRep:-2,fire:4,notoriety:2});maybeRemember(s,'cheap',.48);break;
+ case'quality':s.quality=Math.min(90,s.quality+10);adjust(s,{sat:7,frust:-5,storeRep:3,fire:-3,notoriety:-2});break;
+ case'staff':demandFactor=1.07;s.staff=Math.max(30,s.staff-10);adjust(s,{sat:-4,frust:6,storeRep:-2,fire:4,notoriety:1});maybeRemember(s,'staff',.40);break;
  case'explain':extra=10000;adjust(s,{sat:2,frust:-7,storeRep:4,fire:-6,notoriety:-3});break;
  case'sale':discount=15;extra=12000;demandFactor=1.15;adjust(s,{sat:3,frust:-4,storeRep:1,fire:-1});break;
  case'points':extra=-16000;adjust(s,{sat:-3,frust:6,storeRep:-2,fire:6,notoriety:3});maybeRemember(s,'points',.42);break;
  case'pop':extra=23000;demandFactor=1.22;adjust(s,{sat:-2,frust:5,storeRep:-1,fire:5,notoriety:2});maybeRemember(s,'pop',.35);break;
  case'tasting':extra=17000;demandFactor=1.1;adjust(s,{sat:4,frust:-3,storeRep:2,fire:-1,notoriety:-1});break;
  case'local':extra=11000;demandFactor=1.07;adjust(s,{sat:5,frust:-4,storeRep:3,fire:-2,notoriety:-1});break;
- case'restorestaff':s.staff+=10;extra=8000;adjust(s,{sat:5,frust:-5,storeRep:3,fire:-3,notoriety:-2});break;
+ case'restorestaff':s.staff=Math.min(60,s.staff+10);extra=8000;adjust(s,{sat:5,frust:-5,storeRep:3,fire:-3,notoriety:-2});break;
  case'apology':extra=18000;adjust(s,{sat:5,frust:-11,storeRep:7,fire:-24,notoriety:-4});break;
  case'recall':extra=43000;s.size=Math.min(100,s.size+10);s.quality=Math.min(90,s.quality+10);adjust(s,{sat:11,frust:-14,storeRep:9,fire:-23,notoriety:-5});break;
  case'blame':extra=-24000;demandFactor=1.10;adjust(s,{sat:-9,frust:15,storeRep:-10,fire:14,notoriety:10});maybeRemember(s,'blame',.65);break;
@@ -381,10 +437,14 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  if(plan!==null){const cost=projectCost(input,plan);if(!PROJECTS_BY_ID[plan]||cost===null)throw Error('この設備投資は選べません');if(input.cash<cost)throw Error('投資資金が足りません');}
  const s=JSON.parse(JSON.stringify(input)),theWeek=s.week,brief=weeklyBrief(input),boardDemand=boardroomDemand(input);
  if(!s.upgrades)s.upgrades=blankUpgrades();
+ // Publishable odds are evaluated before this week's optional investment, whose benefits start next week.
+ const performance=resolvePerformance(s,id);
  const investment=plan?projectCost(s,plan):0;
  if(plan)s.upgrades[plan]++;
  const previous={sales:s.sales,rep:s.storeRep,sat:s.sat,frust:s.frust,fire:s.fire,skill:s.skill,cash:s.cash,personalCash:s.personalCash,arrears:s.arrears};
- const action=applyAction(s,id);
+ const beforeAction=Object.fromEntries(PERFORMANCE_NUMBERS.map(key=>[key,s[key]]));
+ const action=applyPerformance(s,id,applyAction(s,id),beforeAction,performance);
+ s.momentum=performance.tier==='failure'?0:Math.min(3,(s.momentum||0)+(performance.tier==='great'?2:1));
  // Capture the effect of the player's decision itself, before random accidents,
  // weather, boycotts and macroeconomics add their own changes.
  const directImpact={rep:s.storeRep-previous.rep,fire:s.fire-previous.fire,sat:s.sat-previous.sat,frust:s.frust-previous.frust};
@@ -499,7 +559,7 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  s.lowCashWeeks=s.cash<0?s.lowCashWeeks+1:0;
  if(s.cash<0){s.bankrupt=true;s.rescuePending=!s.personalFailed&&rescueOptions(s).length>0;} // The last chance appears before closing.
  if(s.maintenance>0)s.maintenance--;
- const report={crisisResponse,rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_'),boardroomBonus,
+ const report={performanceTier:performance.tier,performanceRoll:performance.roll,performanceOdds:performance.odds,performanceMultiplier:performance.multiplier,momentumAfter:s.momentum,crisisResponse,rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_')&&s.rootSolved,boardroomBonus,
  boardroomDemandId:boardDemand?.actionId||null,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':QUOTES[id],eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,investment,projectId:plan,projectLabel:plan?PROJECTS_BY_ID[plan].name:"なし",incidentCost,accidentResponse:accident?.positive?'not_needed':null,accidentPositive:!!accident?.positive,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,macroId:macro.id,macroName:macro.name,macroTag:macro.tag,macroDetail:macro.detail,macroPenalty,macroBonus,macroFixed:macro.fixed,devilId:devil,devilNote,devilPayment,personalDevilPayment,personalCashBefore:previous.personalCash,personalCashAfter:s.personalCash,arrearsBefore:previous.arrears,arrearsAfter:s.arrears,personalLiving:PERSONAL.living,supportDue,supportPaid,feeFromStore:fee,personalFailed:s.personalFailed,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
  s.history.push(report);s.lastResult=report;s.week++;
  if(s.week>campaignWeeks(s)||s.bankrupt||s.personalFailed)s.finished=true;
@@ -542,6 +602,8 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  // Existing v0.1-v0.5 saves did not contain these optional financial state fields.
  for(const [name,value]of Object.entries({contractGoal:1800000,debt:0,maintenance:0,lowCashWeeks:0,bankrupt:false,rescuePending:false,rescueUsed:0,ownerFundUsed:false}))if(clone[name]===undefined)clone[name]=value;
  // Saved v0.1-v0.7 games are preserved; new personal-life systems start at the default balance.
+ if(clone.momentum===undefined)clone.momentum=0;
+ if(!Number.isInteger(clone.momentum)||clone.momentum<0||clone.momentum>3)throw Error('施策連続達成データが不正です');
  for(const [name,value]of Object.entries({personalCash:PERSONAL.start,arrears:0,personalFailed:false,pactCount:0,pacts:[]}))if(clone[name]===undefined)clone[name]=value;
  if(clone.rngSeed===undefined)clone.rngSeed=clone.rng;
  if(!Number.isSafeInteger(clone.personalCash)||clone.personalCash<0||clone.personalCash>10000000||!Number.isSafeInteger(clone.arrears)||clone.arrears<0||clone.arrears>10000000||typeof clone.personalFailed!=='boolean'||!Number.isInteger(clone.pactCount)||clone.pactCount<0||clone.pactCount>2||!Number.isInteger(clone.rngSeed)||clone.rngSeed<=0||clone.rngSeed>4294967295)throw Error('生活資金データが不正です');
@@ -559,7 +621,7 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  return clone;
 }
 function previewRisk(s,id){if(!ACTIONS_BY_ID[id]||!enabled(s,id))return risk(s);const clone=JSON.parse(JSON.stringify(s));applyAction(clone,id);return risk(clone);}
-const engine={VERSION,MAX_WEEKS,campaignWeeks,LEGACY_WEEKS,CONTRACT,ROOT_CASES,rootDiagnosis,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,boardroomDemand,boardroomSignal,goalStatus,ending,initial,play,handleAccident,rescueOptions,resolveRescue,risk,previewRisk,unitCost,enabled,validateSaved};
+const engine={VERSION,MAX_WEEKS,campaignWeeks,LEGACY_WEEKS,CONTRACT,ROOT_CASES,rootDiagnosis,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,boardroomDemand,boardroomSignal,goalStatus,ending,initial,play,handleAccident,rescueOptions,resolveRescue,risk,performanceOdds,previewRisk,unitCost,enabled,validateSaved};
 root.GameEngine=engine;
 if(typeof module==='object'&&module.exports)module.exports=engine;
 })(typeof globalThis!=='undefined'?globalThis:this);
