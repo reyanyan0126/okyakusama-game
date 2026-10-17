@@ -1,4 +1,4 @@
-/* お客様のために。v1.0.1 - 30-week chapters, incoming-call animation and concise optional actions, compact office, modal accessibility. */
+/* お客様のために。v1.1.0 - 30-week chapters, incoming-call animation and concise optional actions, compact office, modal accessibility. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const F=window.FinanceLedger;
@@ -9,6 +9,29 @@ const man=n=>(n/10000).toFixed(1);
 const sign=n=>(n>0?'+':'')+yen(n);
 const moneyChange=n=>(n>0?'＋':n<0?'−':'±')+yen(Math.abs(n))+'円';
 const cashClass=n=>n>0?'up':n<0?'down':'flat';
+
+
+const numberRolls=new WeakMap();
+function rollFigure(node,from,to,format){
+ if(!node)return;
+ const old=numberRolls.get(node);if(old)window.cancelAnimationFrame(old);
+ const drawValue=n=>{node.innerHTML=format(n);};
+ const start=Number(from),finish=Number(to);
+ node.classList.remove('number-rising','number-falling','number-rolling');
+ if(!Number.isFinite(start)||!Number.isFinite(finish)){drawValue(finish||0);return;}
+ if(start===finish||reducedMotion()){drawValue(finish);return;}
+ node.classList.add('number-rolling',finish>start?'number-rising':'number-falling');
+ drawValue(start);
+ let beginning;
+ const step=t=>{
+  if(beginning===undefined)beginning=t;
+  const p=Math.min(1,(t-beginning)/760),ease=1-Math.pow(1-p,3);
+  drawValue(Math.round(start+(finish-start)*ease));
+  if(p<1)numberRolls.set(node,window.requestAnimationFrame(step));
+  else{numberRolls.delete(node);node.classList.remove('number-rolling');drawValue(finish);}
+ };
+ numberRolls.set(node,window.requestAnimationFrame(step));
+}
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 let game;
@@ -74,26 +97,44 @@ function finishPrologue(){
 function advancePrologue(){
  if(prologueStep<PROLOGUE.length-1){prologueStep++;renderPrologue();}else finishPrologue();
 }
+
 function openStatusSheet(){
- const s=game;
- statusOrigin=document.activeElement;
- const h=s.lastResult;
+ const s=game,h=s.lastResult,macro=G.currentMacro(s),root=G.rootDiagnosis(s);
  const money=n=>Number(n||0).toLocaleString('ja-JP')+'円';
- const macro=G.currentMacro(s);
- const state=s.cash<=0?'資金ショート':s.cash<85000?'資金危機':s.storeRep<35?'信用危機':'再建中';
- const data=[
-  ['今のお店',state],
-  ['今週の社会情勢',macro?.name||$('macroName').textContent],
-  ['社会情勢の影響',$('macroEffect').textContent],
-  ['累計利益 / 目標',money(G.goalStatus(s).profit)+' / '+money(s.contractGoal)],
-  ['前週の売上',h?money(h.sales):'まだ営業前'],
-  ['前週の営業利益',h?money(h.profit):'まだ営業前'],
-  ['毎週の基本固定費',money(s.overhead??155000)],
-  ['炎上度',String(s.fire)+' / 100'],
-  ['顧客満足度',String(s.sat)+' / 100'],
-  ['顧客の不満',String(s.frust)+' / 100']
+ const score=n=>String(n)+' / 100';
+ const situation=s.cash<=0?'資金ショート':s.cash<85000?'資金危機':s.storeRep<35?'信用危機':'再建中';
+ const groups=[
+  ['財務・契約',[
+   ['現在の状況',situation],['店舗の現金',money(s.cash)],
+   ['累計利益 / 契約目標',money(G.goalStatus(s).profit)+' / '+money(s.contractGoal)],
+   ['借入残高',money(s.debt)],['主人公の所持金',money(s.personalCash)]
+  ]],
+  ['売上・コスト',[
+   ['直近の週間売上',h?money(h.sales):'営業前・基準 '+money(s.sales)],
+   ['直近の営業利益',h?money(h.profit):'営業前・基準 '+money(s.profit)],
+   ['基本固定費の見込み',money(155000-(60-s.staff)*800+(macro?.fixed||0))],
+   ['今週の社会情勢',macro?.name||'なし']
+  ]],
+  ['商品・現場',[
+   ['商品価格',money(s.price)+' / 個'],['商品の量',s.size+'g'],
+   ['商品の品質',score(s.quality)],['スタッフの充足',score(s.staff)],
+   ['設備更新レベル',(s.upgrades?.equipment||0)+' / 2'],
+   ['人材育成レベル',(s.upgrades?.people||0)+' / 2'],
+   ['常連施策レベル',(s.upgrades?.fans||0)+' / 2']
+  ]],
+  ['お客様・リスク',[
+   ['お店の評判',score(s.storeRep)],['顧客満足度',score(s.sat)],
+   ['顧客の不満',score(s.frust)],['炎上度',score(s.fire)],
+   ['コンサルの悪名',score(s.notoriety)]
+  ]],
+  ['現場診断',[
+   ['根本課題',root.active?root.title:'調査対象外・従来の経営を継続'],
+   ['診断の進捗',!root.active?'対象外':root.solved?'根本対策済み':'対策未実施']
+  ]]
  ];
- $('statusContent').innerHTML='<p class="status-lead">必要な数字だけ確認できるよ。資金の詳しい入出金は、ホームのお金カードをタップ。</p>'+data.map(([name,value])=>`<div class="status-line"><span>${esc(name)}</span><strong>${esc(value)}</strong></div>`).join('');
+ $('statusContent').innerHTML='<p class="status-lead">主要数値は経営画面、すべての内訳はここで確認できます。店舗の現金と個人の財布は別会計です。</p>'+
+  groups.map(([heading,rows])=>'<section class="status-group"><h3>'+esc(heading)+'</h3>'+
+   rows.map(([label,value])=>'<div class="status-line"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong></div>').join('')+'</section>').join('');
  $('statusReport').hidden=!h;
  $('statusSheet').hidden=false;document.body.classList.add('scene-locked');
  $('statusClose').focus({preventScroll:true});
@@ -367,11 +408,11 @@ function showWeekReport(h,finish){
  $('reportDescription').textContent=h.devilNote?`${h.devilNote} ${h.body}`:h.body;
  $('crisisResponseBox').hidden=!h.crisisResponse;
  $('crisisResponseText').textContent=h.crisisResponse||'';
- $('reportCash').textContent=man(h.cashAfter??game.cash)+'万円';
+ rollFigure($('reportCash'),h.cashBefore??h.cashAfter??game.cash,h.cashAfter??game.cash,n=>man(n)+'万円');
  const dc=h.deltaCash??0;
  $('reportCashChange').textContent='今週 '+moneyChange(dc);
  $('reportCashChange').className='money-change '+cashClass(dc);
- $('reportExpenses').textContent=currency(h.personalCashAfter??game.personalCash);
+ rollFigure($('reportExpenses'),h.personalCashBefore??h.personalCashAfter??game.personalCash,h.personalCashAfter??game.personalCash,n=>currency(n));
  const dp=(h.personalCashAfter??game.personalCash)-(h.personalCashBefore??0);
  $('reportPersonalChange').textContent='今週 '+moneyChange(dp);
  $('reportPersonalChange').className='money-change '+cashClass(dp);
@@ -415,6 +456,16 @@ function showWeekReport(h,finish){
  $('reportContinue').textContent=pending?'先にトラブル対応を選んでね':finish?'最終決算を見る →':'次の経営会議へ →';
  $('reportContinue').focus({preventScroll:true});
 }
+
+const SCENE_TYPES=[
+ {art:'price',ids:['raise','lower','airtax']},
+ {art:'promo',ids:['sale','stamp','pop','tasting']},
+ {art:'repair',ids:['maintenance','fix_equipment']},
+ {art:'people',ids:['staff','restorestaff','fix_people','loyalty']},
+ {art:'trust',ids:['explain','apology','blame','apologybot','audit','fix_fans']},
+ {art:'finance',ids:['bills','loan','ceocut','points']}
+];
+function policyScene(id){return SCENE_TYPES.find(scene=>scene.ids.includes(id))?.art||'product';}
 function startWeek(){
  if(resolving||!$('weekScene').hidden)return;
  if(!$('proposalSheet').hidden)closeProposals();
@@ -437,10 +488,14 @@ function startWeek(){
  $('reportScene').hidden=true;
  $('rescueScene').hidden=true;
  $('workingWeek').textContent='WEEK '+String(week).padStart(2,'0');
- $('workingMessage').textContent='家賃・人件費・光熱費を支払っています…';
+ const policy=G.ACTIONS.find(a=>a.id===choice);
+ $('workingArtUse').setAttribute('href','#policy-scene-'+policyScene(choice));
+ $('workingIllustration').setAttribute('aria-label',`「${policy?.name||'今週の施策'}」を実施する現場のイラスト`);
+ $('workingAction').textContent=policy?.name||'選んだ施策を実施中';
+ $('workingMessage').textContent='現場へ施策を伝えて、今週の営業を進めています…';
  document.body.classList.add('scene-locked');
  const duration=reducedMotion()?120:1400;
- window.setTimeout(()=>{$('workingMessage').textContent='お客様の買い物と突発ニュースを集計中…';},duration*.40);
+ window.setTimeout(()=>{$('workingMessage').textContent='仕入れ・売上・評判の変化を集計中…';},duration*.40);
  window.setTimeout(()=>{$('workingMessage').textContent='今週の結果を発表します！';},duration*.72);
  window.setTimeout(()=>{
   const notable=report.fireHit||report.accidentId||report.devilPayment||report.personalDevilPayment;
@@ -464,6 +519,11 @@ function finishWeek(){
  $('workingScene').hidden=false;$('shockScene').hidden=true;$('reportScene').hidden=true;$('rescueScene').hidden=true;
  document.body.classList.remove('scene-locked');
  changeScreen('office');
+ const result=game.lastResult;
+ if(result){
+  rollFigure($('cashCount'),result.cashBefore,result.cashAfter,n=>man(n)+'<small>万円</small>');
+  rollFigure($('personalBalance'),result.personalCashBefore,result.personalCashAfter,n=>currency(n));
+ }
  if(final)finishModal();
  else{
   document.querySelector('.stats-stack').classList.remove('stats-pulse');
@@ -499,6 +559,12 @@ function paint(){
  $('cashCount').innerHTML=man(s.cash)+'<small>万円</small>';
  $('netCount').innerHTML=man(s.profit)+'<small>万円</small>';
  $('repCount').innerHTML=s.storeRep+'<small>/100</small>';
+ $('dashSales').innerHTML=man(s.sales)+'<small>万円</small>';
+ $('dashProfit').innerHTML=man(s.profit)+'<small>万円</small>';
+ $('dashPrice').innerHTML=s.price+'<small>円</small>';
+ $('dashQuality').innerHTML=s.quality+'<small>/100</small>';
+ $('dashStaff').innerHTML=s.staff+'<small>/100</small>';
+ $('dashSat').innerHTML=s.sat+'<small>/100</small>';
  $('heatCount').innerHTML=s.fire+'<small>/100</small>';
  $('repMeter').style.width=s.storeRep+'%';$('heatMeter').style.width=s.fire+'%';
  const shopDiff=s.lastResult?.deltaCash??0;
@@ -548,7 +614,7 @@ function paint(){
  $('actionHeading').textContent=brief.title;
  renderActions();renderProjects();renderDevil();renderHistory();renderPublic();
  $('advanceButton').disabled=false;
- $('openProposals').textContent=s.rescuePending?'緊急再建会議へ →':s.finished?'契約結果を見る →':'3つの作戦を見る →';
+ $('openProposals').textContent=s.rescuePending?'緊急再建会議へ →':s.finished?'契約結果を見る →':'4つの作戦を見る →';
  $('advanceButton').innerHTML=s.finished?'最終決算を見る <span aria-hidden="true"></span>':'この案で営業する <span aria-hidden="true"></span>';
 }
 function renderActions(){const s=game;
@@ -618,11 +684,11 @@ function finishModal(){
  $('endRestart').addEventListener('click',()=>{closeModal();showEntry('contracts');});
 }
 function showFirstWeekGuide(){
- openModal(`<div class="modal-kicker">はじめての経営 / WEEK 01</div><h2 id="modalTitle">さあ、最初の経営会議よ。</h2><div class="modal-detail first-week-guide"><p>あなたの仕事は、<b>30週間でモグモグマートを立て直すこと。</b> まずは、たった3つの操作だけ覚えてね。</p><ol><li><b>今週の課題を読む</b> — 社長や店長からの相談を確認。</li><li><b>「3つの作戦を見る」</b> — 対応策を1つ選ぶ。投資と悪魔の契約は任意よ。</li><li><b>「この案で営業する」</b> — 1週間が進み、決算で結果と原因を確認できるわ。</li></ol><p><b>忘れないで：</b>店の資金・自分の財布・お店の評判は別々。お金だけ増やしても、信用を失えば再建失敗よ。</p><p class="first-week-goal">契約目標：累計利益255万円 ＋ 評判50以上</p></div><div class="modal-actions"><button id="firstWeekStart" class="primary-btn" type="button">わかった！ 今週の課題を見る →</button></div>`);
+ openModal(`<div class="modal-kicker">はじめての経営 / WEEK 01</div><h2 id="modalTitle">さあ、最初の経営会議よ。</h2><div class="modal-detail first-week-guide"><p>あなたの仕事は、<b>30週間でモグモグマートを立て直すこと。</b> まずは、たった3つの操作だけ覚えてね。</p><ol><li><b>今週の課題を読む</b> — 社長や店長からの相談を確認。</li><li><b>「4つの作戦を見る」</b> — 対応策を1つ選ぶ。投資と悪魔の契約は任意よ。</li><li><b>「この案で営業する」</b> — 1週間が進み、決算で結果と原因を確認できるわ。</li></ol><p><b>忘れないで：</b>店の資金・自分の財布・お店の評判は別々。お金だけ増やしても、信用を失えば再建失敗よ。</p><p class="first-week-goal">契約目標：累計利益255万円 ＋ 評判50以上</p></div><div class="modal-actions"><button id="firstWeekStart" class="primary-btn" type="button">わかった！ 今週の課題を見る →</button></div>`);
  $('firstWeekStart').addEventListener('click',()=>{closeModal();$('openProposals').focus({preventScroll:true});});
  $('firstWeekStart').focus({preventScroll:true});
 }
-function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>依頼を受ける。</b>タイトルからモグモグマートを選ぶ。</li><li><b>相談に答える。</b>店長や社長からの問題に3つの対応策から選ぶ。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>生き残る。</b>店舗資金と主人公の生活費を別々に管理。毎週の生活費・4週間ごとの養育費を払おう。</li><li><b>社会情勢と悪魔。</b>景気や行政で売上・原価が変化。悪魔に助けを求めると期限付きの代償が発生する。</li><li><b>契約達成。</b>30週間で利益255万円・評判50以上。店の倒産や生活破綻で途中終了。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ </button></div>`);$('aboutClose').addEventListener('click',closeModal);}
+function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>依頼を受ける。</b>タイトルからモグモグマートを選ぶ。</li><li><b>相談に答える。</b>店長や社長からの問題に4つの対応策から選ぶ。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>生き残る。</b>店舗資金と主人公の生活費を別々に管理。毎週の生活費・4週間ごとの養育費を払おう。</li><li><b>社会情勢と悪魔。</b>景気や行政で売上・原価が変化。悪魔に助けを求めると期限付きの代償が発生する。</li><li><b>契約達成。</b>30週間で利益255万円・評判50以上。店の倒産や生活破綻で途中終了。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ </button></div>`);$('aboutClose').addEventListener('click',closeModal);}
 function setup(){
  game=load();paint();showEntry('title');
  $('titleStart').addEventListener('click',()=>showEntry('contracts'));
