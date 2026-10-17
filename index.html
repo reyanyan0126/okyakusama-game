@@ -9,7 +9,7 @@
   <meta property="og:description" content="施策を選んで、笑って、炎上する。12週間のブラックコメディ経営ゲーム。">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
-  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
   <link rel="stylesheet" href="styles.css">
   <title>お客様のために。｜経営コンサルゲーム</title>
   <script defer src="engine.js"></script>
@@ -26,6 +26,7 @@
     </header>
 
     <main>
+      <div id="officeView" class="view-panel" role="region" aria-label="経営画面">
       <div class="topline"><span class="eyebrow">CONSULTING FILE / 001</span><span class="topline-right">12週間チャレンジ <span id="weekIndicator">1 / 12</span></span></div>
       <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
       <div class="layout">
@@ -54,6 +55,8 @@
               <path d="M35 135h146" stroke="#28251f" stroke-width="4" stroke-linecap="round"/>
               <g transform="translate(5 99)"><path d="M6 24h26l-3-16H10z" fill="#f0ab49" stroke="#28251f" stroke-width="2"/><path d="M12 8 10 1m8 7 1-7m5 7 6-6" stroke="#366c58" stroke-width="3" stroke-linecap="round"/></g>
             </svg>
+            <div class="tiny-customers" aria-hidden="true"><span class="walker walker-one">🚶</span><span class="walker walker-two">🛒</span></div>
+            <div class="shop-open-sign" aria-hidden="true">OPEN</div>
           </article>
 
           <div class="section-bar"><h3>今週の経営状況</h3><span class="section-sub">ひと目で分かる7つの数字</span></div>
@@ -101,15 +104,66 @@
           </div>
         </aside>
       </div>
-      <div class="bottom-area">
+      </div><!-- officeView -->
+      <section id="voiceView" class="view-panel" role="region" aria-label="世間の声" hidden>
+        <div class="scene-heading"><span class="scene-eyebrow">SOCIAL WATCH</span><h2>街のみんなの声 📢</h2><p>人気と怒りは、いつも比例するとは限らない。</p></div>
+        <div class="voice-top-card">
+          <div class="voice-score-title"><span class="voice-mascot" id="voiceFace" aria-hidden="true">🙂</span><div><span class="scene-eyebrow">お店の評判</span><strong id="voiceTrust">65 / 100</strong></div></div>
+          <div class="voice-track"><span id="voiceTrustBar"></span></div>
+          <p id="voiceMoodQuote">「このお店、まあまあじゃない？」</p>
+        </div>
+        <div class="voice-duo">
+          <div class="voice-metric"><span>😊 満足度</span><b id="voiceSat">66</b><div class="voice-track"><span id="voiceSatBar"></span></div></div>
+          <div class="voice-metric"><span>😤 不満</span><b id="voiceFrust">23</b><div class="voice-track"><span id="voiceFrustBar" class="warm"></span></div></div>
+        </div>
+        <div class="public-news"><span class="live-pill">● 街の速報</span><h3 id="voiceHeadline">開店準備は万端！</h3><p id="voiceBody">まだ話題になる出来事はありません。</p></div>
+        <div class="section-bar"><h3>みんなのひとこと</h3><span class="section-sub">架空の口コミ</span></div>
+        <div id="publicFeed" class="social-feed"></div>
+      </section>
+      <section id="recordsView" class="view-panel" role="region" aria-label="経営記録" hidden>
+        <div class="scene-heading"><span class="scene-eyebrow">MY CONSULTING OFFICE</span><h2>コンサル手帳 📒</h2><p>数字は嘘をつかない。言い訳は社長がする。</p></div>
+        <div class="records-summary"><div><span>累計報酬</span><strong id="recordsPay">0円</strong></div><div><span>これまでの売上</span><strong id="recordsSales">0万円</strong></div><div><span>経営した週</span><strong id="recordsWeeks">0週</strong></div></div>
+        <div class="bottom-area">
         <button id="historyToggle" class="utility-button" type="button" aria-expanded="false">▤ これまでの経営記録 <span id="historyCount">0件</span> <span class="caret">⌄</span></button>
         <div id="historyPanel" class="history-panel" hidden><div id="historyList" class="history-list"></div></div>
         <div class="utility-row"><button id="exportButton" type="button">↓ セーブを書き出す</button><button id="importButton" type="button">↑ セーブを読み込む</button><button id="restartButton" type="button" class="muted-danger">↻ 最初から</button><input id="importInput" type="file" accept="application/json,.json" hidden></div>
       </div>
+      </section><!-- recordsView -->
     </main>
-    <footer>これは架空の企業を題材にした風刺ゲームです。実在の商品・企業・人物とは関係ありません。<br>© 2026 お客様のために。 / v0.1</footer>
+    <nav class="game-nav" aria-label="画面切り替え">
+      <button type="button" class="game-tab active" data-screen="office" aria-pressed="true" aria-controls="officeView"><span aria-hidden="true">🏪</span><strong>経営</strong></button>
+      <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true">💬</span><strong>世論</strong></button>
+      <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true">📒</span><strong>記録</strong></button>
+    </nav>
+    <footer>これは架空の企業を題材にした風刺ゲームです。実在の商品・企業・人物とは関係ありません。<br>© 2026 お客様のために。 / v0.2</footer>
   </div>
 
+  <div id="weekScene" class="week-scene" role="dialog" aria-modal="true" aria-label="今週の経営結果" hidden>
+    <div id="workingScene" class="working-scene">
+      <div class="loading-week" id="workingWeek">WEEK 01</div>
+      <div class="animated-mart" aria-hidden="true"><div class="animated-roof">MOGU MART</div><div class="animated-shop-body"><span>🍞</span><span>🥫</span><span>🍎</span></div><div class="moving-trolley">🛒</div></div>
+      <h2>今週の営業中…</h2><p id="workingMessage">お客様が来店しています</p>
+      <div class="work-progress"><span></span></div>
+      <p class="loading-note">結果はゲーム内で自動計算しています</p>
+    </div>
+    <div id="reportScene" class="report-scene" hidden>
+      <div class="report-sheet">
+        <div class="report-eyebrow" id="reportWeek">WEEK 01 / 12</div>
+        <div class="report-icon" id="reportIcon" aria-hidden="true">📰</div>
+        <h2 id="reportTitle">今週の決算！</h2>
+        <p class="report-headline" id="reportHeadline"></p>
+        <p class="report-description" id="reportDescription"></p>
+        <div class="report-big-number"><span>今週の売上</span><strong id="reportSales">0万円</strong><small id="reportSalesDiff"></small></div>
+        <div class="report-three">
+          <div><span>お店の利益</span><strong id="reportProfit">0万円</strong></div>
+          <div><span>あなたの報酬</span><strong id="reportPay">0円</strong></div>
+          <div><span>お客様の不満</span><strong id="reportFrust">0</strong></div>
+        </div>
+        <p class="report-quote" id="reportCeo"></p>
+        <button type="button" id="reportContinue" class="primary-btn">次の経営会議へ <span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  </div>
   <div id="modal" class="modal-layer" hidden><div class="modal-backdrop"></div><div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button id="modalClose" class="modal-x" type="button" aria-label="閉じる">×</button><div id="modalContent"></div></div></div>
   <div id="toast" role="status" aria-live="polite" class="toast" hidden></div>
 </body>

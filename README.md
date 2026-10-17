@@ -1,4 +1,4 @@
-# 『お客様のために。』 v0.1
+# 『お客様のために。』 v0.2
 
 架空のスーパー「モグモグマート」を12週間コンサルする、無料の風刺経営シミュレーションです。
 
@@ -9,7 +9,7 @@
 - 売上・粗利益・成功報酬の自動計算
 - 12週のエンディング／再挑戦
 - ブラウザ内自動セーブ、セーブのJSON出力・読み込み
-- オフライン表示用Service Worker（HTTPS公開時。SVGアイコン使用）
+- オフライン表示用Service Worker（HTTPS公開時）
 
 ## 遊び方
 1. `index.html`を開く（正式にはHTTPSのサイトにアップロードしてアクセス）。
@@ -20,8 +20,8 @@
 
 ## GitHub Pagesへの公開
 1. **新規・独立した公開リポジトリ**をGitHubに作成する（既存の「うまログ」にはアップロードしない）。
-2. `index.html`, `styles.css`, `app.js`, `engine.js`, `sw.js`, `manifest.webmanifest`, `icons/icon.svg` はmainブランチのルートに登録済みです。
-3. リポジトリの `Settings → Pages → Build and deployment` で `Deploy from a branch` を選び、`main` / `/(root)` を指定して保存する（GitHub上で手動設定が必要）。
+2. このフォルダの `index.html`, `styles.css`, `app.js`, `engine.js`, `sw.js`, `manifest.webmanifest`, `icons/` を**リポジトリのルート**へアップロードする。
+3. `Settings → Pages → Build and deployment`で`Deploy from a branch`を選び、`main` / `/(root)`を指定して保存。
 4. GitHub Pagesの公開URLにHTTPSでアクセスし、各種操作とセーブを確認する。
 5. iPhoneのSafariでページを開き、「共有」→「ホーム画面に追加」からショートカットを作る。
 
@@ -38,4 +38,10 @@ HTML/CSS/Vanilla JS。ユーザー登録不要。データはlocalStorage。乱�
 ## 今後の候補
 飲食店・アパレル、新しい施策、店長の性格、業績・世論レポート、ゲームバランス調整。
 
-公開用URL（Pages設定完了後）: https://reyanyan0126.github.io/okyakusama-game/
+## v0.2 ゲーム演出
+- メイン画面、世論画面、記録画面を3つのタブで切り替え（操作はシンプルに）
+- スーパーの小さな客のアニメーション（CSSのみ・通信不要）
+- 施策選択後は1.4秒の営業アニメーション、週刊ニュースと大きな売上のリザルト表示へ
+- 週の結果表示と画面遷移には軽量CSSアニメーションを使い、視覚効果を抑える設定にも対応
+- 経営計算エンジンは変更なし。保存キー・ゲーム状態・JSONデータ形式は従来と互換。
+- 初回体験の演出は毎回強制せず、継続プレイヤーがすぐ経営を再開できる構成。
