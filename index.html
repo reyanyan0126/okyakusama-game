@@ -53,7 +53,7 @@
         <button id="titleResume" class="secondary-btn" type="button" hidden>つづきから <span>→</span></button>
         <button id="titleHelp" class="text-btn" type="button">あそびかた</button>
       </div>
-      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.9.2</p>
+      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.9.3</p>
     </div>
   </section>
   <section id="contractsScreen" class="entry-screen" aria-label="コンサル依頼一覧" hidden>
@@ -138,13 +138,13 @@
             </div>
           </article>
           <section class="office-vitals play-stats" aria-label="今週の重要ステータス">
-            <div class="play-stat money"><span><svg class="mini-ill"><use href="#art-store"/></svg> 店の資金</span><strong id="cashCount">19.5<small>万円</small></strong><em id="cashTrend">資金を守ろう</em><span class="vital-secondary">先週利益 <b id="netCount">6.1<small>万円</small></b></span></div>
-            <div class="play-stat personal"><span><svg class="mini-ill"><use href="#art-wallet"/></svg> 自分の財布</span><strong id="personalBalance">2.8万円</strong><span class="vital-secondary">養育費 <b id="supportDue">第4週・3.6万円</b></span><span id="arrearsBadge" class="arrears-badge" hidden>未払い</span></div>
+            <div class="play-stat money"><span><svg class="mini-ill"><use href="#art-store"/></svg> 店の資金</span><strong id="cashCount">19.5<small>万円</small></strong><em id="cashTrend" class="cash-delta">ゲーム開始時点</em></div>
+            <div class="play-stat personal"><span><svg class="mini-ill"><use href="#art-wallet"/></svg> 自分の財布</span><strong id="personalBalance">2.8万円</strong><em id="personalTrend" class="cash-delta">ゲーム開始時点</em><span class="vital-secondary">養育費 <b id="supportDue">第4週・3.6万円</b></span><span id="arrearsBadge" class="arrears-badge" hidden>未払い</span></div>
             <div class="play-stat trust"><span><svg class="mini-ill"><use href="#art-heart"/></svg> お店の評判</span><strong id="repCount">58<small>/100</small></strong><div class="play-meter"><i id="repMeter"></i></div><span class="vital-secondary">炎上 <b id="heatCount">4<small>/100</small></b><span class="tiny-meter"><i id="heatMeter"></i></span></span></div>
           </section>
           <div class="world-ribbon" id="worldRibbon"><svg class="ribbon-ill"><use href="#art-bill"/></svg><div><small>社会情勢</small><strong id="macroName">物価高</strong></div><span id="macroEffect">仕入れ価格が高騰中</span></div>
           <div class="office-details"><span id="goalChip">契約利益 0 / 100万</span><span class="week-expenses">固定費 <strong id="overheadCount">毎週 約15.5万円</strong><span id="loanHint"></span></span></div>
-          <details class="advanced-stats" id="advancedStats"><summary>経営の詳細を見る</summary>
+          <details class="advanced-stats" id="advancedStats"><summary>経営の詳細を見る</summary><div class="advanced-profit">直近の営業利益 <b id="netCount">6.1万円</b> <small>※ 店の現金増減とは異なります</small></div>
           <div class="stats-stack">
             <section class="stats-card consultant" aria-label="コンサルタントの状態">
               <div class="stats-label"><span class="icon-square blue"><svg class="mini-ill" aria-hidden="true"><use href="#art-meeting"/></svg></span><strong>あなた（コンサル）</strong><span class="mini-badge" id="consultantTitle">駆け出し</span></div>
@@ -222,7 +222,7 @@
       <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-people"/></svg></span><strong>世論</strong></button>
       <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-bill"/></svg></span><strong>記録</strong></button>
     </nav>
-    <footer>フィクション・2026 お客様のために。 / v0.9.2</footer>
+    <footer>フィクション・2026 お客様のために。 / v0.9.3</footer>
   </div>
 
   <section id="proposalSheet" class="proposal-sheet" role="dialog" aria-modal="true" aria-labelledby="proposalTitle" hidden>
@@ -232,12 +232,13 @@
       <h2 id="proposalTitle">どの施策を採用する？</h2>
       <p class="proposal-budget" id="proposalBudget">毎週、固定費が発生します</p><p class="proposal-meeting-target" id="proposalMeetingTarget">今週の会議目標</p>
       <div id="actions" class="action-grid" role="radiogroup" aria-label="経営施策を選択"></div>
-      <div class="investment-zone" aria-label="今週の設備投資">
+      <details id="optionalActions" class="optional-actions"><summary><span>追加の行動 <small>任意</small></span><small id="optionalSummary">投資・悪魔との契約を開く</small></summary>
+      <div class="optional-body"><div class="investment-zone" aria-label="今週の設備投資">
         <div class="investment-heading"><strong>将来に投資する？</strong><small>今週の施策とは別に1つ選べる</small></div>
         <div id="projectChoices" class="project-choices" role="radiogroup" aria-label="追加投資"></div>
         <p id="projectNote" class="project-note">投資しなくても営業できます。</p>
       </div>
-      <details id="devilSection" class="devil-section"><summary><svg class="mini-ill"><use href="#art-devil"/></svg> 悪魔に相談する <small id="devilAvailability">今はまだ契約できる</small></summary><div id="devilChoices" class="devil-choices"></div><p id="devilNotice">1回の契約には必ず代償があります。</p></details>
+      <details id="devilSection" class="devil-section"><summary><svg class="mini-ill"><use href="#art-devil"/></svg> 悪魔に相談する <small id="devilAvailability">今はまだ契約できる</small></summary><div id="devilChoices" class="devil-choices"></div><p id="devilNotice">1回の契約には必ず代償があります。</p></details></div></details>
       <div class="selected-detail"><span class="detail-icon" id="selectedIcon"><svg class="mini-ill" aria-hidden="true"><use href="#art-document"/></svg></span><div class="selected-text"><strong id="selectedTitle">選んだ施策</strong><p id="selectedDesc"></p></div></div>
       <div class="risk-row"><span>炎上リスク</span><strong id="riskLabel">低</strong><span class="risk-caption" id="riskNote">比較的穏やか</span></div>
       <button id="advanceButton" class="primary-btn" type="button">この案で営業する →</button>
@@ -273,6 +274,9 @@
         <p class="report-description" id="reportDescription"></p>
         <div id="reportVerdict" class="report-verdict" role="status"><span id="reportVerdictIcon"><svg class="mini-ill" aria-hidden="true"><use href="#art-graph"/></svg></span><div><strong id="reportVerdictTitle">黒字達成！</strong><small id="reportVerdictSub">今回の施策でお店はどうなった？</small></div></div>
         <div id="economyReport" class="economy-report"><svg class="mini-ill"><use href="#art-bill"/></svg><span id="economyHeadline">今週の経済ニュース</span></div>
+        <div class="report-cashflow"><div><span>お店の資金</span><strong id="reportCash">0万円</strong><small id="reportCashChange" class="money-change">先週から ±0万円</small><small id="storeMoneyWhy" class="cash-why">営業と支払いを集計中</small></div><div><span>自分の財布</span><strong id="reportExpenses">0万円</strong><small id="reportPersonalChange" class="money-change">先週から ±0万円</small><small id="personalMoneyWhy" class="cash-why">報酬と生活費を集計中</small></div></div>
+        <p id="reportSatire" class="report-satire">数字は正直。会議は別。</p>
+        <details class="financial-detail" id="financialDetail"><summary>資金の内訳を見る <small>売上・費用・投資・報酬</small></summary>
         <div class="report-big-number"><span>今週の売上</span><strong id="reportSales">0万円</strong><small id="reportSalesDiff"></small></div>
         <div class="money-flow" aria-label="今週の収支の内訳">
           <div class="money-flow-title"><strong>今週のお金の流れ</strong><small>色の長さは売上に対する割合</small></div>
@@ -280,12 +284,13 @@
           <div class="money-flow-total"><span>最終利益</span><strong id="flowProfit">0万円</strong></div>
           <div id="investmentResult" class="investment-result" hidden></div>
         </div>
-        <div class="report-cashflow"><div><span>店の残り資金</span><strong id="reportCash">0万円</strong><small id="reportCashChange">増減 ±0万円</small></div><div><span>自分の財布</span><strong id="reportExpenses">0万円</strong><small id="reportAccident">生活費の支払い</small></div></div>
+        <div class="report-finance-notes"><p id="storeMoneyFull">店舗のお金の計算</p><p id="personalMoneyFull">主人公のお金の計算</p><p id="reportAccident">生活費の支払い</p></div>
         <div class="report-three">
           <div><span>お店の利益</span><strong id="reportProfit">0万円</strong></div>
           <div><span>あなたの報酬</span><strong id="reportPay">0円</strong></div>
           <div><span>お客様の不満</span><strong id="reportFrust">0</strong></div>
         </div>
+        </details>
         <div class="report-impact" aria-label="今週の変化"><div><span>お店の評判</span><strong id="reportReputationChange">±0</strong></div><div><span>客の満足</span><strong id="reportSatisfactionChange">±0</strong></div><div><span>炎上度</span><strong id="reportFireChange">±0</strong></div></div>
         <p class="report-contract" id="reportGoal">契約目標：累計利益100万円・評判50以上</p><div class="report-reaction"><span id="reportBossFace" class="report-character" aria-label="店長の表情"><svg class="mini-ill" aria-hidden="true"><use href="#art-meeting"/></svg></span><p class="report-quote" id="reportCeo"></p></div>
         <p class="report-takeaway" id="reportTakeaway">今週のまとめ</p>

@@ -1,4 +1,4 @@
-/* お客様のために。v0.9 - survival finance, devil pacts, visual shock scenes. */
+/* お客様のために。v0.9.3 - survival finance, devil pacts, visual shock scenes. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const STORAGE='okyakusama.save.v1';
@@ -6,6 +6,9 @@ const $=id=>document.getElementById(id);
 const yen=n=>Number(n).toLocaleString('ja-JP');
 const man=n=>(n/10000).toFixed(1);
 const sign=n=>(n>0?'+':'')+yen(n);
+const moneyChange=n=>(n>0?'＋':n<0?'−':'±')+man(Math.abs(n))+'万円';
+const cashClass=n=>n>0?'up':n<0?'down':'flat';
+
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 let game;
 let selectedProject=null;
@@ -60,7 +63,7 @@ function advancePrologue(){
 }
 function openProposals(){
  if(resolving||!$('weekScene').hidden||game.finished)return;
- renderActions();renderDevil();$('proposalSheet').hidden=false;document.body.classList.add('scene-locked');
+ renderActions();renderDevil();$('optionalActions').open=!!(selectedProject||selectedDevil);$('proposalSheet').hidden=false;document.body.classList.add('scene-locked');
  $('closeProposals').focus({preventScroll:true});
 }
 function closeProposals(){
@@ -113,6 +116,39 @@ const REACTIONS={
  stamp:['限定企画で客が殺到。私は限定に弱い。','来週も同じ値段だと思うなよ。','買ってから限定だったことに気づいた。'],
  audit:['数字公開って珍しい。普通なのに。','ちゃんと説明してくれたら、文句も減るんだよ。','社長が資料を出した瞬間、経理が泣いていた。']
 };
+const EXTRA_REACTIONS={
+ raise:['実質賃金は据え置き。値札だけ昇進した。','値上げの説明が「ご理解」だけで完結している。'],
+ shrink:['袋の中身より、プレスリリースの方が重い。','量が減ったことを「体験価値」と呼ぶのはやめて。'],
+ cheap:['原料を削ったら、味より先にリピーターが消えた。','これは商品開発ではなく、思い出の解体。'],
+ staff:['店員を減らして増えたのは、客の待ち時間。','レジは無人化した。責任者も無人化した。'],
+ points:['制度変更で得するのは、説明資料を作った人だけ。'],
+ pop:['商品の価値より広告費が先に膨らむ、新しい製法。'],
+ explain:['正直に言っただけで優良企業に見える不思議。'],
+ blame:['責任の所在を探したら、社長だけ先に帰っていた。'],
+ audit:['透明性を高めたら、役員室だけ曇りガラスになった。'],
+ loan:['借りたお金で「自己資金は潤沢」と会見するな。'],
+ quality:['普通にいいものを作る。革新的すぎて役員が動揺。'],
+ local:['地域密着。役員報酬だけ国際水準。'],
+ sale:['感謝祭で感謝しているのは、在庫管理システム。'],
+ loyalty:['お客様の声を聞く会に、社長本人だけ欠席。'],
+ maintenance:['何も起きなかった成果は、予算査定で消される。']
+};
+const RESULT_PUNCH={
+ raise:'社長「価格改定は成長戦略。給与改定は時期尚早」',
+ shrink:'社長「中身を減らしたのではない。余白を提供した」',
+ staff:'社長「人手不足は、現場の工夫で解決してほしい」',
+ cheap:'社長「品質は落ちていない。基準を最適化した」',
+ quality:'社長「味はいい。だが原価まで正直にならなくていい」',
+ points:'社長「お客様への還元を、当社へ還元した」',
+ pop:'社長「広告の満足度は高い。商品の話は後で」',
+ explain:'社長「説明責任は果たした。理解する責任は消費者にある」',
+ sale:'社長「売上は伸びた。利益が付いてくるとは言っていない」',
+ audit:'社長「透明な経営だ。私の報酬だけは個人情報だが」',
+ blame:'社長「決めたのは私、責任を負うのは君。役割分担だ」',
+ local:'社長「地域を大切に。決算だけ本社を大切に」',
+ maintenance:'社長「壊れなかった。だから修理代は無駄だったな」',
+ loan:'社長「資金が増えたぞ！ 返済表を見せるな」'
+};
 const PUBLIC_NAMES=['買い物歴20年','節約が趣味','お弁当評論家','元・常連','レシート収集家','今日も特売待ち'];
 function renderPublic(){
  const s=game;
@@ -128,7 +164,7 @@ function renderPublic(){
  $('voiceBody').textContent=s.lastResult?.body??'まだ話題になる出来事はありません。';
  const feed=s.history.slice(-8).reverse();
  $('publicFeed').innerHTML=feed.length?feed.map((h,i)=>{
- const comments=REACTIONS[h.actionId]||['ま、次の決算を見ようか。'];
+ const comments=[...(REACTIONS[h.actionId]||['ま、次の決算を見ようか。']),...(EXTRA_REACTIONS[h.actionId]||[])];
  const c=comments[(h.week+i)%comments.length];
  const person=PUBLIC_NAMES[(h.week*3+i)%PUBLIC_NAMES.length];
  return `<article class="social-post"><span class="post-avatar" aria-hidden="true"><svg class="mini-ill"><use href="#${h.fireHit?'art-fire':h.memoryEvent?'art-warning':h.eventType==='good'?'art-smile':'art-people'}"/></svg></span><div><div class="post-name">${esc(person)} <span>・第${h.week}週</span></div><p>${esc(c)}</p><small>いいね ${18+h.week*7+i*13}　 ↻ ${2+h.week+i}</small></div></article>`;
@@ -192,9 +228,21 @@ function showWeekReport(h,finish){
  $('reportDescription').textContent=h.devilNote?`${h.devilNote} ${h.body}`:h.body;
  $('reportCash').textContent=man(h.cashAfter??game.cash)+'万円';
  const dc=h.deltaCash??0;
- $('reportCashChange').textContent='先週から '+(dc>=0?'+':'')+man(dc)+'万円';
- $('reportCashChange').style.color=dc<0?'#a93f37':'#397b53';
+ $('reportCashChange').textContent='先週から '+moneyChange(dc);
+ $('reportCashChange').className='money-change '+cashClass(dc);
  $('reportExpenses').textContent=man(h.personalCashAfter??game.personalCash)+'万円';
+ const dp=(h.personalCashAfter??game.personalCash)-(h.personalCashBefore??0);
+ $('reportPersonalChange').textContent='先週から '+moneyChange(dp);
+ $('reportPersonalChange').className='money-change '+cashClass(dp);
+ const storeLines=[['営業利益',h.profit],['融資など',h.financing||0],['悪魔の援助',h.devilId==='shop'?G.DEVIL_OFFERS.find(x=>x.id==='shop')?.gain||0:0],['返済',-(h.principal||0)],['設備投資',-(h.investment||0)],['コンサル報酬',-((h.fee||0)+(h.boardroomBonus||0))],['悪魔への返済',-(h.devilPayment||0)],['緊急再建',h.rescueAmount||0],['事故補償',-(h.remedyCost||0)]];
+ const personalLines=[['報酬',(h.fee||0)+(h.boardroomBonus||0)],['生活費',-(h.personalLiving||0)],['養育費',-(h.supportPaid||0)],['悪魔への返済',-(h.personalDevilPayment||0)],['悪魔の援助',h.devilId==='personal'?G.DEVIL_OFFERS.find(x=>x.id==='personal')?.gain||0:0]];
+ const fmtLines=lines=>lines.filter(x=>x[1]).map(([name,n])=>`${name}${n>=0?'＋':'−'}${man(Math.abs(n))}万`).join(' / ');
+ const mainDrivers=lines=>lines.filter(x=>x[1]).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,2).map(([name,n])=>`${name}${n>=0?'＋':'−'}${man(Math.abs(n))}万`).join(' / ');
+ $('storeMoneyWhy').textContent='主な要因：'+(mainDrivers(storeLines)||'変化なし');
+ $('personalMoneyWhy').textContent='主な要因：'+(mainDrivers(personalLines)||'変化なし');
+ $('storeMoneyFull').textContent='お店：'+fmtLines(storeLines);
+ $('personalMoneyFull').textContent='自分：'+fmtLines(personalLines);
+ $('reportSatire').textContent=game.personalFailed?'社長「会社は守れたのに、君の生活までは契約外だ」':game.bankrupt?'社長「倒産の原因は、私の理想に現実が追いつかなかったことだ」':h.fireHit?'社長「炎上も宣伝だ。消防署には宣伝費を請求しよう」':h.boardroomBonus?'社長「君への報酬は私の温情。出どころは店の財布だが」':RESULT_PUNCH[h.actionId]||'社長「財務諸表より、発表資料の色味を改善してくれ」';
  $('reportAccident').textContent=`報酬 +${man(h.fee)}万${h.boardroomBonus?' / 社長指示 +'+man(h.boardroomBonus)+'万':''} / 生活費 −${man(h.personalLiving??0)}万${h.supportDue?' / 養育費期限':''}${h.arrearsAfter?' / 未払い '+man(h.arrearsAfter)+'万':''}`;
  $('reportSales').textContent=man(h.sales)+'万円';
  $('reportSalesDiff').textContent='前週比 '+(h.deltaSales>=0?'+':'')+man(h.deltaSales)+'万円';
@@ -309,7 +357,12 @@ function paint(){
  $('repCount').innerHTML=s.storeRep+'<small>/100</small>';
  $('heatCount').innerHTML=s.fire+'<small>/100</small>';
  $('repMeter').style.width=s.storeRep+'%';$('heatMeter').style.width=s.fire+'%';
- $('cashTrend').textContent=s.rescuePending?'最後の機転で倒産を回避せよ':s.cash<0?'支払い超過！ 今すぐ資金対策を':s.cash<120000?'ピンチ！ 週の支払いに注意':s.history.length?'前週比 '+(s.lastResult.deltaCash>=0?'+':'')+man(s.lastResult.deltaCash)+'万円':'赤字が続くと資金ショート';
+ const shopDiff=s.lastResult?.deltaCash??0;
+ const personalDiff=s.history.length?(s.personalCash-(s.lastResult?.personalCashBefore??s.personalCash)):0;
+ $('cashTrend').textContent=s.history.length?'前週から '+moneyChange(shopDiff):'開始時点';
+ $('cashTrend').className='cash-delta '+(s.history.length?cashClass(shopDiff):'flat');
+ $('personalTrend').textContent=s.history.length?'前週から '+moneyChange(personalDiff):'開始時点';
+ $('personalTrend').className='cash-delta '+(s.history.length?cashClass(personalDiff):'flat');
  document.querySelector('.play-stat.money').classList.toggle('in-danger',s.cash<120000);
  $('overheadCount').textContent='毎週 '+man(155000-(60-s.staff)*800)+'万円';
  $('loanHint').textContent=s.debt>0?' / 借入残 '+man(s.debt)+'万円':'';
@@ -352,6 +405,13 @@ function renderActions(){const s=game;
  $('pitchTone').textContent=G.weeklyBrief(s).quote;
  $('pitchTone').classList.toggle('is-crisis',!s.finished&&G.weeklyBrief(s).id==='crisis');
 }
+function updateOptionalSummary(){
+ const chosen=[];
+ if(selectedProject){const project=G.PROJECTS.find(x=>x.id===selectedProject);if(project)chosen.push('投資：'+project.name);}
+ if(selectedDevil){const pact=G.DEVIL_OFFERS.find(x=>x.id===selectedDevil);if(pact)chosen.push('悪魔：'+pact.name);}
+ $('optionalSummary').textContent=chosen.length?chosen.join(' / '):'必要なときだけ開く';
+ $('optionalActions').classList.toggle('has-extra',chosen.length>0);
+}
 function renderProjects(){
  const s=game,options=G.availableProjects(s);
  if(selectedProject && options.find(x=>x.id===selectedProject)?.nextCost>s.cash)selectedProject=null;
@@ -364,6 +424,7 @@ function renderProjects(){
  }).join('');
  const found=options.find(x=>x.id===selectedProject);
  $('projectNote').textContent=found?`投資：${man(found.nextCost)}万円。${found.desc}。翌週以降も効果が続きます。`:'今週は投資せず、現金を確保します。';
+ updateOptionalSummary();
 }
 function renderDevil(){
  const available=G.pactAvailable(game);
@@ -374,6 +435,7 @@ function renderDevil(){
   return `<button type="button" class="devil-choice" role="radio" aria-checked="${selected}" data-devil="${o.id}" ${!available&&o.id!=='none'?'disabled':''}><strong>${esc(o.name)}</strong><small>${esc(o.desc)}</small></button>`;
  }).join('');
  $('devilNotice').textContent=selectedDevil?`契約「${G.DEVIL_OFFERS.find(o=>o.id===selectedDevil)?.name}」を今週の営業と同時に実行します。`:'契約は任意。先の代償を見てから決めてください。';
+ updateOptionalSummary();
 }
 function renderHistory(){const list=$('historyList');const arr=[...game.history].reverse();$('historyCount').textContent=`${arr.length}件`;
  if(!arr.length){list.innerHTML='<p class="modal-detail">まだ経営記録はありません。</p>';return;}
