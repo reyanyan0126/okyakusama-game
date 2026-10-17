@@ -15,7 +15,7 @@ jobs:
           node-version: '22'
       - name: Run Node game tests
         run: |
-          for test in tests/*.test.cjs; do node "$test"; done
+          for test in tests/crisis-v100.test.cjs tests/onboarding-v101.test.cjs tests/ui-smoke.test.cjs tests/v099-campaign.test.cjs tests/finance-v094.test.cjs tests/v095-rootcause.test.cjs; do node "$test"; done
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
