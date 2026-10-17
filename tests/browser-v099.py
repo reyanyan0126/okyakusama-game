@@ -23,6 +23,8 @@ with sync_playwright() as p:
   for i in range(3):page.locator('#prologueNext').click()
   assert page.locator('#prologueHeading').inner_text().startswith('……どうするか')
   page.locator('#prologueNext').click()
+  assert page.locator('#modal').is_visible()
+  page.locator('#firstWeekStart').click()
   assert '1 / 30' in page.locator('#weekIndicator').inner_text()
   assert page.locator('#officeView').is_visible()
   page.locator('#openProposals').click()
