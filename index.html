@@ -29,7 +29,7 @@
         <button id="titleResume" class="secondary-btn" type="button" hidden>つづきから <span>→</span></button>
         <button id="titleHelp" class="text-btn" type="button">あそびかた</button>
       </div>
-      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.4</p>
+      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.5</p>
     </div>
   </section>
   <section id="contractsScreen" class="entry-screen" aria-label="コンサル依頼一覧" hidden>
@@ -38,7 +38,7 @@
       <div class="contracts-heading"><span class="title-stripe">NEW CONSULTING FILES</span><h2>依頼が届きました！</h2><p>困った社長たちが、あなたを待っています。</p></div>
       <article class="contract-item available">
         <div class="contract-icon" aria-hidden="true">🏪</div>
-        <div class="contract-copy"><span class="contract-status">受付中・食品スーパー</span><h3>モグモグマート</h3><p>「売上を伸ばしてくれ。ただし批判はそっち持ちだ！」</p><small>期間：12週間 / 難易度：★☆☆</small></div>
+        <div class="contract-copy"><span class="contract-status">受付中・食品スーパー</span><h3>モグモグマート</h3><p>「売上を伸ばしてくれ。ただし批判はそっち持ちだ！」</p><small>期間：12週間 / 難易度：★★☆</small><div class="contract-objective">🎯 契約条件：累計利益180万円 ＋ 評判50以上</div></div>
         <button id="acceptMarket" class="contract-accept" type="button">この依頼を受ける →</button>
       </article>
       <article class="contract-item not-ready" aria-disabled="true"><div class="contract-icon" aria-hidden="true">🍔</div><div class="contract-copy"><span class="contract-status">準備中</span><h3>スマイルバーガー</h3><p>「ポテトの未来を小さくしたい」</p></div></article>
@@ -93,7 +93,7 @@
             <div class="shop-open-sign" aria-hidden="true">OPEN</div>
           </article>
 
-          <div class="section-bar"><h3>今週の経営状況</h3><span class="section-sub">7つの経営指標</span></div>
+          <div class="section-bar"><h3>今週の経営状況</h3><span class="section-sub" id="goalChip">契約利益 0 / 180万</span></div>
           <div class="stats-stack">
             <section class="stats-card consultant" aria-label="コンサルタントの状態">
               <div class="stats-label"><span class="icon-square blue">♟</span><strong>あなた（コンサル）</strong><span class="mini-badge" id="consultantTitle">駆け出し</span></div>
@@ -128,7 +128,7 @@
         <aside class="action-column" aria-labelledby="actionHeading">
           <div class="decision-card">
             <div class="decision-top"><span class="eyebrow">WEEKLY PROPOSAL</span><span class="decision-week" id="decisionWeek">第1週</span></div>
-            <h3 id="actionHeading">今週、何をする？</h3><span id="pitchTone" class="pitch-tone">今週の4つの提案</span>
+            <h3 id="actionHeading">今週、何をする？</h3><span id="pitchTone" class="pitch-tone">社長から相談が届きました</span>
             <p class="action-intro" id="directorQuote">社長「利益が欲しい！ ただし苦情は君が聞いてくれ！」</p>
             <div id="actions" class="action-grid" role="radiogroup" aria-label="経営施策を選択"></div>
             <div class="selected-detail"><span class="detail-icon" id="selectedIcon">📦</span><div class="selected-text"><strong id="selectedTitle">容量を減らす</strong><p id="selectedDesc">商品の中身を10g減らして原価削減。</p></div></div>
@@ -169,7 +169,7 @@
       <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true">💬</span><strong>世論</strong></button>
       <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true">📒</span><strong>記録</strong></button>
     </nav>
-    <footer>フィクション・© 2026 お客様のために。 / v0.4</footer>
+    <footer>フィクション・© 2026 お客様のために。 / v0.5</footer>
   </div>
 
   <div id="weekScene" class="week-scene" role="dialog" aria-modal="true" aria-label="今週の経営結果" hidden>
@@ -194,8 +194,8 @@
           <div><span>お客様の不満</span><strong id="reportFrust">0</strong></div>
         </div>
         <div class="report-impact" aria-label="今週の変化"><div><span>お店の評判</span><strong id="reportReputationChange">±0</strong></div><div><span>客の満足</span><strong id="reportSatisfactionChange">±0</strong></div><div><span>炎上度</span><strong id="reportFireChange">±0</strong></div></div>
-        <div class="report-reaction"><span id="reportBossFace" class="report-character" aria-label="店長の表情">👨🏻‍💼</span><p class="report-quote" id="reportCeo"></p></div>
-        <p class="report-takeaway" id="reportTakeaway">今週のまとめ</p>
+        <p class="report-contract" id="reportGoal">契約目標：累計利益180万円・評判50以上</p><div class="report-reaction"><span id="reportBossFace" class="report-character" aria-label="店長の表情">👨🏻‍💼</span><p class="report-quote" id="reportCeo"></p></div>
+        <p class="report-takeaway" id="reportTakeaway">今週のまとめ</p><p id="reportNext" class="report-next">次の相談が届いています</p>
         <button type="button" id="reportContinue" class="primary-btn">次の経営会議へ <span aria-hidden="true">→</span></button>
       </div>
     </div>

@@ -33,9 +33,14 @@ nodes.acceptMarket.click();assert.equal(nodes.app.hidden,false,'game after accep
 assert.equal(nodes.officeView.hidden,false);
 assert.equal(nodes.bossFace.dataset.mood,'normal');assert.equal(nodes.buyerFace.dataset.mood,'normal');
 assert.ok(nodes.actions.innerHTML.includes('action-option'));
+assert.match(nodes.actionHeading.textContent,/最初の依頼/);
+assert.match(nodes.goalChip.textContent,/180万/);
+assert.match(html,/契約条件/);
 nodes.advanceButton.click();assert.equal(nodes.reportScene.hidden,false,'report should open after week');
 assert.match(nodes.reportTakeaway.textContent,/[✅⚠️📉👏💰]/);
 assert.ok(nodes.reportReputationChange.textContent.length>0);
+assert.match(nodes.reportGoal.textContent,/契約目標/);
+assert.match(nodes.reportNext.textContent,/次の相談/);
 nodes.reportContinue.click();assert.equal(nodes.weekScene.hidden,true);
 assert.equal(JSON.parse(state['okyakusama.save.v1']).week,2);
 tabs[2].click();nodes.backTitle.click();assert.equal(nodes.titleScreen.hidden,false);assert.equal(nodes.titleResume.hidden,false,'resume after progress');

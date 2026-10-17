@@ -1,4 +1,4 @@
-/* お客様のために。v0.4 - title, client request flow, expressive characters and clearer weekly results. */
+/* お客様のために。v0.5 - weekly story dilemmas, contracts and branching endings. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const STORAGE='okyakusama.save.v1';
@@ -68,7 +68,13 @@ const REACTIONS={
  pop:['広告の写真、実物より栄養ありそう。','宣伝に感動した。商品はまだ見てない。','期待は大盛り。中身は普通盛り。'],
  tasting:['今日の試食が一番ちゃんとした昼ごはん。','おいしい。珍しく文句を言う場所がない。','タダで食べさせてくれるのが一番誠実。'],
  local:['地元の野菜、社長の言い訳より新鮮。','こういう普通の努力でいいんだよ。','やればできるのに、なんで普段やらない？'],
- restorestaff:['店員さんがいる！ 近未来のスーパーか？','レジが速い。文明が戻ってきた。','人が働いているだけで感動できる時代。']
+ restorestaff:['店員さんがいる！ 近未来のスーパーか？','レジが速い。文明が戻ってきた。','人が働いているだけで感動できる時代。'],
+ apology:['社長の謝罪、珍しく原稿を読んだ。','謝ったのはいい。商品は変わった？','社長の頭が一番下がっていた。株価よりは。'],
+ recall:['やっと商品が戻った。値段まで戻ったら泣く。','品質改善は拍手。社長の顔だけ曇っている。','最初からこれやってればニュースにならなかった。'],
+ blame:['誤解です、じゃなくて事実を話して。','広報の人がかわいそうすぎる。','誤解だけでこんなに客が減るなら、理解されたらどうなるんだ。'],
+ loyalty:['客の声を読んでくれたの？奇跡？','アンケートに「普通にして」と書いた。','店長さん、やっとレシートより長い話を聞いてくれた。'],
+ stamp:['限定企画で客が殺到。私は限定に弱い。','来週も同じ値段だと思うなよ。','買ってから限定だったことに気づいた。'],
+ audit:['数字公開って珍しい。普通なのに。','ちゃんと説明してくれたら、文句も減るんだよ。','社長が資料を出した瞬間、経理が泣いていた。']
 };
 const PUBLIC_NAMES=['買い物歴20年','節約が趣味','お弁当評論家','元・常連','レシート収集家','今日も特売待ち'];
 function renderPublic(){
@@ -116,6 +122,10 @@ function showWeekReport(h,finish){
  $('reportBossFace').textContent=isFire?'😱':h.profit<0?'😰':h.profit>=145000?'🤑':'👨🏻‍💼';
  $('reportTakeaway').textContent=isFire?'⚠️ 利益より先に評判が燃えました':h.boycottActive?'⚠️ 不買運動でお客さんが減っています':h.deltaRep<0&&h.profit>0?'💰 利益は出たけど、お店の信用が低下':h.deltaRep>0?'👏 お店の信用が上がりました':h.profit<0?'📉 売上より経費が大きい週でした':'✅ 大きなトラブルなく営業できました';
  $('reportCeo').textContent=h.ceo;
+ const goal=G.goalStatus(game);
+ $('reportGoal').textContent=`契約目標：利益 ${man(goal.profit)} / ${man(G.CONTRACT.profit)}万円・評判 ${goal.reputation} / ${G.CONTRACT.reputation}`;
+ const next=G.weeklyBrief(game);
+ $('reportNext').textContent=game.finished?'12週間の契約審査が始まります':`次の相談：${next.title}`;
  $('reportContinue').textContent=finish?'12週間の最終決算を見る →':'次の経営会議へ →';
  $('reportContinue').focus({preventScroll:true});
 }
@@ -176,19 +186,21 @@ function paint(){
  $('satValue').textContent=s.sat;$('frustValue').textContent=s.frust;
  $('satBar').style.width=s.sat+'%';$('frustBar').style.width=s.frust+'%';
  setFaces();
+ $('goalChip').textContent=`契約利益 ${man(G.goalStatus(s).profit)} / 180万`;
  $('moodStatus').textContent=s.frust>=68?'不満爆発寸前':s.sat>=72?'ごきげん':s.frust>=43?'不満が蓄積':'まずまず';
  $('shopStatus').textContent=s.fire>=60?'大炎上':s.fire>=30?'騒動発生':'営業中';
  if(s.lastResult){$('latestHeadline').textContent=s.lastResult.title;$('latestBody').textContent=s.lastResult.body;}
  else{$('latestHeadline').textContent='開店準備は万端！';$('latestBody').textContent='今週はあなたの初仕事。まずは経営施策を1つ選んでみよう。';}
- $('directorQuote').textContent=s.finished?'社長「決算を開いてくれ。心の準備はできていない」':s.fire>=40?'社長「お客様の声が大きい！ ボリュームを下げてくれ！」':s.skill>=75?'社長「君は天才だ。だから来期も安く頼む！」':'社長「利益が欲しい！ ただし苦情は君が聞いてくれ！」';
- $('actionHeading').textContent=s.finished?'12週間、おつかれさま！':'今週、何をする？';
+ const brief=G.weeklyBrief(s);
+ $('directorQuote').textContent=brief.quote;
+ $('actionHeading').textContent=brief.title;
  renderActions();renderHistory();renderPublic();
  $('advanceButton').disabled=false;
  $('advanceButton').innerHTML=s.finished?'12週間の決算を見る <span aria-hidden="true">↗</span>':'この施策で1週間進める <span aria-hidden="true">↗</span>';
 }
 function renderActions(){const s=game;
- const offers=G.weeklyOffers(s);
- if(!offers.some(x=>x.id===s.selected))s.selected=offers[0].id;
+ const offers=s.finished?[G.ACTIONS.find(a=>a.id===s.selected)||G.ACTIONS[0]]:G.weeklyOffers(s);
+ if(!s.finished&&!offers.some(x=>x.id===s.selected))s.selected=offers[0].id;
  $('actions').innerHTML=offers.map(a=>{
  const on=s.selected===a.id,disabled=s.finished||!G.enabled(s,a.id);
  return `<button type="button" class="action-option" role="radio" aria-checked="${on}" ${disabled?'disabled':''} data-id="${esc(a.id)}"><span class="action-emoji" aria-hidden="true">${esc(a.icon)}</span><span class="action-name">${esc(a.name)}</span><span class="action-effect">${esc(a.effect)}</span></button>`;
@@ -197,11 +209,12 @@ function renderActions(){const s=game;
  $('selectedIcon').textContent=a.icon;$('selectedTitle').textContent=a.name;$('selectedDesc').textContent=a.detail;
  const r=riskLabel(G.previewRisk(s,s.selected)),label=$('riskLabel');label.textContent=r[0];label.className=r[1];
  $('riskNote').textContent=s.finished?'決算で結果を確認':r[2];
- $('pitchTone').textContent=s.week%3===1?'今週は強気の提案が多め':s.week%3===2?'今週は堅実な提案が多め':'攻めと守りの提案が半々';
+ $('pitchTone').textContent=G.weeklyBrief(s).quote;
+ $('pitchTone').classList.toggle('is-crisis',!s.finished&&G.weeklyBrief(s).id==='crisis');
 }
 function renderHistory(){const list=$('historyList');const arr=[...game.history].reverse();$('historyCount').textContent=`${arr.length}件`;
  if(!arr.length){list.innerHTML='<p class="modal-detail">まだ経営記録はありません。</p>';return;}
- list.innerHTML=arr.map(h=>`<div class="history-item"><span class="history-week">第${h.week}週</span><div><strong>${esc(h.actionName)}</strong><p>${esc(h.title)}</p></div><span class="history-number">売上 ${man(h.sales)}万</span></div>`).join('');
+ list.innerHTML=arr.map(h=>`<div class="history-item"><span class="history-week">第${h.week}週</span><div><strong>${esc(h.actionName)}</strong><p>${esc(h.scenarioTitle||'経営会議')} → ${esc(h.title)}</p></div><span class="history-number">売上 ${man(h.sales)}万</span></div>`).join('');
 }
 function openModal(html,next){$('modalContent').innerHTML=html;modalNext=next||null;$('modal').hidden=false;document.body.style.overflow='hidden';$('modalClose').focus();}
 function closeModal(){if($('modal').hidden)return;$('modal').hidden=true;document.body.style.overflow='';const next=modalNext;modalNext=null;if(next)next();}
@@ -213,13 +226,12 @@ function resultModal(h,finish){
  $('resultContinue').addEventListener('click',closeModal);
 }
 function finishModal(){
- const s=game,profit=s.history.reduce((a,x)=>a+x.profit,0),fires=s.history.filter(x=>x.fireHit).length,boycotts=s.history.filter(x=>x.boycottHit).length;
- const rank=s.skill>=80&&s.storeRep>=65?'理想の経営改革者':s.skill>=75&&s.notoriety>=45?'悪魔の敏腕コンサル':s.skill>=70?'売上の魔術師':s.storeRep<30?'世論と戦うコンサル':'一応、経営改善';
- const line=s.notoriety>=50?'「稼ぎ方は教わりたい。名前は出さないでほしい」と各社から評判。':s.storeRep>=75?'「お客様のために」を、珍しく本当に実践した人物として語られる。':fires>=2?'「炎上対策の会議」が企業の主力事業になったらしい。':'社長「次はもっと簡単に儲かる方法がいい。もちろん合法で！」';
- openModal(`<div class="modal-kicker">FINAL REPORT / 全12週間終了</div><h2 id="modalTitle">コンサル会社・最終決算</h2><div class="end-stamp">🏆 ${esc(rank)}</div><div class="result-grid" style="margin-top:15px">${`<div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div>`}${`<div class="result-tile"><span>12週の店の利益</span><b>${man(profit)}万円</b></div>`}${`<div class="result-tile"><span>有能さ / 悪名</span><b>${s.skill} / ${s.notoriety}</b></div>`}${`<div class="result-tile"><span>炎上 / 不買</span><b>${fires}回 / ${boycotts}回</b></div>`}</div><div class="modal-comment">${esc(line)}</div><p class="modal-detail">同じ選択でもイベント抽選で結果は変化するわ。次はどんな経営方針にする？</p><div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい依頼を探す ↗</button></div>`);
+ const s=game,goal=G.goalStatus(s),outcome=G.ending(s);
+ const fires=s.history.filter(h=>h.fireHit).length;
+ openModal(`<div class="modal-kicker">FINAL REPORT / 12週間の契約審査</div><h2 id="modalTitle">${outcome.passed?'🎉 契約達成！':'📋 契約結果のお知らせ'}</h2><div class="end-stamp">${esc(outcome.icon)} ${esc(outcome.name)}</div><div class="result-grid" style="margin-top:15px"><div class="result-tile"><span>累計利益 / 目標</span><b>${man(goal.profit)} / 180万</b><small>${goal.profit>=G.CONTRACT.profit?'利益目標クリア':'利益目標まで'+man(goal.profitGap)+'万円'}</small></div><div class="result-tile"><span>評判 / 条件</span><b>${s.storeRep} / 50</b><small>${s.storeRep>=50?'信用条件クリア':'信用条件まであと'+goal.repGap}</small></div><div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div><div class="result-tile"><span>炎上回数</span><b>${fires}回</b></div></div><div class="modal-comment">${esc(outcome.line)}</div><p class="modal-detail">利益と評判の両方が条件を満たすと契約達成。次は別のやり方も試してみよう！</p><div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい依頼を探す ↗</button></div>`);
  $('endRestart').addEventListener('click',()=>{closeModal();showEntry('contracts');});
 }
-function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>依頼を受ける。</b>タイトルからモグモグマートを選ぶ。</li><li><b>経営施策を1つ選ぶ。</b>今週届いた4件の提案から選ぶ（内容は毎週入れ替わる）。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>12週間経営する。</b>報酬を稼ぎ、企業の信用を守るか、悪名を上げるかは自由。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ ↗</button></div>`);$('aboutClose').addEventListener('click',closeModal);}
+function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>依頼を受ける。</b>タイトルからモグモグマートを選ぶ。</li><li><b>相談に答える。</b>店長や社長からの問題に4つの対応策から選ぶ。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>契約目標を目指す。</b>12週間で利益180万円以上かつ評判50以上なら契約達成。過去の選択が事件になることも！</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ ↗</button></div>`);$('aboutClose').addEventListener('click',closeModal);}
 function setup(){
  game=load();paint();showEntry('title');
  $('titleStart').addEventListener('click',()=>showEntry('contracts'));
