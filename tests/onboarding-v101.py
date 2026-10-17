@@ -31,6 +31,7 @@ with sync_playwright() as p:
         page.locator('#firstWeekStart').click()
         assert not page.locator('#modal').is_visible()
         assert page.locator('#weekIndicator').inner_text()=='1 / 30'
+        page.locator('.game-tab[data-screen="records"]').click()
         page.locator('#backTitle').click()
         page.locator('#titleResume').click()
         assert not page.locator('#modal').is_visible(), 'resume must not reopen onboarding'
