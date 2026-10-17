@@ -243,7 +243,16 @@ function weeklyOffers(s){
  if(diagnosis.active&&!diagnosis.solved&&s.week>=2&&s.week<=Math.min(24,campaignWeeks(s)-2)&&brief.id!=='crisis'){
   picks[1]=diagnosis.action;
  }
- return picks.slice(0,4).map(id=>ACTIONS_BY_ID[id]);
+ // A fallback action may already be the root repair. Replacing slot 2 must
+ // never leave two identical actions or reduce the displayed four choices.
+ const unique=[...new Set(picks)];
+ if(unique.length<4){
+  for(const a of [...ACTIONS].sort((a,b)=>hash(a.id)-hash(b.id))){
+   if(unique.length>=4)break;
+   if(enabled(s,a.id)&&!unique.includes(a.id))unique.push(a.id);
+  }
+ }
+ return unique.slice(0,4).map(id=>ACTIONS_BY_ID[id]);
 }
 // The president offers a private performance bonus for the most aggressive boardroom option.
 // It comes from the client's cash, not thin air. A player can decline without penalty.
