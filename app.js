@@ -1,6 +1,7 @@
-/* お客様のために。v0.9.3 - survival finance, devil pacts, visual shock scenes. */
+/* お客様のために。v0.9.4 - visible cash movements, compact boardroom, verified finance ledger. */
 (()=>{'use strict';
 const G=window.GameEngine;
+const F=window.FinanceLedger;
 const STORAGE='okyakusama.save.v1';
 const $=id=>document.getElementById(id);
 const yen=n=>Number(n).toLocaleString('ja-JP');
@@ -195,6 +196,47 @@ function renderFlow(h){
  $('reportVerdictTitle').textContent=h.rescueChoice&&h.rescueChoice!=='giveup'?'倒産寸前から生還！':loss?'赤字！ 資金が減る':h.fireHit?'儲かったけど、大炎上':good?'今週は好調！':'黒字。でも余裕は少ない';
  $('reportVerdictSub').textContent=`現金 ${man(h.cashBefore??0)}万 → ${man(h.cashAfter??0)}万円`;
 }
+let moneyKind='store';
+let moneyReturnFocus=null;
+const currency=n=>Number(n).toLocaleString('ja-JP')+'円';
+function setMoneyKind(kind){
+ moneyKind=kind;
+ $('moneyStoreTab').setAttribute('aria-selected',String(kind==='store'));
+ $('moneyPersonalTab').setAttribute('aria-selected',String(kind==='personal'));
+ const h=game.lastResult;
+ const opening=kind==='store'?game.cash:game.personalCash;
+ const data=h?F.createLedger(h,kind):F.createLedger(null,kind);
+ const current=h?data.end:opening;
+ const previous=h?data.start:opening;
+ const change=h?data.delta:0;
+ $('moneyTitle').textContent=kind==='store'?'お店の資金明細':'主人公の家計簿';
+ $('moneyOverview').innerHTML=`<div class="money-comparison"><div><span>${h?'先週の残高':'ゲーム開始時点'}</span><strong>${currency(previous)}</strong></div><div class="money-arrow">→</div><div><span>現在の残高</span><strong>${currency(current)}</strong></div></div><div class="money-outcome ${cashClass(change)}">${h?'この週の変化':'まだ営業していません'} <strong>${h?moneyChange(change):'±0円'}</strong></div>`;
+ if(!h){
+  const overhead=155000-(60-game.staff)*800+G.currentMacro(game).fixed;
+  $('moneyLines').innerHTML=kind==='store'?`<div class="money-ledger-note">毎週の固定費だけで約${currency(overhead)}。さらに仕入れ代がかかり、売上や経費によって週末の資金が変わります。</div>`:`<div class="money-ledger-note">毎週の生活費 ${currency(G.PERSONAL.living)}。第4・8・12週には養育費 ${currency(G.PERSONAL.support)}。店から受け取る報酬が生活費の原資です。</div>`;
+  $('moneyExplainer').textContent='最初の1週間を営業すると、入金と支出を1円単位で確認できます。';
+  return;
+ }
+ const rows=data.rows.map(r=>`<div class="money-line"><span>${esc(r.label)}</span><strong class="${cashClass(r.amount)}">${r.amount>0?'+':'−'}${currency(Math.abs(r.amount))}</strong></div>`).join('');
+ let operating='';
+ if(kind==='store'){
+  operating=`<div class="money-ledger-note"><strong>営業の結果：${data.sections[0].amount>=0?'+':'−'}${currency(Math.abs(data.sections[0].amount))}</strong><small>ここに融資・設備投資・コンサル報酬などの資金移動が加わります。利益と現金の増減は違います。</small></div>`;
+ }
+ $('moneyLines').innerHTML=`<div class="money-totals"><div>入ってきたお金 <strong class="up">+${currency(data.inTotal)}</strong></div><div>出ていったお金 <strong class="down">−${currency(data.outTotal)}</strong></div></div>${operating}<div class="money-item-head">1円単位の入出金</div>${rows||'<div class="money-ledger-note">記録された入出金はありません。</div>'}<div class="money-ledger-end"><span>残高の計算</span><strong>${currency(previous)} ＋ ${currency(data.inTotal)} − ${currency(data.outTotal)} ＝ ${currency(current)}</strong></div>`;
+ $('moneyExplainer').textContent=data.note;
+}
+function openMoney(kind='store',source){
+ moneyReturnFocus=source||document.activeElement;
+ setMoneyKind(kind);
+ $('moneySheet').hidden=false;
+ document.body.classList.add('scene-locked');
+ $('moneyClose').focus({preventScroll:true});
+}
+function closeMoney(){
+ $('moneySheet').hidden=true;
+ if($('weekScene').hidden&&$('proposalSheet').hidden)document.body.classList.remove('scene-locked');
+ if(moneyReturnFocus?.isConnected)moneyReturnFocus.focus({preventScroll:true});
+}
 function showRescueScene(){
  $('workingScene').hidden=true;$('shockScene').hidden=true;$('reportScene').hidden=true;
  $('rescueScene').hidden=false;
@@ -228,11 +270,11 @@ function showWeekReport(h,finish){
  $('reportDescription').textContent=h.devilNote?`${h.devilNote} ${h.body}`:h.body;
  $('reportCash').textContent=man(h.cashAfter??game.cash)+'万円';
  const dc=h.deltaCash??0;
- $('reportCashChange').textContent='先週から '+moneyChange(dc);
+ $('reportCashChange').textContent='口座の増減 '+moneyChange(dc);
  $('reportCashChange').className='money-change '+cashClass(dc);
  $('reportExpenses').textContent=man(h.personalCashAfter??game.personalCash)+'万円';
  const dp=(h.personalCashAfter??game.personalCash)-(h.personalCashBefore??0);
- $('reportPersonalChange').textContent='先週から '+moneyChange(dp);
+ $('reportPersonalChange').textContent='財布の増減 '+moneyChange(dp);
  $('reportPersonalChange').className='money-change '+cashClass(dp);
  const storeLines=[['営業利益',h.profit],['融資など',h.financing||0],['悪魔の援助',h.devilId==='shop'?G.DEVIL_OFFERS.find(x=>x.id==='shop')?.gain||0:0],['返済',-(h.principal||0)],['設備投資',-(h.investment||0)],['コンサル報酬',-((h.fee||0)+(h.boardroomBonus||0))],['悪魔への返済',-(h.devilPayment||0)],['緊急再建',h.rescueAmount||0],['事故補償',-(h.remedyCost||0)]];
  const personalLines=[['報酬',(h.fee||0)+(h.boardroomBonus||0)],['生活費',-(h.personalLiving||0)],['養育費',-(h.supportPaid||0)],['悪魔への返済',-(h.personalDevilPayment||0)],['悪魔の援助',h.devilId==='personal'?G.DEVIL_OFFERS.find(x=>x.id==='personal')?.gain||0:0]];
@@ -369,6 +411,11 @@ function paint(){
  $('proposalBudget').textContent='店 '+man(s.cash)+'万 / 自分 '+man(s.personalCash)+'万｜次の養育費 '+(due?'第'+due+'週':'支払済');
  $('meetingStatus').textContent=`経営指標は「詳細ステータス」から確認できます`;
  $('meetingSignal').textContent=G.boardroomSignal(s);
+ const fixedBills=155000-(60-s.staff)*800+macro.fixed;
+ const left=s.cash-fixedBills;
+ $('meetingBills').textContent='約'+man(fixedBills)+'万円';
+ $('meetingLeft').textContent=(left<0?'不足 ':'残り ')+man(Math.abs(left))+'万円';
+ $('meetingLeft').className=left<0?'meeting-negative':'';
  const deal=G.boardroomDemand(s);
  $('meetingDeal').hidden=!deal;
  if(deal)$('meetingDealText').textContent=`社長案で報酬 +${yen(deal.bonus)}円（店の資金から）`;
@@ -387,7 +434,7 @@ function paint(){
  $('actionHeading').textContent=brief.title;
  renderActions();renderProjects();renderDevil();renderHistory();renderPublic();
  $('advanceButton').disabled=false;
- $('openProposals').textContent=s.rescuePending?'緊急再建会議へ →':s.finished?'契約結果を見る →':'3つの作戦を比較する →';
+ $('openProposals').textContent=s.rescuePending?'緊急再建会議へ →':s.finished?'契約結果を見る →':'3つの作戦を見る →';
  $('advanceButton').innerHTML=s.finished?'12週間の決算を見る <span aria-hidden="true"></span>':'この案で営業する <span aria-hidden="true"></span>';
 }
 function renderActions(){const s=game;
@@ -476,6 +523,16 @@ function setup(){
  $('devilChoices').addEventListener('click',event=>{const b=event.target.closest('[data-devil]');if(!b||b.disabled)return;selectedDevil=b.dataset.devil==='none'?null:b.dataset.devil;renderDevil();});
  $('actions').addEventListener('click',event=>{const button=event.target.closest('[data-id]');if(!button||button.disabled||game.finished)return;game.selected=button.dataset.id;save();renderActions();});
  $('advanceButton').addEventListener('click',startWeek);
+ $('officeStoreMoney').addEventListener('click',()=>openMoney('store',$('officeStoreMoney')));
+ $('officePersonalMoney').addEventListener('click',()=>openMoney('personal',$('officePersonalMoney')));
+ $('meetingMoneyButton').addEventListener('click',()=>openMoney('store',$('meetingMoneyButton')));
+ $('proposalMoneyButton').addEventListener('click',()=>openMoney('store',$('proposalMoneyButton')));
+ $('reportLedgerButton').addEventListener('click',()=>openMoney('store',$('reportLedgerButton')));
+ $('moneyStoreTab').addEventListener('click',()=>setMoneyKind('store'));
+ $('moneyPersonalTab').addEventListener('click',()=>setMoneyKind('personal'));
+ $('moneyClose').addEventListener('click',closeMoney);
+ $('moneyDone').addEventListener('click',closeMoney);
+ $('moneyBackdrop').addEventListener('click',closeMoney);
  $('openProposals').addEventListener('click',()=>{if(game.rescuePending){$('weekScene').hidden=false;document.body.classList.add('scene-locked');showRescueScene();}else if(game.finished)finishModal();else openProposals();});
  $('closeProposals').addEventListener('click',closeProposals);
  $('closeProposalBackdrop').addEventListener('click',closeProposals);
@@ -489,7 +546,7 @@ function setup(){
  $('aboutButton').addEventListener('click',aboutModal);
  $('modalClose').addEventListener('click',closeModal);
  $('modal').querySelector('.modal-backdrop').addEventListener('click',closeModal);
- document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(!$('proposalSheet').hidden)closeProposals();else if(!$('modal').hidden)closeModal();}});
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(!$('moneySheet').hidden){closeMoney();return;}if(!$('proposalSheet').hidden)closeProposals();else if(!$('modal').hidden)closeModal();}});
  document.querySelectorAll('.hint').forEach(b=>b.addEventListener('click',()=>toast(b.dataset.tip)));
  $('historyToggle').addEventListener('click',()=>{const p=$('historyPanel');p.hidden=!p.hidden;$('historyToggle').setAttribute('aria-expanded',String(!p.hidden));});
  $('restartButton').addEventListener('click',()=>{if(!confirm('現在の経営を初期化しますか？（元に戻せません）'))return;game=G.initial(Date.now());selectedProject=null;selectedDevil=null;save();paint();changeScreen('office');showEntry('contracts');toast('新しい依頼を選んでください');});

@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="styles.css">
   <title>お客様のために。｜経営コンサルゲーム</title>
   <script defer src="engine.js"></script>
+  <script defer src="finance.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body>
@@ -53,7 +54,7 @@
         <button id="titleResume" class="secondary-btn" type="button" hidden>つづきから <span>→</span></button>
         <button id="titleHelp" class="text-btn" type="button">あそびかた</button>
       </div>
-      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.9.3</p>
+      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.9.4</p>
     </div>
   </section>
   <section id="contractsScreen" class="entry-screen" aria-label="コンサル依頼一覧" hidden>
@@ -138,8 +139,8 @@
             </div>
           </article>
           <section class="office-vitals play-stats" aria-label="今週の重要ステータス">
-            <div class="play-stat money"><span><svg class="mini-ill"><use href="#art-store"/></svg> 店の資金</span><strong id="cashCount">19.5<small>万円</small></strong><em id="cashTrend" class="cash-delta">ゲーム開始時点</em></div>
-            <div class="play-stat personal"><span><svg class="mini-ill"><use href="#art-wallet"/></svg> 自分の財布</span><strong id="personalBalance">2.8万円</strong><em id="personalTrend" class="cash-delta">ゲーム開始時点</em><span class="vital-secondary">養育費 <b id="supportDue">第4週・3.6万円</b></span><span id="arrearsBadge" class="arrears-badge" hidden>未払い</span></div>
+            <button id="officeStoreMoney" class="play-stat money cash-open" type="button" aria-label="お店のお金の流れを見る"><span><svg class="mini-ill"><use href="#art-store"/></svg> 店の資金</span><strong id="cashCount">19.5<small>万円</small></strong><em id="cashTrend" class="cash-delta">ゲーム開始時点</em><span class="cash-hint">内訳を確認 ›</span></button>
+            <button id="officePersonalMoney" class="play-stat personal cash-open" type="button" aria-label="自分のお金の流れを見る"><span><svg class="mini-ill"><use href="#art-wallet"/></svg> 自分の財布</span><strong id="personalBalance">2.8万円</strong><em id="personalTrend" class="cash-delta">ゲーム開始時点</em><span class="vital-secondary">養育費 <b id="supportDue">第4週・3.6万円</b></span><span id="arrearsBadge" class="arrears-badge" hidden>未払い</span><span class="cash-hint">内訳を確認 ›</span></button>
             <div class="play-stat trust"><span><svg class="mini-ill"><use href="#art-heart"/></svg> お店の評判</span><strong id="repCount">58<small>/100</small></strong><div class="play-meter"><i id="repMeter"></i></div><span class="vital-secondary">炎上 <b id="heatCount">4<small>/100</small></b><span class="tiny-meter"><i id="heatMeter"></i></span></span></div>
           </section>
           <div class="world-ribbon" id="worldRibbon"><svg class="ribbon-ill"><use href="#art-bill"/></svg><div><small>社会情勢</small><strong id="macroName">物価高</strong></div><span id="macroEffect">仕入れ価格が高騰中</span></div>
@@ -179,15 +180,17 @@
 
         <aside class="action-column" aria-labelledby="actionHeading">
           <div class="decision-card">
-            <div class="decision-top"><span class="eyebrow">経営会議</span><span class="decision-week" id="decisionWeek">第1週</span></div>
-            <div class="meeting-icon" aria-hidden="true"><svg class="meeting-ill" aria-hidden="true"><use href="#art-meeting"/></svg></div>
-            <h3 id="actionHeading">社長から相談です</h3>
-            <p class="action-intro" id="directorQuote">利益を増やしてくれ！</p>
+            <div class="decision-top"><span class="eyebrow">今週の経営会議</span><span class="decision-week" id="decisionWeek">第1週</span></div>
+            <div class="meeting-brief">
+              <div class="meeting-boss-art" aria-hidden="true"><svg class="meeting-ill"><use href="#art-meeting"/></svg></div>
+              <div class="meeting-brief-copy"><span class="meeting-speaker">社長からの無茶ぶり</span><h3 id="actionHeading">社長から相談です</h3><p class="action-intro" id="directorQuote">利益を増やしてくれ！</p></div>
+            </div>
+            <div class="meeting-stakes"><div><span>固定費の見込み</span><strong id="meetingBills">約15.5万円</strong></div><div><span>固定費を払うと</span><strong id="meetingLeft">売上・仕入れは別</strong></div></div>
             <span id="pitchTone" class="pitch-tone" hidden></span>
-            <p class="meeting-status" id="meetingStatus">あなたの判断で、店の明日が変わります。</p>
+            <p class="meeting-status" id="meetingStatus" hidden></p>
             <div class="meeting-alert"><svg class="mini-ill" aria-hidden="true"><use href="#art-warning"/></svg><span id="meetingSignal">危機の兆候を調査中…</span></div>
             <div id="meetingDeal" class="meeting-deal" hidden><svg class="mini-ill" aria-hidden="true"><use href="#art-coin"/></svg><span id="meetingDealText">社長の指示で臨時報酬</span></div>
-            <button id="openProposals" class="primary-btn" type="button">提案を選ぶ <span aria-hidden="true">→</span></button>
+            <div class="meeting-actions"><button id="meetingMoneyButton" type="button" class="meeting-money-btn"><svg class="mini-ill" aria-hidden="true"><use href="#art-bill"/></svg> お金の説明</button><button id="openProposals" class="primary-btn" type="button">作戦を選ぶ →</button></div>
           </div>
         </aside>
       </div>
@@ -222,7 +225,7 @@
       <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-people"/></svg></span><strong>世論</strong></button>
       <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-bill"/></svg></span><strong>記録</strong></button>
     </nav>
-    <footer>フィクション・2026 お客様のために。 / v0.9.3</footer>
+    <footer>フィクション・2026 お客様のために。 / v0.9.4</footer>
   </div>
 
   <section id="proposalSheet" class="proposal-sheet" role="dialog" aria-modal="true" aria-labelledby="proposalTitle" hidden>
@@ -230,7 +233,7 @@
     <div class="proposal-panel">
       <div class="proposal-top"><span><svg class="mini-ill" aria-hidden="true"><use href="#art-meeting"/></svg> 経営会議</span><button type="button" id="closeProposals">閉じる ×</button></div>
       <h2 id="proposalTitle">どの施策を採用する？</h2>
-      <p class="proposal-budget" id="proposalBudget">毎週、固定費が発生します</p><p class="proposal-meeting-target" id="proposalMeetingTarget">今週の会議目標</p>
+      <p class="proposal-budget" id="proposalBudget">毎週、固定費が発生します</p><button type="button" id="proposalMoneyButton" class="proposal-money-btn">なぜ資金が減る？ お金の説明を見る ›</button><p class="proposal-meeting-target" id="proposalMeetingTarget">今週の会議目標</p>
       <div id="actions" class="action-grid" role="radiogroup" aria-label="経営施策を選択"></div>
       <details id="optionalActions" class="optional-actions"><summary><span>追加の行動 <small>任意</small></span><small id="optionalSummary">投資・悪魔との契約を開く</small></summary>
       <div class="optional-body"><div class="investment-zone" aria-label="今週の設備投資">
@@ -275,8 +278,9 @@
         <div id="reportVerdict" class="report-verdict" role="status"><span id="reportVerdictIcon"><svg class="mini-ill" aria-hidden="true"><use href="#art-graph"/></svg></span><div><strong id="reportVerdictTitle">黒字達成！</strong><small id="reportVerdictSub">今回の施策でお店はどうなった？</small></div></div>
         <div id="economyReport" class="economy-report"><svg class="mini-ill"><use href="#art-bill"/></svg><span id="economyHeadline">今週の経済ニュース</span></div>
         <div class="report-cashflow"><div><span>お店の資金</span><strong id="reportCash">0万円</strong><small id="reportCashChange" class="money-change">先週から ±0万円</small><small id="storeMoneyWhy" class="cash-why">営業と支払いを集計中</small></div><div><span>自分の財布</span><strong id="reportExpenses">0万円</strong><small id="reportPersonalChange" class="money-change">先週から ±0万円</small><small id="personalMoneyWhy" class="cash-why">報酬と生活費を集計中</small></div></div>
+        <button type="button" id="reportLedgerButton" class="report-ledger-button"><svg class="mini-ill" aria-hidden="true"><use href="#art-bill"/></svg> 今週のお金の動きを見る <span>›</span></button>
         <p id="reportSatire" class="report-satire">数字は正直。会議は別。</p>
-        <details class="financial-detail" id="financialDetail"><summary>資金の内訳を見る <small>売上・費用・投資・報酬</small></summary>
+        <details class="financial-detail" id="financialDetail"><summary>決算の細かい数字 <small>必要なときだけ開く</small></summary>
         <div class="report-big-number"><span>今週の売上</span><strong id="reportSales">0万円</strong><small id="reportSalesDiff"></small></div>
         <div class="money-flow" aria-label="今週の収支の内訳">
           <div class="money-flow-title"><strong>今週のお金の流れ</strong><small>色の長さは売上に対する割合</small></div>
@@ -304,6 +308,15 @@
       </div>
     </div>
   </div>
+  <section id="moneySheet" class="money-sheet" role="dialog" aria-modal="true" aria-labelledby="moneyTitle" hidden>
+    <div class="money-sheet-backdrop" id="moneyBackdrop"></div>
+    <div class="money-sheet-panel">
+      <div class="money-sheet-top"><div><span>ACCOUNT BOOK</span><h2 id="moneyTitle">お金の流れ</h2></div><button type="button" id="moneyClose" aria-label="お金の流れを閉じる">閉じる ×</button></div>
+      <div class="money-tabs" role="tablist" aria-label="財布の切り替え"><button type="button" id="moneyStoreTab" role="tab" aria-selected="true">お店のお金</button><button type="button" id="moneyPersonalTab" role="tab" aria-selected="false">自分のお金</button></div>
+      <div id="moneyPanel" role="tabpanel" aria-live="polite"><div id="moneyOverview"></div><div id="moneyLines" class="money-lines"></div><p id="moneyExplainer" class="money-explainer"></p></div>
+      <button type="button" id="moneyDone" class="primary-btn">わかった、会議へ戻る →</button>
+    </div>
+  </section>
   <div id="modal" class="modal-layer" hidden><div class="modal-backdrop"></div><div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button id="modalClose" class="modal-x" type="button" aria-label="閉じる">×</button><div id="modalContent"></div></div></div>
   <div id="toast" role="status" aria-live="polite" class="toast" hidden></div>
 </body>
