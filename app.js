@@ -25,7 +25,7 @@ function showEntry(mode){
  if(mode==='title'){
   const active=game.history.length>0;
   $('titleResume').hidden=!active;
-  if(active)$('titleResume').innerHTML=game.finished?'前回の最終成績を見る →':`第${game.week}週からつづける →`;
+  if(active)$('titleResume').textContent=game.rescuePending?'緊急再建会議に戻る →':game.finished?'前回の最終成績を見る →':`第${game.week}週からつづける →`;
  }
 }
 function chooseMarket(){
@@ -131,10 +131,28 @@ function renderFlow(h){
  const loss=h.profit<0,good=h.profit>=95000;
  $('reportVerdict').className='report-verdict '+(loss?'loss':good?'good':'mid');
  $('reportVerdictIcon').innerHTML=`<svg class="mini-ill"><use href="#${loss?'art-warning':h.fireHit?'art-fire':good?'art-graph':'art-document'}"/></svg>`;
- $('reportVerdictTitle').textContent=loss?'赤字！ 資金が減る':h.fireHit?'儲かったけど、大炎上':good?'今週は好調！':'黒字。でも余裕は少ない';
+ $('reportVerdictTitle').textContent=h.rescueChoice&&h.rescueChoice!=='giveup'?'倒産寸前から生還！':loss?'赤字！ 資金が減る':h.fireHit?'儲かったけど、大炎上':good?'今週は好調！':'黒字。でも余裕は少ない';
  $('reportVerdictSub').textContent=`現金 ${man(h.cashBefore??0)}万 → ${man(h.cashAfter??0)}万円`;
 }
+function showRescueScene(){
+ $('workingScene').hidden=true;$('shockScene').hidden=true;$('reportScene').hidden=true;
+ $('rescueScene').hidden=false;
+ $('rescueDeficit').textContent=man(-game.cash)+'万円';
+ $('rescueRemaining').textContent=`救済機会：残り${Math.max(0,2-(game.rescueUsed||0))}回。選んだ策の代償は次週にも残ります。`;
+ $('rescueChoices').innerHTML=G.rescueOptions(game).map(o=>`<button type="button" class="rescue-option" data-rescue="${o.id}"><svg class="mini-ill" aria-hidden="true"><use href="#${o.art}"/></svg><span><strong>${esc(o.name)}</strong><small>${esc(o.detail)}</small></span></button>`).join('');
+ $('rescueChoices').querySelector('button')?.focus({preventScroll:true});
+}
+function applyRescue(id){
+ try{
+  game=G.resolveRescue(game,id);save();paint();
+  $('rescueScene').hidden=true;
+  showWeekReport(game.lastResult,game.finished);
+  toast(game.lastResult.rescueText);
+ }catch(err){toast(err.message||'再建策を実行できませんでした');}
+}
 function showWeekReport(h,finish){
+ if(game.rescuePending&&!(h.accidentId&&h.incidentCost>0&&h.accidentResponse===null)){showRescueScene();return;}
+ $('rescueScene').hidden=true;
  const isFire=h.fireHit,isMemory=h.memoryEvent;
  $('workingScene').hidden=true;$('reportScene').hidden=false;
  $('reportScene').classList.toggle('is-fire',isFire);
@@ -164,7 +182,7 @@ function showWeekReport(h,finish){
   const el=$(id);el.textContent=delta(n);el.className=n===0?'even':((n>0)===positiveGood?'good':'bad');
  }
  $('reportBossFace').innerHTML=`<svg class="mini-ill"><use href="#${isFire?'art-warning':h.profit<0?'art-bill':h.profit>=145000?'art-coin':'art-meeting'}"/></svg>`;
- $('reportTakeaway').textContent=game.personalFailed?'生活の支払いが限界。契約を続けられません':game.bankrupt?' 資金ショート。経営を続けられません！':h.cashAfter<80000?' 残り資金が危険水準です！':isFire?' 利益より先に評判が燃えました':h.boycottActive?' 不買運動でお客さんが減っています':h.deltaRep<0&&h.profit>0?' 利益は出たけど、お店の信用が低下':h.deltaRep>0?' お店の信用が上がりました':h.profit<0?' 売上より経費が大きい週でした':' 大きなトラブルなく営業できました';
+ $('reportTakeaway').textContent=h.rescueChoice&&h.rescueChoice!=='giveup'?`緊急再建に成功！ ${h.rescueName}。代償は残ります`:game.personalFailed?'生活の支払いが限界。契約を続けられません':game.bankrupt?' 資金ショート。経営を続けられません！':h.cashAfter<80000?' 残り資金が危険水準です！':isFire?' 利益より先に評判が燃えました':h.boycottActive?' 不買運動でお客さんが減っています':h.deltaRep<0&&h.profit>0?' 利益は出たけど、お店の信用が低下':h.deltaRep>0?' お店の信用が上がりました':h.profit<0?' 売上より経費が大きい週でした':' 大きなトラブルなく営業できました';
  $('reportCeo').textContent=h.ceo;
  const goal=G.goalStatus(game);
  $('reportGoal').textContent=`契約目標：利益 ${man(goal.profit)} / ${man(game.contractGoal)}万円・評判 ${goal.reputation} / ${G.CONTRACT.reputation}`;
@@ -202,6 +220,7 @@ function startWeek(){
  $('workingScene').hidden=false;
  $('shockScene').hidden=true;
  $('reportScene').hidden=true;
+ $('rescueScene').hidden=true;
  $('workingWeek').textContent='WEEK '+String(week).padStart(2,'0');
  $('workingMessage').textContent='家賃・人件費・光熱費を支払っています…';
  document.body.classList.add('scene-locked');
@@ -227,7 +246,7 @@ function finishWeek(){
  if(resolving||$('reportContinue').disabled)return;
  const final=game.finished;
  $('weekScene').hidden=true;
- $('workingScene').hidden=false;$('shockScene').hidden=true;$('reportScene').hidden=true;
+ $('workingScene').hidden=false;$('shockScene').hidden=true;$('reportScene').hidden=true;$('rescueScene').hidden=true;
  document.body.classList.remove('scene-locked');
  changeScreen('office');
  if(final)finishModal();
@@ -265,7 +284,7 @@ function paint(){
  $('repCount').innerHTML=s.storeRep+'<small>/100</small>';
  $('heatCount').innerHTML=s.fire+'<small>/100</small>';
  $('repMeter').style.width=s.storeRep+'%';$('heatMeter').style.width=s.fire+'%';
- $('cashTrend').textContent=s.cash<0?'支払い超過！ 今すぐ資金対策を':s.cash<120000?'ピンチ！ 週の支払いに注意':s.history.length?'前週比 '+(s.lastResult.deltaCash>=0?'+':'')+man(s.lastResult.deltaCash)+'万円':'赤字が続くと資金ショート';
+ $('cashTrend').textContent=s.rescuePending?'最後の機転で倒産を回避せよ':s.cash<0?'支払い超過！ 今すぐ資金対策を':s.cash<120000?'ピンチ！ 週の支払いに注意':s.history.length?'前週比 '+(s.lastResult.deltaCash>=0?'+':'')+man(s.lastResult.deltaCash)+'万円':'赤字が続くと資金ショート';
  document.querySelector('.play-stat.money').classList.toggle('in-danger',s.cash<120000);
  $('overheadCount').textContent='毎週 '+man(155000-(60-s.staff)*800)+'万円';
  $('loanHint').textContent=s.debt>0?' / 借入残 '+man(s.debt)+'万円':'';
@@ -284,13 +303,13 @@ function paint(){
  $('moodStatus').textContent=s.frust>=68?'不満爆発寸前':s.sat>=72?'ごきげん':s.frust>=43?'不満が蓄積':'まずまず';
  $('shopStatus').textContent=s.fire>=60?'大炎上':s.fire>=30?'騒動発生':'営業中';
  if(s.lastResult){$('latestHeadline').textContent=s.lastResult.title;$('latestBody').textContent=s.lastResult.body;}
- else{$('latestHeadline').textContent='開店準備は万端！';$('latestBody').textContent='今週はあなたの初仕事。まずは経営施策を1つ選んでみよう。';}
+ else{$('latestHeadline').textContent='支払い期限まで、あとわずか';$('latestBody').textContent='客足減少と固定費で資金が底をつきそう。初仕事から再建の正念場。';}
  const brief=G.weeklyBrief(s);
  $('directorQuote').textContent=brief.quote;
  $('actionHeading').textContent=brief.title;
  renderActions();renderProjects();renderDevil();renderHistory();renderPublic();
  $('advanceButton').disabled=false;
- $('openProposals').textContent=s.finished?'契約結果を見る →':'3つの作戦を比較する →';
+ $('openProposals').textContent=s.rescuePending?'緊急再建会議へ →':s.finished?'契約結果を見る →':'3つの作戦を比較する →';
  $('advanceButton').innerHTML=s.finished?'12週間の決算を見る <span aria-hidden="true"></span>':'この案で営業する <span aria-hidden="true"></span>';
 }
 function renderActions(){const s=game;
@@ -356,7 +375,7 @@ function setup(){
  $('titleStart').addEventListener('click',()=>showEntry('contracts'));
  $('titleResume').addEventListener('click',()=>{
   changeScreen('office');showEntry('game');
-  if(game.lastResult?.accidentResponse===null&&game.lastResult?.incidentCost>0&&game.lastResult?.accidentId){
+  if(game.rescuePending||game.lastResult?.accidentResponse===null&&game.lastResult?.incidentCost>0&&game.lastResult?.accidentId){
    $('weekScene').hidden=false;$('workingScene').hidden=true;document.body.classList.add('scene-locked');showWeekReport(game.lastResult,game.finished);
   }else if(game.finished)finishModal();
  });
@@ -368,10 +387,12 @@ function setup(){
  $('devilChoices').addEventListener('click',event=>{const b=event.target.closest('[data-devil]');if(!b||b.disabled)return;selectedDevil=b.dataset.devil==='none'?null:b.dataset.devil;renderDevil();});
  $('actions').addEventListener('click',event=>{const button=event.target.closest('[data-id]');if(!button||button.disabled||game.finished)return;game.selected=button.dataset.id;save();renderActions();});
  $('advanceButton').addEventListener('click',startWeek);
- $('openProposals').addEventListener('click',()=>game.finished?finishModal():openProposals());
+ $('openProposals').addEventListener('click',()=>{if(game.rescuePending){$('weekScene').hidden=false;document.body.classList.add('scene-locked');showRescueScene();}else if(game.finished)finishModal();else openProposals();});
  $('closeProposals').addEventListener('click',closeProposals);
  $('closeProposalBackdrop').addEventListener('click',closeProposals);
  $('reportContinue').addEventListener('click',finishWeek);
+ $('rescueChoices').addEventListener('click',e=>{const b=e.target.closest('[data-rescue]');if(b)applyRescue(b.dataset.rescue);});
+ $('rescueGiveUp').addEventListener('click',()=>applyRescue('giveup'));
  for(const [id,response]of [['accidentRepair','repair'],['accidentIgnore','ignore']])$(id).addEventListener('click',()=>{
   try{game=G.handleAccident(game,response);save();paint();showWeekReport(game.lastResult,game.finished);toast(game.lastResult.responseText);}catch(err){toast(err.message||'対応できませんでした');}
  });

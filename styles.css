@@ -542,3 +542,37 @@ body.entry-mode{background:#f8f3e9}
  #officeView .meeting-deal{padding:3px 6px}
  #officeView .decision-card{gap:2px 6px}
 }
+
+/* v0.9 — consistent SVG replacements, including every static placeholder */
+.contract-icon .contract-svg{width:46px;height:46px;display:block}
+.play-stat span>.mini-ill,.stats-label .mini-ill,.voice-metric .mini-ill,.proposal-top .mini-ill{width:17px;height:17px;vertical-align:middle;display:inline-block}
+.animated-shop-body .mini-ill{width:25px;height:25px}
+.report-icon>.mini-ill,.report-character>.mini-ill,.report-verdict .mini-ill{width:30px;height:30px;vertical-align:middle}
+.meeting-ill{width:55px;height:55px}
+
+/* v0.9.1: user-reported overlap in the social feed */
+#voiceView .voice-feed-heading{position:relative;display:flex;align-items:center;min-height:32px;margin:22px 0 14px!important;padding:0 0 2px;line-height:1.3;overflow:visible;z-index:1}
+#voiceView .voice-feed-heading h3{position:static;line-height:1.4;margin:0;font-size:17px;white-space:normal}
+#voiceView #publicFeed{position:relative;display:grid;gap:12px;margin-top:0!important;padding-top:5px;min-height:0;clear:both}
+#voiceView .social-post{position:relative;min-height:86px;align-items:flex-start;overflow:visible}
+#voiceView .social-post>div{min-width:0;overflow-wrap:anywhere}
+/* v0.9.1: last-chance rescue meeting */
+.rescue-scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#f7eee0;padding:16px;overflow-y:auto;z-index:3}
+.rescue-card{width:min(100%,430px);margin:auto;background:#fffdf7;border:2px solid #302923;border-radius:19px;box-shadow:5px 6px 0 #302923;padding:18px;display:flex;flex-direction:column;gap:11px;text-align:center;animation:rescue-pop .25s ease-out}
+.rescue-kicker{align-self:center;background:#a33431;color:white;font-size:12px;letter-spacing:.11em;font-weight:900;padding:6px 13px;border-radius:40px}
+.rescue-art{width:64px;height:64px;align-self:center;animation:rescue-pulse .65s ease-in-out infinite alternate}
+.rescue-card h2{font-size:23px;letter-spacing:-.035em;line-height:1.25;margin:0}
+.rescue-card>p{font-size:12px;line-height:1.65;color:#6c5d50;margin:0}
+.rescue-deficit{background:#fce9e4;color:#963a34;border-radius:12px;padding:10px;font-size:12px;font-weight:850}
+.rescue-deficit strong{display:block;font-size:28px;font-variant-numeric:tabular-nums}
+.rescue-choices{display:grid;gap:8px;text-align:left}
+.rescue-option{display:flex;align-items:center;gap:10px;min-height:61px;background:#fff9ee;border:1.5px solid #d9c8ae;border-radius:12px;padding:9px 12px;text-align:left;color:#34271c;box-shadow:0 2px 0 #cdbda7}
+.rescue-option .mini-ill{width:35px;height:35px;flex:none}
+.rescue-option span{min-width:0;display:block}.rescue-option strong{display:block;font-size:12px;line-height:1.4}.rescue-option small{display:block;color:#786758;font-size:10px;line-height:1.4;margin-top:3px}
+.rescue-option:active{transform:translateY(2px);box-shadow:0 0 0 #cdbda7}
+.rescue-remaining{color:#7e7065;font-size:10px}
+.rescue-giveup{border:0;background:transparent;color:#8b6c61;text-decoration:underline;padding:8px;font-size:11px;font-weight:700}
+@keyframes rescue-pop{from{transform:translateY(18px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes rescue-pulse{from{transform:rotate(-6deg) scale(.95)}to{transform:rotate(6deg) scale(1.04)}}
+@media(max-height:700px){.rescue-scene{align-items:flex-start}.rescue-card{padding:13px;gap:7px}.rescue-art{width:43px;height:43px}.rescue-card h2{font-size:19px}.rescue-option{min-height:53px}}
+@media(prefers-reduced-motion:reduce){.rescue-card,.rescue-art{animation:none!important}}
