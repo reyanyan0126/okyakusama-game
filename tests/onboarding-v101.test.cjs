@@ -17,10 +17,10 @@ s.lastResult={fireHit:true,memoryEvent:false,actionId:'shrink',actionName:'お�
 const briefing=G.weeklyBrief(s);
 assert.equal(briefing.id,'crisis');
 const offers=G.weeklyOffers(s).map(a=>a.id);
-assert.equal(offers.length,3);
+assert.equal(offers.length,4);
 assert.ok(offers.every(id=>['apology','recall','explain','blame'].includes(id)),'Fire response must not be replaced by emergency loan');
 assert.ok(!offers.includes('loan'));
 const after=G.play(s,offers[0]);
 assert.ok(after.lastResult.crisisResponse.includes('炎上度'));
 assert.equal(G.validateSaved(after).week,2);
-console.log('PASS: 7 story arts, first-week guide hook and contextual crisis 3 choices');
+console.log('PASS: 7 story arts, first-week guide hook and contextual crisis 4 choices');
