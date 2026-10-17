@@ -37,8 +37,8 @@ for(let seed=2;seed<=1102;seed++){
  let s=G.initial(seed*677);
  while(!s.finished){
   const opts=G.weeklyOffers(s);
-  assert.equal(opts.length,3);
-  assert.equal(new Set(opts.map(o=>o.id)).size,3);
+  assert.equal(opts.length,4);
+  assert.equal(new Set(opts.map(o=>o.id)).size,4);
   let n=G.play(s,opts[(seed+s.week)%3].id);
   if(n.rescuePending){const items=G.rescueOptions(n);if(items.length)n=G.resolveRescue(n,items[0].id);}
   assert.equal(F.createLedger(n.lastResult,'store').residual,0);
