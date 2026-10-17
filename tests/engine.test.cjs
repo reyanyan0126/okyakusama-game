@@ -3,8 +3,8 @@ const assert=require('node:assert/strict');
 const G=require('../engine.js');
 assert.equal(G.VERSION,1,'Save version must not change for legacy clients');
 assert.equal(G.unitCost(G.initial(123)),110);
-assert.equal(G.ACTIONS.length,19);
-assert.equal(G.CONTRACT.profit,1800000);
+assert.equal(G.ACTIONS.length,21);
+assert.equal(G.CONTRACT.profit,1000000);
 assert.equal(G.CONTRACT.reputation,50);
 let s=G.initial(123456);
 assert.equal(G.weeklyBrief(s).id,'opening');
@@ -28,7 +28,7 @@ assert.ok(a.frust<b.frust,'Apology and blame must have different consequences');
 assert.ok(a.storeRep>b.storeRep);
 for(let seed=1;seed<=2000;seed++){
  let game=G.initial(seed);
- for(let i=0;i<12;i++){
+ for(let i=0;i<12&&!game.finished;i++){
   const offers=G.weeklyOffers(game);
   assert.equal(offers.length,4,'Always four choices');
   assert.equal(new Set(offers.map(x=>x.id)).size,4);
@@ -43,7 +43,10 @@ for(let seed=1;seed<=2000;seed++){
   assert.equal(next.sales,next.lastResult.sales);
   const h=next.lastResult;
   assert.equal(h.sales,h.units*h.price);
-  assert.equal(h.profit,h.units*(h.price-h.cost)-(90000-(60-next.staff)*800)-h.extra);
+  assert.equal(h.profit,h.units*(h.price-h.cost)-(h.rent+h.utilities+h.payroll)-h.extra-h.incidentCost-h.interest);
+  assert.equal(next.cash,game.cash+h.profit+h.financing-h.principal);
+  assert.equal(next.debt,h.debtAfter);
+  assert.ok(!h.accidentId||G.ACCIDENTS.some(a=>a.id===h.accidentId));
   assert.ok(next.skill>=0&&next.skill<=100);
   assert.ok(next.sat>=0&&next.sat<=100);
   assert.ok(next.fire>=0&&next.fire<=100);
@@ -55,7 +58,7 @@ for(let seed=1;seed<=2000;seed++){
   game=next;
  }
  assert.equal(game.finished,true);
- assert.equal(game.week,13);
+ assert.ok(game.week===13||game.bankrupt);
  assert.equal(G.ending(game).passed,G.goalStatus(game).passed);
  assert.throws(()=>G.play(game,'quality'));
 }
@@ -76,4 +79,14 @@ for(let method of Object.keys(scores))for(let seed=1;seed<=500;seed++){
 }
 assert.ok(scores.kind>scores.hard,'Safe approaches should protect the store better');
 assert.ok(scores.mixed>0&&scores.mixed<500,'Mixed play must have genuine outcome variability');
-console.log('PASS: v0.5 story arcs, contracts, causal crises, 2000 complete games, 24000 turns, legacy saves, profit accounting and balance',scores);
+console.log('PASS: v0.6 budgets, operating accidents, finance, contracts, 2000 randomized campaigns, backward-compatible saves',scores);
+
+// New game states and old saves are both accepted. New runs target a balanced 100万円, old 180万円 remains unchanged.
+const legacy0=G.initial(777);delete legacy0.contractGoal;delete legacy0.debt;delete legacy0.maintenance;delete legacy0.lowCashWeeks;delete legacy0.bankrupt;
+const restored=G.validateSaved(legacy0);
+assert.equal(restored.contractGoal,1800000);assert.equal(restored.debt,0);assert.equal(restored.bankrupt,false);
+assert.equal(G.initial(777).contractGoal,1000000);
+assert.equal(G.ACCIDENTS.length>=10,true);
+const safe=G.initial(123456);let seen=0;while(!safe.finished&&safe.week<=12){const x=G.play(safe,G.weeklyOffers(safe)[0].id);if(x.lastResult.accidentId)seen++;Object.assign(safe,x)}
+assert.ok(seen>=0);
+const debtor=G.initial(55);debtor.cash=50000;assert.ok(G.weeklyOffers(debtor).some(a=>a.id==='loan'));let financed=G.play(debtor,'loan');assert.equal(financed.debt,190000);assert.equal(financed.lastResult.financing,200000);assert.ok(financed.cash>debtor.cash);

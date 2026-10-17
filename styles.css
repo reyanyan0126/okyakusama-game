@@ -234,3 +234,128 @@ body.entry-mode{background:#f8f3e9}
  #officeView .section-bar{margin:2px 0}
  #officeView .decision-card{gap:3px;padding:7px 9px}
 }
+
+/* v0.6 PLAY-FIRST: illustrated store, four clear stats, proposals on demand */
+#officeView .stats-stack{display:none!important}
+#officeView .play-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#officeView .play-stat{background:#fffdf8;border:1.5px solid #ded2c4;border-radius:14px;padding:12px 14px;min-width:0;display:flex;flex-direction:column;gap:3px}
+#officeView .play-stat.money{border-color:#d9b15a;background:#fff0c8}
+#officeView .play-stat.profit{background:#e3f2e6;border-color:#b2d1b9}
+#officeView .play-stat.danger{background:#fff3ee;border-color:#f0c1b1}
+#officeView .play-stat>span{font-size:12px;font-weight:950;color:#4c4134;white-space:nowrap}
+#officeView .play-stat strong{font-size:clamp(25px,5vw,34px);line-height:1.15;font-weight:1000;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+#officeView .play-stat strong small{font-size:11px;margin-left:2px;font-weight:850;letter-spacing:0}
+#officeView .play-stat em{font-style:normal;font-size:10px;color:#77695a;font-weight:750;line-height:1.35}
+#officeView .play-stat.money.in-danger{background:#ffe0d7;border-color:#cb5d4a;animation:money-alert 1.3s ease-in-out infinite}
+@keyframes money-alert{50%{box-shadow:0 0 0 3px rgba(221,71,47,.24)}}
+#officeView .play-meter{height:7px;background:rgba(75,58,43,.14);border-radius:20px;overflow:hidden;margin-top:2px}
+#officeView .play-meter i{display:block;height:100%;width:0;background:#53a576;transition:width .3s}
+#officeView .play-stat.danger .play-meter i{background:#e66e4d}
+#officeView .week-expenses{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:11px;font-weight:750;color:#665647;padding:9px 11px;border-radius:10px;background:#fff5e6;border:1px dashed #d5b786;margin-top:8px}
+#officeView .week-expenses strong{color:#a35635}
+#officeView .week-expenses #loanHint{font-size:10px;color:#a93b31}
+#officeView .client-hero{height:232px!important;min-height:0;padding:15px;align-items:flex-start}
+#officeView .hero-copy{max-width:60%;align-self:flex-start}
+#officeView .hero-copy h2{font-size:clamp(19px,4vw,29px);margin-top:6px}
+#officeView .hero-chip{padding:5px 9px}
+#officeView .hero-cast{right:10px;bottom:10px;gap:12px}
+#officeView .cast-shop{width:clamp(115px,18vw,165px);height:135px}
+#officeView .portrait{width:clamp(49px,7vw,66px);height:clamp(57px,8vw,74px)}
+#officeView .cast-portrait small{font-size:12px;font-weight:900}
+#officeView .portrait-eyes{top:40%;left:23%;right:23%}
+#officeView .portrait-mouth{top:65%}
+#officeView .hero-copy p{display:none}
+#officeView .section-bar{margin:13px 0 8px}
+#officeView .layout{grid-template-columns:1fr 1fr;gap:15px}
+#officeView .decision-card{height:auto!important;min-height:180px;display:flex;justify-content:center;gap:12px;padding:22px}
+#officeView .decision-card h3{font-size:clamp(18px,2vw,25px);white-space:normal!important;overflow:visible!important;line-height:1.3}
+#officeView .decision-card .action-intro{display:block!important;white-space:normal;overflow:visible;text-overflow:clip;font-size:13px;line-height:1.4;margin:0}
+#officeView .meeting-icon{font-size:36px}
+#officeView .meeting-status{font-size:11px;color:#74675a;margin:0}
+#officeView .decision-card .primary-btn{height:auto;min-height:53px;flex-shrink:0}
+#officeView .news-strip{display:flex!important;max-height:none;margin-top:9px}
+.proposal-sheet{position:fixed;inset:0;z-index:1300;display:flex;justify-content:center;align-items:flex-end;overflow:hidden}
+.proposal-scrim{position:absolute;inset:0;border:0;border-radius:0;background:rgba(30,23,17,.65);backdrop-filter:blur(2px)}
+.proposal-panel{position:relative;z-index:1;background:#fffbf1;width:min(100%,560px);border:2px solid #2e2620;border-radius:21px 21px 0 0;padding:17px 16px max(20px,env(safe-area-inset-bottom));box-shadow:0 -8px 36px rgba(0,0,0,.19);max-height:94dvh;overflow-y:auto;overscroll-behavior:contain;animation:proposal-up .23s ease-out}
+@keyframes proposal-up{from{transform:translateY(35px);opacity:.3}to{transform:translateY(0);opacity:1}}
+.proposal-top{display:flex;align-items:center;justify-content:space-between;color:#8d6941;font-weight:950;font-size:12px}
+.proposal-top button{background:#f1e6d6;border:0;border-radius:9px;padding:8px 12px;font-size:12px;font-weight:900}
+.proposal-panel h2{font-size:21px;margin:7px 0 5px;letter-spacing:-.035em}
+.proposal-budget{font-size:12px;font-weight:800;color:#785e44;margin:0 0 12px}
+.proposal-panel .action-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.proposal-panel .action-option{min-height:94px;padding:11px 10px!important;height:auto;display:flex;flex-direction:column;align-items:flex-start}
+.proposal-panel .action-emoji{font-size:26px}
+.proposal-panel .action-name{font-size:13px;line-height:1.3}
+.proposal-panel .action-effect{font-size:11px}
+.proposal-panel .selected-detail{display:flex!important;margin:10px 0;padding:9px}
+.proposal-panel .selected-text strong{display:block;font-size:12px}
+.proposal-panel .selected-text p{font-size:11px}
+.proposal-panel .risk-row{display:flex;margin:0 0 11px}
+.proposal-panel .primary-btn{min-height:47px;padding:10px}
+.report-cashflow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:9px 0}
+.report-cashflow>div{padding:10px;border-radius:10px;background:#fff2d5;border:1px solid #ddc597;min-width:0}
+.report-cashflow span,.report-cashflow small{display:block;font-size:10px;font-weight:850;color:#725941}
+.report-cashflow strong{display:block;font-size:clamp(16px,4vw,25px);font-weight:1000;white-space:nowrap}
+.report-cashflow small{font-size:9px;white-space:normal;line-height:1.3}
+@media(max-width:850px){
+ #officeView .layout{display:flex!important;flex-direction:column;gap:8px!important;overflow:hidden}
+ #officeView .main-column{flex:0 0 auto!important}
+ #officeView .action-column{flex:1 1 auto!important;min-height:0}
+ #officeView .client-hero{height:clamp(134px,23dvh,195px)!important;padding:10px 12px}
+ #officeView .hero-copy{max-width:60%}
+ #officeView .hero-copy h2{font-size:20px!important}
+ #officeView .hero-cast{right:7px;bottom:5px;gap:6px}
+ #officeView .cast-shop{width:clamp(103px,25vw,128px);height:100px}
+ #officeView .portrait{width:45px;height:53px;transform:none}
+ #officeView .cast-portrait small{font-size:10px}
+ #officeView .play-stats{gap:5px}
+ #officeView .play-stat{padding:8px 10px;border-radius:10px;gap:1px}
+ #officeView .play-stat>span{font-size:10px}
+ #officeView .play-stat strong{font-size:23px}
+ #officeView .play-stat em{font-size:9px}
+ #officeView .section-bar{margin:7px 0 4px}
+ #officeView .week-expenses{margin-top:4px;padding:6px 9px;font-size:10px}
+ #officeView .news-strip{display:none!important}
+ #officeView .decision-card{height:100%!important;min-height:0!important;padding:12px;gap:5px;justify-content:space-between;overflow:hidden}
+ #officeView .decision-top{display:flex}
+ #officeView .meeting-icon{font-size:23px}
+ #officeView .decision-card h3{font-size:16px!important;line-height:1.22;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden!important}
+ #officeView .decision-card .action-intro{font-size:11px;line-height:1.25;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden!important;min-height:0}
+ #officeView .meeting-status{display:none}
+ #officeView .decision-card .primary-btn{min-height:42px;height:42px}
+ .proposal-panel .action-option{min-height:89px}
+}
+@media(max-width:850px) and (max-height:730px){
+ #officeView .client-hero{height:120px!important}
+ #officeView .play-stat{padding:5px 9px}
+ #officeView .play-stat strong{font-size:19px}
+ #officeView .play-stat em{display:none}
+ #officeView .week-expenses{padding:3px 7px}
+ #officeView .meeting-icon{display:none}
+ #officeView .decision-card{padding:7px 11px;gap:2px}
+}
+@media(prefers-reduced-motion:reduce){.proposal-panel{animation:none}#officeView .play-stat.money.in-danger{animation:none}}
+/* keep the main weekly confirmation visible even on compact phones */
+@media(max-width:500px) and (max-height:735px){
+ .week-scene{padding:8px 8px max(8px,env(safe-area-inset-bottom))}
+ .report-sheet{padding:8px 8px;border-radius:16px}
+ .report-icon{font-size:27px!important;line-height:1.05;margin:0!important}
+ .report-sheet h2{font-size:19px;margin:2px 0!important}
+ .report-eyebrow{font-size:9px}
+ .report-headline{padding:5px 4px;font-size:11px;margin:3px 0}
+ .report-description{font-size:10px;line-height:1.3;margin:4px 0}
+ .report-big-number{padding:8px!important;margin:6px 0!important}
+ .report-big-number strong{font-size:29px!important}
+ .report-cashflow{margin:5px 0;gap:4px}
+ .report-cashflow>div{padding:5px}
+ .report-cashflow strong{font-size:16px}
+ .report-three{gap:4px;margin:5px 0!important}
+ .report-three>div{padding:5px 2px!important}
+ .report-impact{gap:4px;margin:4px 0!important}
+ .report-impact>div{padding:4px 2px}
+ .report-reaction{margin:4px 0!important;padding:5px!important}
+ .report-contract{margin:4px 0 0;padding:4px}
+ .report-takeaway{margin:4px 0!important;padding:5px!important}
+ .report-next{display:none}
+ .report-sheet .primary-btn{margin-top:5px;height:44px;padding:8px}
+}

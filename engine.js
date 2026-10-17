@@ -1,8 +1,8 @@
-/* お客様のために。v0.5 - contract goals, dilemmas, cascading scandals. */
+/* お客様のために。v0.6 - cash flow, reactive accidents, rescued businesses. */
 (function(root){
 'use strict';
 const VERSION = 1, MAX_WEEKS = 12;
-const CONTRACT={profit:1800000,reputation:50}; // 12-week client success conditions
+const CONTRACT={profit:1000000,reputation:50}; // 12-week client success conditions
 const cap=(n,min,max)=>Math.max(min,Math.min(max,n));
 const int=(n)=>Math.round(n);
 const ACTIONS=[
@@ -24,7 +24,9 @@ const ACTIONS=[
  {id:'blame',icon:'🫥',name:'「誤解」で押し通す',effect:'利益↑↑ / 炎上↑↑',detail:'説明を避けて一時的にコスト削減。火に油かもしれない。',type:'hard'},
  {id:'loyalty',icon:'📝',name:'常連の苦情を全部読む',effect:'信頼↑ / 経費↑',detail:'耳の痛い声ほど改善に使う。社長は耳栓を探している。',type:'kind'},
  {id:'stamp',icon:'🎟️',name:'「今だけ！」特別企画',effect:'売上↑↑ / 反動注意',detail:'本当に期間限定の販促で集客。来週の期待値も上がる。',type:'hard'},
- {id:'audit',icon:'🔎',name:'数字を正直に見せる',effect:'信用↑ / 費用↑',detail:'価格と原価の説明会。社長がグラフを見たがらない。',type:'kind'}
+ {id:'audit',icon:'🔎',name:'数字を正直に見せる',effect:'信用↑ / 費用↑',detail:'価格と原価の説明会。社長がグラフを見たがらない。',type:'kind'},
+ {id:'maintenance',icon:'🛠️',name:'冷蔵庫にお金を使う',effect:'故障対策 / 費用↑',detail:'壊れてから直すよりは安い。社長には難しい概念。',type:'kind'},
+ {id:'loan',icon:'🏦',name:'銀行に泣きつく',effect:'運転資金+20万円 / 借金↑',detail:'20万円のつなぎ融資。毎週返済が発生。友情は無利息、銀行は違う。',type:'hard'}
 ];
 const ACTIONS_BY_ID=Object.fromEntries(ACTIONS.map(a=>[a.id,a]));
 const QUOTES={
@@ -46,7 +48,9 @@ const QUOTES={
  blame:'社長「これは誤解だ。私の発言だけは正しく理解してくれ。」',
  loyalty:'社長「客の声を聞く会？ 私は別会議がある。」',
  stamp:'社長「お客様の熱意を感じる！ 本当は値札の赤色か？」',
- audit:'社長「透明性は大事だ。私の給与以外はな。」'
+ audit:'社長「透明性は大事だ。私の給与以外はな。」',
+ maintenance:'社長「壊れていない物に金を払うのか？ 壊れたら文句を言うぞ！」',
+ loan:'社長「借金は未来の私が返す。未来の私には期待している！」'
 };
 const NEWS={
  raise:['じわっと値上げ、財布にはずっしり','「お値段に気持ちを込めました」。消費者は値札を二度見。'],
@@ -67,7 +71,9 @@ const NEWS={
  blame:['会社側「誤解です」を連呼','消費者「まず何が誤解か教えて」。広報部の目が死んだ。'],
  loyalty:['常連客の本音を公開','「やっと人の話を聞いた」。社長「数字にしてくれ」。'],
  stamp:['週末限定企画に客が殺到','「今だけ！」が本当に今だけだった。珍しい。'],
- audit:['数字を出したら静かになった','原価を見せたら説得力。社長は帳簿を隠そうとした。']
+ audit:['数字を出したら静かになった','原価を見せたら説得力。社長は帳簿を隠そうとした。'],
+ maintenance:['壊れる前に修理した','経理「何も起きないのが成果です」。社長「ニュースにならん！」'],
+ loan:['銀行から資金調達！','社長「資金が増えた！」経理「返す必要がある数字です」。']
 };
 const MEMORY_NEWS={
  shrink:['過去の容量変更が再注目','昔のパッケージ写真が拡散。「思い出だけは大容量」。'],
@@ -84,6 +90,29 @@ const INCIDENTAL=[
  {id:'trend',title:'お弁当需要が急増',body:'街のイベントで買い物客が増えた。社長は実力だと言い張る。',demand:1.12,rep:1,sat:0,fire:0},
  {id:'review',title:'レシートの長さが話題に',body:'「買ったのはおにぎり1つ。レシートは卒業証書」。',demand:1,rep:0,sat:0,fire:4}
 ];
+// A turn may contain a weighted operational accident. The bad outcomes are not guaranteed;
+// preparation, staffing and customer trust change their odds and/or severity.
+const ACCIDENTS=[
+ {id:'freezer',icon:'🧊',title:'冷凍庫が突然ストライキ',body:'冷凍庫「これ以上、企業努力に付き合えません」。食材を廃棄した。',cost:90000,demand:.89,sat:-4,rep:-2,fire:2,frust:4,weight:s=>(s.maintenance>0?.18:1.15)},
+ {id:'power',icon:'⚡',title:'レジ設備がダウン！',body:'社長「レジを減らせとは言った。動かすなとは言ってない！」',cost:52000,demand:.84,sat:-3,rep:-1,fire:0,frust:4,weight:s=>(s.maintenance>0?.30:1)},
+ {id:'waste',icon:'🥬',title:'野菜の在庫が大爆発',body:'廃棄コストが増加。社長「廃棄したのは希望だけではなかった」。',cost:64000,demand:.97,sat:0,rep:0,fire:0,frust:0,weight:s=>1.0},
+ {id:'absent',icon:'😷',title:'レジ担当がまとめて欠勤',body:'「少数精鋭」の少数が今日は全員いません。',cost:28000,demand:.82,sat:-2,rep:-2,fire:2,frust:4,weight:s=>(s.staff<50?1.7:.6)},
+ {id:'delivery',icon:'🚚',title:'配送トラックが渋滞',body:'今週の目玉商品は「入荷予定」の札です。',cost:32000,demand:.88,sat:-2,rep:-1,fire:0,frust:2,weight:s=>1},
+ {id:'complaint',icon:'📱',title:'昔のレシートが発掘される',body:'「この量で、この値段だった時代があるらしい」。社長が記憶喪失に。',cost:14000,demand:.93,sat:-2,rep:-4,fire:9,frust:7,weight:s=>(s.frust>45||s.notoriety>35?1.7:.35)},
+ {id:'rival',icon:'🏷️',title:'競合が突然半額祭り',body:'社長「うちは定価で信念を売っている！」。客は半額の方に走った。',cost:0,demand:.79,sat:0,rep:0,fire:0,frust:0,weight:s=>1},
+ {id:'rain',icon:'☔',title:'大雨で客足が減る',body:'客足は雨宿りに行った。家賃は雨でも休まない。',cost:9000,demand:.78,sat:0,rep:0,fire:0,frust:0,weight:s=>1},
+ {id:'viral',icon:'📺',title:'店員の神対応がバズる！',body:'「普通に親切」が大ニュース。社長「これも私の指導です」。',cost:0,demand:1.22,sat:4,rep:4,fire:-4,frust:-3,weight:s=>(s.staff>=55?1.1:.35)},
+ {id:'festival',icon:'🎊',title:'近所でお祭り開催！',body:'買い物客が急増。社長「市場を動かしたのは私だ」。',cost:5000,demand:1.30,sat:1,rep:1,fire:0,frust:0,weight:s=>1},
+ {id:'donation',icon:'🥖',title:'余ったパンが人気商品に',body:'地域活動で評判が上がった。社長「これ、広告費にできない？」',cost:13000,demand:1.10,sat:3,rep:3,fire:-2,frust:-1,weight:s=>(s.storeRep>=40?1:.6)}
+];
+function accidentOdds(s){return cap(.32+(s.staff<50?.09:0)+(s.frust>60?.08:0)-(s.maintenance>0?.12:0),.12,.55);}
+function selectAccident(s){
+ if(draw(s)>=accidentOdds(s))return null;
+ const pool=ACCIDENTS.map(a=>({a,w:a.weight(s)}));
+ let roll=draw(s)*pool.reduce((n,x)=>n+x.w,0);
+ for(const x of pool){roll-=x.w;if(roll<=0)return x.a;}
+ return pool[pool.length-1].a;
+}
 // One story problem and four distinct reactions each week; prior decisions change future briefs.
 const BRIEFS=[
  {id:'opening',title:'最初の依頼：利益を増やせ',quote:'社長「私が欲しいのは成果だ。責任は君にあげる。」',choices:['quality','shrink','raise','tasting']},
@@ -106,12 +135,14 @@ function weeklyBrief(s){
   const cause=prev.memoryEvent?'過去の施策が発掘された！':prev.fireHit?'SNSで炎上！':'苦情が止まらない！';
   return {id:'crisis',title:cause+' 緊急会議',quote:'社長「君の提案だったよね？ さあ、どう収拾する？」',choices:['apology','recall','blame','explain']};
  }
+ if(s.cash<135000)return {id:'cash',title:'🚨 今週の支払いが迫る！',quote:'経理「現金が足りません。社長の声量では振り込めません！」',choices:['loan','raise','staff','sale']};
  return BRIEFS[Math.min(s.week-1,BRIEFS.length-1)];
 }
 function weeklyOffers(s){
  if(s.finished)return [];
  const brief=weeklyBrief(s),picks=[];
  for(const id of brief.choices){if(enabled(s,id)&&!picks.includes(id))picks.push(id);}
+ if(s.cash<145000&&enabled(s,'loan')&&!picks.includes('loan')){picks[3]='loan';}
  // Physical constraints may disable a preselected action; always offer four playable decisions.
  const seedOrder=ACTIONS.map(a=>a.id).sort((a,b)=>{
   const hash=str=>{let v=2166136261;for(const c of str+':'+s.week+':'+s.rng){v=Math.imul(v^c.charCodeAt(0),16777619)>>>0;}return v;};
@@ -121,14 +152,15 @@ function weeklyOffers(s){
  return picks.slice(0,4).map(id=>ACTIONS_BY_ID[id]);
 }
 function goalStatus(s){
- const profit=s.history.reduce((n,h)=>n+h.profit,0);
+ const profit=s.history.reduce((n,h)=>n+h.profit,0),target=s.contractGoal??1800000;
  const reputation=s.storeRep;
- const passed=profit>=CONTRACT.profit&&reputation>=CONTRACT.reputation;
- return {profit,reputation,passed,profitGap:Math.max(0,CONTRACT.profit-profit),repGap:Math.max(0,CONTRACT.reputation-reputation)};
+ const passed=profit>=target&&reputation>=CONTRACT.reputation;
+ return {profit,reputation,passed,profitGap:Math.max(0,target-profit),repGap:Math.max(0,CONTRACT.reputation-reputation)};
 }
 function ending(s){
  const g=goalStatus(s),fires=s.history.filter(h=>h.fireHit).length;
  if(!s.finished)return null;
+ if(s.bankrupt)return {icon:'💸',name:'資金ショート！契約強制終了',line:'家賃も仕入れも待ってくれない。社長「店の資金繰りは君の担当だったよね？」',passed:false};
  if(g.passed&&s.notoriety>=35)return {icon:'😈',name:'悪魔の敏腕コンサル',line:'利益は達成。社長は大喜び。過去の発言は検索しないでほしいらしい。',passed:true};
  if(g.passed&&s.storeRep>=75)return {icon:'🏆',name:'優良店の改革者',line:'利益も信頼も守った。社長「こんなまともな結末、想定外だ！」',passed:true};
  if(g.passed)return {icon:'💼',name:'契約更新！',line:'目標達成。社長「次もよろしく。もちろん報酬は相談で！」',passed:true};
@@ -138,15 +170,15 @@ function ending(s){
 }
 function initial(seed){
  let n=Number(seed);if(!Number.isFinite(n))n=Date.now();n=n>>>0;if(n===0)n=246813579;
- return {version:VERSION,rng:n,week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:65,fire:4,sat:66,frust:23,sales:480000,profit:126000,cash:250000,boycottWeeks:0,memory:[],history:[],lastResult:null};
+ return {version:VERSION,rng:n,week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:65,fire:4,sat:66,frust:23,sales:480000,profit:61000,cash:250000,contractGoal:CONTRACT.profit,debt:0,maintenance:0,lowCashWeeks:0,bankrupt:false,boycottWeeks:0,memory:[],history:[],lastResult:null};
 }
 function draw(s){let x=s.rng>>>0;x^=(x<<13);x^=(x>>>17);x^=(x<<5);s.rng=x>>>0;return (s.rng>>>0)/4294967296;}
-function enabled(s,id){switch(id){case'raise':return s.price<260;case'lower':return s.price>150;case'shrink':return s.size>60;case'cheap':return s.quality>30;case'quality':return s.quality<90;case'staff':return s.staff>30;case'restorestaff':return s.staff<60;default:return !!ACTIONS_BY_ID[id];}}
+function enabled(s,id){switch(id){case'raise':return s.price<260;case'lower':return s.price>150;case'shrink':return s.size>60;case'cheap':return s.quality>30;case'quality':return s.quality<90;case'staff':return s.staff>30;case'restorestaff':return s.staff<60;case'loan':return s.cash<180000&&s.debt<250000;default:return !!ACTIONS_BY_ID[id];}}
 function risk(s){return cap(.012+s.fire*.0014+Math.max(0,s.frust-23)*.0013+s.notoriety*.00045+Math.max(0,65-s.storeRep)*.0007,.01,.48);}
 function unitCost(s){return int(20+s.size*.9+(s.quality-60)*.65);}
 function adjust(s,changes){for(const [k,v] of Object.entries(changes)){s[k]=cap(int(s[k]+v),0,100);}}
 function maybeRemember(s,kind,p){if(draw(s)<p){s.memory.push({kind,due:s.week+2+Math.floor(draw(s)*4)});}}
-function applyAction(s,id){let extra=0,discount=0,demandFactor=1;
+function applyAction(s,id){let extra=0,discount=0,demandFactor=1,financing=0;
  switch(id){
  case'raise':demandFactor=1.09;s.price+=10;adjust(s,{sat:-3,frust:7,storeRep:-2,fire:4,notoriety:2});break;
  case'lower':s.price-=10;adjust(s,{sat:4,frust:-5,storeRep:2,fire:-2,notoriety:-1});break;
@@ -167,13 +199,15 @@ function applyAction(s,id){let extra=0,discount=0,demandFactor=1;
  case'loyalty':extra=10000;demandFactor=1.07;adjust(s,{sat:6,frust:-9,storeRep:5,fire:-6,notoriety:-2});break;
  case'stamp':extra=9500;demandFactor=1.30;adjust(s,{sat:1,frust:4,storeRep:-1,fire:3,notoriety:2});maybeRemember(s,'stamp',.45);break;
  case'audit':extra=11000;adjust(s,{sat:4,frust:-8,storeRep:7,fire:-8,notoriety:-3});break;
+ case'maintenance':extra=26000;s.maintenance=3;adjust(s,{storeRep:1});break;
+ case'loan':financing=200000;s.debt+=200000;adjust(s,{skill:-2});break;
  default:throw new Error('Unknown action');
  }
- return {extra,discount,demandFactor};
+ return {extra,discount,demandFactor,financing};
 }
 function play(input,id){if(input.finished||input.week>MAX_WEEKS)throw Error('ゲームは終了しています');if(!ACTIONS_BY_ID[id]||!enabled(input,id))throw Error('この施策は選べません');
  const s=JSON.parse(JSON.stringify(input)),theWeek=s.week,brief=weeklyBrief(input);
- const previous={sales:s.sales,rep:s.storeRep,sat:s.sat,frust:s.frust,fire:s.fire,skill:s.skill};
+ const previous={sales:s.sales,rep:s.storeRep,sat:s.sat,frust:s.frust,fire:s.fire,skill:s.skill,cash:s.cash};
  const action=applyAction(s,id);
  // Situational advantages add depth without adding extra inputs to the UI.
  let storyFactor=1,storyCost=0,storyNote='';
@@ -199,6 +233,15 @@ function play(input,id){if(input.finished||input.week>MAX_WEEKS)throw Error('ゲ
  }else if(!memoryEvent && draw(s)<.17){
   const item=INCIDENTAL[Math.floor(draw(s)*INCIDENTAL.length)];title=item.title;body=item.body;eventType=item.id;demandModifier*=item.demand;adjust(s,{storeRep:item.rep,sat:item.sat,fire:item.fire});
  }
+ // Extra incidents may happen independently of the management plan. A major scandal keeps the headline.
+ const accident=selectAccident(s);
+ let incidentCost=0;
+ if(accident){
+  incidentCost=accident.cost;demandModifier*=accident.demand;
+  adjust(s,{sat:accident.sat,storeRep:accident.rep,fire:accident.fire,frust:accident.frust});
+  if(!fireHit&&!memoryEvent){title=accident.title;body=accident.body;eventType='accident';}
+  else body+=' '+accident.body;
+ }
  if(storyNote)body+=' '+storyNote;
  // Existing and newly started boycotts affect the current week's purchases.
  const boycottActive=s.boycottWeeks>0;
@@ -214,17 +257,25 @@ function play(input,id){if(input.finished||input.week>MAX_WEEKS)throw Error('ゲ
   *cap(1-(s.frust-23)*.003,.70,1.12);
  demand*=action.demandFactor*demandModifier*(.97+draw(s)*.06);
  const units=cap(int(demand),500,4200),effectivePrice=s.price-action.discount;
- const sales=units*effectivePrice,cost=unitCost(s),fixed=90000-(60-s.staff)*800;
- const profit=units*(effectivePrice-cost)-fixed-action.extra;
+ const sales=units*effectivePrice,cost=unitCost(s);
+ const rent=75000,utilities=30000,payroll=50000-(60-s.staff)*800;
+ const fixed=rent+utilities+payroll;
+ const interest=s.debt>0?3000:0,principal=Math.min(s.debt,10000);
+ const profit=units*(effectivePrice-cost)-fixed-action.extra-incidentCost-interest;
  const standardProfit=126000;
  let fee=cap(int(8000+Math.max(0,profit-standardProfit)*.07),8000,30000);
  if(fireHit||boycottActive)fee=int(fee*.65);
  fee=Math.max(0,fee);
  if(!fireHit){adjust(s,{skill:profit>=standardProfit?2:profit>=0?1:-2});if(s.sat>=80)adjust(s,{skill:1});}
- s.sales=sales;s.profit=profit;s.cash+=profit;s.pay+=fee;
- const report={week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':QUOTES[id],eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
+ s.sales=sales;s.profit=profit;
+ // Weekly operating bills are deducted even when no initiative is taken. Loan principal is a cash-flow item, not P&L.
+ s.cash+=profit+action.financing-principal;s.debt-=principal;s.pay+=fee;
+ s.lowCashWeeks=s.cash<0?s.lowCashWeeks+1:0;
+ if(s.cash<-120000||s.lowCashWeeks>=2){s.bankrupt=true;}
+ if(s.maintenance>0)s.maintenance--;
+ const report={week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':QUOTES[id],eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,incidentCost,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
  s.history.push(report);s.lastResult=report;s.week++;
- if(s.week>MAX_WEEKS)s.finished=true;
+ if(s.week>MAX_WEEKS||s.bankrupt)s.finished=true;
  if(!weeklyOffers(s).some(a=>a.id===s.selected))s.selected=s.finished?s.selected:weeklyOffers(s)[0].id;
  return s;
 }
@@ -234,15 +285,19 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  if(typeof x.finished!=='boolean'||typeof x.selected!=='string'||!ACTIONS_BY_ID[x.selected])throw Error('セーブデータの状態が不正です');
  if(!Array.isArray(x.memory)||x.memory.length>12||x.memory.some(m=>!m||!MEMORY_NEWS[m.kind]||!Number.isInteger(m.due)||m.due<2||m.due>19))throw Error('イベント履歴が不正です');
  if(!Array.isArray(x.history)||x.history.length>12||x.history.some(h=>!h||!Number.isInteger(h.week)||h.week<1||h.week>12||!ACTIONS_BY_ID[h.actionId]||typeof h.title!=='string'||h.title.length>240||typeof h.body!=='string'||h.body.length>400||!Number.isFinite(h.sales)||!Number.isFinite(h.profit)||!Number.isFinite(h.fee)))throw Error('経営記録が不正です');
- if(x.history.length!==x.week-1||x.finished!==(x.week===13))throw Error('週数と記録が一致しません');
+ if(x.history.length!==x.week-1||x.finished!==(x.week===13||x.bankrupt===true))throw Error('週数と記録が一致しません');
  const clone=JSON.parse(JSON.stringify(x));
+ // Existing v0.1-v0.5 saves did not contain these optional financial state fields.
+ for(const [name,value]of Object.entries({contractGoal:1800000,debt:0,maintenance:0,lowCashWeeks:0,bankrupt:false}))if(clone[name]===undefined)clone[name]=value;
+ if(!Number.isSafeInteger(clone.contractGoal)||clone.contractGoal<100000||clone.contractGoal>3000000)throw Error('契約目標が不正です');
+ if(!Number.isSafeInteger(clone.debt)||clone.debt<0||clone.debt>500000||!Number.isSafeInteger(clone.maintenance)||clone.maintenance<0||clone.maintenance>3||!Number.isSafeInteger(clone.lowCashWeeks)||clone.lowCashWeeks<0||clone.lowCashWeeks>12||typeof clone.bankrupt!=='boolean')throw Error('資金管理データが不正です');
  clone.memory=clone.memory.map(m=>({kind:m.kind,due:m.due}));
  clone.history=clone.history.map(h=>({...h,title:String(h.title).slice(0,240),body:String(h.body).slice(0,400),ceo:typeof h.ceo==='string'?h.ceo.slice(0,240):'',actionName:ACTIONS_BY_ID[h.actionId].name}));
  clone.lastResult=clone.history.length?clone.history[clone.history.length-1]:null;
  return clone;
 }
 function previewRisk(s,id){if(!ACTIONS_BY_ID[id]||!enabled(s,id))return risk(s);const clone=JSON.parse(JSON.stringify(s));applyAction(clone,id);return risk(clone);}
-const engine={VERSION,MAX_WEEKS,CONTRACT,ACTIONS,weeklyBrief,weeklyOffers,goalStatus,ending,initial,play,risk,previewRisk,unitCost,enabled,validateSaved};
+const engine={VERSION,MAX_WEEKS,CONTRACT,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,goalStatus,ending,initial,play,risk,previewRisk,unitCost,enabled,validateSaved};
 root.GameEngine=engine;
 if(typeof module==='object'&&module.exports)module.exports=engine;
 })(typeof globalThis!=='undefined'?globalThis:this);

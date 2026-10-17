@@ -34,10 +34,14 @@ assert.equal(nodes.officeView.hidden,false);
 assert.equal(nodes.bossFace.dataset.mood,'normal');assert.equal(nodes.buyerFace.dataset.mood,'normal');
 assert.ok(nodes.actions.innerHTML.includes('action-option'));
 assert.match(nodes.actionHeading.textContent,/最初の依頼/);
-assert.match(nodes.goalChip.textContent,/180万/);
+assert.match(nodes.goalChip.textContent,/100\.0万/);
+assert.equal(nodes.proposalSheet.hidden,true);
+nodes.openProposals.click();assert.equal(nodes.proposalSheet.hidden,false);
+assert.match(nodes.proposalBudget.textContent,/家賃/);
 assert.match(html,/契約条件/);
-nodes.advanceButton.click();assert.equal(nodes.reportScene.hidden,false,'report should open after week');
-assert.match(nodes.reportTakeaway.textContent,/[✅⚠️📉👏💰]/);
+nodes.advanceButton.click();assert.equal(nodes.proposalSheet.hidden,true);assert.equal(nodes.reportScene.hidden,false,'report should open after week');
+assert.ok(nodes.reportTakeaway.textContent.length>0);
+assert.match(nodes.reportCash.textContent,/万円/);
 assert.ok(nodes.reportReputationChange.textContent.length>0);
 assert.match(nodes.reportGoal.textContent,/契約目標/);
 assert.match(nodes.reportNext.textContent,/次の相談/);
@@ -45,6 +49,6 @@ nodes.reportContinue.click();assert.equal(nodes.weekScene.hidden,true);
 assert.equal(JSON.parse(state['okyakusama.save.v1']).week,2);
 tabs[2].click();nodes.backTitle.click();assert.equal(nodes.titleScreen.hidden,false);assert.equal(nodes.titleResume.hidden,false,'resume after progress');
 nodes.titleResume.click();assert.equal(nodes.app.hidden,false);assert.equal(nodes.officeView.hidden,false);
-for(let i=1;i<12;i++){nodes.advanceButton.click();nodes.reportContinue.click();}
-const final=JSON.parse(state['okyakusama.save.v1']);assert.equal(final.week,13);assert.equal(final.finished,true);assert.equal(final.history.length,12);
-console.log('PASS: title→contracts→client→week results→resume→12 weeks, persisted original format');
+for(let i=1;i<12;i++){if(JSON.parse(state['okyakusama.save.v1']).finished)break;nodes.openProposals.click();nodes.advanceButton.click();nodes.reportContinue.click();}
+const final=JSON.parse(state['okyakusama.save.v1']);assert.equal(final.finished,true);assert.equal(final.history.length,final.week-1);
+console.log('PASS: title→contracts→client→proposals→budget result→resume→finished campaign');
