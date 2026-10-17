@@ -1,4 +1,4 @@
-# お客様のために。v1.0.0
+# お客様のために。
 
 - 修正: オープニングの7枚のイラストをHTML内の実体あるSVGシンボルとして復元（前バージョンは存在しないIDを参照）。
 - 炎上や過去の施策の再燃が発生すると、原因に応じて翌週に対応策3つが現れる。
@@ -20,3 +20,18 @@ Original layered SVG scenes cover checkout, robots, lunch boxes, photography, st
 - No physical iPhone test has been performed. Browser emulation is not a physical-device test.
 
 Backup before this release: `backup/pre-v1.4.0-20261018` (main `f305be3`).
+
+## v1.5.0 — アセット主導の施策演出
+
+代表的な8施策（社長レジ・ロボット店員・唐揚げ増量・広告撮影・従業員との対話・社長パレード・週刊誌への説明・功績の横取り）を、画面内で描き回す汎用人物SVGから、**独立した48コマのシナリオ別イラスト素材**に変更。
+
+- `assets/storyboards-v150.svg`: 8場面 × 営業中3コマ＋成否別3コマの48独立SVGシンボル。人物、道具、背景、台詞を場面ごとに作画。
+- `assets/storyboards-v150.js`: 施策IDから専用カットと短い進行テキストを引く純粋な描画カタログ。
+- 営業画面は3.6秒内で3枚の場面画が切り替わり、スキップ・モーション軽減にも対応。
+- 施策カードに専用の場面イラストを表示。失敗・成功・大成功の画も別途作成。
+- 未対応の施策は既存演出へフォールバック。ロジック、財務、セーブ形式への変更はなし。
+- `tests/storyboards-v150.test.cjs` は全48シンボルとルックアップの整合性を検証。PlaywrightでChromium/WebKitのSVG表示、フレームの切替、結果差分、画面幅をテスト。
+
+資産はスマートフォン内へのPWAキャッシュに含まれ、ネットワーク不通でも既存設計の範囲内で再生可能です。
+
+バックアップ: `backup/pre-v1.5.0-20261018`。
