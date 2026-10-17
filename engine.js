@@ -360,12 +360,12 @@ function adjust(s,changes){for(const [k,v] of Object.entries(changes)){s[k]=cap(
 function maybeRemember(s,kind,p){if(draw(s)<p){s.memory.push({kind,due:s.week+2+Math.floor(draw(s)*4)});}}
 function applyAction(s,id){let extra=0,discount=0,demandFactor=1,financing=0;
  switch(id){
- case'raise':demandFactor=1.09;s.price+=10;adjust(s,{sat:-3,frust:7,storeRep:-2,fire:4,notoriety:2});break;
- case'lower':s.price-=10;adjust(s,{sat:4,frust:-5,storeRep:2,fire:-2,notoriety:-1});break;
- case'shrink':demandFactor=1.13;s.size-=10;adjust(s,{sat:-5,frust:9,storeRep:-3,fire:5,notoriety:3});maybeRemember(s,'shrink',.58);break;
- case'cheap':demandFactor=1.11;s.quality-=10;adjust(s,{sat:-5,frust:7,storeRep:-2,fire:4,notoriety:2});maybeRemember(s,'cheap',.48);break;
- case'quality':s.quality+=10;adjust(s,{sat:7,frust:-5,storeRep:3,fire:-3,notoriety:-2});break;
- case'staff':demandFactor=1.07;s.staff-=10;adjust(s,{sat:-4,frust:6,storeRep:-2,fire:4,notoriety:1});maybeRemember(s,'staff',.40);break;
+ case'raise':demandFactor=1.09;s.price=Math.min(260,s.price+10);adjust(s,{sat:-3,frust:7,storeRep:-2,fire:4,notoriety:2});break;
+ case'lower':s.price=Math.max(150,s.price-10);adjust(s,{sat:4,frust:-5,storeRep:2,fire:-2,notoriety:-1});break;
+ case'shrink':demandFactor=1.13;s.size=Math.max(60,s.size-10);adjust(s,{sat:-5,frust:9,storeRep:-3,fire:5,notoriety:3});maybeRemember(s,'shrink',.58);break;
+ case'cheap':demandFactor=1.11;s.quality=Math.max(30,s.quality-10);adjust(s,{sat:-5,frust:7,storeRep:-2,fire:4,notoriety:2});maybeRemember(s,'cheap',.48);break;
+ case'quality':s.quality=Math.min(90,s.quality+10);adjust(s,{sat:7,frust:-5,storeRep:3,fire:-3,notoriety:-2});break;
+ case'staff':demandFactor=1.07;s.staff=Math.max(30,s.staff-10);adjust(s,{sat:-4,frust:6,storeRep:-2,fire:4,notoriety:1});maybeRemember(s,'staff',.40);break;
  case'explain':extra=10000;adjust(s,{sat:2,frust:-7,storeRep:4,fire:-6,notoriety:-3});break;
  case'sale':discount=15;extra=12000;demandFactor=1.15;adjust(s,{sat:3,frust:-4,storeRep:1,fire:-1});break;
  case'points':extra=-16000;adjust(s,{sat:-3,frust:6,storeRep:-2,fire:6,notoriety:3});maybeRemember(s,'points',.42);break;
