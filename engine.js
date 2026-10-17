@@ -1,4 +1,4 @@
-/* お客様のために。v1.0.0 - thirty-week turnaround and survival economics, social shocks and devil pacts. */
+/* お客様のために。v1.0.1 - thirty-week turnaround and survival economics, social shocks and devil pacts. */
 (function(root){
 'use strict';
 const VERSION = 1, MAX_WEEKS = 30;
@@ -230,7 +230,7 @@ function weeklyOffers(s){
  const brief=weeklyBrief(s),picks=[];
  for(const id of brief.choices){if(enabled(s,id)&&!picks.includes(id))picks.push(id);}
  // Emergency financing is always a possible sacrifice when insolvency looms.
- if(s.cash<145000&&enabled(s,'loan')&&!picks.includes('loan')){
+ if(brief.id!=='crisis'&&s.cash<145000&&enabled(s,'loan')&&!picks.includes('loan')){
   if(picks.length>=3)picks[2]='loan';else picks.push('loan');
  }
  const hash=(str)=>{let v=2166136261;for(const c of str+':'+s.week+':'+s.rng){v=Math.imul(v^c.charCodeAt(0),16777619)>>>0;}return v;};
