@@ -321,7 +321,9 @@ function performanceOdds(s,id){
  return {failure,success:100-failure-great,great,kind:bold?'high':steady?'steady':'standard'};
 }
 function resolvePerformance(s,id){
- const odds=performanceOdds(s,id),roll=draw(s)*100;
+ // Mix two rounds before the outcome draw: xorshift's first value from a small seed is strongly biased.
+ const odds=performanceOdds(s,id);draw(s);draw(s);
+ const roll=draw(s)*100;
  const tier=roll<odds.failure?'failure':roll<odds.failure+odds.success?'success':'great';
  return {tier,roll,odds,multiplier:tier==='failure'?.80:tier==='great'?1.35:1};
 }
