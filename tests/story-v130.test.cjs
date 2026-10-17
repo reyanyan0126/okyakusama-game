@@ -3,6 +3,10 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 const G=require('../engine.js'),ST=G.STORIES,F=require('../finance.js');
 const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
 assert.equal(ST.EPISODES.length,6);
+const basic=G.initial(31),trusted=G.initial(31);
+trusted.cast={boss:20,manager:50,customers:50};
+assert(G.performanceOdds(trusted,'quality').failure<G.performanceOdds(basic,'quality').failure,'earned trust must improve steady policy odds');
+assert(G.performanceOdds(trusted,'quality').great>G.performanceOdds(basic,'quality').great,'earned trust must unlock bigger wins');
 assert.equal(ST.POLICIES.length,24);
 assert.equal(new Set(ST.POLICIES.map(x=>x.id)).size,24);
 for(const e of ST.EPISODES){
