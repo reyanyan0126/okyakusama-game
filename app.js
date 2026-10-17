@@ -1,4 +1,4 @@
-/* お客様のために。v0.3 - compact fixed navigation and rotating weekly pitches and original save compatibility. */
+/* お客様のために。v0.4 - title, client request flow, expressive characters and clearer weekly results. */
 (()=>{'use strict';
 const G=window.GameEngine;
 const STORAGE='okyakusama.save.v1';
@@ -12,7 +12,35 @@ let modalNext=null;
 let toastTimer;
 let resolving=false;
 let lastScreen='office';
+let entryMode='title';
 const reducedMotion=()=>window.matchMedia?.('(prefers-reduced-motion: reduce)').matches??false;
+function showEntry(mode){
+ entryMode=mode;
+ $('titleScreen').hidden=mode!=='title';
+ $('contractsScreen').hidden=mode!=='contracts';
+ $('app').hidden=mode!=='game';
+ document.body.classList.toggle('entry-mode',mode!=='game');
+ if(mode==='title'){
+  const active=game.history.length>0;
+  $('titleResume').hidden=!active;
+  if(active)$('titleResume').innerHTML=game.finished?'前回の最終成績を見る →':`第${game.week}週からつづける →`;
+ }
+}
+function chooseMarket(){
+ if(game.history.length && !confirm('新しい依頼を受けると、現在の12週チャレンジが初期化されます。先に記録画面からバックアップできます。開始しますか？'))return;
+ game=G.initial(Date.now());save();paint();changeScreen('office');showEntry('game');
+ toast('モグモグマートの依頼を受けました！');
+}
+function setFaces(){
+ const s=game;
+ const boss=s.fire>=48?'panic':s.profit>=145000?'happy':s.profit<0?'angry':'normal';
+ const buyer=s.frust>=65?'angry':s.sat>=75?'happy':s.frust>=40?'sad':'normal';
+ for(const [id,mood,label] of [['bossFace',boss,'店長'],['buyerFace',buyer,'消費者']]){
+  $(id).dataset.mood=mood;
+  $(id).setAttribute('aria-label',label+'・'+({panic:'パニック',happy:'笑顔',angry:'怒り',sad:'不満',normal:'普通'})[mood]+'の表情');
+ }
+}
+
 function changeScreen(screen){
  if(!['office','voice','records'].includes(screen)||resolving)return;
  lastScreen=screen;
@@ -81,6 +109,12 @@ function showWeekReport(h,finish){
  $('reportProfit').textContent=man(h.profit)+'万円';
  $('reportPay').textContent=yen(h.fee)+'円';
  $('reportFrust').textContent=game.frust+' / 100';
+ const delta=n=>(n>0?'+':'')+n;
+ for(const [id,n,positiveGood] of [['reportReputationChange',h.deltaRep,true],['reportSatisfactionChange',h.deltaSat,true],['reportFireChange',h.deltaFire,false]]){
+  const el=$(id);el.textContent=delta(n);el.className=n===0?'even':((n>0)===positiveGood?'good':'bad');
+ }
+ $('reportBossFace').textContent=isFire?'😱':h.profit<0?'😰':h.profit>=145000?'🤑':'👨🏻‍💼';
+ $('reportTakeaway').textContent=isFire?'⚠️ 利益より先に評判が燃えました':h.boycottActive?'⚠️ 不買運動でお客さんが減っています':h.deltaRep<0&&h.profit>0?'💰 利益は出たけど、お店の信用が低下':h.deltaRep>0?'👏 お店の信用が上がりました':h.profit<0?'📉 売上より経費が大きい週でした':'✅ 大きなトラブルなく営業できました';
  $('reportCeo').textContent=h.ceo;
  $('reportContinue').textContent=finish?'12週間の最終決算を見る →':'次の経営会議へ →';
  $('reportContinue').focus({preventScroll:true});
@@ -141,6 +175,7 @@ function paint(){
  $('repValue').textContent=s.storeRep;$('salesValue').textContent=man(s.sales);$('fireValue').textContent=s.fire;
  $('satValue').textContent=s.sat;$('frustValue').textContent=s.frust;
  $('satBar').style.width=s.sat+'%';$('frustBar').style.width=s.frust+'%';
+ setFaces();
  $('moodStatus').textContent=s.frust>=68?'不満爆発寸前':s.sat>=72?'ごきげん':s.frust>=43?'不満が蓄積':'まずまず';
  $('shopStatus').textContent=s.fire>=60?'大炎上':s.fire>=30?'騒動発生':'営業中';
  if(s.lastResult){$('latestHeadline').textContent=s.lastResult.title;$('latestBody').textContent=s.lastResult.body;}
@@ -181,12 +216,18 @@ function finishModal(){
  const s=game,profit=s.history.reduce((a,x)=>a+x.profit,0),fires=s.history.filter(x=>x.fireHit).length,boycotts=s.history.filter(x=>x.boycottHit).length;
  const rank=s.skill>=80&&s.storeRep>=65?'理想の経営改革者':s.skill>=75&&s.notoriety>=45?'悪魔の敏腕コンサル':s.skill>=70?'売上の魔術師':s.storeRep<30?'世論と戦うコンサル':'一応、経営改善';
  const line=s.notoriety>=50?'「稼ぎ方は教わりたい。名前は出さないでほしい」と各社から評判。':s.storeRep>=75?'「お客様のために」を、珍しく本当に実践した人物として語られる。':fires>=2?'「炎上対策の会議」が企業の主力事業になったらしい。':'社長「次はもっと簡単に儲かる方法がいい。もちろん合法で！」';
- openModal(`<div class="modal-kicker">FINAL REPORT / 全12週間終了</div><h2 id="modalTitle">コンサル会社・最終決算</h2><div class="end-stamp">🏆 ${esc(rank)}</div><div class="result-grid" style="margin-top:15px">${`<div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div>`}${`<div class="result-tile"><span>12週の店の利益</span><b>${man(profit)}万円</b></div>`}${`<div class="result-tile"><span>有能さ / 悪名</span><b>${s.skill} / ${s.notoriety}</b></div>`}${`<div class="result-tile"><span>炎上 / 不買</span><b>${fires}回 / ${boycotts}回</b></div>`}</div><div class="modal-comment">${esc(line)}</div><p class="modal-detail">同じ選択でもイベント抽選で結果は変化するわ。次はどんな経営方針にする？</p><div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい会社で再挑戦する ↗</button></div>`);
- $('endRestart').addEventListener('click',()=>{if(!confirm('12週間の記録を消して、最初から挑戦しますか？'))return;game=G.initial(Date.now());save();closeModal();paint();changeScreen('office');toast('新しい経営が始まりました');});
+ openModal(`<div class="modal-kicker">FINAL REPORT / 全12週間終了</div><h2 id="modalTitle">コンサル会社・最終決算</h2><div class="end-stamp">🏆 ${esc(rank)}</div><div class="result-grid" style="margin-top:15px">${`<div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div>`}${`<div class="result-tile"><span>12週の店の利益</span><b>${man(profit)}万円</b></div>`}${`<div class="result-tile"><span>有能さ / 悪名</span><b>${s.skill} / ${s.notoriety}</b></div>`}${`<div class="result-tile"><span>炎上 / 不買</span><b>${fires}回 / ${boycotts}回</b></div>`}</div><div class="modal-comment">${esc(line)}</div><p class="modal-detail">同じ選択でもイベント抽選で結果は変化するわ。次はどんな経営方針にする？</p><div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい依頼を探す ↗</button></div>`);
+ $('endRestart').addEventListener('click',()=>{closeModal();showEntry('contracts');});
 }
-function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>経営施策を1つ選ぶ。</b>今週届いた4件の提案から選ぶ（内容は毎週入れ替わる）。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>12週間経営する。</b>報酬を稼ぎ、企業の信用を守るか、悪名を上げるかは自由。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ ↗</button></div>`);$('aboutClose').addEventListener('click',closeModal);}
+function aboutModal(){openModal(`<div class="modal-kicker">HOW TO PLAY</div><h2 id="modalTitle">遊び方は、とっても簡単。</h2><div class="modal-detail"><ol><li><b>依頼を受ける。</b>タイトルからモグモグマートを選ぶ。</li><li><b>経営施策を1つ選ぶ。</b>今週届いた4件の提案から選ぶ（内容は毎週入れ替わる）。</li><li><b>1週間進める。</b>売上・利益・世間の評価などが変化。炎上は確率で起きる。</li><li><b>12週間経営する。</b>報酬を稼ぎ、企業の信用を守るか、悪名を上げるかは自由。</li></ol><p>「有能さ」は依頼先からの評価。「悪名」は世間の悪評。消費者の満足度と不満は別々に動くわ。</p><p>セーブはこの端末のブラウザ内に自動保存。必要ならJSONでバックアップできるの。</p><p><b>この作品はフィクション。</b>企業名・商品・事件や数値は架空で、現実の企業経営に関する助言ではありません。</p></div><div class="modal-actions"><button id="aboutClose" class="primary-btn" type="button">わかった！ ↗</button></div>`);$('aboutClose').addEventListener('click',closeModal);}
 function setup(){
- game=load();paint();
+ game=load();paint();showEntry('title');
+ $('titleStart').addEventListener('click',()=>showEntry('contracts'));
+ $('titleResume').addEventListener('click',()=>{changeScreen('office');showEntry('game');if(game.finished)finishModal();});
+ $('titleHelp').addEventListener('click',aboutModal);
+ $('contractsBack').addEventListener('click',()=>showEntry('title'));
+ $('acceptMarket').addEventListener('click',chooseMarket);
+ $('backTitle').addEventListener('click',()=>showEntry('title'));
  $('actions').addEventListener('click',event=>{const button=event.target.closest('[data-id]');if(!button||button.disabled||game.finished)return;game.selected=button.dataset.id;save();renderActions();});
  $('advanceButton').addEventListener('click',startWeek);
  $('reportContinue').addEventListener('click',finishWeek);
@@ -197,7 +238,7 @@ function setup(){
  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('modal').hidden)closeModal();});
  document.querySelectorAll('.hint').forEach(b=>b.addEventListener('click',()=>toast(b.dataset.tip)));
  $('historyToggle').addEventListener('click',()=>{const p=$('historyPanel');p.hidden=!p.hidden;$('historyToggle').setAttribute('aria-expanded',String(!p.hidden));});
- $('restartButton').addEventListener('click',()=>{if(!confirm('現在の経営を初期化しますか？（元に戻せません）'))return;game=G.initial(Date.now());save();paint();changeScreen('office');toast('第1週からスタート！');});
+ $('restartButton').addEventListener('click',()=>{if(!confirm('現在の経営を初期化しますか？（元に戻せません）'))return;game=G.initial(Date.now());save();paint();changeScreen('office');showEntry('contracts');toast('新しい依頼を選んでください');});
  $('exportButton').addEventListener('click',()=>{
   const data=new Blob([JSON.stringify(game,null,2)],{type:'application/json'}),url=URL.createObjectURL(data);const a=document.createElement('a');a.href=url;a.download='okyakusama-save-v1.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('セーブをJSONで書き出しました');
  });

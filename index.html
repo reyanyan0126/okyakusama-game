@@ -16,6 +16,36 @@
   <script defer src="app.js"></script>
 </head>
 <body>
+  <section id="titleScreen" class="entry-screen" aria-label="タイトル画面">
+    <div class="entry-card title-card">
+      <div class="title-stripe">BLACK COMEDY / CONSULTING SIMULATION</div>
+      <div class="title-logo-mark">¥<span>!</span></div>
+      <p class="title-small">顧客第一。利益はその前に。</p>
+      <h2 class="game-title">お客様のために<span>。</span></h2>
+      <p class="title-tagline">社長は喜ぶ。客は怒る。<br>すべて、あなたの提案しだい。</p>
+      <div class="title-visual" aria-hidden="true"><span class="title-building">🏪</span><span class="title-face boss">👨🏻‍💼</span><span class="title-face buyer">😑</span><span class="title-news-badge">炎上速報!</span></div>
+      <div class="entry-actions">
+        <button id="titleStart" class="primary-btn" type="button">新しく始める <span>→</span></button>
+        <button id="titleResume" class="secondary-btn" type="button" hidden>つづきから <span>→</span></button>
+        <button id="titleHelp" class="text-btn" type="button">あそびかた</button>
+      </div>
+      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.4</p>
+    </div>
+  </section>
+  <section id="contractsScreen" class="entry-screen" aria-label="コンサル依頼一覧" hidden>
+    <div class="entry-card contracts-card">
+      <button id="contractsBack" class="back-link" type="button">← タイトルへ</button>
+      <div class="contracts-heading"><span class="title-stripe">NEW CONSULTING FILES</span><h2>依頼が届きました！</h2><p>困った社長たちが、あなたを待っています。</p></div>
+      <article class="contract-item available">
+        <div class="contract-icon" aria-hidden="true">🏪</div>
+        <div class="contract-copy"><span class="contract-status">受付中・食品スーパー</span><h3>モグモグマート</h3><p>「売上を伸ばしてくれ。ただし批判はそっち持ちだ！」</p><small>期間：12週間 / 難易度：★☆☆</small></div>
+        <button id="acceptMarket" class="contract-accept" type="button">この依頼を受ける →</button>
+      </article>
+      <article class="contract-item not-ready" aria-disabled="true"><div class="contract-icon" aria-hidden="true">🍔</div><div class="contract-copy"><span class="contract-status">準備中</span><h3>スマイルバーガー</h3><p>「ポテトの未来を小さくしたい」</p></div></article>
+      <article class="contract-item not-ready" aria-disabled="true"><div class="contract-icon" aria-hidden="true">👕</div><div class="contract-copy"><span class="contract-status">準備中</span><h3>FUKU-FUKU</h3><p>「閉店セールを永遠に続けたい」</p></div></article>
+      <p class="contracts-footnote">ほかの業種は、今後のアップデートで追加予定。</p>
+    </div>
+  </section>
   <div id="app" class="app-shell">
     <header class="site-header">
       <div class="identity">
@@ -38,7 +68,8 @@
               <p>町のスーパーを救うのは、あなたの提案。<br>お客様のために。<s>たぶん。</s></p>
               <div class="hero-meta"><span id="heroWeek">第1週</span><span>食品スーパー編</span></div>
             </div>
-            <svg class="store-art" viewBox="0 0 212 162" role="img" aria-label="架空のスーパーマーケットのイラスト">
+            <div class="hero-cast" aria-label="店長と消費者の表情">
+              <div class="cast-shop"><svg class="store-art" viewBox="0 0 212 162" role="img" aria-label="架空のスーパーマーケットのイラスト">
               <ellipse cx="108" cy="147" rx="95" ry="11" fill="#decbb5" opacity="0.6"/>
               <path d="M30 70H181V139H30z" fill="#f8e8c6" stroke="#28251f" stroke-width="3"/>
               <path d="M20 67 33 30H178L192 67z" fill="#e96d52" stroke="#28251f" stroke-width="3" stroke-linejoin="round"/>
@@ -54,7 +85,10 @@
               <text x="108" y="49" text-anchor="middle" font-size="14" font-weight="900" fill="#28251f">MOGUMOGU</text>
               <path d="M35 135h146" stroke="#28251f" stroke-width="4" stroke-linecap="round"/>
               <g transform="translate(5 99)"><path d="M6 24h26l-3-16H10z" fill="#f0ab49" stroke="#28251f" stroke-width="2"/><path d="M12 8 10 1m8 7 1-7m5 7 6-6" stroke="#366c58" stroke-width="3" stroke-linecap="round"/></g>
-            </svg>
+            </svg></div>
+              <div class="cast-portrait"><div id="bossFace" class="portrait boss-portrait" data-mood="normal" role="img" aria-label="店長・普通の表情"><span class="portrait-hair"></span><span class="portrait-eyes"><i></i><i></i></span><span class="portrait-mouth"></span><span class="portrait-tie"></span></div><small>店長</small></div>
+              <div class="cast-portrait"><div id="buyerFace" class="portrait buyer-portrait" data-mood="normal" role="img" aria-label="消費者・普通の表情"><span class="portrait-hair"></span><span class="portrait-eyes"><i></i><i></i></span><span class="portrait-mouth"></span></div><small>消費者</small></div>
+            </div>
             <div class="tiny-customers" aria-hidden="true"><span class="walker walker-one">🚶</span><span class="walker walker-two">🛒</span></div>
             <div class="shop-open-sign" aria-hidden="true">OPEN</div>
           </article>
@@ -126,7 +160,7 @@
         <div class="bottom-area">
         <button id="historyToggle" class="utility-button" type="button" aria-expanded="false">▤ これまでの経営記録 <span id="historyCount">0件</span> <span class="caret">⌄</span></button>
         <div id="historyPanel" class="history-panel" hidden><div id="historyList" class="history-list"></div></div>
-        <div class="utility-row"><button id="exportButton" type="button">↓ セーブを書き出す</button><button id="importButton" type="button">↑ セーブを読み込む</button><button id="restartButton" type="button" class="muted-danger">↻ 最初から</button><input id="importInput" type="file" accept="application/json,.json" hidden></div>
+        <div class="utility-row"><button id="exportButton" type="button">↓ セーブを書き出す</button><button id="importButton" type="button">↑ セーブを読み込む</button><button id="restartButton" type="button" class="muted-danger">↻ 最初から</button><button id="backTitle" type="button">⌂ タイトルへ</button><input id="importInput" type="file" accept="application/json,.json" hidden></div>
       </div>
       </section><!-- recordsView -->
     </main>
@@ -135,7 +169,7 @@
       <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true">💬</span><strong>世論</strong></button>
       <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true">📒</span><strong>記録</strong></button>
     </nav>
-    <footer>フィクション・© 2026 お客様のために。 / v0.3</footer>
+    <footer>フィクション・© 2026 お客様のために。 / v0.4</footer>
   </div>
 
   <div id="weekScene" class="week-scene" role="dialog" aria-modal="true" aria-label="今週の経営結果" hidden>
@@ -159,7 +193,9 @@
           <div><span>あなたの報酬</span><strong id="reportPay">0円</strong></div>
           <div><span>お客様の不満</span><strong id="reportFrust">0</strong></div>
         </div>
-        <p class="report-quote" id="reportCeo"></p>
+        <div class="report-impact" aria-label="今週の変化"><div><span>お店の評判</span><strong id="reportReputationChange">±0</strong></div><div><span>客の満足</span><strong id="reportSatisfactionChange">±0</strong></div><div><span>炎上度</span><strong id="reportFireChange">±0</strong></div></div>
+        <div class="report-reaction"><span id="reportBossFace" class="report-character" aria-label="店長の表情">👨🏻‍💼</span><p class="report-quote" id="reportCeo"></p></div>
+        <p class="report-takeaway" id="reportTakeaway">今週のまとめ</p>
         <button type="button" id="reportContinue" class="primary-btn">次の経営会議へ <span aria-hidden="true">→</span></button>
       </div>
     </div>

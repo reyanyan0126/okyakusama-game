@@ -5,19 +5,19 @@ const VERSION = 1, MAX_WEEKS = 12;
 const cap=(n,min,max)=>Math.max(min,Math.min(max,n));
 const int=(n)=>Math.round(n);
 const ACTIONS=[
- {id:'raise',icon:'💴',name:'10円値上げ',effect:'利益↑ / 不満↑',detail:'価格を10円上げる。売れ行きには影響が出るかも。',minMax:'price',type:'hard'},
- {id:'lower',icon:'🏷️',name:'10円値下げ',effect:'人気↑ / 利益↓',detail:'価格を10円下げる。買いやすさで勝負。',minMax:'price',type:'kind'},
- {id:'shrink',icon:'📦',name:'容量10g減',effect:'原価↓ / 不満↑',detail:'中身を10g減らす。内容量は表示するが、評判は別問題。',minMax:'size',type:'hard'},
- {id:'cheap',icon:'🥣',name:'原料コスト削減',effect:'原価↓ / 品質↓',detail:'原材料を見直して原価を抑える。味の変化に注意。',minMax:'quality',type:'hard'},
- {id:'quality',icon:'✨',name:'品質アップ',effect:'満足↑ / 原価↑',detail:'良い原料に切り替える。評判回復の一手。',minMax:'quality',type:'kind'},
- {id:'staff',icon:'👥',name:'人員を減らす',effect:'経費↓ / 接客↓',detail:'人件費を抑える。レジ待ちが長くなるかも。',minMax:'staff',type:'hard'},
- {id:'explain',icon:'📣',name:'きちんと説明',effect:'信頼↑ / 費用↑',detail:'価格・容量変更を説明する。広報費1万円。',type:'kind'},
- {id:'sale',icon:'🎉',name:'1週間セール',effect:'客数↑ / 経費↑',detail:'今週だけ15円引き。広告費1.2万円が必要。',type:'kind'},
- {id:'points',icon:'🪙',name:'ポイント還元縮小',effect:'経費↓ / 不満↑',detail:'ポイントの還元費を削減。「持続可能な還元」を発表。',type:'hard'},
- {id:'pop',icon:'📢',name:'派手な宣伝',effect:'客数↑ / 炎上↑',detail:'宣伝に力を入れる。期待が膨らみすぎると反発も。',type:'hard'},
- {id:'tasting',icon:'🥄',name:'試食サービス',effect:'客数↑ / 費用↑',detail:'試食で商品の良さを伝える。今週の経費は増える。',type:'kind'},
- {id:'local',icon:'🥬',name:'地元野菜フェア',effect:'満足↑ / 経費↑',detail:'地元産の商品を集めて特設売り場を作る。',type:'kind'},
- {id:'restorestaff',icon:'🧑‍💼',name:'レジの増員',effect:'満足↑ / 経費↑',detail:'減らしたスタッフを戻す。行列と不満を減らそう。',type:'kind'}
+ {id:'raise',icon:'💴',name:'「原材料のため」10円値上げ',effect:'利益↑ / 不満↑',detail:'価格を10円上げる。売れ行きには影響が出るかも。',minMax:'price',type:'hard'},
+ {id:'lower',icon:'🏷️',name:'渾身の10円値下げ',effect:'人気↑ / 利益↓',detail:'価格を10円下げる。買いやすさで勝負。',minMax:'price',type:'kind'},
+ {id:'shrink',icon:'📦',name:'お手軽サイズに進化',effect:'原価↓ / 不満↑',detail:'10g減らして「食べやすい」と発表。表示は正確、評判は別問題。',minMax:'size',type:'hard'},
+ {id:'cheap',icon:'🥣',name:'昔の味は思い出の中に',effect:'原価↓ / 品質↓',detail:'原材料を見直して原価を抑える。味の変化に注意。',minMax:'quality',type:'hard'},
+ {id:'quality',icon:'✨',name:'本当においしくする',effect:'満足↑ / 原価↑',detail:'信じられないが、原料をよくして味で勝負する。',minMax:'quality',type:'kind'},
+ {id:'staff',icon:'👥',name:'行列こそ人気の証',effect:'経費↓ / 接客↓',detail:'人件費を削減。レジに並ぶ時間はお客様にプレゼント。',minMax:'staff',type:'hard'},
+ {id:'explain',icon:'📣',name:'まさかの正直な説明',effect:'信頼↑ / 費用↑',detail:'全部ちゃんと説明する。広報費1万円。社長が不安そう。',type:'kind'},
+ {id:'sale',icon:'🎉',name:'店長、反省セール',effect:'客数↑ / 経費↑',detail:'今週だけ15円引き。広告費1.2万円が必要。',type:'kind'},
+ {id:'points',icon:'🪙',name:'ポイント制度の「進化」',effect:'経費↓ / 不満↑',detail:'還元率を減らして「制度を進化」。進化先は誰の財布？',type:'hard'},
+ {id:'pop',icon:'📢',name:'広告の方が大盛り',effect:'客数↑ / 炎上↑',detail:'商品より先に広告だけ豪華に。期待だけが一人歩き。',type:'hard'},
+ {id:'tasting',icon:'🥄',name:'胃袋で説得する',effect:'客数↑ / 費用↑',detail:'試食で商品の良さを伝える。今週の経費は増える。',type:'kind'},
+ {id:'local',icon:'🥬',name:'地元と真面目に組む',effect:'満足↑ / 経費↑',detail:'地元産の商品を集めて特設売り場を作る。',type:'kind'},
+ {id:'restorestaff',icon:'🧑‍💼',name:'人間のレジを復活',effect:'満足↑ / 経費↑',detail:'減らしたスタッフを戻す。行列と不満を減らそう。',type:'kind'}
 ];
 const ACTIONS_BY_ID=Object.fromEntries(ACTIONS.map(a=>[a.id,a]));
 const QUOTES={
