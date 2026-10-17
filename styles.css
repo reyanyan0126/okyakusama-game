@@ -1159,3 +1159,7 @@ body.entry-mode{background:#f8f3e9}
 .title-visual .comic-scene{max-height:185px;}
 .title-logo-mark{display:none!important;}
 .title-card{padding-top:24px!important;}
+
+.report-scene #reportNext{display:block!important;white-space:normal;overflow:visible;margin:14px 0;}
+.topline-right{white-space:nowrap;flex-shrink:0;}
+.topline .eyebrow{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}

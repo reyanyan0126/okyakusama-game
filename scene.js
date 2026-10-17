@@ -38,7 +38,7 @@ function setting(id){
  if(/staff|people|listen|resign|graduation/.test(id))return 'staff';
  if(/bento|quality|tasting|cheap|shrink/.test(id))return 'bento';
  if(/maintenance|equipment/.test(id))return 'repair';
- if(/intro|finale|ceocut|loan|bills|contract/.test(id))return 'office';
+ if(/office|intro|finale|ceocut|loan|bills|contract/.test(id))return 'office';
  if(/festival/.test(id))return 'festival';
  return 'shop';
 }

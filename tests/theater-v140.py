@@ -32,6 +32,7 @@ def drain(page):
   page.locator('#newsNext').click()
  if page.locator('#rescueScene').is_visible():page.locator('#rescueGiveUp').click()
  assert page.locator('#reportScene').is_visible()
+ assert page.locator('#reportNext').is_visible()
  assert not page.locator('#performanceReport').is_visible()
  assert not page.locator('#storyEvent').is_visible()
  layout(page)
