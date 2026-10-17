@@ -35,7 +35,7 @@ for(const e of ST.EPISODES){
  const echo=G.play(continuation,G.weeklyOffers(continuation)[0].id);
  assert.equal(echo.storyJournal.length,1,'echo recorded '+e.id);
  assert(echo.lastResult.storyEcho.length===1,'echo surfaced in result');
- assert.equal(echo.storyArcs.length,0,'echo resolved');
+ assert(!echo.storyArcs.some(a=>a.id===e.id),'original echo resolved without blocking another episode');
  assert.notDeepEqual(echo.cast,s.cast,'persistent cast reputation');
 }
 for(const node of ['storyEvent','storyArtwork','storyEpisodeTitle','storyEpisodeText','storyEcho','storyPulse'])assert(html.includes('id="'+node+'"'),node);
