@@ -2,6 +2,7 @@
 (()=>{'use strict';
 const G=window.GameEngine;
 const F=window.FinanceLedger;
+const B=window.PolicyStoryboards;
 const STORAGE='okyakusama.save.v1';
 const $=id=>document.getElementById(id);
 const yen=n=>Number(n).toLocaleString('ja-JP');
@@ -577,12 +578,19 @@ function installTheaterLayout(){
 }
 function beginTheater(h){
  clearTheaterTimers();resolving=true;
- const lines=T.captions[T.setting(h.actionId)];
- $('workingComic').innerHTML=T.art(h.actionId,'normal','work');
- $('workingMessage').textContent=lines[0];
+ const custom=!!B?.family(h.actionId);
+ const lines=(custom?B.captions(h.actionId):null)||T.captions[T.setting(h.actionId)];
+ const frame=n=>{
+  if($('workingScene').hidden)return;
+  $('workingComic').innerHTML=(custom?B.markup(h.actionId,'work',n):null)||T.art(h.actionId,'normal','work');
+  $('workingMessage').textContent=lines[n];
+ };
+ frame(0);
  $('workingSkip').focus({preventScroll:true});
+ // The activity changes pose, props and story beat in three genuinely different drawings.
+ // Playback is optional for reduced-motion and instantly skippable for everyone.
  const duration=reducedMotion()?350:3600;
- if(!reducedMotion())[1,2].forEach((n)=>theaterTimers.push(setTimeout(()=>{$('workingMessage').textContent=lines[n];},n*1100)));
+ if(!reducedMotion())for(const n of [1,2])theaterTimers.push(setTimeout(()=>frame(n),n*1150));
  theaterTimers.push(setTimeout(showOutcome,duration));
 }
 function showOutcome(){
@@ -592,7 +600,7 @@ function showOutcome(){
  $('outcomeTitle').textContent={failure:'失敗…',success:'成功！',great:'大成功！'}[tier];
  $('outcomePolicy').textContent=h.actionName;
  const mood=tier==='great'?'joy':tier==='failure'?'down':'normal';
- $('outcomeArt').innerHTML=T.art(h.actionId,mood,'result');
+ $('outcomeArt').innerHTML=B?.markup(h.actionId,'result',tier)||T.art(h.actionId,mood,'result');
  const policy=G.STORIES.POLICIES_BY_ID[h.actionId];
  $('outcomeText').textContent=policy?.[tier]||h.storyEvent?.text||(tier==='failure'?'現場は手順に追われ、狙った効果を十分に出せなかった。':tier==='great'?'現場の工夫がかみ合い、想定を上回る手応えがあった。':'現場で方針を共有し、計画どおりに施策を実行できた。');
  const impact=h.actionImpact;
@@ -745,7 +753,7 @@ function renderActions(){const s=game;
  const on=s.selected===a.id,disabled=s.finished||!G.enabled(s,a.id);
  const bonus=G.boardroomDemand(s)?.actionId===a.id;
  const odds=G.performanceOdds(s,a.id);
- return `<button type="button" class="action-option${a.id.startsWith('fix_')?' root-option':''}" role="radio" aria-checked="${on}" ${disabled?'disabled':''} data-id="${esc(a.id)}"><span class="action-emoji policy-preview" aria-hidden="true"><svg class="policy-preview-svg" viewBox="0 0 320 165"><use href="#policy-scene-${policyScene(a.id)}"/></svg></span><span class="action-name">${esc(a.name)}</span>${bonus?'<span class="boss-pick">社長の推し・臨時報酬</span>':''}${a.id.startsWith('fix_')?'<span class="root-pick">コンサルの根本対策</span>':''}<span class="action-effect">${esc(a.effect)}</span><span class="action-odds">失敗 ${odds?.failure??0}% <span>｜大成功 ${odds?.great??0}%</span></span></button>`;
+ return `<button type="button" class="action-option${a.id.startsWith('fix_')?' root-option':''}" role="radio" aria-checked="${on}" ${disabled?'disabled':''} data-id="${esc(a.id)}"><span class="action-emoji policy-preview" aria-hidden="true">${B?.markup(a.id,'work',1,'presentation')||`<svg class="policy-preview-svg" viewBox="0 0 320 165"><use href="#policy-scene-${policyScene(a.id)}"/></svg>`}</span><span class="action-name">${esc(a.name)}</span>${bonus?'<span class="boss-pick">社長の推し・臨時報酬</span>':''}${a.id.startsWith('fix_')?'<span class="root-pick">コンサルの根本対策</span>':''}<span class="action-effect">${esc(a.effect)}</span><span class="action-odds">失敗 ${odds?.failure??0}% <span>｜大成功 ${odds?.great??0}%</span></span></button>`;
  }).join('');
  const a=G.ACTIONS.find(a=>a.id===s.selected);
  $('selectedIcon').innerHTML=`<svg class="mini-ill"><use href="#${a.type==='kind'?'art-people':'art-graph'}"/></svg>`;$('selectedTitle').textContent=a.name;$('selectedDesc').textContent=a.detail;
