@@ -12,16 +12,30 @@ for(const id of ['equipment','people','fans']){
  if(s.rescuePending)s=G.resolveRescue(s,G.rescueOptions(s)[0].id);
  if(s.finished)continue;
  const fix=G.ROOT_CASES[id].action;
+ // Week two is now a fixed story episode. Root repair remains available
+ // on ordinary weeks; we must first resolve any authored crisis.
+ for(let turns=0;turns<8&&!s.finished&&!G.weeklyOffers(s).some(x=>x.id===fix);turns++){
+  const options=G.weeklyOffers(s);const safe=options.find(x=>x.type==='kind')||options[0];
+  s=G.play(s,safe.id);
+  if(s.rescuePending){const choices=G.rescueOptions(s);s=G.resolveRescue(s,choices.length?choices[0].id:'giveup');}
+  if(s.lastResult?.accidentId&&!s.lastResult.accidentPositive&&s.lastResult.incidentCost>0&&!s.lastResult.accidentResponse)s=G.handleAccident(s,'ignore');
+ }
+ if(s.finished)continue;
  assert.ok(G.weeklyOffers(s).some(x=>x.id===fix),id);
  const before=structuredClone(s);
- const after=G.play(s,fix);
- assert.equal(after.rootSolved,true,id);
- assert.equal(after.lastResult.rootFixedThisWeek,true);
+ let after=G.play(s,fix);
+ // With outcome probabilities a funded repair can fail and require a retry.
+ if(!after.rootSolved){
+   assert.equal(after.lastResult.performanceTier,'failure');
+   assert.equal(after.lastResult.rootFixedThisWeek,false);
+ }else{
+   assert.equal(after.lastResult.rootFixedThisWeek,true);
+ }
  assert.equal(after.lastResult.rootLoss,0);
  assert.equal(after.lastResult.extra,G.ROOT_CASES[id].cost);
- assert.ok(!G.weeklyOffers(after).some(x=>x.id===fix));
+ if(after.rootSolved)assert.ok(!G.weeklyOffers(after).some(x=>x.id===fix));
  assert.equal(F.createLedger(after.lastResult,'store').residual,0);
- assert.equal(G.validateSaved(JSON.parse(JSON.stringify(after))).rootSolved,true);
+ assert.equal(G.validateSaved(JSON.parse(JSON.stringify(after))).rootSolved,after.rootSolved);
  const alternate=G.weeklyOffers(before).find(x=>x.id!==fix);
  const skipped=G.play(before,alternate.id);
  if(id==='equipment')assert.equal(skipped.lastResult.rootLoss,12000);
