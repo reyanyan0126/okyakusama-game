@@ -32,5 +32,6 @@ for(const id of ['performanceReport','performanceMessage','performanceName','per
 for(const id of ['tiny','boss','robot','fancy','account','points'])assert(html.includes('id="policy-scene-'+id+'"'));
 assert.match(app,/function policyScene\(id\)/);
 assert.match(styles,/warning-positive/);
-assert.match(styles,/report-cashflow \.number-falling\{color:#3d332a!important\}/);
+assert(styles.includes('.report-cashflow .number-rising{color:#3d332a!important}'));
+assert(styles.includes('.report-cashflow .number-falling,'));
 console.log('PASS v1.2.0 probability distributions, numeric multiplier, reproducible results, momentum, old saves, UI',outcomes);
