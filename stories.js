@@ -9,7 +9,7 @@ const EPISODES=[
   "title": "レジが大渋滞！ 社長「気合で回せ」",
   "quote": "店長「30人並んでいます」 社長「大人気の証拠だ！」",
   "follow": [
-   "restorestaff",
+   "loyalty",
    "apology",
    "audit",
    "blame"
@@ -213,10 +213,10 @@ const EPISODES=[
   "title": "従業員が一斉に『退職します』",
   "quote": "店長「シフト表が空白です」。社長「余白は可能性だ！」",
   "follow": [
-   "restorestaff",
+   "explain",
    "loyalty",
    "audit",
-   "staff"
+   "blame"
   ],
   "followTitle": "従業員の匿名アンケートが届いた",
   "followQuote": "店長「社長の良いところ欄、全員が空欄です」",
