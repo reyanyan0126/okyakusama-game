@@ -13,9 +13,9 @@ for(const cfg of [
  assert.equal(b.id,'crisis');
  assert.ok(b.title.includes(cfg.actionName)||cfg.memoryEvent);
  const offers=G.weeklyOffers(s);
- assert.equal(offers.length,3);
+ assert.equal(offers.length,4);
  assert.ok(offers.some(x=>x.id===cfg.expected));
- assert.ok(offers.every(x=>['apology','recall','explain','blame'].includes(x.id)));
+ assert.ok(offers.every(x=>['apology','recall','explain','loyalty','blame'].includes(x.id)));
  const action=offers[0].id;
  const after=G.play(s,action);
  const h=after.lastResult;
@@ -42,4 +42,4 @@ for(let seed=1;seed<=250;seed++){
  }
 }
 assert(positive>0);
-console.log('PASS: contextual 3-way crisis response, exact decision impact record, positive events',positive);
+console.log('PASS: contextual 4-way crisis response, exact decision impact record, positive events',positive);
