@@ -372,7 +372,7 @@ function applyAction(s,id){let extra=0,discount=0,demandFactor=1,financing=0;
  case'pop':extra=23000;demandFactor=1.22;adjust(s,{sat:-2,frust:5,storeRep:-1,fire:5,notoriety:2});maybeRemember(s,'pop',.35);break;
  case'tasting':extra=17000;demandFactor=1.1;adjust(s,{sat:4,frust:-3,storeRep:2,fire:-1,notoriety:-1});break;
  case'local':extra=11000;demandFactor=1.07;adjust(s,{sat:5,frust:-4,storeRep:3,fire:-2,notoriety:-1});break;
- case'restorestaff':s.staff+=10;extra=8000;adjust(s,{sat:5,frust:-5,storeRep:3,fire:-3,notoriety:-2});break;
+ case'restorestaff':s.staff=Math.min(60,s.staff+10);extra=8000;adjust(s,{sat:5,frust:-5,storeRep:3,fire:-3,notoriety:-2});break;
  case'apology':extra=18000;adjust(s,{sat:5,frust:-11,storeRep:7,fire:-24,notoriety:-4});break;
  case'recall':extra=43000;s.size=Math.min(100,s.size+10);s.quality=Math.min(90,s.quality+10);adjust(s,{sat:11,frust:-14,storeRep:9,fire:-23,notoriety:-5});break;
  case'blame':extra=-24000;demandFactor=1.10;adjust(s,{sat:-9,frust:15,storeRep:-10,fire:14,notoriety:10});maybeRemember(s,'blame',.65);break;
