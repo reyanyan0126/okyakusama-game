@@ -14,7 +14,7 @@ assert.equal(all[0].nextCost,45000);
  assert.equal(baseline.upgrades.equipment,0);
  assert.equal(equip.lastResult.investment,45000);
  assert.equal(equip.lastResult.projectId,'equipment');
- assert.equal(equip.lastResult.cashAfter-equip.lastResult.cashBefore,equip.lastResult.profit+equip.lastResult.financing-equip.lastResult.principal-equip.lastResult.investment);
+ assert.equal(equip.lastResult.cashAfter-equip.lastResult.cashBefore,equip.lastResult.profit+equip.lastResult.financing-equip.lastResult.principal-equip.lastResult.investment-equip.lastResult.fee-equip.lastResult.devilPayment);
  assert.equal(G.validateSaved(JSON.parse(JSON.stringify(equip))).upgrades.equipment,1);
  assert.throws(()=>G.play(s,'shrink',{project:'nonsense'}));
  checked++;

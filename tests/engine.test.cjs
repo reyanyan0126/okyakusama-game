@@ -43,8 +43,8 @@ for(let seed=1;seed<=2000;seed++){
   assert.equal(next.sales,next.lastResult.sales);
   const h=next.lastResult;
   assert.equal(h.sales,h.units*h.price);
-  assert.equal(h.profit,h.units*(h.price-h.cost)-(h.rent+h.utilities+h.payroll)-h.extra-h.incidentCost-h.interest);
-  assert.equal(next.cash,game.cash+h.profit+h.financing-h.principal);
+  assert.equal(h.profit,h.units*(h.price-h.cost)-(h.rent+h.utilities+h.payroll+h.macroFixed)-h.extra-h.incidentCost-h.interest-h.macroPenalty+h.macroBonus);
+  assert.equal(next.cash,game.cash+h.profit+h.financing-h.principal-h.investment-h.fee-h.devilPayment);
   assert.equal(next.debt,h.debtAfter);
   assert.ok(!h.accidentId||G.ACCIDENTS.some(a=>a.id===h.accidentId));
   assert.ok(next.skill>=0&&next.skill<=100);
@@ -58,8 +58,8 @@ for(let seed=1;seed<=2000;seed++){
   game=next;
  }
  assert.equal(game.finished,true);
- assert.ok(game.week===13||game.bankrupt);
- assert.equal(G.ending(game).passed,G.goalStatus(game).passed);
+ assert.ok(game.week===13||game.bankrupt||game.personalFailed);
+ assert.equal(G.ending(game).passed,!game.bankrupt&&!game.personalFailed&&G.goalStatus(game).passed);
  assert.throws(()=>G.play(game,'quality'));
 }
 // Exact old-v0.4 schema: no new required keys or save migration.

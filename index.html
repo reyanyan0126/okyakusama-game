@@ -16,20 +16,32 @@
   <script defer src="app.js"></script>
 </head>
 <body>
+<svg class="ui-symbols" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <symbol id="art-wallet" viewBox="0 0 64 64"><rect x="8" y="15" width="48" height="37" rx="9" fill="#eab25c" stroke="#34271c" stroke-width="4"/><path d="M13 18V12Q13 7 20 7h28" stroke="#34271c" stroke-width="4" fill="none"/><rect x="36" y="27" width="22" height="15" rx="5" fill="#fff0ca" stroke="#34271c" stroke-width="3"/><circle cx="43" cy="34" r="3" fill="#34271c"/></symbol>
+ <symbol id="art-home" viewBox="0 0 64 64"><path d="M7 29 32 9 57 29V55H7Z" fill="#f8ce91" stroke="#34271c" stroke-width="4" stroke-linejoin="round"/><path d="M26 55V34H39V55" fill="#88c8ac" stroke="#34271c" stroke-width="3"/><path d="M6 31 32 9l25 22" fill="none" stroke="#34271c" stroke-width="4"/></symbol>
+ <symbol id="art-store" viewBox="0 0 64 64"><path d="M10 27h44v29H10Z" fill="#ffedcb" stroke="#34271c" stroke-width="4"/><path d="M7 27 14 11h36l7 16Z" fill="#df7557" stroke="#34271c" stroke-width="4"/><path d="M13 27h38v9H13Z" fill="#fff3db" stroke="#34271c" stroke-width="2"/><path d="M23 27v9m18-9v9" stroke="#df7557" stroke-width="7"/><path d="M29 42h12v14H29Z" fill="#8fd0b4" stroke="#34271c" stroke-width="2"/></symbol>
+ <symbol id="art-fire" viewBox="0 0 64 64"><path d="M30 6Q39 21 30 29Q45 24 45 15Q60 33 53 48Q48 59 32 59Q11 59 10 40Q10 28 23 16Q22 32 30 6Z" fill="#ea6c53" stroke="#38231d" stroke-width="3"/><path d="M31 32q10 13 3 21q-12 5-12-7q2-8 9-14" fill="#ffd07c"/></symbol>
+ <symbol id="art-graph" viewBox="0 0 64 64"><rect x="8" y="34" width="11" height="21" rx="3" fill="#8ac2c0" stroke="#34271c" stroke-width="3"/><rect x="26" y="25" width="11" height="30" rx="3" fill="#ebbd70" stroke="#34271c" stroke-width="3"/><rect x="44" y="12" width="11" height="43" rx="3" fill="#e48260" stroke="#34271c" stroke-width="3"/></symbol>
+ <symbol id="art-devil" viewBox="0 0 64 64"><path d="M13 23 8 8l18 9h12L56 8 51 23Q60 44 46 54Q32 64 18 54Q4 44 13 23Z" fill="#dc7774" stroke="#352228" stroke-width="3.5"/><path d="M18 35h9m10 0h9" stroke="#352228" stroke-width="5" stroke-linecap="round"/><path d="M25 45Q32 52 40 45" fill="none" stroke="#352228" stroke-width="3" stroke-linecap="round"/></symbol>
+ <symbol id="art-bill" viewBox="0 0 64 64"><path d="M13 5h37v54l-9-5-9 5-10-5-9 5Z" fill="#fff9e5" stroke="#352c22" stroke-width="3"/><path d="M21 21h22M21 29h22M21 39h17" stroke="#b8a78e" stroke-width="3" stroke-linecap="round"/><circle cx="43" cy="47" r="7" fill="#df7b61" stroke="#352c22" stroke-width="2"/></symbol>
+ <symbol id="art-warning" viewBox="0 0 64 64"><path d="M32 7 61 55H3Z" fill="#f3c96e" stroke="#34271c" stroke-width="4" stroke-linejoin="round"/><path d="M32 25v14" stroke="#34271c" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="47" r="3" fill="#34271c"/></symbol>
+ <symbol id="art-people" viewBox="0 0 64 64"><circle cx="23" cy="21" r="10" fill="#f4c69b" stroke="#34271c" stroke-width="3"/><circle cx="43" cy="23" r="9" fill="#f4c69b" stroke="#34271c" stroke-width="3"/><path d="M5 56Q6 36 23 36Q42 36 41 56Z" fill="#70a7ac" stroke="#34271c" stroke-width="3"/><path d="M31 55Q31 37 44 37Q59 37 59 55Z" fill="#e3a25c" stroke="#34271c" stroke-width="3"/></symbol>
+</defs></svg>
   <section id="titleScreen" class="entry-screen" aria-label="タイトル画面">
     <div class="entry-card title-card">
       <div class="title-stripe">BLACK COMEDY / CONSULTING SIMULATION</div>
-      <div class="title-logo-mark">¥<span>!</span></div>
-      <p class="title-small">顧客第一。利益はその前に。</p>
+      <div class="title-logo-mark"><svg class="big-ill"><use href="#art-bill"/></svg><span>!</span></div>
+      <p class="title-small">離婚。養育費。貯金2.8万円。仕事がやっと来た。</p>
       <h2 class="game-title">お客様のために<span>。</span></h2>
-      <p class="title-tagline">社長は喜ぶ。客は怒る。<br>すべて、あなたの提案しだい。</p>
-      <div class="title-visual" aria-hidden="true"><span class="title-building">🏪</span><span class="title-face boss">👨🏻‍💼</span><span class="title-face buyer">😑</span><span class="title-news-badge">炎上速報!</span></div>
+      <p class="title-tagline">店を救って、生活を守れ。<br>悪魔の契約書だけは即日届く。</p>
+      <div class="title-visual" aria-hidden="true"><svg class="title-svg"><use href="#art-store"/></svg><svg class="title-svg"><use href="#art-wallet"/></svg><svg class="title-svg devil"><use href="#art-devil"/></svg><span class="title-news-badge">支払い期限!</span></div>
       <div class="entry-actions">
         <button id="titleStart" class="primary-btn" type="button">新しく始める <span>→</span></button>
         <button id="titleResume" class="secondary-btn" type="button" hidden>つづきから <span>→</span></button>
         <button id="titleHelp" class="text-btn" type="button">あそびかた</button>
       </div>
-      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.7</p>
+      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v0.8</p>
     </div>
   </section>
   <section id="contractsScreen" class="entry-screen" aria-label="コンサル依頼一覧" hidden>
@@ -63,7 +75,7 @@
         <section class="main-column" aria-labelledby="clientTitle">
           <article class="client-hero">
             <div class="hero-copy">
-              <div class="hero-chip"><span class="live-dot"></span> 担当クライアント</div>
+              <div class="hero-chip"><span class="live-dot"></span> 倒産危機のクライアント</div>
               <h2 id="clientTitle">モグモグマート</h2>
               <p>町のスーパーを救うのは、あなたの提案。<br>お客様のために。<s>たぶん。</s></p>
               <div class="hero-meta"><span id="heroWeek">第1週</span><span>食品スーパー編</span></div>
@@ -93,14 +105,16 @@
             <div class="shop-open-sign" aria-hidden="true">OPEN</div>
           </article>
 
+          <div class="life-ribbon" aria-label="主人公の生活状況"><svg class="ribbon-ill"><use href="#art-wallet"/></svg><div><small>主人公の財布</small><strong id="personalBalance">2.8万円</strong></div><div class="life-due"><small>次の養育費</small><strong id="supportDue">第4週・3.6万円</strong></div><span id="arrearsBadge" class="arrears-badge" hidden>未払い</span></div>
+          <div class="world-ribbon" id="worldRibbon"><svg class="ribbon-ill"><use href="#art-bill"/></svg><div><small>今週の世の中</small><strong id="macroName">物価高</strong></div><span id="macroEffect">仕入れ価格が高騰中</span></div>
           <div class="section-bar"><h3>今週の経営状況</h3><span class="section-sub" id="goalChip">契約利益 0 / 100万</span></div>
           <section class="play-stats" aria-label="経営状況をひと目で確認">
-            <div class="play-stat money"><span>💰 店の残り資金</span><strong id="cashCount">25.0<small>万円</small></strong><em id="cashTrend">毎週、家賃などがかかります</em></div>
-            <div class="play-stat profit"><span>📈 今週の利益</span><strong id="netCount">12.6<small>万円</small></strong><em>赤字なら資金が減る</em></div>
+            <div class="play-stat money"><span><svg class="mini-ill"><use href="#art-store"/></svg> 店の資金</span><strong id="cashCount">25.0<small>万円</small></strong><em id="cashTrend">毎週、家賃などがかかります</em></div>
+            <div class="play-stat profit"><span><svg class="mini-ill"><use href="#art-graph"/></svg> 今週の利益</span><strong id="netCount">12.6<small>万円</small></strong><em>赤字なら資金が減る</em></div>
             <div class="play-stat trust"><span>♥ お店の評判</span><strong id="repCount">65<small>/100</small></strong><div class="play-meter"><i id="repMeter"></i></div></div>
-            <div class="play-stat danger"><span>🔥 炎上度</span><strong id="heatCount">4<small>/100</small></strong><div class="play-meter"><i id="heatMeter"></i></div></div>
+            <div class="play-stat danger"><span><svg class="mini-ill"><use href="#art-fire"/></svg> 炎上度</span><strong id="heatCount">4<small>/100</small></strong><div class="play-meter"><i id="heatMeter"></i></div></div>
           </section>
-          <div class="week-expenses">🏠 家賃・人件費・光熱費 <strong id="overheadCount">毎週 約15.5万円</strong><span id="loanHint"></span></div>
+          <div class="week-expenses">家賃・人件費・光熱費 <strong id="overheadCount">毎週 約15.5万円</strong><span id="loanHint"></span></div>
           <div class="stats-stack">
             <section class="stats-card consultant" aria-label="コンサルタントの状態">
               <div class="stats-label"><span class="icon-square blue">♟</span><strong>あなた（コンサル）</strong><span class="mini-badge" id="consultantTitle">駆け出し</span></div>
@@ -140,7 +154,7 @@
             <p class="action-intro" id="directorQuote">利益を増やしてくれ！</p>
             <span id="pitchTone" class="pitch-tone" hidden></span>
             <p class="meeting-status" id="meetingStatus">あなたの判断で、店の明日が変わります。</p>
-            <button id="openProposals" class="primary-btn" type="button">💼 提案を選ぶ <span aria-hidden="true">→</span></button>
+            <button id="openProposals" class="primary-btn" type="button">提案を選ぶ <span aria-hidden="true">→</span></button>
           </div>
         </aside>
       </div>
@@ -162,7 +176,7 @@
       </section>
       <section id="recordsView" class="view-panel" role="region" aria-label="経営記録" hidden>
         <div class="scene-heading"><span class="scene-eyebrow">MY CONSULTING OFFICE</span><h2>コンサル手帳 📒</h2><p>数字は嘘をつかない。言い訳は社長がする。</p></div>
-        <div class="records-summary"><div><span>累計報酬</span><strong id="recordsPay">0円</strong></div><div><span>これまでの売上</span><strong id="recordsSales">0万円</strong></div><div><span>経営した週</span><strong id="recordsWeeks">0週</strong></div></div>
+        <div class="records-summary"><div><span>累計報酬</span><strong id="recordsPay">0円</strong></div><div><span>これまでの売上</span><strong id="recordsSales">0万円</strong></div><div><span>経営した週</span><strong id="recordsWeeks">0週</strong></div><div><span>自分の財布</span><strong id="recordsPersonal">2.8万円</strong></div></div>
         <div class="bottom-area">
         <button id="historyToggle" class="utility-button" type="button" aria-expanded="false">▤ これまでの経営記録 <span id="historyCount">0件</span> <span class="caret">⌄</span></button>
         <div id="historyPanel" class="history-panel" hidden><div id="historyList" class="history-list"></div></div>
@@ -171,11 +185,11 @@
       </section><!-- recordsView -->
     </main>
     <nav class="game-nav" aria-label="画面切り替え">
-      <button type="button" class="game-tab active" data-screen="office" aria-pressed="true" aria-controls="officeView"><span aria-hidden="true">🏪</span><strong>経営</strong></button>
-      <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true">💬</span><strong>世論</strong></button>
-      <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true">📒</span><strong>記録</strong></button>
+      <button type="button" class="game-tab active" data-screen="office" aria-pressed="true" aria-controls="officeView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-store"/></svg></span><strong>経営</strong></button>
+      <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-people"/></svg></span><strong>世論</strong></button>
+      <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-bill"/></svg></span><strong>記録</strong></button>
     </nav>
-    <footer>フィクション・© 2026 お客様のために。 / v0.7</footer>
+    <footer>フィクション・© 2026 お客様のために。 / v0.8</footer>
   </div>
 
   <section id="proposalSheet" class="proposal-sheet" role="dialog" aria-modal="true" aria-labelledby="proposalTitle" hidden>
@@ -186,16 +200,18 @@
       <p class="proposal-budget" id="proposalBudget">毎週、固定費が発生します</p>
       <div id="actions" class="action-grid" role="radiogroup" aria-label="経営施策を選択"></div>
       <div class="investment-zone" aria-label="今週の設備投資">
-        <div class="investment-heading"><strong>🏗️ 将来に投資する？</strong><small>今週の施策とは別に1つ選べる</small></div>
+        <div class="investment-heading"><strong>将来に投資する？</strong><small>今週の施策とは別に1つ選べる</small></div>
         <div id="projectChoices" class="project-choices" role="radiogroup" aria-label="追加投資"></div>
         <p id="projectNote" class="project-note">投資しなくても営業できます。</p>
       </div>
+      <details id="devilSection" class="devil-section"><summary><svg class="mini-ill"><use href="#art-devil"/></svg> 悪魔に相談する <small id="devilAvailability">今はまだ契約できる</small></summary><div id="devilChoices" class="devil-choices"></div><p id="devilNotice">1回の契約には必ず代償があります。</p></details>
       <div class="selected-detail"><span class="detail-icon" id="selectedIcon">📦</span><div class="selected-text"><strong id="selectedTitle">選んだ施策</strong><p id="selectedDesc"></p></div></div>
       <div class="risk-row"><span>炎上リスク</span><strong id="riskLabel">低</strong><span class="risk-caption" id="riskNote">比較的穏やか</span></div>
       <button id="advanceButton" class="primary-btn" type="button">この案で営業する →</button>
     </div>
   </section>
   <div id="weekScene" class="week-scene" role="dialog" aria-modal="true" aria-label="今週の経営結果" hidden>
+    <div id="shockScene" class="shock-scene" hidden><svg class="shock-art"><use id="shockUse" href="#art-warning"/></svg><span id="shockLabel">緊急速報</span><strong id="shockTitle">事故発生！</strong><p id="shockText">予想外の損失が発生しました</p></div>
     <div id="workingScene" class="working-scene">
       <div class="loading-week" id="workingWeek">WEEK 01</div>
       <div class="animated-mart" aria-hidden="true"><div class="animated-roof">MOGU MART</div><div class="animated-shop-body"><span>🍞</span><span>🥫</span><span>🍎</span></div><div class="moving-trolley">🛒</div></div>
@@ -211,14 +227,15 @@
         <p class="report-headline" id="reportHeadline"></p>
         <p class="report-description" id="reportDescription"></p>
         <div id="reportVerdict" class="report-verdict" role="status"><span id="reportVerdictIcon">📈</span><div><strong id="reportVerdictTitle">黒字達成！</strong><small id="reportVerdictSub">今回の施策でお店はどうなった？</small></div></div>
+        <div id="economyReport" class="economy-report"><svg class="mini-ill"><use href="#art-bill"/></svg><span id="economyHeadline">今週の経済ニュース</span></div>
         <div class="report-big-number"><span>今週の売上</span><strong id="reportSales">0万円</strong><small id="reportSalesDiff"></small></div>
         <div class="money-flow" aria-label="今週の収支の内訳">
-          <div class="money-flow-title"><strong>💸 今週のお金の流れ</strong><small>色の長さは売上に対する割合</small></div>
+          <div class="money-flow-title"><strong>今週のお金の流れ</strong><small>色の長さは売上に対する割合</small></div>
           <div id="moneyFlowRows" class="money-flow-rows"></div>
           <div class="money-flow-total"><span>最終利益</span><strong id="flowProfit">0万円</strong></div>
           <div id="investmentResult" class="investment-result" hidden></div>
         </div>
-        <div class="report-cashflow"><div><span>🏦 店の残り資金</span><strong id="reportCash">0万円</strong><small id="reportCashChange">増減 ±0万円</small></div><div><span>👔 あなたの報酬</span><strong id="reportExpenses">0万円</strong><small id="reportAccident">今日も平和</small></div></div>
+        <div class="report-cashflow"><div><span>店の残り資金</span><strong id="reportCash">0万円</strong><small id="reportCashChange">増減 ±0万円</small></div><div><span>自分の財布</span><strong id="reportExpenses">0万円</strong><small id="reportAccident">生活費の支払い</small></div></div>
         <div class="report-three">
           <div><span>お店の利益</span><strong id="reportProfit">0万円</strong></div>
           <div><span>あなたの報酬</span><strong id="reportPay">0円</strong></div>

@@ -1,4 +1,4 @@
-/* お客様のために。v0.7 - weekly strategies, persistent upgrades and optional incident handling. */
+/* お客様のために。v0.8 - survival economics, social shocks and devil pacts. */
 (function(root){
 'use strict';
 const VERSION = 1, MAX_WEEKS = 12;
@@ -15,6 +15,24 @@ const blankUpgrades=()=>({equipment:0,people:0,fans:0});
 function projectCost(s,id){const project=PROJECTS_BY_ID[id];if(!project)return null;const lvl=s.upgrades?.[id]??0;return lvl>=2?null:project.costs[lvl];}
 function availableProjects(s){return PROJECTS.map(p=>({...p,level:s.upgrades?.[p.id]??0,nextCost:projectCost(s,p.id)}));}
 
+// Compact campaign: the outside world moves even when the consultant stands still.
+const PERSONAL={start:28000,living:7000,support:36000,dueWeeks:[4,8,12],arrearsLimit:72000};
+const MACROS=[
+ {id:'inflation',name:'仕入れ価格が急騰',tag:'物価高',detail:'仕入れ原価が15%増。「成長しているのは請求書です」',cost:1.15,demand:.98,fixed:0},
+ {id:'slump',name:'景気が冷え込む',tag:'不況',detail:'客足が10%減。「消費者の我慢を経済政策と呼びます」',cost:1,demand:.90,fixed:0},
+ {id:'inspection',name:'衛生監査の強化',tag:'行政',detail:'低品質なら是正費用。まともな店舗は評価が上がる',cost:1,demand:1,fixed:0},
+ {id:'wages',name:'人件費の改定',tag:'賃金',detail:'賃金負担が増加。「人はコスト。役員は財産」',cost:1,demand:1,fixed:16000},
+ {id:'recovery',name:'消費マインドが回復',tag:'追い風',detail:'来店客が増える。「社長は自分の手腕を讃えています」',cost:1,demand:1.14,fixed:0},
+ {id:'subsidy',name:'地域振興の補助金',tag:'補助金',detail:'品質と雇用を守った店舗に支給。申請書は山ほどある',cost:1,demand:1,fixed:0}
+];
+const DEVIL_OFFERS=[
+ {id:'personal',name:'生活費を前借り',gain:120000,dueOffset:3,price:159000,desc:'あなたに12万円。3週間後、15.9万円を取り立てる'},
+ {id:'shop',name:'経営再生ファンド（地獄）',gain:185000,dueOffset:3,price:235000,desc:'店に18.5万円。3週間後、23.5万円を徴収'},
+ {id:'viral',name:'話題を買う',gain:0,dueOffset:2,price:0,desc:'今週の集客+35%。2週間後に信用問題が再燃'}
+];
+function currentMacro(s){const offset=(s.rngSeed??s.rng)>>>0;return MACROS[(s.week+Math.floor(offset/97))%MACROS.length];}
+// Three-week pact repayment must occur before the twelve-week contract ends.
+function pactAvailable(s){return !s.finished&&s.week<=9&&(s.pactCount||0)<2&&!(s.pacts||[]).length;}
 const cap=(n,min,max)=>Math.max(min,Math.min(max,n));
 const int=(n)=>Math.round(n);
 const ACTIONS=[
@@ -172,6 +190,7 @@ function goalStatus(s){
 function ending(s){
  const g=goalStatus(s),fires=s.history.filter(h=>h.fireHit).length;
  if(!s.finished)return null;
+ if(s.personalFailed)return {icon:'📬',name:'請求書だけは出世した',line:'店は残った。しかし生活と養育費が回らず、契約を手放した。悪魔は更新書類を持ってきた。',passed:false};
  if(s.bankrupt)return {icon:'💸',name:'資金ショート！契約強制終了',line:'家賃も仕入れも待ってくれない。社長「店の資金繰りは君の担当だったよね？」',passed:false};
  if(g.passed&&s.notoriety>=35)return {icon:'😈',name:'悪魔の敏腕コンサル',line:'利益は達成。社長は大喜び。過去の発言は検索しないでほしいらしい。',passed:true};
  if(g.passed&&s.storeRep>=75)return {icon:'🏆',name:'優良店の改革者',line:'利益も信頼も守った。社長「こんなまともな結末、想定外だ！」',passed:true};
@@ -182,7 +201,7 @@ function ending(s){
 }
 function initial(seed){
  let n=Number(seed);if(!Number.isFinite(n))n=Date.now();n=n>>>0;if(n===0)n=246813579;
- return {version:VERSION,rng:n,week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:65,fire:4,sat:66,frust:23,sales:480000,profit:61000,cash:250000,contractGoal:CONTRACT.profit,debt:0,maintenance:0,upgrades:blankUpgrades(),lowCashWeeks:0,bankrupt:false,boycottWeeks:0,memory:[],history:[],lastResult:null};
+ return {version:VERSION,rng:n,rngSeed:n,personalCash:PERSONAL.start,arrears:0,personalFailed:false,pactCount:0,pacts:[],week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:65,fire:4,sat:66,frust:23,sales:480000,profit:61000,cash:250000,contractGoal:CONTRACT.profit,debt:0,maintenance:0,upgrades:blankUpgrades(),lowCashWeeks:0,bankrupt:false,boycottWeeks:0,memory:[],history:[],lastResult:null};
 }
 function draw(s){let x=s.rng>>>0;x^=(x<<13);x^=(x>>>17);x^=(x<<5);s.rng=x>>>0;return (s.rng>>>0)/4294967296;}
 function enabled(s,id){switch(id){case'raise':return s.price<260;case'lower':return s.price>150;case'shrink':return s.size>60;case'cheap':return s.quality>30;case'quality':return s.quality<90;case'staff':return s.staff>30;case'restorestaff':return s.staff<60;case'loan':return s.cash<180000&&s.debt<250000;default:return !!ACTIONS_BY_ID[id];}}
@@ -218,14 +237,41 @@ function applyAction(s,id){let extra=0,discount=0,demandFactor=1,financing=0;
  return {extra,discount,demandFactor,financing};
 }
 function play(input,id,opts={}){if(input.finished||input.week>MAX_WEEKS)throw Error('ゲームは終了しています');if(!ACTIONS_BY_ID[id]||!enabled(input,id))throw Error('この施策は選べません');
+ const devil=opts?.devil??null;
+ if(devil!==null&&(!DEVIL_OFFERS.some(x=>x.id===devil)||!pactAvailable(input)))throw Error('悪魔と契約できません');
  const plan=opts?.project??null;
  if(plan!==null){const cost=projectCost(input,plan);if(!PROJECTS_BY_ID[plan]||cost===null)throw Error('この設備投資は選べません');if(input.cash<cost)throw Error('投資資金が足りません');}
  const s=JSON.parse(JSON.stringify(input)),theWeek=s.week,brief=weeklyBrief(input);
  if(!s.upgrades)s.upgrades=blankUpgrades();
  const investment=plan?projectCost(s,plan):0;
  if(plan)s.upgrades[plan]++;
- const previous={sales:s.sales,rep:s.storeRep,sat:s.sat,frust:s.frust,fire:s.fire,skill:s.skill,cash:s.cash};
+ const previous={sales:s.sales,rep:s.storeRep,sat:s.sat,frust:s.frust,fire:s.fire,skill:s.skill,cash:s.cash,personalCash:s.personalCash,arrears:s.arrears};
  const action=applyAction(s,id);
+ const macro=currentMacro(s);
+ let devilNote='',devilDemand=1,devilPayment=0,personalDevilPayment=0;
+ if(devil){
+  const pact=DEVIL_OFFERS.find(x=>x.id===devil);
+  s.pactCount++;s.pacts.push({id:devil,due:theWeek+pact.dueOffset,price:pact.price});
+  if(devil==='personal')s.personalCash+=pact.gain;
+  if(devil==='shop')s.cash+=pact.gain;
+  if(devil==='viral'){devilDemand=1.35;adjust(s,{storeRep:3,notoriety:4});}
+  devilNote=`悪魔との契約「${pact.name}」が成立。`;
+ }
+ // Existing contracts come due even if the store had an exceptional sales week.
+ const duePacts=s.pacts.filter(x=>x.due<=theWeek);
+ s.pacts=s.pacts.filter(x=>x.due>theWeek);
+ for(const pact of duePacts){
+  if(pact.id==='personal'){personalDevilPayment+=pact.price;devilNote+='悪魔が生活費の返済を要求。';}
+  if(pact.id==='shop'){devilPayment+=pact.price;devilNote+='悪魔のファンドが資金を回収。';}
+  if(pact.id==='viral'){adjust(s,{fire:22,frust:12,storeRep:-12,notoriety:8});devilNote+='買った話題が炎上になって返ってきた。';}
+ }
+ let macroPenalty=0,macroBonus=0;
+ if(macro.id==='inspection'){
+  if(s.quality<=45){macroPenalty=43000;adjust(s,{storeRep:-5,fire:6});}
+  else adjust(s,{storeRep:2});
+ }
+ if(macro.id==='subsidy'&&s.quality>=60&&s.staff>=50){macroBonus=32000;}
+
  // Benefits persist across weeks. Investments consume cash and become visible in cash flow.
  if(s.upgrades.people)adjust(s,{sat:s.upgrades.people,frust:-s.upgrades.people});
  if(s.upgrades.fans)adjust(s,{storeRep:s.upgrades.fans});
@@ -275,13 +321,13 @@ function play(input,id,opts={}){if(input.finished||input.week>MAX_WEEKS)throw Er
   *cap(1+(s.storeRep-65)*.005,.72,1.19)
   *cap(1+(s.sat-66)*.004,.75,1.15)
   *cap(1-(s.frust-23)*.003,.70,1.12);
- demand*=action.demandFactor*demandModifier*(1+.045*s.upgrades.people+.055*s.upgrades.fans)*(.97+draw(s)*.06);
+ demand*=action.demandFactor*demandModifier*macro.demand*devilDemand*(1+.045*s.upgrades.people+.055*s.upgrades.fans)*(.97+draw(s)*.06);
  const units=cap(int(demand),500,4200),effectivePrice=s.price-action.discount;
- const sales=units*effectivePrice,cost=unitCost(s);
+ const sales=units*effectivePrice,cost=Math.round(unitCost(s)*macro.cost);
  const rent=75000,utilities=30000,payroll=50000-(60-s.staff)*800;
- const fixed=rent+utilities+payroll;
+ const fixed=rent+utilities+payroll+macro.fixed;
  const interest=s.debt>0?3000:0,principal=Math.min(s.debt,10000);
- const profit=units*(effectivePrice-cost)-fixed-action.extra-incidentCost-interest;
+ const profit=units*(effectivePrice-cost)-fixed-action.extra-incidentCost-interest-macroPenalty+macroBonus;
  const standardProfit=126000;
  let fee=cap(int(8000+Math.max(0,profit-standardProfit)*.07),8000,30000);
  if(fireHit||boycottActive)fee=int(fee*.65);
@@ -289,13 +335,23 @@ function play(input,id,opts={}){if(input.finished||input.week>MAX_WEEKS)throw Er
  if(!fireHit){adjust(s,{skill:profit>=standardProfit?2:profit>=0?1:-2});if(s.sat>=80)adjust(s,{skill:1});}
  s.sales=sales;s.profit=profit;
  // Weekly operating bills are deducted even when no initiative is taken. Loan principal is a cash-flow item, not P&L.
- s.cash+=profit+action.financing-principal-investment;s.debt-=principal;s.pay+=fee;
+ // The consulting fee is actual money leaving the client's account.
+ s.cash+=profit+action.financing-principal-investment-fee-devilPayment;s.debt-=principal;s.pay+=fee;
+ const supportDue=PERSONAL.dueWeeks.includes(theWeek)?PERSONAL.support:0;
+ s.personalCash+=fee-PERSONAL.living-personalDevilPayment;
+ let supportPaid=0;
+ // Unpaid support is carried forward. No child is used as a gag or punishment.
+ if(supportDue)s.arrears+=supportDue;
+ if(s.arrears>0&&s.personalCash>0){supportPaid=Math.min(s.personalCash,s.arrears);s.personalCash-=supportPaid;s.arrears-=supportPaid;}
+ if(s.personalCash<0){s.arrears+=Math.abs(s.personalCash);s.personalCash=0;}
+ if(s.arrears>PERSONAL.arrearsLimit){s.personalFailed=true;}
+
  s.lowCashWeeks=s.cash<0?s.lowCashWeeks+1:0;
- if(s.cash<-120000||s.lowCashWeeks>=2){s.bankrupt=true;}
+ if(s.cash<0){s.bankrupt=true;} // Store insolvency is an immediate game-over.
  if(s.maintenance>0)s.maintenance--;
- const report={week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':QUOTES[id],eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,investment,projectId:plan,projectLabel:plan?PROJECTS_BY_ID[plan].name:"なし",incidentCost,accidentResponse:null,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
+ const report={week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':QUOTES[id],eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,investment,projectId:plan,projectLabel:plan?PROJECTS_BY_ID[plan].name:"なし",incidentCost,accidentResponse:null,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,macroId:macro.id,macroName:macro.name,macroTag:macro.tag,macroDetail:macro.detail,macroPenalty,macroBonus,macroFixed:macro.fixed,devilId:devil,devilNote,devilPayment,personalDevilPayment,personalCashBefore:previous.personalCash,personalCashAfter:s.personalCash,arrearsBefore:previous.arrears,arrearsAfter:s.arrears,personalLiving:PERSONAL.living,supportDue,supportPaid,feeFromStore:fee,personalFailed:s.personalFailed,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
  s.history.push(report);s.lastResult=report;s.week++;
- if(s.week>MAX_WEEKS||s.bankrupt)s.finished=true;
+ if(s.week>MAX_WEEKS||s.bankrupt||s.personalFailed)s.finished=true;
  if(!weeklyOffers(s).some(a=>a.id===s.selected))s.selected=s.finished?s.selected:weeklyOffers(s)[0].id;
  return s;
 }
@@ -322,10 +378,16 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  if(typeof x.finished!=='boolean'||typeof x.selected!=='string'||!ACTIONS_BY_ID[x.selected])throw Error('セーブデータの状態が不正です');
  if(!Array.isArray(x.memory)||x.memory.length>12||x.memory.some(m=>!m||!MEMORY_NEWS[m.kind]||!Number.isInteger(m.due)||m.due<2||m.due>19))throw Error('イベント履歴が不正です');
  if(!Array.isArray(x.history)||x.history.length>12||x.history.some(h=>!h||!Number.isInteger(h.week)||h.week<1||h.week>12||!ACTIONS_BY_ID[h.actionId]||typeof h.title!=='string'||h.title.length>240||typeof h.body!=='string'||h.body.length>400||!Number.isFinite(h.sales)||!Number.isFinite(h.profit)||!Number.isFinite(h.fee)))throw Error('経営記録が不正です');
- if(x.history.length!==x.week-1||x.finished!==(x.week===13||x.bankrupt===true))throw Error('週数と記録が一致しません');
+ if(x.history.length!==x.week-1||x.finished!==(x.week===13||x.bankrupt===true||x.personalFailed===true))throw Error('週数と記録が一致しません');
  const clone=JSON.parse(JSON.stringify(x));
  // Existing v0.1-v0.5 saves did not contain these optional financial state fields.
  for(const [name,value]of Object.entries({contractGoal:1800000,debt:0,maintenance:0,lowCashWeeks:0,bankrupt:false}))if(clone[name]===undefined)clone[name]=value;
+ // Saved v0.1-v0.7 games are preserved; new personal-life systems start at the default balance.
+ for(const [name,value]of Object.entries({personalCash:PERSONAL.start,arrears:0,personalFailed:false,pactCount:0,pacts:[]}))if(clone[name]===undefined)clone[name]=value;
+ if(clone.rngSeed===undefined)clone.rngSeed=clone.rng;
+ if(!Number.isSafeInteger(clone.personalCash)||clone.personalCash<0||clone.personalCash>10000000||!Number.isSafeInteger(clone.arrears)||clone.arrears<0||clone.arrears>10000000||typeof clone.personalFailed!=='boolean'||!Number.isInteger(clone.pactCount)||clone.pactCount<0||clone.pactCount>2||!Number.isInteger(clone.rngSeed)||clone.rngSeed<=0||clone.rngSeed>4294967295)throw Error('生活資金データが不正です');
+ if(!Array.isArray(clone.pacts)||clone.pacts.length>2||clone.pacts.some(p=>!p||!DEVIL_OFFERS.some(x=>x.id===p.id)||!Number.isInteger(p.due)||p.due<1||p.due>16||!Number.isInteger(p.price)||p.price<0||p.price>300000))throw Error('悪魔の契約データが不正です');
+
  if(clone.upgrades===undefined)clone.upgrades=blankUpgrades();
  if(!clone.upgrades||typeof clone.upgrades!=='object'||Array.isArray(clone.upgrades)||Object.keys(clone.upgrades).some(k=>!PROJECTS_BY_ID[k])||PROJECTS.some(p=>!Number.isInteger(clone.upgrades[p.id])||clone.upgrades[p.id]<0||clone.upgrades[p.id]>2))throw Error('設備投資データが不正です');
  clone.upgrades={equipment:clone.upgrades.equipment,people:clone.upgrades.people,fans:clone.upgrades.fans};
@@ -337,7 +399,7 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  return clone;
 }
 function previewRisk(s,id){if(!ACTIONS_BY_ID[id]||!enabled(s,id))return risk(s);const clone=JSON.parse(JSON.stringify(s));applyAction(clone,id);return risk(clone);}
-const engine={VERSION,MAX_WEEKS,CONTRACT,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,goalStatus,ending,initial,play,handleAccident,risk,previewRisk,unitCost,enabled,validateSaved};
+const engine={VERSION,MAX_WEEKS,CONTRACT,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,goalStatus,ending,initial,play,handleAccident,risk,previewRisk,unitCost,enabled,validateSaved};
 root.GameEngine=engine;
 if(typeof module==='object'&&module.exports)module.exports=engine;
 })(typeof globalThis!=='undefined'?globalThis:this);
