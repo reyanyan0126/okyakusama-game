@@ -259,7 +259,7 @@ const EXTRA={
   "AIに送信させる"
  ]
 };
-const family=id=>lookup[id]||(EXTRA[id]?id:null);
+const family=id=>CINEMA[id]?id:(lookup[id]||(EXTRA[id]?id:null));
 function symbol(id,phase='work',step=0){
  if(CINEMA[id])return CINEMA_SRC+id+'-'+(phase==='work'?'work-'+Math.max(0,Math.min(2,Math.trunc(step)||0)):phase==='result'?(['failure','success','great'].includes(step)?step:'success'):'work-1');
  const group=family(id);if(!group)return null;
