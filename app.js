@@ -822,6 +822,8 @@ function renderHistory(){const list=$('historyList');const arr=[...game.history]
  list.innerHTML=arr.map(h=>`<div class="history-item"><span class="history-week">第${h.week}週</span><div><strong>${esc(h.actionName)}</strong><p>${esc(h.scenarioTitle||'経営会議')} → ${esc(h.title)}${h.boardroomDilemma?' ／ 社長への対応：'+(h.boardroomDilemma.followed?'従った':'見送った'):''}</p></div><span class="history-number">売上 ${man(h.sales)}万</span></div>`).join('');
 }
 function renderConsequences(){
+ // Older offline shells and embedded regression fixtures may not load v2 modules.
+ if(!window.GameConsequences)return;
  const info=window.GameConsequences.entries(game);
  $('consequencesCount').textContent=info.count+'件';
  if(!$('consequencesPanel').hidden)$('consequencesPanel').innerHTML=window.GameConsequences.markup(game);
