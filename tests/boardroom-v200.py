@@ -41,7 +41,15 @@ try:
     page.locator('#advanceButton').click()
     record=page.evaluate("""()=>JSON.parse(localStorage.getItem('okyakusama.save.v1')).lastResult.boardroomDilemma""")
     assert record is not None and record['followed'] and record['delta']['boss']>=0
-    page.evaluate("showWeekReport(game.lastResult,game.finished)")
+    page.locator('#outcomeNext').wait_for(state='visible',timeout=15000)
+    page.locator('#outcomeNext').click()
+    for _ in range(15):
+     if page.locator('#reportScene').is_visible():break
+     if page.locator('#accidentIgnore').is_visible():page.locator('#accidentIgnore').click()
+     elif page.locator('#newsNext').is_visible():page.locator('#newsNext').click()
+     else:raise AssertionError('Cannot reach weekly settlement')
+    assert page.locator('#reportScene').is_visible()
+    page.locator('#financialDetail').evaluate('(el)=>el.open=true')
     assert '社長との駆け引き' in page.locator('#resultFactors').inner_text()
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
     assert not errors,errors
