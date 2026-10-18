@@ -1267,3 +1267,52 @@ html .working-illustration,html .working-comic{
  .manga-panel.is-revealed{animation:none!important;transition:none!important;transform:none!important;opacity:1!important;}
  .manga-panel:not(.is-revealed){transition:none!important;}
 }
+
+
+/* v1.7.3: large semantic pictograms. No miniature scene drawings in choice cards. */
+#officeView .proposal-panel .action-grid,
+#officeView .action-grid,
+.proposal-panel .action-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+#officeView .proposal-panel .action-option,
+.proposal-panel .action-option{
+  display:flex!important;flex-direction:column!important;
+  justify-content:flex-start;align-items:center!important;text-align:center!important;
+  box-sizing:border-box;min-width:0;min-height:172px!important;height:auto!important;
+  padding:12px 8px 11px!important;gap:6px!important;
+  border-radius:14px;
+}
+#officeView .action-option .policy-preview,
+.proposal-panel .action-option .policy-preview{
+  width:76px!important;height:76px!important;min-width:76px!important;min-height:76px!important;
+  display:grid!important;place-items:center!important;background:#f9f2e5!important;
+  border:2px solid #d8c9b6!important;border-radius:18px!important;overflow:visible!important;
+  line-height:1!important;flex:0 0 auto!important;
+}
+.action-option .policy-preview .policy-symbol{display:block;width:68px;height:68px;overflow:visible;}
+#officeView .action-option .action-name,
+.proposal-panel .action-option .action-name{
+  font-size:12px!important;line-height:1.43!important;font-weight:900!important;
+  padding:0 3px!important;white-space:normal!important;overflow:visible!important;
+  text-wrap:pretty;max-width:100%;
+}
+#officeView .action-option .action-effect,
+.proposal-panel .action-option .action-effect{
+  font-size:11px!important;line-height:1.35!important;font-weight:850!important;color:#596154!important;
+}
+.action-option .action-odds{font-size:10px!important;line-height:1.4!important;margin-top:auto;padding-top:4px;}
+#officeView .detail-icon .policy-symbol,.detail-icon .policy-symbol{width:38px;height:38px;}
+#officeView .detail-icon{min-width:42px!important;height:42px!important;}
+.action-option[aria-checked="true"] .policy-preview{background:#fff5e0!important;border-color:#c4744a!important;}
+@media(max-width:350px){
+ #officeView .proposal-panel .action-option,.proposal-panel .action-option{min-height:162px!important;padding:10px 6px!important;}
+ #officeView .action-option .policy-preview{width:68px!important;height:68px!important;min-width:68px!important;min-height:68px!important;}
+ .action-option .policy-preview .policy-symbol{width:60px;height:60px;}
+ #officeView .action-option .action-name{font-size:11.5px!important;}
+}
+@media(prefers-reduced-motion:reduce){
+ .action-option .policy-symbol{animation:none!important;transform:none!important;}
+}
