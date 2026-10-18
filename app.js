@@ -424,7 +424,7 @@ function showWeekReport(h,finish){
  $('reportWeek').textContent='WEEK '+String(h.week).padStart(2,'0')+' / '+G.campaignWeeks(game);
  renderFlow(h);
  const macro=G.MACROS.find(x=>x.id===h.macroId);
- $('resultFactors').textContent=['社会情勢：'+(h.macroName||'旧記録'),h.accidentId?'臨時の出来事：'+h.accidentTitle:'',h.memoryEvent?'過去施策の再燃あり':'',h.storyEcho?.length?'以前の選択の後日談あり':'',h.fireHit?'炎上あり':''].filter(Boolean).join(' ／ ');
+ $('resultFactors').textContent=['社会情勢：'+(h.macroName||'旧記録'),h.accidentId?'臨時の出来事：'+h.accidentTitle:'',h.memoryEvent?'過去施策の再燃あり':'',h.storyEcho?.length?'以前の選択の後日談あり':'',h.boardroomDilemma?'社長との駆け引き：'+(h.boardroomDilemma.followed?'社長案を採用':'現場の判断を優先')+'（社長 '+sign(h.boardroomDilemma.delta.boss)+'・店長 '+sign(h.boardroomDilemma.delta.manager)+'・常連 '+sign(h.boardroomDilemma.delta.customers)+'）':'',h.fireHit?'炎上あり':''].filter(Boolean).join(' ／ ');
  $('economyHeadline').textContent=macro?`${macro.tag}｜${macro.name}${h.macroPenalty?'：是正費用 '+man(h.macroPenalty)+'万円':h.macroBonus?'：補助金 +'+man(h.macroBonus)+'万円':''}`:'今週の景気の変化';
 
  $('reportIcon').textContent='';
@@ -477,7 +477,7 @@ function showWeekReport(h,finish){
  $('personalMoneyWhy').textContent='主な要因：'+(mainDrivers(personalLines)||'変化なし');
  $('storeMoneyFull').textContent='お店：'+fmtLines(storeLines);
  $('personalMoneyFull').textContent='自分：'+fmtLines(personalLines);
- $('reportSatire').textContent=game.personalFailed?'社長「会社は守れたのに、君の生活までは契約外だ」':game.bankrupt?'社長「倒産の原因は、私の理想に現実が追いつかなかったことだ」':h.fireHit?'社長「炎上も宣伝だ。消防署には宣伝費を請求しよう」':h.boardroomBonus?'社長「君への報酬は私の温情。出どころは店の財布だが」':RESULT_PUNCH[h.actionId]||'社長「財務諸表より、発表資料の色味を改善してくれ」';
+ $('reportSatire').textContent=h.boardroomDilemma?h.boardroomDilemma.text:game.personalFailed?'社長「会社は守れたのに、君の生活までは契約外だ」':game.bankrupt?'社長「倒産の原因は、私の理想に現実が追いつかなかったことだ」':h.fireHit?'社長「炎上も宣伝だ。消防署には宣伝費を請求しよう」':h.boardroomBonus?'社長「君への報酬は私の温情。出どころは店の財布だが」':RESULT_PUNCH[h.actionId]||'社長「財務諸表より、発表資料の色味を改善してくれ」';
  $('reportAccident').textContent=`報酬 +${man(h.fee)}万${h.boardroomBonus?' / 社長指示 +'+man(h.boardroomBonus)+'万':''} / 生活費 −${man(h.personalLiving??0)}万${h.supportDue?' / 養育費期限':''}${h.arrearsAfter?' / 未払い '+man(h.arrearsAfter)+'万':''}`;
  $('reportSales').textContent=man(h.sales)+'万円';
  $('reportSalesDiff').textContent='前週比 '+(h.deltaSales>=0?'+':'')+man(h.deltaSales)+'万円';
@@ -738,8 +738,10 @@ function paint(){
  $('meetingLeft').className=left<0?'meeting-negative':'';
  const deal=G.boardroomDemand(s);
  $('meetingDeal').hidden=!deal;
- if(deal)$('meetingDealText').textContent=`社長案で報酬 +${yen(deal.bonus)}円（店の資金から）`;
- $('proposalMeetingTarget').textContent=deal?`社長の推し案「${deal.actionName}」で個人報酬 +${yen(deal.bonus)}円（店負担）`:'社長の臨時報酬なし。利益と信用で勝負。';
+ if(deal)$('meetingDealText').textContent=(deal.milestone?'【重要会議】':'')+`社長案で報酬 +${yen(deal.bonus)}円（店の資金から）`;
+ $('proposalMeetingTarget').textContent=deal?
+  `社長の推し案「${deal.actionName}」で個人報酬 +${yen(deal.bonus)}円（店負担）`+(deal.milestone?' ／ 今週は社長案を採るか、現場を優先するかで人物の信頼が変化':''):
+  '社長の臨時報酬なし。利益と信用で勝負。';
  $('repValue').textContent=s.storeRep;$('salesValue').textContent=man(s.sales);$('fireValue').textContent=s.fire;
  $('satValue').textContent=s.sat;$('frustValue').textContent=s.frust;
  $('satBar').style.width=s.sat+'%';$('frustBar').style.width=s.frust+'%';
@@ -771,6 +773,8 @@ function renderActions(){const s=game;
  $('selectedIcon').innerHTML=`<svg class="mini-ill"><use href="#${a.type==='kind'?'art-people':'art-graph'}"/></svg>`;$('selectedTitle').textContent=a.name;$('selectedDesc').textContent=a.detail;
  const preview=G.policyPreview(s,s.selected);
  $('selectedTradeoff').textContent=preview?[(preview.cost?'施策費 '+yen(preview.cost)+'円（成否にかかわらず）':preview.saving?'経費削減は成否で変動':'施策費の追加なし'),preview.financing?'融資16〜20万円・返済と利息あり（利益ではありません）':'',preview.uncertainRepair?'失敗時は根本問題が残ります':'',preview.memoryRisk?'数週後に再燃する可能性':'','効果は目安。週の利益や炎上回避を保証しません。'].filter(Boolean).join(' ／ '):'';
+ const dilemma=G.boardroomDemand(s);
+ if(dilemma?.milestone)$('selectedTradeoff').textContent+=' ／ 【社長との駆け引き】'+(s.selected===dilemma.actionId?'社長案に従う：社長の信頼が上がるが現場との関係に注意':'社長案を見送る：現場の信頼が上がるが社長は不満');
  const r=riskLabel(G.previewRisk(s,s.selected)),label=$('riskLabel');label.textContent=r[0];label.className=r[1];
  $('riskNote').textContent=s.finished?'決算で結果を確認':r[2];
  const selectedOdds=G.performanceOdds(s,s.selected);
@@ -815,7 +819,7 @@ function renderDevil(){
 }
 function renderHistory(){const list=$('historyList');const arr=[...game.history].reverse();$('historyCount').textContent=`${arr.length}件`;
  if(!arr.length){list.innerHTML='<p class="modal-detail">まだ経営記録はありません。</p>';return;}
- list.innerHTML=arr.map(h=>`<div class="history-item"><span class="history-week">第${h.week}週</span><div><strong>${esc(h.actionName)}</strong><p>${esc(h.scenarioTitle||'経営会議')} → ${esc(h.title)}</p></div><span class="history-number">売上 ${man(h.sales)}万</span></div>`).join('');
+ list.innerHTML=arr.map(h=>`<div class="history-item"><span class="history-week">第${h.week}週</span><div><strong>${esc(h.actionName)}</strong><p>${esc(h.scenarioTitle||'経営会議')} → ${esc(h.title)}${h.boardroomDilemma?' ／ 社長への対応：'+(h.boardroomDilemma.followed?'従った':'見送った'):''}</p></div><span class="history-number">売上 ${man(h.sales)}万</span></div>`).join('');
 }
 function openModal(html,next){$('modalContent').innerHTML=html;modalNext=next||null;$('modal').hidden=false;document.body.style.overflow='hidden';$('modalClose').focus();}
 function closeModal(){if($('modal').hidden)return;$('modal').hidden=true;document.body.style.overflow='';const next=modalNext;modalNext=null;if(next)next();}
