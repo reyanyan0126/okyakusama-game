@@ -57,4 +57,5 @@ tabs[2].click();nodes.backTitle.click();assert.equal(nodes.titleScreen.hidden,fa
 nodes.titleResume.click();assert.equal(nodes.app.hidden,false);assert.equal(nodes.officeView.hidden,false);
 for(let i=1;i<30;i++){if(JSON.parse(state['okyakusama.save.v1']).finished)break;nodes.openProposals.click();nodes.advanceButton.click();drainTheater();if(nodes.reportContinue.disabled)nodes.accidentIgnore.click();nodes.reportContinue.click();}
 const final=JSON.parse(state['okyakusama.save.v1']);assert.equal(final.finished,true);assert.equal(final.history.length,final.week-1);
+require('./visual-v210.test.cjs');
 console.log('PASS: title→contracts→prologue→client→proposals→budget result→resume→finished campaign');
