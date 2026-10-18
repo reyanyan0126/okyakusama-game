@@ -3,11 +3,25 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 const G=require('../engine.js'),T=require('../scene.js').theater;
 const pro=fs.readFileSync(path.join(__dirname,'../assets/prologue-v160.svg'),'utf8');
 const inc=fs.readFileSync(path.join(__dirname,'../assets/incidents-v160.svg'),'utf8');
+const policies=fs.readFileSync(path.join(__dirname,'../assets/policies-v160.svg'),'utf8');
+const B=require('../assets/storyboards-v150.js');
 const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
 const app=fs.readFileSync(path.join(__dirname,'../app.js'),'utf8');
 const sw=fs.readFileSync(path.join(__dirname,'../sw.js'),'utf8');
 assert.equal((pro.match(/<symbol /g)||[]).length,7);
 assert.equal((inc.match(/<symbol /g)||[]).length,21);
+assert.equal((policies.match(/<symbol /g)||[]).length,156);
+const nativeIds=['raise','lower','shrink','cheap','quality','staff','explain','sale','points','pop','tasting','local','restorestaff','apology','recall','blame','loyalty','stamp','audit','maintenance','loan','airtax','photo','ceocut','bills','apologybot'];
+for(const id of nativeIds){
+ assert.equal(B.family(id),id,'dedicated family '+id);
+ assert.equal(B.captions(id).length,3,'three story captions '+id);
+ const art=new Set();
+ for(const frame of [0,1,2])art.add(B.symbol(id,'work',frame));
+ for(const tier of ['failure','success','great'])art.add(B.symbol(id,'result',tier));
+ assert.equal(art.size,6);
+ for(const symbol of art)assert(policies.includes('id="'+symbol.split('#')[1]+'"'),symbol);
+}
+
 for(let n=1;n<=7;n++){
  assert(pro.includes('id="prologue-'+n+'"'));
  assert(app.includes("'./assets/prologue-v160.svg#prologue-'+illustrationStep"));
@@ -26,5 +40,6 @@ assert.equal(multiple.length,6);
 assert(multiple.every(x=>inc.includes('id="incident-'+x.visualId+'"')));
 assert(sw.includes('assets/prologue-v160.svg'));
 assert(sw.includes('assets/incidents-v160.svg'));
+assert(sw.includes('assets/policies-v160.svg'));
 assert(app.includes("item.visualId||'memory'"));
 console.log('PASS v1.6.0: seven story drawings, 11 accident drawings, 10 distinct news/echo illustrations, all story references, offline cache');
