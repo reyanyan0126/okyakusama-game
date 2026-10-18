@@ -266,7 +266,25 @@ function boardroomDemand(s){
  if(!hard||s.ownerFundUsed)return null;
  const bonus=5000+(s.week%3)*1000;
  return {actionId:hard.id,actionName:hard.name,bonus,
+  milestone:campaignWeeks(s)===MAX_WEEKS&&[6,11,16,21,26,30].includes(s.week),
+  urgent:s.cash<125000||s.fire>=45,
   line:'社長の内緒話「その案で頼む。成功報酬は私が決めた。会社の金で。」'};
+}
+// A small number of authored accountability moments; ordinary weekly bonuses stay unchanged.
+// No extra input, no extra RNG draws, no double charge to the customer's shop account.
+function resolveBoardroomDilemma(s,demand,id){
+ if(!demand?.milestone)return null;
+ if(!s.cast)s.cast={boss:0,manager:0,customers:0};
+ const followed=demand.actionId===id;
+ const intended=followed?(demand.urgent?{boss:1,manager:-1,customers:0}:{boss:2,manager:-1,customers:-1}):
+   (demand.urgent?{boss:-2,manager:1,customers:1}:{boss:-1,manager:1,customers:1});
+ const before={...s.cast};
+ for(const key of ['boss','manager','customers'])s.cast[key]=cap((s.cast[key]||0)+intended[key],-100,100);
+ const delta=Object.fromEntries(['boss','manager','customers'].map(key=>[key,s.cast[key]-(before[key]||0)]));
+ const text=followed?
+  (demand.urgent?'社長「苦しい時こそ攻めろ！」店長「現場の負担は記録しておきます」。':'社長「そうだ、私の判断は正しい！」店長「店の数字も見てください」。'):
+  (demand.urgent?'店長「今は火消しが先です」。社長「私の指示が後回しか！」':'店長「現場を見た判断ですね」。社長「議事録には私の案も残してくれ」。');
+ return {followed,urgent:demand.urgent,delta,text};
 }
 function boardroomSignal(s){
  if(s.finished)return '契約期間が終了。次は最終審査です。';
@@ -472,6 +490,7 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  const storyResult=STORIES.storyResult(s,brief,id,performance.tier,ACTIONS_BY_ID[id]);
  const actionSnapshot={rep:s.storeRep-previous.rep,fire:s.fire-previous.fire,sat:s.sat-previous.sat,frust:s.frust-previous.frust};
  const storyEcho=STORIES.echoes(s);
+ const boardroomDilemma=resolveBoardroomDilemma(s,boardDemand,id);
  // Capture the effect of the player's decision itself, before random accidents,
  // weather, boycotts and macroeconomics add their own changes.
  const directImpact=actionSnapshot;
@@ -588,7 +607,7 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  s.lowCashWeeks=s.cash<0?s.lowCashWeeks+1:0;
  if(s.cash<0){s.bankrupt=true;s.rescuePending=!s.personalFailed&&rescueOptions(s).length>0;} // The last chance appears before closing.
  if(s.maintenance>0)s.maintenance--;
- const report={actionImpact:actionSnapshot,storyEvent:storyResult,storyEcho:storyEcho.items,performanceTier:performance.tier,performanceRoll:performance.roll,performanceOdds:performance.odds,performanceMultiplier:performance.multiplier,momentumAfter:s.momentum,crisisResponse,rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_')&&s.rootSolved,boardroomBonus,
+ const report={actionImpact:actionSnapshot,storyEvent:storyResult,storyEcho:storyEcho.items,boardroomDilemma,performanceTier:performance.tier,performanceRoll:performance.roll,performanceOdds:performance.odds,performanceMultiplier:performance.multiplier,momentumAfter:s.momentum,crisisResponse,rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_')&&s.rootSolved,boardroomBonus,
  boardroomDemandId:boardDemand?.actionId||null,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':(QUOTES[id]||STORIES.castLine(s)),eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,investment,projectId:plan,projectLabel:plan?PROJECTS_BY_ID[plan].name:"なし",incidentCost,accidentResponse:accident?.positive?'not_needed':null,accidentPositive:!!accident?.positive,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,macroId:macro.id,macroName:macro.name,macroTag:macro.tag,macroDetail:macro.detail,macroPenalty,macroBonus,macroFixed:macro.fixed,devilId:devil,devilNote,devilPayment,personalDevilPayment,personalCashBefore:previous.personalCash,personalCashAfter:s.personalCash,arrearsBefore:previous.arrears,arrearsAfter:s.arrears,personalLiving:PERSONAL.living,personalShortfall,supportDue,supportPaid,feeFromStore:fee,personalFailed:s.personalFailed,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
  s.history.push(report);s.lastResult=report;s.week++;
  if(s.week>campaignWeeks(s)||s.bankrupt||s.personalFailed)s.finished=true;
@@ -664,7 +683,7 @@ function policyPreview(s,id){
   uncertainRepair:id.startsWith('fix_'),memoryRisk:!!MEMORY_NEWS[id]};
 }
 function previewRisk(s,id){if(!ACTIONS_BY_ID[id]||!enabled(s,id))return risk(s);const clone=JSON.parse(JSON.stringify(s));applyAction(clone,id);return risk(clone);}
-const engine={VERSION,MAX_WEEKS,STORIES,campaignWeeks,LEGACY_WEEKS,CONTRACT,ROOT_CASES,rootDiagnosis,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,boardroomDemand,boardroomSignal,goalStatus,ending,initial,play,handleAccident,rescueOptions,resolveRescue,risk,performanceOdds,policyPreview,previewRisk,unitCost,enabled,validateSaved};
+const engine={VERSION,MAX_WEEKS,STORIES,campaignWeeks,LEGACY_WEEKS,CONTRACT,ROOT_CASES,rootDiagnosis,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,boardroomDemand,resolveBoardroomDilemma,boardroomSignal,goalStatus,ending,initial,play,handleAccident,rescueOptions,resolveRescue,risk,performanceOdds,policyPreview,previewRisk,unitCost,enabled,validateSaved};
 root.GameEngine=engine;
 if(typeof module==='object'&&module.exports)module.exports=engine;
 })(typeof globalThis!=='undefined'?globalThis:this);
