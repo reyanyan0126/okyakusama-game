@@ -39,9 +39,9 @@ with sync_playwright() as p:
    page.locator('#openProposals').click()
    card=page.locator('.action-option[data-id="arc_register_boss"]')
    assert card.count()==1
-   assert '#cinema-arc_register_boss-work-1' in card.locator('svg use').get_attribute('href')
+   assert card.locator('.policy-symbol use').get_attribute('href').startswith('./assets/policy-icons-v173.svg#icon-'), 'the old miniature story thumbnail must be replaced by a large symbol'
    card.click();page.locator('#advanceButton').click()
-   # Previously authored episode thumbnails remain in the proposal cards.
+   # Existing episode assets remain as a legacy resource; visible choice cards use simple icons.
    # Active theater now uses three whole-portrait manga panels, not CSS-built limbs.
    panels=page.locator('#workingComic .manga-panel')
    assert panels.count()==3,(page.locator('#workingComic').inner_html()[:400])
