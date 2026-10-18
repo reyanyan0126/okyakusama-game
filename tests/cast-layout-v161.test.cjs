@@ -28,5 +28,5 @@ assert(css.includes('#workingScene .work-footer #workingSkip{'));
 assert(css.includes('position:static!important'));
 assert(css.includes('max-height:100dvh'));
 assert(css.includes('overflow-y:auto'));
-assert(sw.includes('okyakusama-v2.0.0-preview-5'));
+assert(sw.includes('okyakusama-v2.0.0-preview-6'));
 console.log('PASS v1.6.1: 204 composited panels, 408 distinct named figure instances, role diversity, seven+ poses, responsive skip footer and cache');
