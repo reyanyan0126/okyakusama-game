@@ -1216,3 +1216,21 @@ body.entry-mode{background:#f8f3e9}
 @media(prefers-reduced-motion:reduce){
  #workingScene #workingComic .storyboard-panel{animation:none!important;}
 }
+
+/* v1.7.0 — Each illustration advances once; no endless bouncing, flashing,
+   vibrating or cyclic expressions. The visual story is driven by the
+   3 explicit frame changes in app.js, not by ambient CSS loops. */
+html :is(*, *::before, *::after){
+  animation-iteration-count:1!important;
+}
+html .working-illustration,html .working-comic{
+  animation-iteration-count:1!important;
+}
+#workingScene #workingComic .storyboard-panel,
+#outcomeArt .storyboard-panel,
+.action-option .storyboard-panel{
+  width:100%;height:auto;object-fit:contain;aspect-ratio:12/7;
+}
+@media(prefers-reduced-motion:reduce){
+  html :is(*, *::before, *::after){animation:none!important;transition:none!important;}
+}
