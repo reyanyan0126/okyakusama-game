@@ -55,9 +55,7 @@ try:
           getComputedStyle(svg).transform==='none';
      }"""),'person parts must not be CSS-animated'
      if motion=='reduce':
-      assert page.locator('#workingComic .manga-panel.is-revealed').count()==3
-      if browser_name=='chromium' and width==390:
-       page.locator('#workingComic').screenshot(path=str(visuals/'manga-three-panels-390.png')),'reduced motion shows all three panels immediately'
+      assert page.locator('#workingComic .manga-panel.is-revealed').count()==3,'reduced motion shows all three panels immediately'
      else:
       assert page.locator('#workingComic .manga-panel.is-revealed').count()>=1
       assert page.evaluate("""()=>{
@@ -68,6 +66,8 @@ try:
       assert page.locator('#workingComic .manga-panel.is-revealed').count()>=2
       page.wait_for_timeout(1250)
       assert page.locator('#workingComic .manga-panel.is-revealed').count()==3
+      if browser_name=='chromium' and width==390:
+       page.locator('#workingComic').screenshot(path=str(visuals/'manga-three-panels-390.png'))
      # Use the public click handler synchronously; automatic scene advance can race a Playwright locator click.
      page.evaluate("document.getElementById('workingSkip').click()")
      page.locator('#outcomeScene').wait_for(state='visible',timeout=6000)
