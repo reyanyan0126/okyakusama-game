@@ -83,6 +83,23 @@ function renderPrologue(){
  $('prologueArt').setAttribute('href','./assets/prologue-v160.svg#prologue-'+illustrationStep);
  $('prologueArt').setAttribute('x','0');$('prologueArt').setAttribute('y','0');
  $('prologueArt').setAttribute('width','720');$('prologueArt').setAttribute('height','420');
+ const frames=['illustrated-protagonist-v173.webp','illustrated-protagonist-thinking-v173.webp',
+   'illustrated-protagonist-thinking-v173.webp','illustrated-protagonist-determined-v173.webp',
+   'illustrated-protagonist-v173.webp','illustrated-protagonist-determined-v173.webp',
+   'illustrated-protagonist-thinking-v173.webp'];
+ const visualCaptions=[
+  ['最後の28,000円','残高 28,000円','家賃74,000円・光熱費18,400円'],
+  ['請求書の山','仕事はゼロ','支払いだけが待っている'],
+  ['一本の電話','依頼が来た','受けるか、断るか'],
+  ['商談が始まる','再建の相談','数字と現場を見て決める'],
+  ['店舗へ','問題は山積み','お客様の声が聞こえる'],
+  ['決断のとき','店を変える','ごまかさず、考える'],
+  ['契約書の影','誰のための改革？','あなたが選ぶ30週間']
+ ];
+ $('prologuePaintedPerson').src='./assets/'+frames[prologueStep];
+ $('prologuePaintedStage').textContent=String(prologueStep+1).padStart(2,'0')+' / 07　'+visualCaptions[prologueStep][0];
+ $('prologuePaintedHeading').textContent=visualCaptions[prologueStep][1];
+ $('prologuePaintedDetail').textContent=visualCaptions[prologueStep][2];
  $('prologueIllustration').dataset.scene=String(illustrationStep);
  $('prologueIllustration').classList.toggle('phone-ringing',prologueStep===2);
  $('prologueIllustration').classList.remove('story-art-enter');void $('prologueIllustration').offsetWidth;$('prologueIllustration').classList.add('story-art-enter');
