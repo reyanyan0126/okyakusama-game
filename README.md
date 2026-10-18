@@ -95,3 +95,11 @@ Backup before this release: `backup/pre-v1.4.0-20261018` (main `f305be3`).
 - Read [controlled-strategy checkpoint](tests/results/v200-strategy-checkpoint.md) for 40-seed preliminary measurements, limitations and reproduction.
 - Run `node tests/strategy-v200.test.cjs` or `STRATEGY_SEEDS=200 node tests/strategy-v200.cjs /tmp/v200-full.json` to create a detailed audit JSON.
 - This stage adds **tests and audit only**; no new gameplay or release was published. It is stacked on v1.8.0 PR #12.
+
+
+### v2.0.0 — 管理画面の経営推移（開発PR）
+
+- 詳細ステータス内で週間利益、累計利益、店舗現金、個人所持金の4系列を閲覧できます。ゲームの確定済みhistoryから描画するため、会計やRNGの処理は変更しません。
+- 12週旧セーブに履歴項目が欠けている場合は、欠損データを補間せずその指標の不足を表示します。
+- SVGと数値説明を併記し、追加依存なしで描画します。`node tests/trends-v200.test.cjs`で表示データを検証できます。
+- PWAキャッシュに新しい表示専用モジュールを追加。PR #13に依存するレビュー用機能で、公開版ではありません。

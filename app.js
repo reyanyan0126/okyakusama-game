@@ -142,7 +142,7 @@ function openStatusSheet(){
  ];
  $('statusContent').innerHTML='<p class="status-lead">主要数値は経営画面、すべての内訳はここで確認できます。店舗の現金と個人の財布は別会計です。</p>'+
   groups.map(([heading,rows])=>'<section class="status-group"><h3>'+esc(heading)+'</h3>'+
-   rows.map(([label,value])=>'<div class="status-line"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong></div>').join('')+'</section>').join('');
+   rows.map(([label,value])=>'<div class="status-line"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong></div>').join('')+'</section>').join('')+(window.GameTrends?.markup(s.history)||'');
  $('statusReport').hidden=!h;
  $('statusSheet').hidden=false;document.body.classList.add('scene-locked');
  $('statusClose').focus({preventScroll:true});
