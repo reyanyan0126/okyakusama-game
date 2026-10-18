@@ -577,7 +577,9 @@ function setPresentation(stage){if(!game.lastResult)return;game.presentation={we
 function clearTheaterTimers(){theaterTimers.forEach(clearTimeout);theaterTimers=[];}
 function hideTheater(){clearTheaterTimers();for(const id of ['workingScene','shockScene','outcomeScene','newsScene','reportScene','rescueScene'])$(id).hidden=true;resolving=false;}
 function installTheaterLayout(){
- const title=document.querySelector('.title-visual');if(title)title.innerHTML='<svg class="story-intro-panel" viewBox="0 0 720 420" role="img" aria-label="疲れたスタッフと常連客が店を支えるモグモグマート"><use href="./assets/prologue-v160.svg#prologue-5"></use></svg>';
+ // The title now ships with its dedicated cinema artwork in index.html.
+ // Never overwrite the cover and resident artwork during app initialization.
+ const title=document.querySelector('.title-visual');if(title&&!title.querySelector('.title-cinema-svg'))title.innerHTML='<svg class="title-cinema-svg" viewBox="0 0 720 420" role="img" aria-label="再建が必要なスーパーとスーツ姿のコンサル"><use href="./assets/office-cinema-v171.svg#office-title"></use></svg>';
  // Intro artwork is a separate set of seven authored scenes, not the generic WeekTheater actors.
  const detail=$('financialDetail');
  for(const selector of ['#reportHeadline','#reportDescription','#storyEvent','#storyEcho','#performanceReport','#crisisResponseBox','#reportVerdict','#economyReport','#reportSatire','.report-impact','#reportGoal','.report-reaction']){
