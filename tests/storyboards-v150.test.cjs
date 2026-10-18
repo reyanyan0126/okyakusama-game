@@ -30,7 +30,7 @@ for(const [family,actions] of B.families)for(const id of actions){
 }
 assert.equal(B.markup('nobody_has_this_id','work',0),null,'other policies retain compatible fallback');
 assert(html.includes('<script defer src="assets/storyboards-v150.js"></script>'));
-assert(js.includes('B?.markup(h.actionId'));
+assert(js.includes('B?.family(h.actionId)'), 'legacy story captions are still used in manga');
 assert(js.includes("M.markup(h.actionId,lines"),'live theater must use manga');
 assert(js.includes('window.MangaCinema.result(h)'),'result uses complete comic scenes');
 assert(!js.includes("B.markup(h.actionId,'work',n)"),'old CSS-animated people removed from live theater');
