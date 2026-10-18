@@ -25,6 +25,7 @@ jobs:
           node-version: '22'
       - name: Check v2.0 strategy experiment controls
         run: |
+          node tests/achievements-v200.test.cjs
           node tests/trends-v200.test.cjs
           node tests/strategy-v200.test.cjs
           STRATEGY_SEEDS=12 node tests/strategy-v200.cjs /tmp/strategy-v200-smoke.json
