@@ -44,7 +44,7 @@ const first=Manga.markup('arc_register_boss',[
  '社長「私がやる！」','店長「本当に大丈夫？」','常連「<script>alert(1)</script>」'
 ],{setting:'register'});
 assert.equal((first.match(/class="manga-panel"/g)||[]).length,3);
-assert.equal((first.match(/aria-hidden="true"/g)||[]).length,3);
+assert.equal((first.match(/<article class="manga-panel" data-panel="\d" aria-hidden="true">/g)||[]).length,3,'initially hide three manga panels, excluding decorative progress');
 assert(first.includes('manga-boss-angry'));
 assert(first.includes('portrait-manager-panic'));
 assert(first.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
