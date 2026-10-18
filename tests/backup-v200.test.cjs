@@ -1,0 +1,38 @@
+'use strict';
+const assert=require('node:assert/strict'),G=require('../engine.js'),A=require('../achievements-v200.js'),B=require('../backup-v200.js');
+function mem(initial={}){
+ const data=new Map(Object.entries(initial));
+ return {getItem:k=>data.has(k)?data.get(k):null,setItem:(k,v)=>data.set(k,String(v)),removeItem:k=>data.delete(k)};
+}
+const campaign=G.initial(131);
+const store=mem();
+const original=JSON.stringify(campaign);
+store.setItem(B.SAVE_KEY,original);
+const gallery={version:1,unlocked:{complete:true,manager:true},endings:['契約更新！']};
+store.setItem(A.KEY,JSON.stringify(gallery));
+const full=B.exportFull(campaign,store);
+assert.equal(full.kind,B.KIND);
+assert.equal(full.campaign.version,campaign.version);
+assert.equal(B.parse(full).kind,'full');
+assert.equal(B.parse(campaign).kind,'legacy');
+assert.deepEqual(campaign,JSON.parse(original),'export is pure');
+assert.throws(()=>B.parse({...full,backupVersion:999}),/対応していない/);
+assert.throws(()=>B.parse({...full,gallery:{version:1,unlocked:{fake:true},endings:[]}}),/不正な実績/);
+const receiver=mem({[A.KEY]:JSON.stringify({version:1,unlocked:{credit:true},endings:['優良店の改革者']})});
+const restored=B.restore(B.parse(JSON.parse(JSON.stringify(full))),receiver);
+assert(restored.mergedAchievements);
+assert.deepEqual(Object.keys(A.read(receiver).unlocked).sort(),['complete','credit','manager']);
+assert.deepEqual(A.read(receiver).endings,['優良店の改革者','契約更新！']);
+assert.deepEqual(G.validateSaved(JSON.parse(receiver.getItem(B.SAVE_KEY))),campaign);
+const legacy=B.restore(B.parse(campaign),receiver);
+assert.equal(legacy.mergedAchievements,false);
+assert.deepEqual(Object.keys(A.read(receiver).unlocked).sort(),['complete','credit','manager'],'legacy import must not erase achievements');
+const fail=mem({[B.SAVE_KEY]:'OLD',[A.KEY]:JSON.stringify(gallery)});
+const setter=fail.setItem.bind(fail);
+let writes=0;
+fail.setItem=(k,v)=>{writes++;if(writes===2)throw Error('simulated quota');setter(k,v);};
+assert.throws(()=>B.restore(B.parse(full),fail),/復元できませんでした/);
+assert.equal(fail.getItem(B.SAVE_KEY),'OLD','restore should rollback old save');
+assert.equal(fail.getItem(A.KEY),JSON.stringify(gallery),'restore should preserve old gallery');
+assert.throws(()=>B.exportFull({version:-1},store),/セーブデータ/);
+console.log('PASS v2.0 portable backup: full, legacy, merge, validation, idempotence and rollback');

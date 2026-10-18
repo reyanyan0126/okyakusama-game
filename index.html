@@ -19,6 +19,7 @@
   <script defer src="assets/storyboards-v150.js"></script>
   <script defer src="trends-v200.js"></script>
   <script defer src="achievements-v200.js"></script>
+  <script defer src="backup-v200.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body>
@@ -361,7 +362,7 @@
         <div id="achievementsPanel" class="achievements-panel" hidden></div>
         <button id="historyToggle" class="utility-button" type="button" aria-expanded="false">▤ これまでの経営記録 <span id="historyCount">0件</span> <span class="caret">⌄</span></button>
         <div id="historyPanel" class="history-panel" hidden><div id="historyList" class="history-list"></div></div>
-        <div class="utility-row"><button id="exportButton" type="button">↓ セーブを書き出す</button><button id="importButton" type="button">↑ セーブを読み込む</button><button id="restartButton" type="button" class="muted-danger">↻ 最初から</button><button id="backTitle" type="button">⌂ タイトルへ</button><input id="importInput" type="file" accept="application/json,.json" hidden></div>
+        <div class="utility-row"><button id="exportFullBackup" type="button">↓ セーブ＋実績をまとめて保存</button><button id="exportButton" type="button">↓ 旧形式セーブを書き出す</button><button id="importButton" type="button">↑ セーブを読み込む</button><button id="restartButton" type="button" class="muted-danger">↻ 最初から</button><button id="backTitle" type="button">⌂ タイトルへ</button><input id="importInput" type="file" accept="application/json,.json" hidden></div>
       </div>
       </section><!-- recordsView -->
     </main>
