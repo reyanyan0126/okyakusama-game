@@ -47,13 +47,18 @@ with sync_playwright() as p:
    assert panels.count()==3,(page.locator('#workingComic').inner_html()[:400])
    assert page.locator('#workingComic .manga-panel.is-revealed').count()>=1
    assert page.locator('#workingComic .manga-panel[aria-hidden="true"]').count()<=2
-   assert page.evaluate("""()=>{
-    const node=document.querySelector('#workingComic .manga-picture use');
-    return node && node.getBBox().width>0 &&
-           node.getAttribute('href').includes('portraits-v171.svg') || 
-           node && node.getBBox().width>0 &&
-           node.getAttribute('href').includes('manga-cast-v200.svg');
-   }"""),(browser_name if 'browser_name' in locals() else name,width,'whole portrait not rendered')
+   assert page.evaluate("""async()=>{
+    const nodes=[...document.querySelectorAll('#workingComic .manga-painted-character image')];
+    if(nodes.length!==3)return false;
+    return (await Promise.all(nodes.map(async node=>{
+     const href=node.getAttribute('href');
+     if(!href.includes('manga-painted-cast-v173.webp'))return false;
+     const image=new Image();image.src=href;
+     await image.decode();
+     const box=node.getBoundingClientRect();
+     return image.naturalWidth>0 && image.naturalHeight>0 && box.width>0 && box.height>0;
+    }))).every(Boolean);
+   }"""),(name,width,'painted portraits must decode and occupy visible space')
    page.wait_for_timeout(1260)
    assert page.locator('#workingComic .manga-panel.is-revealed').count()>=2
    page.wait_for_timeout(1240)
