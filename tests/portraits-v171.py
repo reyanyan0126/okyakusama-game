@@ -27,7 +27,7 @@ with sync_playwright() as p:
      }return results;
    }""")
    assert counts==[[200,0,25],[200,0,6]],(engine,width,counts)
-   cases=[('normal',1,'regular'),('busy',5,'parent'),('quiet',9,'senior'),('scandal',13,'student'),('critical',1,'regular')]
+   cases=[('normal',2,'regular'),('busy',5,'parent'),('quiet',9,'senior'),('scandal',13,'student'),('critical',2,'regular')]
    for shop,week,customer in cases:
     page.evaluate("""({shop,week})=>{
      let g=GameEngine.initial(1441);
