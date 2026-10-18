@@ -1234,3 +1234,11 @@ html .working-illustration,html .working-comic{
 @media(prefers-reduced-motion:reduce){
   html :is(*, *::before, *::after){animation:none!important;transition:none!important;}
 }
+
+/* v1.7.1: real authored role portraits; never bob or vibrate a static face. */
+#officeView .office-visitors .face-art{width:45px;height:54px;aspect-ratio:8/9;overflow:hidden;filter:none;animation:none!important;}
+#officeView .office-visitors .face-art[data-mood="panic"]{animation:none!important;transform:none!important;}
+#officeView .office-visitors .cast-avatar small{max-width:80px;white-space:normal;line-height:1.15;overflow-wrap:anywhere;text-align:center;}
+#officeView .office-room-art{object-fit:cover;pointer-events:none;}
+@media(max-width:850px){#officeView .office-visitors .face-art{width:38px;height:45px;}}
+@media(max-width:380px){#officeView .office-visitors .face-art{width:33px;height:39px;}#officeView .office-visitors .cast-avatar small{max-width:56px;}}
