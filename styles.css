@@ -1293,3 +1293,18 @@ html .working-illustration,html .working-comic{
 .consequence-item.is-resolved{border-left:3px solid #315c4a;padding-left:10px}
 .consequence-item.is-boardroom{border-left:3px solid #655282;padding-left:10px}
 .consequence-note,.consequence-empty{color:#655647;font-size:12px;line-height:1.6}
+
+/* v2.0 milestone G — optional, fully textual financial/risk context. */
+.strategy-advisor{border:1px solid #d8b985;background:#fff8e9;border-radius:12px;margin:12px 0;padding:0;overflow:hidden}
+.strategy-advisor>summary{cursor:pointer;padding:12px 14px;line-height:1.5;font-size:13px;font-weight:850;color:#4a3423;list-style-position:inside}
+.strategy-advisor>summary:focus-visible{outline:3px solid #54718b;outline-offset:-3px}
+.strategy-advisor-inner{padding:0 12px 13px;font-size:12px;line-height:1.55;color:#46372d;overflow-wrap:anywhere}
+.strategy-advisor-target{display:flex;flex-direction:column;gap:4px;padding:10px;background:#fff;border:1px solid #e7dac1;border-radius:8px}
+.strategy-advisor-target strong{font-size:13px}
+.strategy-advisor-risk{font-weight:850;margin:10px 0 4px}
+.strategy-advisor-policy{margin:5px 0}
+.strategy-advisor-list{margin:9px 0 6px;padding:0;list-style:none}
+.strategy-advisor-list li{border-top:1px solid #ddc9aa;padding:9px 3px;display:flex;flex-direction:column;gap:3px}
+.strategy-advisor-list li strong{font-size:12px;color:#6f3d21}
+.strategy-advisor-note,.strategy-advisor-clear{font-size:11px;color:#6c5a4d;margin:10px 0 0}
+@media(prefers-reduced-motion:reduce){.strategy-advisor,.strategy-advisor *{transition:none!important}}
