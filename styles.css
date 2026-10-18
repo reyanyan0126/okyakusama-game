@@ -198,21 +198,18 @@ body.entry-mode{background:#f8f3e9}
 .back-link{border:0;background:none;color:#7a624b;font-size:12px;font-weight:850;padding:5px 0 15px}.contracts-heading h2{font-size:26px;margin:10px 0 5px;letter-spacing:-.04em}.contracts-heading p{color:#786a5b;font-size:12px;margin:0 0 18px}
 .contract-item{border:1.5px solid #ded1be;border-radius:13px;padding:12px;margin:10px 0;display:grid;grid-template-columns:45px 1fr;gap:9px;background:#fff9eb}.contract-item.available{border:2px solid #d98353;background:#fff0d9}.contract-item.not-ready{opacity:.66}.contract-icon{font-size:32px}.contract-copy{min-width:0}.contract-status{font-size:10px;font-weight:900;color:#a6643c}.contract-copy h3{font-size:16px;margin:2px 0}.contract-copy p{font-size:11px;margin:0 0 3px;line-height:1.5;color:#5d5448}.contract-copy small,.contracts-footnote{font-size:10px;color:#847366}.contract-accept{grid-column:1/-1;background:#29241f;color:#fff9e9;border:0;border-radius:9px;padding:11px 8px;font-weight:950;font-size:12px}.contracts-footnote{text-align:center;margin:14px 0 0}
 .hero-cast{position:absolute;right:7px;bottom:2px;display:flex;align-items:end;justify-content:flex-end;gap:5px;z-index:3}.cast-shop{width:100px;height:85px;position:relative}.cast-shop .store-art{position:static;width:100%;height:100%;max-width:none;filter:drop-shadow(2px 3px 0 #80684622)}.cast-portrait{display:flex;flex-direction:column;align-items:center;font-weight:950;font-size:9px;line-height:1;color:#453326;gap:2px}.cast-portrait small{background:#fff8e6;border-radius:5px;padding:2px 3px;white-space:nowrap}
-.portrait{height:51px;width:47px;border:2px solid #342820;border-radius:48% 48% 43% 43%;background:#f4bf98;position:relative;box-shadow:0 3px 0 #b68e75;animation:cast-bob 2.6s ease-in-out infinite;transform-origin:center bottom}.portrait-hair{position:absolute;height:15px;left:-1px;right:-1px;top:-3px;background:#45342c;border-radius:17px 17px 7px 4px}.boss-portrait .portrait-hair{clip-path:polygon(0 0,100% 0,100% 80%,65% 40%,20% 96%,0 64%)}.buyer-portrait{background:#f6c9ab;animation-delay:.75s}.buyer-portrait .portrait-hair{height:18px;background:#744832;clip-path:polygon(0 0,100% 0,100% 100%,87% 45%,45% 65%,10% 80%,0 100%)}
-.portrait-eyes{position:absolute;top:24px;left:11px;right:10px;display:flex;justify-content:space-between;animation:blink 5s infinite}.portrait-eyes i{width:5px;height:6px;background:#2b2824;border-radius:50%}.portrait-mouth{position:absolute;left:18px;top:35px;width:12px;height:6px;border-bottom:2px solid #7c4537;border-radius:0 0 12px 12px}.portrait-tie{position:absolute;top:46px;left:19px;background:#b24c40;width:7px;height:5px;clip-path:polygon(0 0,100% 0,50% 100%)}
-.portrait[data-mood="happy"] .portrait-mouth{height:9px;top:32px;border:2px solid #6e392f;border-top:0;background:#ad524a}.portrait[data-mood="angry"] .portrait-mouth,.portrait[data-mood="sad"] .portrait-mouth,.portrait[data-mood="panic"] .portrait-mouth{border-bottom:0;border-top:2px solid #7c4537;border-radius:12px 12px 0 0;top:38px}.portrait[data-mood="angry"] .portrait-eyes i{transform:rotate(-20deg);border-radius:2px}.portrait[data-mood="panic"] .portrait-mouth{border:2px solid #7c4537;background:#944a38;border-radius:50%;width:9px;height:11px;top:32px;left:20px}.portrait[data-mood="angry"],.portrait[data-mood="panic"]{animation:cast-shake .55s infinite}
-@keyframes blink{0%,43%,46%,100%{transform:scaleY(1)}44%,45%{transform:scaleY(.12)}}@keyframes cast-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}@keyframes cast-shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}@keyframes alert-pulse{0%,100%{opacity:1}50%{opacity:.7}}
-.report-impact{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:10px}.report-impact>div{background:#f7f3e9;border-radius:9px;padding:8px 3px}.report-impact span{display:block;font-size:10px;color:#756b5c}.report-impact strong{font-size:18px}.report-impact strong.good{color:#27835c}.report-impact strong.bad{color:#c64a36}.report-impact strong.even{color:#766f66}.report-reaction{display:flex;gap:8px;align-items:center;margin-top:8px}.report-character{font-size:37px;animation:cast-bob .7s ease-in-out 3}.report-reaction .report-quote{flex:1;margin:0;padding:8px;font-size:11px}.report-takeaway{font-size:12px;color:#79472f;font-weight:900;margin:8px 0;background:#fff0d6;padding:7px;border-radius:8px}
+@keyframes alert-pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.report-impact{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:10px}.report-impact>div{background:#f7f3e9;border-radius:9px;padding:8px 3px}.report-impact span{display:block;font-size:10px;color:#756b5c}.report-impact strong{font-size:18px}.report-impact strong.good{color:#27835c}.report-impact strong.bad{color:#c64a36}.report-impact strong.even{color:#766f66}.report-reaction{display:flex;gap:8px;align-items:center;margin-top:8px}.report-character{font-size:37px;animation:none}.report-reaction .report-quote{flex:1;margin:0;padding:8px;font-size:11px}.report-takeaway{font-size:12px;color:#79472f;font-weight:900;margin:8px 0;background:#fff0d6;padding:7px;border-radius:8px}
 .report-sheet .primary-btn{margin-top:8px}.report-scene{max-width:430px}.report-sheet{padding:15px}.report-icon{font-size:38px;margin:0}.report-sheet h2{font-size:22px;margin:0 0 5px}.report-headline{padding:7px;font-size:12px;margin:0 0 4px}.report-description{font-size:11px;line-height:1.4;min-height:0;margin-bottom:6px}.report-big-number{padding:9px}.report-big-number strong{font-size:31px}.report-three{margin-top:7px}.report-three>div{padding:8px 3px}.report-three strong{font-size:14px}.report-eyebrow{font-size:10px}
 @media(max-width:850px){
- #officeView .client-hero{height:61px}.hero-cast{right:6px;bottom:2px;gap:3px}.cast-shop{width:64px;height:54px}.portrait{width:35px;height:39px;border-width:1.5px}.portrait-hair{height:11px}.portrait-eyes{top:18px;left:8px;right:8px}.portrait-eyes i{width:4px;height:5px}.portrait-mouth{left:12px;top:27px}.portrait[data-mood="happy"] .portrait-mouth{top:25px}.portrait[data-mood="angry"] .portrait-mouth,.portrait[data-mood="sad"] .portrait-mouth{top:29px}.portrait[data-mood="panic"] .portrait-mouth{top:24px;left:14px}.portrait-tie{top:36px;left:14px}.cast-portrait{font-size:8px}.cast-portrait small{font-size:8px;padding:1px 2px}
+ #officeView .client-hero{height:61px}.hero-cast{right:6px;bottom:2px;gap:3px}.cast-shop{width:64px;height:54px}.cast-portrait{font-size:8px}.cast-portrait small{font-size:8px;padding:1px 2px}
  #officeView .hero-copy{max-width:46%}#officeView .hero-chip{font-size:8px}#officeView .client-hero h2{font-size:17px}#officeView .tiny-customers,#officeView .shop-open-sign{display:none}
  #officeView .action-name{font-size:10px;line-height:1.15}#officeView .action-option{grid-template-columns:23px 1fr;column-gap:3px}#officeView .action-emoji{font-size:16px}
  .report-sheet{padding:12px 10px}.report-impact strong{font-size:16px}.report-reaction .report-quote{font-size:10px}
 }
 @media(max-width:850px) and (max-height:760px){#officeView .client-hero{height:47px}.cast-shop{width:53px;height:45px}.portrait{transform:scale(.85);transform-origin:center bottom}.hero-cast{bottom:0}#officeView .hero-copy{max-width:48%}}
 @media(max-height:620px){.title-logo-mark{width:48px;height:48px;line-height:48px;font-size:31px;margin:10px auto 0}.title-visual{height:60px}.title-building{font-size:43px}.title-face{font-size:33px}.entry-card{padding:13px}.title-tagline{margin:5px}.entry-actions{margin-top:8px}.title-card .primary-btn{padding:10px}}
-@media(prefers-reduced-motion:reduce){.title-building,.title-face,.title-news-badge,.portrait,.portrait-eyes,.report-character{animation:none}}
+@media(prefers-reduced-motion:reduce){.title-news-badge,.report-character{animation:none}}
 
 /* v0.5: story dilemmas, mission progress, cascading crises */
 .contract-objective{margin-top:7px;padding:7px 9px;background:#e8f1db;border:1px solid #aebd92;border-radius:8px;color:#36543b;font-size:12px;font-weight:900;line-height:1.3}
@@ -260,10 +257,10 @@ body.entry-mode{background:#f8f3e9}
 #officeView .hero-chip{padding:5px 9px}
 #officeView .hero-cast{right:10px;bottom:10px;gap:12px}
 #officeView .cast-shop{width:clamp(115px,18vw,165px);height:135px}
-#officeView .portrait{width:clamp(49px,7vw,66px);height:clamp(57px,8vw,74px)}
+
 #officeView .cast-portrait small{font-size:12px;font-weight:900}
-#officeView .portrait-eyes{top:40%;left:23%;right:23%}
-#officeView .portrait-mouth{top:65%}
+
+
 #officeView .hero-copy p{display:none}
 #officeView .section-bar{margin:13px 0 8px}
 #officeView .layout{grid-template-columns:1fr 1fr;gap:15px}
@@ -861,14 +858,8 @@ body.entry-mode{background:#f8f3e9}
 /* v0.9.7: fixed-coordinate SVG portraits; no inherited HTML face geometry. */
 #officeView .office-visitors{gap:5px;bottom:7px;right:7px}
 #officeView .office-visitors .cast-avatar{padding:2px 3px;gap:1px;background:#fff8e9eb;border:1.5px solid #8e755e;border-radius:9px}
-#officeView .office-visitors .face-art{width:45px;height:55px;display:block;overflow:visible;filter:drop-shadow(0 1px 0 #8b684c)}
+#officeView .office-visitors .portrait-complete{width:45px;height:55px;display:block;overflow:visible;filter:drop-shadow(0 1px 0 #8b684c)}
 #officeView .office-visitors .cast-avatar small{font-size:9px;line-height:1.25;font-weight:950;white-space:nowrap}
-.face-art .face-mouth,.face-art .face-angry-brows{display:none}
-.face-art[data-mood="normal"] .face-mouth-normal,.face-art[data-mood="sad"] .face-mouth-angry,.face-art[data-mood="angry"] .face-mouth-angry,.face-art[data-mood="happy"] .face-mouth-happy,.face-art[data-mood="panic"] .face-mouth-panic{display:block}
-.face-art[data-mood="angry"] .face-angry-brows,.face-art[data-mood="panic"] .face-angry-brows{display:block}
-#officeView .office-visitors .face-art[data-mood="happy"]{filter:drop-shadow(0 2px 1px #e6ac68)}
-#officeView .office-visitors .face-art[data-mood="panic"]{animation:portrait-svg-jolt .55s ease-in-out infinite alternate}
-@keyframes portrait-svg-jolt{to{transform:rotate(-5deg)}}
 #officeView .office-vitals .play-stat.personal>strong{font-size:clamp(13px,3.2vw,21px)!important;letter-spacing:-.07em;white-space:nowrap}
 #officeView .office-vitals .vital-flow{color:#497c62;font-size:9px;font-weight:800;line-height:1.25;overflow-wrap:anywhere}
 #officeView .office-vitals .cash-hint{font-size:9px}
@@ -885,9 +876,9 @@ body.entry-mode{background:#f8f3e9}
 .money-detail-list .money-ledger-end{margin:6px}
 .money-totals{margin-top:6px}
 .money-explainer{margin-top:7px}
-@media(max-width:850px){#officeView .office-visitors .face-art{width:39px;height:47px}#officeView .office-visitors .cast-avatar small{font-size:8px}#officeView .office-vitals .vital-flow{font-size:8px}#officeView .office-vitals .play-stat.personal>strong{font-size:clamp(12px,3.2vw,17px)!important}}
-@media(max-width:380px){#officeView .office-visitors .face-art{width:35px;height:43px}#officeView .office-vitals .play-stat.personal>strong{font-size:12px!important}}
-@media(prefers-reduced-motion:reduce){.face-art{animation:none!important}}
+@media(max-width:850px){#officeView .office-visitors .portrait-complete{width:39px;height:47px}#officeView .office-visitors .cast-avatar small{font-size:8px}#officeView .office-vitals .vital-flow{font-size:8px}#officeView .office-vitals .play-stat.personal>strong{font-size:clamp(12px,3.2vw,17px)!important}}
+@media(max-width:380px){#officeView .office-visitors .portrait-complete{width:35px;height:43px}#officeView .office-vitals .play-stat.personal>strong{font-size:12px!important}}
+@media(prefers-reduced-motion:reduce){.portrait-complete{animation:none!important}}
 
 /* compact money cards: the entire card opens details */
 #officeView .office-vitals .cash-hint{display:none!important}
@@ -1132,25 +1123,6 @@ body.entry-mode{background:#f8f3e9}
 .action-option{min-height:72px;}
 .action-option .action-name{font-size:15px;line-height:1.5;}
 :focus-visible{outline:3px solid #669a91;outline-offset:3px;}
-.comic-scene .arm{transform-box:fill-box;transform-origin:top center;}
-.phase-work .pose-scan .arm-right{animation:scan-arm .85s ease-in-out infinite alternate;}
-.phase-work .pose-work .arm-right,.phase-work .pose-gesture .arm-right{animation:gesture-arm 1.2s ease-in-out infinite alternate;}
-.phase-work .pose-carry{animation:carry-worker 3.5s ease-in-out infinite;}
-.phase-work .pose-reach .arm-left{animation:reach-arm 1.4s ease-in-out infinite alternate;}
-.phase-work .scan-item{animation:scan-item 1.7s ease-in-out infinite;}
-.phase-work .scan-light{animation:flash .85s steps(2) infinite;}
-.phase-work .robot{animation:robot-roll 2.6s ease-in-out infinite alternate;}
-.phase-work .camera-flash{animation:flash 1.6s steps(2) infinite;}
-.phase-result .mood-joy .arm-right{animation:gesture-arm .8s ease-in-out 3 alternate;}
-.phase-result .mood-down .head{transform:translateY(4px) rotate(4deg);transform-box:fill-box;transform-origin:bottom center;}
-.phase-news .news-notifications{animation:news-arrive .4s ease-out both;}
-.celebration{animation:flash 1.3s ease-in-out 3;}
-@keyframes scan-arm{to{transform:rotate(-32deg)}}
-@keyframes gesture-arm{to{transform:rotate(-65deg)}}
-@keyframes reach-arm{to{transform:rotate(25deg)}}
-@keyframes carry-worker{0%,100%{transform:translateX(-9px)}50%{transform:translateX(12px)}}
-@keyframes scan-item{0%{transform:translateX(-30px)}100%{transform:translateX(25px)}}
-@keyframes robot-roll{to{transform:translateX(12px)}}
 @keyframes flash{0%,100%{opacity:.3}50%{opacity:1}}
 @keyframes news-arrive{from{transform:translateY(15px);opacity:0}to{transform:translateY(0);opacity:1}}
 @media(prefers-reduced-motion:reduce){.comic-scene *,.work-progress span{animation:none!important;transition:none!important;}.number-rolling{animation:none!important;}}
@@ -1242,3 +1214,56 @@ html .working-illustration,html .working-comic{
 .title-visual .title-news-badge{position:absolute;right:8px;top:8px;animation:none!important;}
 @media(max-width:380px){.title-cinema-svg{max-height:170px;}}
 @media(prefers-reduced-motion:reduce){.title-cinema-svg,.office-room-art{animation:none!important;transition:none!important;}}
+
+/* Fixed, whole-portrait visuals replace all facial-expression CSS. */
+#officeView .office-visitors .portrait-complete{animation:none!important;transform:none!important;filter:none;overflow:hidden;}
+/* v2.0.0 — three-panel sequential manga.
+   Only whole panel surfaces are animated. Never animate/position hair, face, head, arms or legs. */
+#workingScene #workingComic .manga-strip{display:flex;flex-direction:column;gap:7px;width:100%;max-width:440px;margin:0 auto;}
+.manga-panel{display:grid;grid-template-columns:minmax(95px,40%) minmax(0,1fr);align-items:stretch;
+  min-height:98px;width:100%;border:2.5px solid #393231;border-radius:8px;background:#fff9eb;overflow:hidden;
+  box-shadow:3px 4px 0 #a49a81;position:relative;box-sizing:border-box;}
+.manga-panel::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:repeating-linear-gradient(165deg,transparent 0 12px,#6b634509 13px 15px);}
+.manga-visual{min-width:0;min-height:98px;overflow:hidden;position:relative;z-index:1;}
+.manga-picture{width:100%;height:100%;display:block;overflow:hidden;min-height:98px;background:#eae5db;}
+.manga-dialogue{z-index:1;display:flex;flex-direction:column;justify-content:center;padding:8px 10px;gap:4px;
+  min-width:0;overflow-wrap:anywhere;word-break:normal;}
+.manga-beat{font-size:10px;line-height:1.3;font-weight:900;letter-spacing:.03em;color:#8f543d;}
+.manga-line{font-size:12px!important;line-height:1.5!important;font-weight:750!important;text-align:left!important;
+  color:#3d3631!important;margin:0!important;white-space:normal;}
+.manga-panel:not(.is-revealed){opacity:0;visibility:hidden;}
+.manga-panel.is-revealed{visibility:visible;animation:manga-panel-enter .43s cubic-bezier(.18,.79,.24,1) both;}
+@keyframes manga-panel-enter{from{opacity:0;transform:translateY(10px) scale(.975)}to{opacity:1;transform:translateY(0) scale(1)}}
+.manga-progress{margin:2px 0 0;font-size:12px;text-align:center;letter-spacing:.9em;color:#5f6b63;}
+#workingScene #workingComic .manga-panel{flex:none;}
+#workingScene #workingComic .manga-picture{max-height:none!important;}
+#workingScene #workingMessage{margin:0!important;min-height:0!important;font-size:12px!important;line-height:1.4!important;}
+#workingScene.working-scene{gap:8px!important;}
+#workingScene #workingAction{font-size:14px!important;line-height:1.35!important;margin:4px 0 0!important;}
+#workingScene h2{font-size:16px!important;}
+#workingScene .work-footer{gap:16px!important;margin-top:5px!important;padding-top:7px!important;}
+#outcomeArt .manga-strip{display:flex;flex-direction:column;gap:9px;margin:12px auto;max-width:430px;}
+#outcomeArt .manga-panel{min-height:104px;}
+#outcomeArt .manga-panel:nth-child(2).is-revealed{animation-delay:.16s;}
+#outcomeArt .manga-panel:nth-child(3).is-revealed{animation-delay:.32s;}
+#outcomeArt .manga-progress{display:none;}
+.manga-verdict{display:block;font-weight:900;font-size:16px;letter-spacing:.05em;text-align:center;
+  color:#593f32;border-bottom:3px solid #ae8c62;margin:9px auto;padding-bottom:7px;}
+@media(max-width:370px){
+ .manga-panel{grid-template-columns:minmax(93px,39%) minmax(0,1fr);min-height:98px;}
+ .manga-dialogue{padding:7px 8px;}
+ .manga-line{font-size:11.5px!important;}
+ .manga-beat{font-size:9.5px;}
+ #workingScene.working-scene{padding:20px 12px calc(24px + env(safe-area-inset-bottom))!important;}
+}
+@media(max-height:690px){
+ #workingScene.working-scene{gap:5px!important;padding-top:12px!important;}
+ .manga-panel{min-height:85px;}
+ .manga-visual,.manga-picture{min-height:85px;}
+ #workingScene .work-footer{margin-top:2px!important;}
+}
+@media(prefers-reduced-motion:reduce){
+ .manga-panel.is-revealed{animation:none!important;transition:none!important;transform:none!important;opacity:1!important;}
+ .manga-panel:not(.is-revealed){transition:none!important;}
+}

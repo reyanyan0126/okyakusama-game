@@ -41,21 +41,31 @@ with sync_playwright() as p:
    assert card.count()==1
    assert '#cinema-arc_register_boss-work-1' in card.locator('svg use').get_attribute('href')
    card.click();page.locator('#advanceButton').click()
-   def artref():
-    use=page.locator('#workingComic .storyboard-panel use')
-    return use.get_attribute('href') if use.count() else ''
-   assert artref().endswith('#cinema-arc_register_boss-work-0'),artref()
-   page.wait_for_timeout(1280)
-   assert artref().endswith('#cinema-arc_register_boss-work-1'),artref()
-   page.wait_for_timeout(1220)
-   assert artref().endswith('#cinema-arc_register_boss-work-2'),artref()
-   bbox=page.evaluate("""()=>{const n=document.querySelector('#workingComic .storyboard-panel use');try {return n.getBBox().width} catch(e){return -1}}""")
-   assert bbox>0,(name,width,'external SVG use did not render',bbox)
-   page.locator('#workingSkip').click()
+   # Previously authored episode thumbnails remain in the proposal cards.
+   # Active theater now uses three whole-portrait manga panels, not CSS-built limbs.
+   panels=page.locator('#workingComic .manga-panel')
+   assert panels.count()==3,(page.locator('#workingComic').inner_html()[:400])
+   assert page.locator('#workingComic .manga-panel.is-revealed').count()>=1
+   assert page.locator('#workingComic .manga-panel[aria-hidden="true"]').count()<=2
+   assert page.evaluate("""()=>{
+    const node=document.querySelector('#workingComic .manga-picture use');
+    return node && node.getBBox().width>0 &&
+           node.getAttribute('href').includes('portraits-v171.svg') || 
+           node && node.getBBox().width>0 &&
+           node.getAttribute('href').includes('manga-cast-v200.svg');
+   }"""),(browser_name if 'browser_name' in locals() else name,width,'whole portrait not rendered')
+   page.wait_for_timeout(1260)
+   assert page.locator('#workingComic .manga-panel.is-revealed').count()>=2
+   page.wait_for_timeout(1240)
+   assert page.locator('#workingComic .manga-panel.is-revealed').count()==3
+   # Use the public click handler synchronously; automatic scene advance can race a Playwright locator click.
+   page.evaluate("document.getElementById('workingSkip').click()")
    page.locator('#outcomeScene').wait_for(state='visible',timeout=5000)
-   state=page.evaluate("JSON.parse(localStorage.getItem('okyakusama.save.v1'))")
-   tier=state['lastResult']['performanceTier']
-   assert page.locator('#outcomeArt .storyboard-panel use').get_attribute('href').endswith('#cinema-arc_register_boss-'+tier)
+   assert page.locator('#outcomeArt .manga-panel').count()==3
+   assert page.locator('#outcomeArt .manga-panel.is-revealed').count()==3
+   tier=page.evaluate("JSON.parse(localStorage.getItem('okyakusama.save.v1')).lastResult.performanceTier")
+   assert tier in ['failure','success','great']
+   assert page.locator('#outcomeArt .manga-verdict').is_visible()
    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'),(name,width)
    assert not errors,errors
    print('PASS v1.5.0 storyboards',name,width,tier,flush=True)

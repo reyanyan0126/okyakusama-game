@@ -53,19 +53,31 @@ with sync_playwright() as p:
    assert c.locator('svg use').get_attribute('href').endswith('#cinema-arc_register_pay-work-1')
    c.click()
    page.locator('#advanceButton').click()
-   def ref():
-    return page.locator('#workingComic .storyboard-panel use').get_attribute('href')
-   assert ref().endswith('#cinema-arc_register_pay-work-0'),ref()
-   bbox=page.evaluate("""()=>document.querySelector('#workingComic .storyboard-panel use').getBBox().width""")
-   assert bbox>0,(browser_name,width,'new art not rendered',bbox)
-   page.wait_for_timeout(1250)
-   assert ref().endswith('#cinema-arc_register_pay-work-1'),ref()
-   page.wait_for_timeout(1200)
-   assert ref().endswith('#cinema-arc_register_pay-work-2'),ref()
-   page.locator('#workingSkip').click()
+   # Previously authored episode thumbnails remain in the proposal cards.
+   # Active theater now uses three whole-portrait manga panels, not CSS-built limbs.
+   panels=page.locator('#workingComic .manga-panel')
+   assert panels.count()==3,(page.locator('#workingComic').inner_html()[:400])
+   assert page.locator('#workingComic .manga-panel.is-revealed').count()>=1
+   assert page.locator('#workingComic .manga-panel[aria-hidden="true"]').count()<=2
+   assert page.evaluate("""()=>{
+    const node=document.querySelector('#workingComic .manga-picture use');
+    return node && node.getBBox().width>0 &&
+           node.getAttribute('href').includes('portraits-v171.svg') || 
+           node && node.getBBox().width>0 &&
+           node.getAttribute('href').includes('manga-cast-v200.svg');
+   }"""),(browser_name if 'browser_name' in locals() else name,width,'whole portrait not rendered')
+   page.wait_for_timeout(1260)
+   assert page.locator('#workingComic .manga-panel.is-revealed').count()>=2
+   page.wait_for_timeout(1240)
+   assert page.locator('#workingComic .manga-panel.is-revealed').count()==3
+   # Use the public click handler synchronously; automatic scene advance can race a Playwright locator click.
+   page.evaluate("document.getElementById('workingSkip').click()")
    page.locator('#outcomeScene').wait_for(state='visible',timeout=5000)
+   assert page.locator('#outcomeArt .manga-panel').count()==3
+   assert page.locator('#outcomeArt .manga-panel.is-revealed').count()==3
    tier=page.evaluate("JSON.parse(localStorage.getItem('okyakusama.save.v1')).lastResult.performanceTier")
-   assert page.locator('#outcomeArt .storyboard-panel use').get_attribute('href').endswith('#cinema-arc_register_pay-'+tier)
+   assert tier in ['failure','success','great']
+   assert page.locator('#outcomeArt .manga-verdict').is_visible()
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
    assert not errors,errors
    print('PASS v1.7.0 cinema',browser_name,width,tier,flush=True)

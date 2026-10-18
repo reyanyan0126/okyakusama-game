@@ -72,3 +72,12 @@ Backup before this release: `backup/pre-v1.4.0-20261018` (main `f305be3`).
 - `tests/office-v171.test.cjs` と `tests/office-v171.py` で素材の参照・場面状態・WebKit/Chromiumモバイル描画を追加検証します。
 
 変更前バックアップ: `backup/pre-v1.7.1-20261018`。
+
+
+## v1.7.2 visual hotfix (independent of unreleased v2.0 stacked PRs)
+
+This hotfix branch is based directly on **main v1.7.1**. It replaces the public game's CSS-animated hair, face, arms and the working/outcome theater with complete SVG portraits and a sequential three-panel comic. The office's initially inlined facial parts are also replaced by complete static SVG symbol references. No game rules, RNG, saved schema, money transfers, strategy choices or story logic were changed. The final build is **not yet public** until this PR is tested, reviewed and merged into main.
+
+The manga has three sequential panels (1 → 2 → 3), with whole-panel fade/slide animations and immediate all-three display for reduced-motion users. The skip button remains available. Existing illustrated policy choice cards remain unchanged. The manga portraits reuse existing 25 resident expressions and add 15 fixed-pose full-figure SVG illustrations for protagonist, owner and worker.
+
+The service-worker cache is bumped to `okyakusama-v1.7.2-manga-cache-1` to avoid keeping the old CSS-drawn version after release. Note that physical iPhone validation is still required; browser simulation is not equivalent to testing on an actual phone.
