@@ -3,11 +3,41 @@
 const families=[["register",["arc_register_boss"]],["robot",["arc_staff_robot"]],["bento",["arc_bento_real"]],["photo",["arc_bento_camera"]],["staff",["arc_staff_listen"]],["parade",["arc_festival_parade"]],["press",["arc_media_open"]],["credit",["arc_finale_steal"]]];
 const lookup=Object.fromEntries(families.flatMap(([family,ids])=>ids.map(id=>[id,family])));
 const BASE='./assets/storyboards-v150.svg#';
-const family=id=>lookup[id]||null;
+const ADDITIONAL='./assets/policies-v160.svg#';
+const EXTRA={
+ "raise": "古い値札を外す",
+ "lower": "値下げを決める",
+ "shrink": "食品を計量する",
+ "cheap": "材料の原価を調べる",
+ "quality": "新鮮な材料を選ぶ",
+ "staff": "レジの列を確認",
+ "explain": "説明する内容を準備",
+ "sale": "セール札を印刷",
+ "points": "還元率を確認",
+ "pop": "宣伝のコピーを考える",
+ "tasting": "試食品を用意",
+ "local": "農家と仕入れ相談",
+ "restorestaff": "求人募集を出す",
+ "apology": "クレームを集約",
+ "recall": "問題商品を確認",
+ "blame": "会見内容を確認",
+ "loyalty": "常連さんを迎える",
+ "stamp": "台紙を印刷",
+ "audit": "帳簿を開く",
+ "maintenance": "古い冷蔵庫を調査",
+ "loan": "銀行窓口に相談",
+ "airtax": "商品の空気を計る",
+ "photo": "商品を撮影台に置く",
+ "ceocut": "社長の報酬を確認",
+ "bills": "請求書を集める",
+ "apologybot": "謝罪AIを起動"
+};
+const family=id=>lookup[id]||(EXTRA[id]?id:null);
 function symbol(id,phase='work',step=0){const group=family(id);if(!group)return null;
- if(phase==='work')return BASE+group+'-work-'+Math.max(0,Math.min(2,Math.trunc(step)||0));
- if(phase==='result')return BASE+group+'-'+(['failure','success','great'].includes(step)?step:'success');
- return BASE+group+'-work-1';
+ const src=lookup[id]?BASE+group:ADDITIONAL+'policy-'+group;
+ if(phase==='work')return src+'-work-'+Math.max(0,Math.min(2,Math.trunc(step)||0));
+ if(phase==='result')return src+'-'+(['failure','success','great'].includes(step)?step:'success');
+ return src+'-work-1';
 }
 function markup(id,phase='work',step=0,role='img'){
  const href=symbol(id,phase,step);if(!href)return null;
@@ -24,7 +54,7 @@ const scripts=Object.freeze({
  press:['記者の質問に答える','経営資料を公開する','記事の公開を待つ'],
  credit:['社長が表彰式を開く','社長が壇上の真ん中へ','従業員の反応は…']
 });
-const captions=id=>scripts[family(id)]||null;
+const captions=id=>scripts[family(id)]||EXTRA[id]||null;
 root.PolicyStoryboards={family,symbol,markup,captions,BASE,families};
 if(typeof module!=='undefined'&&module.exports)module.exports=root.PolicyStoryboards;
 })(typeof window!=='undefined'?window:globalThis);
