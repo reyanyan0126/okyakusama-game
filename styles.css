@@ -1362,3 +1362,22 @@ html .working-illustration,html .working-comic{
 @media(prefers-reduced-motion:reduce){
  .story-art-enter #prologuePaintedPerson{animation:none!important;transform:none!important;}
 }
+
+/* v1.7.4 — emotional beats decorate a full painted manga frame, never a face part. */
+.manga-emotion-cue{
+ display:inline-block;align-self:flex-start;max-width:100%;
+ border:1px solid #c9b8aa;border-radius:999px;
+ padding:1px 7px;font-size:10px;line-height:1.5;
+ font-weight:850;color:#574e47;background:#fbf0df;
+ overflow-wrap:anywhere;
+}
+.manga-panel[data-emotion="angry"]{border-color:#9d4b42}
+.manga-panel[data-emotion="angry"] .manga-emotion-cue{background:#f6ddd7;color:#813e37;border-color:#d7a199}
+.manga-panel[data-emotion="panic"]{border-color:#aa7942}
+.manga-panel[data-emotion="panic"] .manga-emotion-cue{background:#fff0d0;color:#805827;border-color:#e2c393}
+.manga-panel[data-emotion="sad"]{border-color:#5e7792}
+.manga-panel[data-emotion="sad"] .manga-emotion-cue{background:#e6ebf3;color:#475f7c;border-color:#b3c4dc}
+.manga-panel[data-emotion="happy"]{border-color:#43816b}
+.manga-panel[data-emotion="happy"] .manga-emotion-cue{background:#e2f1e5;color:#346f55;border-color:#9ac7a9}
+@media(max-width:350px){.manga-emotion-cue{font-size:9px;padding:1px 6px}}
+@media(prefers-reduced-motion:reduce){.manga-emotion-cue{animation:none!important;transition:none!important}}

@@ -48,7 +48,7 @@ try:
      assert before['week']==2
      assert page.locator('#workingComic .manga-panel').count()==3
      assert page.locator('#workingComic .manga-painted-character image').count()==3
-     assert page.locator('#workingComic .manga-painted-character image').evaluate_all("els=>els.every(e=>e.getAttribute('href').includes('manga-painted-cast-v173.webp'))")
+     assert page.locator('#workingComic .manga-painted-character image').evaluate_all("els=>els.every(e=>/manga-painted-cast-v173\\.webp|illustrated-protagonist-(thinking-|determined-)?v173\\.webp/.test(e.getAttribute('href')))"),'all characters use only finished painted images'
      assert page.locator('#workingComic .cast .arm').count()==0
      assert page.locator('#workingComic .portrait-hair').count()==0
      assert page.locator('#workingComic .manga-dialogue').count()==3
