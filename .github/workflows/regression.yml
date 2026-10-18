@@ -11,6 +11,7 @@ on:
       - feature/v1.5.0-art-storyboards
       - feature/v1.6.0-story-incidents
       - feature/v1.6.1-cast-layout
+      - feature/v1.7.0-scene-cinema
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -22,7 +23,7 @@ jobs:
           node-version: '22'
       - name: Run Node game tests
         run: |
-          for test in tests/crisis-v100.test.cjs tests/four-choice-v110.test.cjs tests/outcome-v120.test.cjs tests/story-v130.test.cjs tests/theater-v140.test.cjs tests/storyboards-v150.test.cjs tests/art-v160.test.cjs tests/cast-layout-v161.test.cjs tests/onboarding-v101.test.cjs tests/ui-smoke.test.cjs tests/v099-campaign.test.cjs tests/finance-v094.test.cjs tests/v095-rootcause.test.cjs; do node "$test"; done
+          for test in tests/crisis-v100.test.cjs tests/four-choice-v110.test.cjs tests/outcome-v120.test.cjs tests/story-v130.test.cjs tests/theater-v140.test.cjs tests/storyboards-v150.test.cjs tests/art-v160.test.cjs tests/cast-layout-v161.test.cjs tests/cinema-v170.test.cjs tests/onboarding-v101.test.cjs tests/ui-smoke.test.cjs tests/v099-campaign.test.cjs tests/finance-v094.test.cjs tests/v095-rootcause.test.cjs; do node "$test"; done
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -40,3 +41,4 @@ jobs:
           python tests/storyboards-v150.py
           python tests/art-v160.py
           python tests/cast-layout-v161.py
+          python tests/cinema-v170.py
