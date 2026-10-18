@@ -13,6 +13,7 @@ class Element {
   setAttribute(k,v){this.attrs[k]=v}
   getAttribute(k){return this.attrs[k]}
   querySelector(){return new Element('child')}
+  querySelectorAll(){return []} // Mock does not parse SVG; real DOM panel count is covered in Playwright
   append(){}
   focus(){}
   click(){this.dispatch('click')}
