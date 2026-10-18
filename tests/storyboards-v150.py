@@ -39,23 +39,23 @@ with sync_playwright() as p:
    page.locator('#openProposals').click()
    card=page.locator('.action-option[data-id="arc_register_boss"]')
    assert card.count()==1
-   assert '#register-work-1' in card.locator('svg use').get_attribute('href')
+   assert '#cinema-arc_register_boss-work-1' in card.locator('svg use').get_attribute('href')
    card.click();page.locator('#advanceButton').click()
    def artref():
     use=page.locator('#workingComic .storyboard-panel use')
     return use.get_attribute('href') if use.count() else ''
-   assert artref().endswith('#register-work-0'),artref()
+   assert artref().endswith('#cinema-arc_register_boss-work-0'),artref()
    page.wait_for_timeout(1280)
-   assert artref().endswith('#register-work-1'),artref()
+   assert artref().endswith('#cinema-arc_register_boss-work-1'),artref()
    page.wait_for_timeout(1220)
-   assert artref().endswith('#register-work-2'),artref()
+   assert artref().endswith('#cinema-arc_register_boss-work-2'),artref()
    bbox=page.evaluate("""()=>{const n=document.querySelector('#workingComic .storyboard-panel use');try {return n.getBBox().width} catch(e){return -1}}""")
    assert bbox>0,(name,width,'external SVG use did not render',bbox)
    page.locator('#workingSkip').click()
    page.locator('#outcomeScene').wait_for(state='visible',timeout=5000)
    state=page.evaluate("JSON.parse(localStorage.getItem('okyakusama.save.v1'))")
    tier=state['lastResult']['performanceTier']
-   assert page.locator('#outcomeArt .storyboard-panel use').get_attribute('href').endswith('#register-'+tier)
+   assert page.locator('#outcomeArt .storyboard-panel use').get_attribute('href').endswith('#cinema-arc_register_boss-'+tier)
    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'),(name,width)
    assert not errors,errors
    print('PASS v1.5.0 storyboards',name,width,tier,flush=True)
