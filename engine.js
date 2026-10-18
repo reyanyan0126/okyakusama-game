@@ -245,7 +245,7 @@ function weeklyOffers(s){
  }
  // Root repairs compete with regular policy: no extra menu or extra weekly action.
  const diagnosis=rootDiagnosis(s);
- if(diagnosis.active&&!diagnosis.solved&&s.week>=2&&s.week<=Math.min(24,campaignWeeks(s)-2)&&brief.id!=='crisis'&&!brief.episode){
+ if(diagnosis.active&&!diagnosis.solved&&s.week>=2&&s.week<=Math.min(24,campaignWeeks(s)-2)&&brief.id!=='crisis'&&!brief.episode&&!brief.chapter){
   picks[1]=diagnosis.action;
  }
  // A fallback action may already be the root repair. Replacing slot 2 must
