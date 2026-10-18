@@ -32,8 +32,9 @@ with sync_playwright() as p:
    }""")
    assert count=={'count':24,'refs':True,'families':True},count
    finite=page.evaluate("""()=>{
-    const style=getComputedStyle(document.querySelector('.title-news-badge'));
-    return {count:style.animationIterationCount,scroll:document.documentElement.scrollWidth<=innerWidth+1};
+    const test=document.createElement('span');test.className='title-svg';document.body.append(test);
+    const count=getComputedStyle(test).animationIterationCount;test.remove();
+    return {count,scroll:document.documentElement.scrollWidth<=innerWidth+1};
    }""")
    assert 'infinite' not in finite['count'],finite
    assert finite['scroll'],finite
