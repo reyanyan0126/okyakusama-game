@@ -30,8 +30,10 @@ for(const [family,actions] of B.families)for(const id of actions){
 }
 assert.equal(B.markup('nobody_has_this_id','work',0),null,'other policies retain compatible fallback');
 assert(html.includes('<script defer src="assets/storyboards-v150.js"></script>'));
-assert(js.includes('B?.markup(h.actionId'));
-assert(js.includes("B.markup(h.actionId,'work',n)"));
+assert(js.includes('B?.family(h.actionId)'),'legacy action descriptions remain');
+assert(js.includes('M.markup(h.actionId,lines'),'work scene must use complete-portrait manga');
+assert(js.includes('window.MangaCinema.result(h)'),'result scene must use manga rather than CSS limbs');
+assert(!js.includes("B.markup(h.actionId,'work',n)"),'legacy composited scene retired from active theater');
 assert(sw.includes("'./assets/storyboards-v150.svg'"));
 assert(sw.includes("'./assets/episode-cinema-v170.svg'"));
 console.log('PASS v1.7.0: legacy storyboard remains valid; eight spotlight episodes are now unique per choice');

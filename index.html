@@ -22,6 +22,7 @@
   <script defer src="backup-v200.js"></script>
   <script defer src="consequences-v200.js"></script>
   <script defer src="strategy-advisor-v200.js"></script>
+  <script defer src="manga-v200.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body>
@@ -245,29 +246,15 @@
             <svg class="office-room-art" viewBox="0 0 720 420" role="img" aria-label="経営状況に応じて変わる、スーツ姿のコンサルとモグモグマートの情景"><use href="./assets/office-cinema-v171.svg#office-normal"></use></svg>
             <div class="office-hero-heading"><span class="office-nameplate">雑居ビル3階 ／ コンサル事務所</span><span id="heroWeek" class="office-week">第1週</span></div>
             <div class="office-hero-caption"><span>担当案件</span><h2 id="clientTitle">モグモグマート</h2><span id="officeSceneText" class="office-under" aria-live="polite">開店したばかり。再建はここから。</span></div>
-            <div class="office-visitors" aria-label="相談者と消費者の様子">
-              <div class="cast-portrait cast-avatar"><svg id="bossFace" class="face-art" data-mood="normal" viewBox="0 0 52 66" role="img" aria-label="店長・普通の表情">
-      <path d="M8 58Q9 47 25 47Q43 47 44 58V63H8Z" fill="#6c9893" stroke="#483930" stroke-width="2"/>
-      <ellipse cx="26" cy="30" rx="18" ry="23" fill="#f0ba93" stroke="#45352e" stroke-width="2.5"/><path d="M8 22Q4 5 26 5Q47 4 44 24L37 17L30 13L21 19L12 18Z" fill="#41322c" stroke="#352a25" stroke-width="2"/>
-      <g class="face-eyes"><ellipse cx="20" cy="30" rx="2.2" ry="3.2" fill="#302821"/><ellipse cx="33" cy="30" rx="2.2" ry="3.2" fill="#302821"/></g>
-      <g class="face-angry-brows" stroke="#302821" stroke-width="2.7" stroke-linecap="round"><path d="M15 23l8 3M37 23l-8 3"/></g>
-      <path class="face-mouth face-mouth-normal" d="M21 40Q26 43 31 40" stroke="#8b5146" stroke-width="2.3" fill="none" stroke-linecap="round"/>
-      <path class="face-mouth face-mouth-happy" d="M19 39Q26 51 33 39Z" fill="#b55d58" stroke="#7b4037" stroke-width="1.8"/>
-      <path class="face-mouth face-mouth-angry" d="M21 44Q26 37 31 44" stroke="#904b40" stroke-width="2.7" fill="none" stroke-linecap="round"/>
-      <ellipse class="face-mouth face-mouth-panic" cx="26" cy="42" rx="4.6" ry="6.5" fill="#9f5149" stroke="#793c39" stroke-width="1.8"/>
-      <path d="M26 50l-5 5 5 6 5-6Z" fill="#bd604f" stroke="#49322b" stroke-width="1.4"/>
-    </svg><small>店長</small></div>
-              <div class="cast-portrait cast-avatar"><svg id="buyerFace" class="face-art" data-mood="normal" viewBox="0 0 52 66" role="img" aria-label="消費者・普通の表情">
-      <path d="M8 58Q9 47 25 47Q43 47 44 58V63H8Z" fill="#d6a077" stroke="#483930" stroke-width="2"/>
-      <ellipse cx="26" cy="30" rx="18" ry="23" fill="#f6c8a5" stroke="#45352e" stroke-width="2.5"/><path d="M8 24Q4 5 26 5Q48 6 44 27L40 39L37 20L29 15L18 18L12 36Z" fill="#76503c" stroke="#4b352a" stroke-width="2"/>
-      <g class="face-eyes"><ellipse cx="20" cy="30" rx="2.2" ry="3.2" fill="#302821"/><ellipse cx="33" cy="30" rx="2.2" ry="3.2" fill="#302821"/></g>
-      <g class="face-angry-brows" stroke="#302821" stroke-width="2.7" stroke-linecap="round"><path d="M15 23l8 3M37 23l-8 3"/></g>
-      <path class="face-mouth face-mouth-normal" d="M21 40Q26 43 31 40" stroke="#8b5146" stroke-width="2.3" fill="none" stroke-linecap="round"/>
-      <path class="face-mouth face-mouth-happy" d="M19 39Q26 51 33 39Z" fill="#b55d58" stroke="#7b4037" stroke-width="1.8"/>
-      <path class="face-mouth face-mouth-angry" d="M21 44Q26 37 31 44" stroke="#904b40" stroke-width="2.7" fill="none" stroke-linecap="round"/>
-      <ellipse class="face-mouth face-mouth-panic" cx="26" cy="42" rx="4.6" ry="6.5" fill="#9f5149" stroke="#793c39" stroke-width="1.8"/>
-      <path d="M11 58Q25 46 40 58" stroke="#da9a72" stroke-width="10"/>
-    </svg><small id="buyerPersona">森さん</small></div>
+            <div class="office-visitors" aria-label="店長と常連客の表情">
+              <div class="cast-portrait cast-avatar">
+                <svg id="bossFace" class="portrait-complete" data-mood="normal" viewBox="0 0 100 120" role="img" aria-label="店長・普通の表情"><use href="./assets/portraits-v171.svg#portrait-manager-normal"></use></svg>
+                <small>店長</small>
+              </div>
+              <div class="cast-portrait cast-avatar">
+                <svg id="buyerFace" class="portrait-complete" data-mood="normal" viewBox="0 0 100 120" role="img" aria-label="常連・森さん・普通の表情"><use href="./assets/portraits-v171.svg#portrait-mori-normal"></use></svg>
+                <small id="buyerPersona">森さん</small>
+              </div>
             </div>
           </article>
           <section class="office-vitals play-stats" aria-label="今週の重要ステータス">
@@ -420,8 +407,8 @@
     </section>
     <div id="workingScene" class="working-scene">
       <div class="loading-week" id="workingWeek">WEEK 01</div>
-      <div id="workingComic"></div><svg hidden id="workingIllustration" class="working-illustration" viewBox="0 0 320 165" role="img" aria-label="今週選んだ施策の作業風景"><use id="workingArtUse" href="#policy-scene-product"/></svg><div id="workingAction" class="working-action">今週の施策を実行中</div>
-      <h2>今週の営業中…</h2><p id="workingMessage">お客様が来店しています</p>
+      <div id="workingComic" role="region" aria-label="3コマ漫画・営業中"></div><svg hidden id="workingIllustration" class="working-illustration" viewBox="0 0 320 165" role="img" aria-label="今週選んだ施策の作業風景"><use id="workingArtUse" href="#policy-scene-product"/></svg><div id="workingAction" class="working-action">今週の施策を実行中</div>
+      <h2>今週の営業中…</h2><p id="workingMessage" role="status" aria-live="polite">お客様が来店しています</p>
       <div class="work-footer" role="group" aria-label="営業演出の操作">
         <div class="work-progress" aria-hidden="true"><span></span></div>
         <button id="workingSkip" class="secondary-btn" type="button">演出をスキップ →</button>
