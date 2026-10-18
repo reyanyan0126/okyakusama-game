@@ -32,6 +32,8 @@ assert(!js.includes('T.art(h.actionId'));
 assert(sw.includes('okyakusama-v2.0.0-preview-8'));
 assert(sw.includes("'./manga-v200.js'")&&sw.includes("'./assets/manga-cast-v200.svg'"));
 assert.equal(Manga.speaker('社長「責任は君にある！」',0),'boss');
+assert.equal(Manga.speaker('社長がレジへ',0),'boss');
+assert.equal(Manga.speaker('現場に拍手が響いた',0,'arc_finale_steal'),'boss');
 assert.equal(Manga.speaker('店長「数字を見ましょう」',1),'manager');
 assert.equal(Manga.speaker('常連「また来るね」',2),'customer');
 assert.equal(Manga.speaker('あなたは決算を見た',0),'you');
