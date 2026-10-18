@@ -18,7 +18,7 @@ with sync_playwright() as p:
         page.locator('#titleStart').click()
         page.locator('#acceptMarket').click()
         for i in range(7):
-            assert page.locator('#prologueArt').get_attribute('href')==f'#story-scene-{i+1}'
+            assert page.locator('#prologueArt').get_attribute('href')==f'./assets/prologue-v160.svg#prologue-{i+1}'
             if i<6:page.locator('#prologueNext').click()
         page.locator('#prologueNext').click()
         assert page.locator('#modal').is_visible(), 'guide should display directly after intro'

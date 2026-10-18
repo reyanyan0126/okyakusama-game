@@ -71,12 +71,12 @@ function art(id,mood='normal',phase='work'){
  return `<svg class="comic-scene phase-${phase} scene-${scene}" viewBox="0 0 360 230" role="img" aria-label="${escape(({register:'レジで商品をスキャンする社長',robot:'ロボット店員と見守る店長',photo:'広告写真を撮影する社長',parade:'パレードで指示を出す社長',credit:'現場の成果を自慢する社長',press:'事務所で取材を受ける店長',staff:'バックヤードで従業員と話し合う店長',bento:'弁当売り場で働く店長',repair:'冷蔵庫を点検する店長',office:'帳簿を確認する店長',festival:'町の屋台で働くスタッフ',shop:'スーパーの売り場で働く店長'})[scene])}"><rect width="360" height="230" rx="18" fill="#f0e6d1"/><path d="M0 125h360v105H0Z" fill="#dfd2b8"/><path d="M0 170h360M60 125L20 230M170 125v105M280 125l45 105" stroke="#cec2aa" stroke-width="2"/>${bg}${person('worker',54,122,mood==='down'?'worry':'normal','carry',.7)}${person(lead,145,114,mood,scene==='register'?'scan':scene==='parade'||scene==='credit'?'gesture':'work',1.05)}${!['robot','repair'].includes(scene)?person(scene==='staff'?'worker':scene==='office'?'you':'customer',295,133,scene==='office'?mood:mood==='joy'?'joy':'normal','reach',.8):''}${['parade','robot','repair'].includes(scene)?'':'<path d="M101 174h225v39H101Z" fill="#9aaf9b"/><path d="M95 172h237" stroke="#fff4dc" stroke-width="9"/>'}${props}${alert}${phase==='result'&&mood==='joy'?'<g class="celebration" fill="#d3a14e"><path d="M50 48l3-10 3 10 10 3-10 3-3 10-3-10-10-3Zm260 7l3-9 3 9 9 3-9 3-3 9-3-9-9-3Z"/></g>':''}</svg>`;
 }
 function news(h,G){const items=[];
- if(h.fireHit)items.push({title:'SNSで批判が拡散',text:'施策の成否とは別に、店への批判が広がっています。',kind:'warning'});
- if(h.memoryEvent)items.push({title:'以前の判断が再び話題に',text:'過去の施策が再燃。今週の成否とは別の出来事です。',kind:'memory'});
- if(h.accidentId){const a=G.ACCIDENTS.find(a=>a.id===h.accidentId);items.push({title:h.accidentTitle,text:a?.body||'現場から臨時の報告が届きました。',kind:h.accidentPositive?'positive':'warning'});}
- if(h.boycottHit)items.push({title:'不買運動が始まりました',text:'お客様の足が遠のいています。次の対応を考えましょう。',kind:'warning'});
- if(h.devilPayment||h.personalDevilPayment)items.push({title:'契約の支払期限',text:'悪魔への返済が発生。支払額は決算の明細で確認できます。',kind:'warning'});
- for(const echo of h.storyEcho||[])items.push({title:'あの選択の後日談',text:echo.text,kind:'memory'});
+ if(h.fireHit)items.push({title:'SNSで批判が拡散',text:'施策の成否とは別に、店への批判が広がっています。',kind:'warning',visualId:'fire'});
+ if(h.memoryEvent)items.push({title:'以前の判断が再び話題に',text:'過去の施策が再燃。今週の成否とは別の出来事です。',kind:'memory',visualId:'memory'});
+ if(h.accidentId){const a=G.ACCIDENTS.find(a=>a.id===h.accidentId);items.push({title:h.accidentTitle,text:a?.body||'現場から臨時の報告が届きました。',kind:h.accidentPositive?'positive':'warning',visualId:a?.id||'memory'});}
+ if(h.boycottHit)items.push({title:'不買運動が始まりました',text:'お客様の足が遠のいています。次の対応を考えましょう。',kind:'warning',visualId:'boycott'});
+ if(h.devilPayment||h.personalDevilPayment)items.push({title:'契約の支払期限',text:'悪魔への返済が発生。支払額は決算の明細で確認できます。',kind:'warning',visualId:'devil'});
+ for(const echo of h.storyEcho||[])items.push({title:'あの選択の後日談',text:echo.text,kind:'memory',visualId:['register','bento','staff','media','festival','finale'].includes(echo.id)?'echo-'+echo.id:'memory'});
  return items;
 }
 const api={setting,captions,art,person,news};root.WeekTheater=api;

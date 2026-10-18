@@ -1171,3 +1171,12 @@ body.entry-mode{background:#f8f3e9}
 .action-option .storyboard-panel{width:100%;height:100%;aspect-ratio:auto;border-radius:0;}
 .action-option .policy-preview:has(.storyboard-panel){background:#fff7e7;}
 @media(prefers-reduced-motion:reduce){.storyboard-panel{animation:none!important;transition:none!important;}}
+
+/* v1.6.0: story art and incident art are full authored compositions, not repainted common figures. */
+.prologue-illustration{height:auto!important;aspect-ratio:12/7;max-height:285px;background:#e1d2bb!important;overflow:hidden;position:relative;}
+.prologue-art-v160,.story-intro-panel,.incident-illustration{display:block;width:100%;height:auto;aspect-ratio:12/7;overflow:hidden;border-radius:12px;}
+.prologue-art-v160{width:100%!important;height:100%!important;max-height:285px;}
+.title-visual .story-intro-panel{max-height:185px;object-fit:contain;}
+#newsArt .incident-illustration{max-height:min(37dvh,270px);margin:8px auto;}
+@media(max-width:380px){.prologue-illustration{max-height:205px!important;}.prologue-art-v160{max-height:205px!important;}}
+@media(prefers-reduced-motion:reduce){.prologue-art-v160,.incident-illustration{animation:none!important;transition:none!important;}}
