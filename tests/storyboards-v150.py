@@ -39,21 +39,26 @@ with sync_playwright() as p:
    page.locator('#openProposals').click()
    card=page.locator('.action-option[data-id="arc_register_boss"]')
    assert card.count()==1
-   assert '#cinema-arc_register_boss-work-1' in card.locator('svg use').get_attribute('href')
+   assert card.locator('.policy-symbol use').get_attribute('href').startswith('./assets/policy-icons-v173.svg#icon-'), 'the old miniature story thumbnail must be replaced by a large symbol'
    card.click();page.locator('#advanceButton').click()
-   # Previously authored episode thumbnails remain in the proposal cards.
+   # Existing episode assets remain as a legacy resource; visible choice cards use simple icons.
    # Active theater now uses three whole-portrait manga panels, not CSS-built limbs.
    panels=page.locator('#workingComic .manga-panel')
    assert panels.count()==3,(page.locator('#workingComic').inner_html()[:400])
    assert page.locator('#workingComic .manga-panel.is-revealed').count()>=1
    assert page.locator('#workingComic .manga-panel[aria-hidden="true"]').count()<=2
-   assert page.evaluate("""()=>{
-    const node=document.querySelector('#workingComic .manga-picture use');
-    return node && node.getBBox().width>0 &&
-           node.getAttribute('href').includes('portraits-v171.svg') || 
-           node && node.getBBox().width>0 &&
-           node.getAttribute('href').includes('manga-cast-v200.svg');
-   }"""),(browser_name if 'browser_name' in locals() else name,width,'whole portrait not rendered')
+   assert page.evaluate("""async()=>{
+    const nodes=[...document.querySelectorAll('#workingComic .manga-painted-character image')];
+    if(nodes.length!==3)return false;
+    return (await Promise.all(nodes.map(async node=>{
+     const href=node.getAttribute('href');
+     if(!href.includes('manga-painted-cast-v173.webp'))return false;
+     const image=new Image();image.src=href;
+     await image.decode();
+     const box=node.getBoundingClientRect();
+     return image.naturalWidth>0 && image.naturalHeight>0 && box.width>0 && box.height>0;
+    }))).every(Boolean);
+   }"""),(name,width,'painted portraits must decode and occupy visible space')
    page.wait_for_timeout(1260)
    assert page.locator('#workingComic .manga-panel.is-revealed').count()>=2
    page.wait_for_timeout(1240)

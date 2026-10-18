@@ -31,6 +31,8 @@ try:
        symbols:svg.querySelectorAll('symbol').length};
      }""")
      assert external=={'status':200,'errors':0,'symbols':15},(browser_name,width,external)
+     painted=page.evaluate("""async()=>{const r=await fetch('./assets/manga-painted-cast-v173.webp');return {status:r.status,size:(await r.arrayBuffer()).byteLength}}""")
+     assert painted['status']==200 and painted['size']>4000,(browser_name,width,painted)
      page.locator('#titleStart').click()
      page.locator('#acceptMarket').click()
      page.locator('#prologueSkip').click()
@@ -45,12 +47,13 @@ try:
      }""")
      assert before['week']==2
      assert page.locator('#workingComic .manga-panel').count()==3
-     assert page.locator('#workingComic .manga-picture use').count()==3
+     assert page.locator('#workingComic .manga-painted-character image').count()==3
+     assert page.locator('#workingComic .manga-painted-character image').evaluate_all("els=>els.every(e=>e.getAttribute('href').includes('manga-painted-cast-v173.webp'))")
      assert page.locator('#workingComic .cast .arm').count()==0
      assert page.locator('#workingComic .portrait-hair').count()==0
      assert page.locator('#workingComic .manga-dialogue').count()==3
      assert page.evaluate("""()=>{
-       const svg=document.querySelector('#workingComic .manga-picture use');
+       const svg=document.querySelector('#workingComic .manga-painted-character image');
        return svg && getComputedStyle(svg).animationName==='none' &&
           getComputedStyle(svg).transform==='none';
      }"""),'person parts must not be CSS-animated'
@@ -72,9 +75,18 @@ try:
      page.evaluate("document.getElementById('workingSkip').click()")
      page.locator('#outcomeScene').wait_for(state='visible',timeout=6000)
      assert page.locator('#outcomeArt .manga-panel.is-revealed').count()==3
+     # DOM classes change before the staggered animation completes. Validate pixels-visible
+     # state instead of mistaking 3 pre-animation nodes for 3 rendered comic frames.
+     page.wait_for_function("""()=>{
+       const frames=[...document.querySelectorAll('#outcomeArt .manga-panel')];
+       return frames.length===3&&frames.every(frame=>{
+        const c=getComputedStyle(frame),box=frame.getBoundingClientRect();
+        return c.visibility==='visible'&&Number(c.opacity)>=0.95&&box.width>80&&box.height>70;
+       });
+     }""",timeout=3500)
      if browser_name=='chromium' and width==390 and motion=='no-preference':
       page.locator('#outcomeArt').screenshot(path=str(visuals/'manga-result-390.png'))
-     assert page.locator('#outcomeArt .manga-picture use').count()==3
+     assert page.locator('#outcomeArt .manga-painted-character image').count()==3
      assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
      assert page.locator('#outcomeArt').bounding_box()['width']<=width+1
      after=page.evaluate("""()=>{
