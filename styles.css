@@ -1316,3 +1316,49 @@ html .working-illustration,html .working-comic{
 @media(prefers-reduced-motion:reduce){
  .action-option .policy-symbol{animation:none!important;transform:none!important;}
 }
+
+
+/* v1.7.3: painted prologue art. CSS positions only a finished illustration, never human anatomy. */
+#prologueIllustration{position:relative;isolation:isolate;overflow:hidden;background:#ead2ac!important;}
+#prologueIllustration .prologue-art-v160{position:absolute;inset:0;opacity:0!important;pointer-events:none;}
+#prologuePainting{
+  position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(120deg,#e9d2ac 0%,#e3c4a5 52%,#c5a388 100%);
+  overflow:hidden;border-radius:inherit;padding:5% 4% 6%;gap:4%;box-sizing:border-box;
+}
+#prologuePainting::after{content:"";position:absolute;inset:auto 0 0;height:18%;background:#997a6530;z-index:0;pointer-events:none;}
+.prologue-painted-atmosphere{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 15% 18%,#fff7e3b0,transparent 58%),repeating-linear-gradient(158deg,transparent 0 30px,#654a3b0b 31px 32px);}
+#prologuePaintedPerson{
+  position:relative;z-index:2;display:block;width:49%;height:93%;flex:0 0 49%;object-fit:cover;
+  object-position:45% 50%;border:3px solid #3e3430;border-radius:12px;
+  background:#cabcae;box-shadow:5px 6px 0 #46352e53;
+  transform:none!important;filter:none!important;
+}
+.prologue-painted-story{
+  position:relative;z-index:2;min-width:0;flex:1;align-self:center;
+  display:flex;flex-direction:column;gap:9px;
+  color:#3d322d;line-height:1.45;word-break:normal;overflow-wrap:anywhere;
+}
+.prologue-painted-story small{font-weight:900;font-size:clamp(10px,2.5vw,14px);color:#79503c;line-height:1.4;}
+.prologue-painted-story strong{
+  display:block;font-weight:950;font-size:clamp(16px,4.5vw,27px);line-height:1.25;
+  background:#fff9edee;border:2px solid #473a32;border-radius:8px;padding:7px 9px;
+  box-shadow:3px 3px 0 #59483b55;
+}
+.prologue-painted-story span{
+  display:block;border-left:4px solid #b96855;background:#fff6eac9;padding:7px 8px;
+  font-size:clamp(10px,2.9vw,15px);font-weight:800;line-height:1.45;
+}
+.story-art-enter #prologuePaintedPerson{animation:painted-panel-enter .42s cubic-bezier(.2,.7,.2,1) both;}
+@keyframes painted-panel-enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:365px){
+ #prologuePainting{padding:4% 4%;gap:3%}
+ #prologuePaintedPerson{width:46%;flex-basis:46%}
+ .prologue-painted-story{gap:5px}
+ .prologue-painted-story strong{padding:5px 6px}
+ .prologue-painted-story span{padding:5px 6px}
+}
+@media(prefers-reduced-motion:reduce){
+ .story-art-enter #prologuePaintedPerson{animation:none!important;transform:none!important;}
+}
