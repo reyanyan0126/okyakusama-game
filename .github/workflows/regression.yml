@@ -26,7 +26,6 @@ jobs:
       - name: Check v2.0 strategy experiment controls
         run: |
           node tests/manga-v200.test.cjs
-          node tests/manga-v200.test.cjs
           node tests/chapter-finales-v200.test.cjs
           node tests/strategy-advisor-v200.test.cjs
           node tests/consequences-v200.test.cjs
@@ -48,7 +47,6 @@ jobs:
           python -m playwright install --with-deps chromium webkit
       - name: Test first-run tutorial, resume and four-choice policies and dashboard
         run: |
-          python tests/manga-v200.py
           python tests/manga-v200.py
           python tests/chapter-finales-v200.py
           python tests/strategy-advisor-v200.py
