@@ -75,7 +75,7 @@ function completedScenario(id){
  assert.equal(G.ending(s).passed,true);
  const evidence=S.epilogue(s);
  assert(evidence.lines.length>=2);
- assert(evidence.lines.some(x=>x.text.includes('現場')));
+ assert(evidence.lines.some(x=>x.text==='町の声を採用'),'epilogue must quote saved decisions, not invented text');
  const list=C.entries(s);
  assert.equal(list.chapter.length,3);
  assert(C.markup(s).includes('中盤・終盤の選択'));
