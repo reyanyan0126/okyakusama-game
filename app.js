@@ -184,12 +184,18 @@ function setFaces(){
  const s=game;
  const boss=s.fire>=48?'panic':s.profit>=145000?'happy':s.profit<0?'angry':'normal';
  const buyer=s.frust>=65?'angry':s.sat>=75?'happy':s.frust>=40?'sad':'normal';
- for(const [id,mood,label] of [['bossFace',boss,'店長'],['buyerFace',buyer,'消費者']]){
+ // Four recognizable local residents rotate in four-week story chapters.
+ // The manager is a stable recurring character; emotions change with game state.
+ const locals=[['mori','森さん'],['saito','斎藤さん'],['aoki','青木さん'],['tanaka','田中さん']];
+ const [resident,residentName]=locals[Math.floor((Math.max(1,s.week)-1)/4)%locals.length];
+ for(const [id,mood,portrait,label] of [['bossFace',boss,'manager','店長'],['buyerFace',buyer,resident,'常連・'+residentName]]){
   $(id).dataset.mood=mood;
-  $(id).setAttribute('viewBox','0 0 80 100');
-  $(id).innerHTML=T.person(id==='bossFace'?'manager':'customer',40,62,({panic:'worry',happy:'joy',angry:'anger',sad:'down',normal:'normal'})[mood],'idle',1);
-  $(id).setAttribute('aria-label',label+'・'+({panic:'パニック',happy:'笑顔',angry:'怒り',sad:'不満',normal:'普通'})[mood]+'の表情');
+  $(id).dataset.persona=portrait;
+  $(id).setAttribute('viewBox','0 0 100 120');
+  $(id).innerHTML='<use href="./assets/portraits-v171.svg#portrait-'+portrait+'-'+mood+'"></use>';
+  $(id).setAttribute('aria-label',label+'・'+({panic:'驚き',happy:'笑顔',angry:'怒り',sad:'落胆',normal:'普通'})[mood]+'の表情');
  }
+ if($('buyerPersona'))$('buyerPersona').textContent=residentName;
 }
 
 
@@ -205,7 +211,11 @@ function renderOfficeScene(){
  hero.dataset.rootIssue=scene.rootIssue;
  $('officeSceneText').textContent=scene.note;
  const drawing=document.querySelector('.office-room-art');
- if(drawing){drawing.setAttribute('viewBox','0 0 360 230');drawing.innerHTML=T.art(scene.store==='scandal'?'media':scene.rootIssue==='repair'?'maintenance':'office',scene.store==='busy'?'joy':scene.store==='critical'?'worry':scene.store==='closed'?'down':'normal','still');}
+ if(drawing){
+  const kind=scene.store==='closed'?'closed':scene.store==='scandal'?'scandal':scene.store==='critical'?'critical':scene.rootIssue==='repair'?'repair':scene.store==='busy'?'busy':scene.office==='upgraded'?'upgraded':scene.devil?'devil':scene.store==='quiet'?'quiet':'normal';
+  drawing.setAttribute('viewBox','0 0 720 420');
+  drawing.innerHTML='<use href="./assets/office-cinema-v171.svg#office-'+kind+'"></use>';
+}
  if(drawing)drawing.setAttribute('aria-label',scene.description+' 雑居ビルの事務所とモグモグマートの現場写真。');
  if(previous && previous!==scene.store && !reducedMotion()){
   hero.classList.remove('scene-status-changed');void hero.offsetWidth;
@@ -567,7 +577,9 @@ function setPresentation(stage){if(!game.lastResult)return;game.presentation={we
 function clearTheaterTimers(){theaterTimers.forEach(clearTimeout);theaterTimers=[];}
 function hideTheater(){clearTheaterTimers();for(const id of ['workingScene','shockScene','outcomeScene','newsScene','reportScene','rescueScene'])$(id).hidden=true;resolving=false;}
 function installTheaterLayout(){
- const title=document.querySelector('.title-visual');if(title)title.innerHTML='<svg class="story-intro-panel" viewBox="0 0 720 420" role="img" aria-label="疲れたスタッフと常連客が店を支えるモグモグマート"><use href="./assets/prologue-v160.svg#prologue-5"></use></svg>';
+ // The title now ships with its dedicated cinema artwork in index.html.
+ // Never overwrite the cover and resident artwork during app initialization.
+ const title=document.querySelector('.title-visual');if(title&&!title.querySelector('.title-cinema-svg'))title.innerHTML='<svg class="title-cinema-svg" viewBox="0 0 720 420" role="img" aria-label="再建が必要なスーパーとスーツ姿のコンサル"><use href="./assets/office-cinema-v171.svg#office-title"></use></svg>';
  // Intro artwork is a separate set of seven authored scenes, not the generic WeekTheater actors.
  const detail=$('financialDetail');
  for(const selector of ['#reportHeadline','#reportDescription','#storyEvent','#storyEcho','#performanceReport','#crisisResponseBox','#reportVerdict','#economyReport','#reportSatire','.report-impact','#reportGoal','.report-reaction']){

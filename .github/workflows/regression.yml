@@ -12,6 +12,7 @@ on:
       - feature/v1.6.0-story-incidents
       - feature/v1.6.1-cast-layout
       - feature/v1.7.0-scene-cinema
+      - feature/v1.7.1-office-story-art
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -23,7 +24,7 @@ jobs:
           node-version: '22'
       - name: Run Node game tests
         run: |
-          for test in tests/crisis-v100.test.cjs tests/four-choice-v110.test.cjs tests/outcome-v120.test.cjs tests/story-v130.test.cjs tests/theater-v140.test.cjs tests/storyboards-v150.test.cjs tests/art-v160.test.cjs tests/cast-layout-v161.test.cjs tests/cinema-v170.test.cjs tests/onboarding-v101.test.cjs tests/ui-smoke.test.cjs tests/v099-campaign.test.cjs tests/finance-v094.test.cjs tests/v095-rootcause.test.cjs; do echo "RUNNING $test"; timeout 45s node "$test"; done
+          for test in tests/crisis-v100.test.cjs tests/four-choice-v110.test.cjs tests/outcome-v120.test.cjs tests/story-v130.test.cjs tests/theater-v140.test.cjs tests/storyboards-v150.test.cjs tests/art-v160.test.cjs tests/cast-layout-v161.test.cjs tests/cinema-v170.test.cjs tests/office-v171.test.cjs tests/onboarding-v101.test.cjs tests/ui-smoke.test.cjs tests/v099-campaign.test.cjs tests/finance-v094.test.cjs tests/v095-rootcause.test.cjs; do echo "RUNNING $test"; timeout 45s node "$test"; done
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -33,6 +34,7 @@ jobs:
           python -m playwright install --with-deps chromium webkit
       - name: Test first-run tutorial, resume and four-choice policies and dashboard
         run: |
+          python tests/office-v171.py
           python tests/onboarding-v101.py
           python tests/dashboard-v110.py
           python tests/outcome-v120.py
