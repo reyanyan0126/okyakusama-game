@@ -1,0 +1,32 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const root=path.join(__dirname,'..');
+const raw=p=>fs.readFileSync(path.join(root,p),'utf8');
+const original=raw('assets/storyboards-v150.svg'),core=raw('assets/policies-v160.svg');
+const html=raw('index.html'),css=raw('styles.css'),sw=raw('sw.js');
+const scenes=[...original.matchAll(/<symbol id="(register|robot|bento|photo|staff|parade|press|credit)-(work-[012]|failure|success|great)"([\s\S]*?)<\/symbol>/g)];
+assert.equal(scenes.length,48);
+const policies=[...core.matchAll(/<symbol id="policy-([a-z0-9]+)-(work-[012]|failure|success|great)"([\s\S]*?)<\/symbol>/g)];
+assert.equal(policies.length,156);
+for(const [full,id,phase,body] of [...scenes,...policies]){
+ const roles=[...body.matchAll(/data-character="([a-z]+)"/g)].map(x=>x[1]);
+ const poses=[...body.matchAll(/data-pose="([a-z-]+)"/g)].map(x=>x[1]);
+ const moods=[...body.matchAll(/data-expression="([a-z-]+)"/g)].map(x=>x[1]);
+ assert.equal(roles.length,2,'two independent cast members: '+id+' '+phase);
+ assert.notEqual(roles[0],roles[1],'different roles, not cloned: '+id+' '+phase);
+ assert.equal(poses.length,2);
+ assert.equal(moods.length,2);
+ if(phase==='failure')assert(moods.includes('panic')||moods.includes('angry'));
+ if(phase==='great')assert(moods.includes('happy'));
+}
+const set=new Set([...scenes,...policies].flatMap(x=>[...x[3].matchAll(/data-pose="([^"]+)"/g)].map(m=>m[1])));
+assert(set.size>=7,'poses beyond idle arms');
+const kinds=new Set([...policies].flatMap(x=>[...x[3].matchAll(/data-character="([^"]+)"/g)].map(m=>m[1])));
+assert(kinds.size>=7,'real characters: staff, CEO, manager, customers, journalists, technicians...');
+assert(html.includes('class="work-footer" role="group"'));
+assert(css.includes('#workingScene .work-footer #workingSkip{'));
+assert(css.includes('position:static!important'));
+assert(css.includes('max-height:100dvh'));
+assert(css.includes('overflow-y:auto'));
+assert(sw.includes('okyakusama-v1.6.1-cache-1'));
+console.log('PASS v1.6.1: 204 composited panels, 408 distinct named figure instances, role diversity, seven+ poses, responsive skip footer and cache');
