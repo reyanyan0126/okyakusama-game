@@ -47,12 +47,16 @@ const first=Manga.markup('arc_register_boss',[
 ],{setting:'register'});
 assert.equal((first.match(/class="manga-panel"/g)||[]).length,3);
 assert.equal((first.match(/<article class="manga-panel" data-panel="\d" aria-hidden="true">/g)||[]).length,3,'initially hide three manga panels, excluding decorative progress');
-assert(first.includes('manga-boss-angry'));
-assert(first.includes('portrait-manager-panic'));
+assert(first.includes('class="manga-painted-character"'),'complete painted portrait should render');
+assert(first.includes('viewBox="90 0 90 126"'),'boss is cropped as one finished painted figure');
+assert(first.includes('viewBox="180 0 90 126"'),'manager has a dedicated painted portrait');
 assert(first.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
 assert(!first.includes('<script>'));
 assert(!first.includes('class="arm'));
-assert(first.includes('./assets/manga-cast-v200.svg#manga-boss'));
+assert(first.includes('./assets/manga-painted-cast-v173.webp'),'live manga uses artwork rather than geometric SVG figures');
+const painted=fs.readFileSync(path.join(__dirname,'../assets/manga-painted-cast-v173.webp'));
+assert(painted.length>4000 && painted.toString('ascii',0,4)==='RIFF' && painted.toString('ascii',8,12)==='WEBP');
+assert(sw.includes("'./assets/manga-painted-cast-v173.webp'"),'painted portraits must remain available offline');
 const revealed={};
 const panels=[0,1,2].map(i=>({
  attrs:{'aria-hidden':'true'},
