@@ -1,0 +1,203 @@
+/* v2.1 UI rebuild: every surface except the successful three-panel outcome layout. */
+:root{
+  --ink:#283c38;--ink-soft:#4c635c;--paper:#faf7ef;--canvas:#eee8da;
+  --brand:#315e56;--brand-2:#40766b;--gold:#b99563;--hairline:#d9d0bd;
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;
+}
+body{background:var(--canvas);color:var(--ink);}
+button{min-height:44px;-webkit-tap-highlight-color:transparent}
+button:focus-visible,summary:focus-visible{outline:3px solid #457dba;outline-offset:3px}
+#titleScreen,#contractsScreen,#prologueScreen{background:var(--canvas);color:var(--ink);padding:clamp(12px,3vw,24px)}
+#titleScreen .entry-card,#contractsScreen .entry-card,#prologueScreen .entry-card{
+  background:var(--paper);border:1px solid var(--hairline);border-radius:23px;
+  box-shadow:0 12px 35px #574d3f13;overflow:hidden;
+}
+#titleScreen .title-card{padding:0 0 25px}
+#titleScreen .title-stripe{
+  background:var(--brand);color:#fff5df;padding:13px 19px;letter-spacing:.14em;
+  font-size:10px;font-weight:850;text-align:left;border:0;
+}
+#titleScreen .title-logo-mark{display:none!important}
+#titleScreen .title-small{margin:19px 22px 5px;color:#866a4c;font-weight:850;font-size:12px}
+#titleScreen .game-title{margin:4px 20px 0;font-size:clamp(31px,9vw,51px);
+  line-height:1.12;letter-spacing:-.08em;color:var(--ink);}
+#titleScreen .game-title span{color:#bb765e}
+#titleScreen .title-tagline{margin:12px 22px 17px;text-align:left;
+  line-height:1.75;color:#53665e;font-size:15px;font-weight:700}
+#titleScreen .title-visual{height:auto;aspect-ratio:720/420;margin:0 15px 20px;
+  border-radius:18px;border:2px solid #3a4035;box-shadow:4px 5px 0 #b0a28b;
+  overflow:hidden;background:#dfd1bc}
+#titleScreen .title-cinema-svg{width:100%;height:100%;display:block;filter:none}
+#titleScreen .title-news-badge{top:9px;right:8px;transform:rotate(4deg);font-size:12px;
+  border-radius:7px}
+#titleScreen .entry-actions{padding:0 19px;gap:10px}
+#titleScreen .entry-disclaimer{padding:0 22px;text-align:center;color:#898477}
+#titleScreen .primary-btn,#contractsScreen .contract-accept,#prologueScreen .primary-btn{
+  background:var(--brand);color:#fffdf5;border:2px solid #243c37;box-shadow:3px 4px 0 #98aa9d;
+  border-radius:13px;min-height:55px;font-weight:900
+}
+#contractsScreen .contracts-card{padding:20px 16px}
+#contractsScreen .contracts-heading{background:#e7efdf;border-radius:16px;
+  padding:18px 16px;margin:12px 0 20px;border-left:5px solid #7f9c86}
+#contractsScreen .contracts-heading h2{color:var(--ink);letter-spacing:-.045em}
+#contractsScreen .contracts-heading .title-stripe{color:var(--brand);font-size:10px}
+#contractsScreen .contract-item{padding:15px!important;border-radius:18px!important;
+  border:1.5px solid #cfc5b1;background:#fffcf6;box-shadow:0 4px 0 #c9c0b1;
+  gap:11px!important}
+#contractsScreen .contract-item.available{background:linear-gradient(140deg,#fffdf6,#f6f1e5)}
+#contractsScreen .contract-copy h3{color:var(--ink);font-size:20px}
+#contractsScreen .contract-icon{border-radius:16px;background:#dce9dc!important;
+  width:72px;height:72px;display:grid;place-items:center}
+#contractsScreen .contract-svg{width:60px!important;height:60px!important}
+#contractsScreen .contract-accept{width:100%;margin-top:8px}
+#contractsScreen .not-ready{opacity:.66}
+#prologueScreen .prologue-card{padding:14px 14px 20px}
+#prologueScreen .prologue-top{border-bottom:1px solid var(--hairline);padding:7px 3px 14px}
+#prologueScreen #prologueIllustration{border:2px solid #3a3c34!important;
+ border-radius:17px!important;box-shadow:4px 5px 0 #c9b9a0!important;min-height:220px}
+#prologueScreen #prologuePainting{background:#e8d9c4}
+#prologueScreen #prologuePaintedPerson{object-fit:contain;object-position:center center;
+  background:#eee5db;border-color:#65736a}
+#prologueScreen .prologue-copy{background:#f6f3e9;border-left:5px solid #759a8a;
+  margin:20px 0 12px;border-radius:0 11px 11px 0;padding:14px!important}
+#prologueScreen .prologue-copy h2{line-height:1.4;letter-spacing:-.05em}
+#prologueScreen .prologue-copy p{line-height:1.8}
+#prologueScreen .prologue-skip{min-height:44px;text-decoration:underline}
+#app{background:var(--canvas);}
+#app .site-header{background:var(--paper);border-bottom:1px solid var(--hairline);
+  border-radius:0 0 16px 16px;padding:13px 15px;margin:0 -2px 10px;box-shadow:0 3px 10px #5247330b}
+#app .brand-icon{background:var(--brand);box-shadow:none;transform:none;color:#fff8d8;
+ border-radius:12px}
+#app .identity h1{color:var(--ink)}
+#app .header-help{background:#f5f0e4;border-color:#a9baaa;min-height:40px}
+#app .scene-heading{background:#e5e9db;border-radius:17px;border:1px solid #cfdbca;
+  padding:17px 18px!important;margin:8px 0 15px!important;color:var(--ink)}
+#app .scene-heading h2{font-size:24px;letter-spacing:-.05em}
+#app .scene-eyebrow{color:#53746a;font-weight:900;letter-spacing:.11em}
+#app .scene-heading p{color:#586a61;line-height:1.6}
+#officeView .topline{font-size:11px;margin:5px 0 9px}
+#officeView .progress-track{border-radius:99px;background:#d9dfd0;height:7px}
+#officeView .progress-fill{background:var(--brand-2)}
+#officeView .office-hero{border:2px solid #384e45!important;border-radius:20px!important;
+  background:#dae4d8!important;box-shadow:3px 5px 0 #aab6a5!important;overflow:hidden}
+#officeView .office-room-art{width:100%;height:100%;object-fit:cover}
+#officeView .office-hero-heading,#officeView .office-hero-caption{z-index:2}
+#officeView .office-hero-caption{background:#fbf7ebed!important;color:var(--ink)!important;
+  border-radius:11px;padding:9px 11px!important;box-shadow:0 2px 8px #293d3221}
+#officeView .office-visitors{z-index:2}
+#officeView .cast-avatar svg,#officeView .portrait-complete{image-rendering:auto;filter:none}
+#officeView .office-vitals{gap:10px}
+#officeView .play-stat{border:1px solid #b9ccba!important;border-radius:17px!important;
+  background:#fffdf7!important;box-shadow:0 3px 0 #d8d8ca!important;
+  color:var(--ink)!important;min-width:0}
+#officeView .play-stat strong{color:var(--ink)}
+#officeView .cash-open:focus-visible,#officeView .play-stat:focus-visible{outline:3px solid #5a9eab}
+#officeView .news-strip,#officeView .world-ribbon,#officeView .diagnosis-brief,
+#officeView .story-pulse,#officeView .meeting-deal{border-radius:15px!important;
+  border-color:#c8d2bf!important;background:#fcfaf3!important;color:var(--ink)}
+#officeView .section-bar h3{color:var(--ink)}
+#officeView #openProposals{background:var(--brand)!important;color:white!important;
+  border-color:#243c37!important;border-radius:14px!important;min-height:57px!important}
+#voiceView,#recordsView{padding:0 2px 18px;color:var(--ink)}
+#voiceView .voice-top-card{background:#fbfbf4!important;border:2px solid #91b3a3!important;
+  box-shadow:3px 4px 0 #bbd0be;border-radius:18px!important}
+#voiceView .voice-score-title strong{font-size:clamp(27px,8vw,41px);color:var(--brand)!important}
+#voiceView .voice-duo{gap:11px}
+#voiceView .voice-metric{background:#fffcf3!important;border:1px solid #d6cbbb!important;
+  border-radius:16px!important;padding:14px!important}
+#voiceView .public-news{background:#f4e7d7!important;border-left:5px solid #bd8975;
+  border-radius:13px!important;box-shadow:none!important}
+#voiceView .social-feed{display:grid;gap:10px}
+#voiceView .social-feed > *{background:#fffcf4!important;border:1px solid #d8d2c3!important;
+  border-radius:14px!important;box-shadow:0 2px 0 #d5ccbc}
+#recordsView .records-summary{background:#fffbf2!important;border-radius:17px!important;
+  border:1px solid #cfc6b2;box-shadow:3px 4px 0 #d0c8b8;gap:0!important}
+#recordsView .records-summary > div{min-width:0;border-color:#ded7ca}
+#recordsView .records-summary strong{color:#315e56;overflow-wrap:anywhere}
+#recordsView .bottom-area{background:#fffdf5;border:1px solid #d3d0c5;
+  border-radius:16px;padding:14px;box-shadow:0 3px 0 #d7d2c6}
+#recordsView .utility-row{gap:9px}
+#recordsView .utility-row button{border-radius:11px;white-space:normal;min-height:48px}
+#app .game-nav{background:#fffdf7!important;border-top:1px solid #c4ccb9!important;
+  box-shadow:0 -4px 17px #2d45300b}
+#app .game-tab{min-height:59px;color:#667970}
+#app .game-tab.active{color:#245c51;background:#e7efe3!important;border-radius:11px}
+#app .game-tab svg{filter:none}
+#proposalSheet .proposal-panel,#statusSheet .status-panel,#moneySheet .money-panel{
+  background:var(--paper)!important;border-radius:22px 22px 0 0!important;color:var(--ink);
+  box-shadow:0 -9px 30px #201e1922!important;border-color:#bcc8b8!important}
+#proposalSheet .proposal-top,#statusSheet .status-head,#moneySheet .money-head{
+  padding-bottom:13px;border-bottom:1px solid #d7d0c2}
+#proposalSheet .proposal-budget,#proposalSheet .proposal-diagnosis,#proposalSheet .proposal-meeting-target{
+  background:#e9efe5!important;border-radius:10px;padding:9px 12px;color:#3b6159}
+#proposalSheet .action-option{background:#fffcf5!important;border:2px solid #c7cebc!important;
+  box-shadow:0 3px 0 #ded8c8!important;border-radius:15px!important}
+#proposalSheet .action-option[aria-checked=true]{border-color:#2f7464!important;background:#e3f1e8!important}
+#proposalSheet .action-option .policy-preview{background:#ecf0e4!important;border-color:#9aab98!important}
+#proposalSheet .selected-detail,#proposalSheet .performance-preview,#proposalSheet .risk-row{
+  border-radius:14px!important;background:#fffdf5!important;border:1px solid #d6d4c7!important}
+#proposalSheet #advanceButton{position:sticky;bottom:env(safe-area-inset-bottom);
+  min-height:60px;background:var(--brand)!important;color:white!important;z-index:3;
+  border-radius:13px!important}
+#statusSheet .status-content,#moneySheet .money-panel{line-height:1.7}
+#workingScene.working-scene{background:#e9ebdf!important;color:var(--ink)!important;
+  padding:49px 16px 23px!important}
+#workingScene .loading-week{color:var(--brand);letter-spacing:.13em}
+#workingScene #workingComic{background:#f8f6ee;border:1px solid #cfcebf;
+  border-radius:17px;padding:12px 11px;box-shadow:0 3px 0 #c7c8b8}
+#workingScene .manga-panel{background:#fbf8ee!important;border-color:#465b51!important;
+  box-shadow:2px 3px 0 #a9b7a7!important;border-radius:10px!important}
+#workingScene #workingAction{font-size:16px!important;background:#fbf8ee;
+  border-radius:12px;padding:10px;text-align:center}
+#workingScene .work-footer{margin-top:13px}
+#workingScene #workingSkip{background:#fffef7;border:1px solid #8ea89c;
+  color:var(--ink);border-radius:12px;min-height:50px}
+#newsScene.theater-panel{background:#f0e9dc;color:var(--ink)}
+#newsScene .theater-step{color:#9d6958}
+#newsScene h2{line-height:1.45;letter-spacing:-.05em;color:#485a50}
+#newsScene #newsArt{border:2px solid #c7b7a3;border-radius:16px;overflow:hidden;
+  background:#faf5e9;box-shadow:3px 4px 0 #cdc0ab}
+#newsScene #newsArt svg{display:block;width:100%;height:auto;max-height:285px}
+#newsScene #newsText{background:#fcf8ee;padding:17px!important;
+  border-left:4px solid #bb9780;border-radius:0 13px 13px 0;line-height:1.85}
+#newsScene #newsDecision button{min-height:54px}
+#newsScene #newsNext{background:var(--brand)!important;color:white!important}
+#reportScene.report-scene{background:#ebe6d9!important}
+#reportScene .report-sheet{background:#fffdf5!important;border-radius:19px!important;
+  border:1px solid #d2cab9!important;box-shadow:0 6px 0 #d2cbbd!important;
+  padding:22px 16px 28px!important;color:var(--ink)}
+#reportScene .report-eyebrow{color:#4b7466;letter-spacing:.1em}
+#reportScene .report-icon{background:#e6eee4!important;border-radius:14px!important}
+#reportScene #reportTitle{color:var(--ink)}
+#reportScene .report-verdict,#reportScene .report-cashflow,#reportScene .report-impact{
+  background:#f5f5e9!important;border:1px solid #d8dbcd!important;border-radius:13px!important}
+#reportScene #reportContinue{background:var(--brand)!important;color:white!important;
+  min-height:56px;border-radius:13px}
+#rescueScene .rescue-card{background:#fffaf0!important;border:2px solid #a77d68;
+  border-radius:18px!important;color:#5a433b}
+#rescueScene .rescue-choices button{min-height:52px}
+#weekScene #outcomeScene .theater-detail-toggle{
+  display:flex;align-items:center;justify-content:space-between;width:100%;margin:12px 0 0;
+  padding:12px 10px;position:relative;z-index:5;
+  min-height:51px;border:0;border-radius:9px;background:transparent;
+  color:#61716a;font-size:13px;font-weight:800;text-align:left;touch-action:manipulation
+}
+#weekScene #outcomeScene .theater-detail-toggle::after{content:"＋";font-size:18px;margin-left:10px}
+#weekScene #outcomeScene .theater-detail-toggle[aria-expanded="true"]::after{content:"－"}
+#weekScene #outcomeScene .theater-detail-panel{position:relative;z-index:5;
+  margin:0 0 15px;padding:12px 14px;background:#fffaf0;border:1px solid #d4c9b9;
+  border-radius:10px;color:#4a5953;font-size:13px;line-height:1.8}
+#weekScene #outcomeScene .theater-detail-panel[hidden]{display:none!important}
+#weekScene #outcomeScene #outcomeNext{position:relative;z-index:4}
+@media(max-width:430px){
+  #titleScreen .title-card{max-width:100%}
+  #prologueScreen #prologueIllustration{min-height:200px}
+  #officeView .office-hero-caption{max-width:62%}
+  #voiceView .voice-duo{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #recordsView .records-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #proposalSheet .proposal-panel{padding-bottom:calc(13px + env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){
+  #titleScreen *,#contractsScreen *,#prologueScreen *,#app *,#weekScene *,
+  #proposalSheet *,#moneySheet *,#statusSheet *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
