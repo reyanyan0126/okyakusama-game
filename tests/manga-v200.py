@@ -62,8 +62,8 @@ try:
       assert page.locator('#workingComic .manga-panel.is-revealed').count()>=2
       page.wait_for_timeout(1250)
       assert page.locator('#workingComic .manga-panel.is-revealed').count()==3
-     if page.locator('#workingSkip').is_visible():
-      page.locator('#workingSkip').click()
+     # Use the public click handler synchronously; automatic scene advance can race a Playwright locator click.
+     page.evaluate("document.getElementById('workingSkip').click()")
      page.locator('#outcomeScene').wait_for(state='visible',timeout=6000)
      assert page.locator('#outcomeArt .manga-panel.is-revealed').count()==3
      assert page.locator('#outcomeArt .manga-picture use').count()==3
