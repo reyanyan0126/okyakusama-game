@@ -39,6 +39,12 @@ for(const name of [
  assert(b.length>1000,'image contains substantial bitmap content '+name);
  assert.equal(b.toString('ascii',0,4),'RIFF');
  assert.equal(b.toString('ascii',8,12),'WEBP');
+ assert.equal(b.toString('ascii',12,16),'VP8 ','painted asset is decodable lossy WebP: '+name);
+ const imageWidth=b.readUInt16LE(26)&0x3fff;
+ const imageHeight=b.readUInt16LE(28)&0x3fff;
+ assert(imageWidth>=190 && imageHeight>=220,
+   'reject incomplete tiny face cutouts; expect full bust artwork '+name+' '+imageWidth+'x'+imageHeight);
+
  assert(sw.includes('./assets/'+name),'painted artwork cached for offline '+name);
 }
 const s=G.initial(1024),before=JSON.stringify(s);
