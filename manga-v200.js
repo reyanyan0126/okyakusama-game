@@ -35,7 +35,7 @@ function expression(text,index,tier){
  if(tier==='failure'&&index===2)return 'sad';
  if(tier==='great'&&index===2)return 'happy';
  const s=String(text??'');
- if(/怒|!?|許さ|反対|責任|！/.test(s))return 'angry';
+ if(/怒|許さ|反対|責任|！/.test(s))return 'angry';
  if(/？|\?|困|危機|誰が|心配/.test(s))return 'panic';
  if(/ありがとう|感謝|順調|よかった|！/.test(s))return 'happy';
  if(/減少|損失|厳し|無理/.test(s))return 'sad';
@@ -56,7 +56,7 @@ function art(role,mood,kind,index){
  const emotion=(moodMap[role]||moodMap.manager)[mood]||'normal';
  const bg=s.bg[index%3];
  // Every person below is a *complete* SVG symbol; CSS never positions or animates body parts.
- return '<svg class="manga-picture" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100" role="img" aria-label="'+
+ return '<svg class="manga-picture" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100" preserveAspectRatio="xMinYMid slice" role="img" aria-label="'+
   clean(data.label+'・'+emotion+'。'+kind+'の場面')+'"><rect width="160" height="100" fill="'+bg+'"/>'+
   '<path d="M0 80H160" stroke="'+s.accent+'" opacity=".5" stroke-width="7"/>'+
   s.prop+
