@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Check illustrated prologue and semantic choice symbols
+        run: node tests/illustration-v173.test.cjs
       - name: Check complete-portrait manga and CSS removal
         run: node tests/manga-v200.test.cjs
       - name: Run Node game tests
@@ -36,6 +38,7 @@ jobs:
           python -m playwright install --with-deps chromium webkit
       - name: Test first-run tutorial, resume and four-choice policies and dashboard
         run: |
+          python tests/illustration-v173.py
           python tests/manga-v200.py
           python tests/office-v171.py
           python tests/onboarding-v101.py
