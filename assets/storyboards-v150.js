@@ -126,6 +126,12 @@ const CINEMA={
  ]
 };
 const CINEMA_SRC='./assets/episode-cinema-v170.svg#cinema-';
+const ROOT_CINEMA={
+ fix_equipment:['腐食した配管を点検','冷凍庫を交換する','庫内温度を確認する'],
+ fix_people:['勤務シフトを整理','無理のない人数を配置','スタッフが定時退勤'],
+ fix_fans:['常連さんの声を聞く','売り場の改善を案内','お店へ戻ってきた']
+};
+const ROOT_SRC='./assets/root-cinema-v170.svg#repair-';
 const ADDITIONAL='./assets/policies-v160.svg#';
 const EXTRA={
  "raise": [
@@ -261,6 +267,7 @@ const EXTRA={
 };
 const family=id=>CINEMA[id]?id:(lookup[id]||(EXTRA[id]?id:null));
 function symbol(id,phase='work',step=0){
+ if(ROOT_CINEMA[id])return ROOT_SRC+id+'-'+(phase==='work'?'work-'+Math.max(0,Math.min(2,Math.trunc(step)||0)):phase==='result'?(['failure','success','great'].includes(step)?step:'success'):'work-1');
  if(CINEMA[id])return CINEMA_SRC+id+'-'+(phase==='work'?'work-'+Math.max(0,Math.min(2,Math.trunc(step)||0)):phase==='result'?(['failure','success','great'].includes(step)?step:'success'):'work-1');
  const group=family(id);if(!group)return null;
  const src=lookup[id]?BASE+group:ADDITIONAL+'policy-'+group;
@@ -283,7 +290,7 @@ const scripts=Object.freeze({
  press:['記者の質問に答える','経営資料を公開する','記事の公開を待つ'],
  credit:['社長が表彰式を開く','社長が壇上の真ん中へ','従業員の反応は…']
 });
-const captions=id=>CINEMA[id]||scripts[family(id)]||EXTRA[id]||null;
-root.PolicyStoryboards={family,symbol,markup,captions,BASE,families,CINEMA};
+const captions=id=>CINEMA[id]||ROOT_CINEMA[id]||scripts[family(id)]||EXTRA[id]||null;
+root.PolicyStoryboards={family,symbol,markup,captions,BASE,families,CINEMA,ROOT_CINEMA};
 if(typeof module!=='undefined'&&module.exports)module.exports=root.PolicyStoryboards;
 })(typeof window!=='undefined'?window:globalThis);
