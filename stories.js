@@ -707,7 +707,95 @@ function echoes(s){
  return {extra,demand,text:items.map(i=>i.text).join(' '),items};
 }
 function castLine(s){const c=s.cast||{boss:0,manager:0,customers:0};return c.manager>=10?'店長「あなたの判断なら、現場はついていきます」':c.manager<=-10?'店長「もう社長より、あなたを信じていいのか分かりません」':c.customers>=10?'常連「この店、少し変わったね」':c.customers<=-10?'常連「謝るより先に値札を見て」':c.boss>=10?'社長「君は話が分かるな。責任も頼む」':'店長「数字だけでなく現場も見てください」';}
-const gameStories={EPISODES,POLICIES,POLICIES_BY_ID,brief,storyResult,echoes,castLine,active};
+// Three authored mid/endgame reckonings. They keep the existing four-choice engine,
+// do not add new save fields, and never peek at future RNG draws.
+const CHAPTER_MOMENTS=[
+ {id:'accountability',week:15,choices:['audit','bills','stamp','blame'],
+  title:'中間監査｜誰の再建だったのか',
+  good:'店長「レジも品質も、前に比べれば変わりました。現場の声を次の報告に残したいです」',
+  bad:'社長「再建の途中経過？ 私の写真を一枚目に載せればいい」'},
+ {id:'community',week:22,choices:['loyalty','local','stamp','blame'],
+  title:'町との約束｜次も選ばれる店なのか',
+  good:'常連「祭りだけじゃなく、普段のお店を見ています。ここから先を教えて」',
+  bad:'常連「看板は派手になったけれど、約束の中身はどこへ行ったの？」'},
+ {id:'testimony',week:28,choices:['audit','explain','stamp','blame'],
+  title:'最終証言｜社長の拍手か、現場の証言か',
+  good:'店長「最終審査には、あの時の判断も記録に残してもらいましょう」',
+  bad:'社長「最終審査で話すのは私だけで十分だ。資料は私の顔から始めろ！」'}
+];
+const CHAPTER_BY_ID=Object.fromEntries(CHAPTER_MOMENTS.map(m=>[m.id,m]));
+const CHAPTER_RESTORE=new Set(['audit','bills','loyalty','local','explain']);
+function chapterEvidence(s){
+ const journal=Array.isArray(s.storyJournal)?s.storyJournal:[];
+ const history=Array.isArray(s.history)?s.history:[];
+ const decisions=history.filter(h=>h&&h.chapterDecision&&CHAPTER_BY_ID[h.chapterDecision.id]).map(h=>h.chapterDecision);
+ const positive=journal.filter(j=>j&&j.positive===true).length;
+ const negative=journal.filter(j=>j&&j.positive===false).length;
+ return {positive,negative,decisions,forPeople:decisions.filter(x=>x.route==='people').length,
+  forBoss:decisions.filter(x=>x.route==='boss').length,forSales:decisions.filter(x=>x.route==='sales').length};
+}
+function chapterBrief(s){
+ if((s.campaignWeeks??12)!==30||s.finished)return null;
+ const moment=CHAPTER_MOMENTS.find(x=>x.week===s.week);
+ if(!moment)return null;
+ const evidence=chapterEvidence(s),cast=s.cast||{};
+ const hopeful=evidence.positive>=2||(cast.manager>=8&&cast.customers>=8);
+ return {id:'chapter:'+moment.id,title:moment.title,quote:hopeful?moment.good:moment.bad,
+  choices:moment.choices,chapter:moment.id,path:hopeful?'hopeful':'skeptical'};
+}
+function chapterDecision(s,scene,id,tier){
+ if(!scene?.chapter||!CHAPTER_BY_ID[scene.chapter]||!CHAPTER_BY_ID[scene.chapter].choices.includes(id))return null;
+ if(!tiers.includes(tier))return null;
+ const route=CHAPTER_RESTORE.has(id)?'people':id==='stamp'?'sales':'boss';
+ const lift=tier==='great'?2:tier==='failure'?-1:0;
+ const intended=route==='people'?{manager:3+lift,customers:3+lift,boss:-1}:
+  route==='sales'?{manager:0,customers:-1,boss:2+lift}:
+  {manager:-3,customers:-4,boss:3+lift};
+ const before={...(s.cast||{boss:0,manager:0,customers:0})};
+ castChange(s,intended);
+ const delta=Object.fromEntries(['boss','manager','customers'].map(k=>[k,(s.cast?.[k]||0)-(before[k]||0)]));
+ const text=route==='people'?
+  '決算の後ろに、働く人とお客様の名前を残した。社長「私の肖像画は？」':
+  route==='sales'?
+  '短期の数字を先に示した。社長は喜んだが、現場は次の約束を求めている。':
+  '社長の説明を優先した。表彰状は増えたが、現場の証言は減っていく。';
+ return {id:scene.chapter,title:CHAPTER_BY_ID[scene.chapter].title,
+  path:scene.path,route,tier,actionId:id,delta,text};
+}
+// An epilogue quotes only completed prior choices. It never invents unseen scenes.
+function epilogue(s){
+ const evidence=chapterEvidence(s),lines=[];
+ const journal=Array.isArray(s.storyJournal)?s.storyJournal:[];
+ for(const item of journal.slice(-2)){
+  if(!item||!BY_ID[item.id]||typeof item.summary!=='string')continue;
+  lines.push({label:BY_ID[item.id].title,text:item.summary});
+ }
+ for(const item of evidence.decisions.slice(-2)){
+  lines.push({label:CHAPTER_BY_ID[item.id].title,text:item.text||'決算に選択が記録されています。'});
+ }
+ if(lines.length===0)return {lead:'過去の判断に関する記録はありません。',lines:[]};
+ return {lead:'最終審査に持ち込まれた、あなたの過去の判断',lines:lines.slice(-3)};
+}
+// Special endings are earned from *both* the contract result and concrete saved choices.
+// Generic existing endings remain fallbacks, including all old 12-week saves.
+function specialEnding(s,goal){
+ if(!s?.finished||s.bankrupt||s.personalFailed||(s.campaignWeeks??12)!==30||!goal?.passed)return null;
+ const e=chapterEvidence(s),c=s.cast||{};
+ if(e.forPeople>=2&&e.positive>=3&&(c.manager||0)>=14&&(c.customers||0)>=14){
+  return {icon:'',name:'現場の証言で契約更新',
+   line:'最終審査に並んだのは、社長の自慢話ではなく現場の実績だった。町と従業員が、あなたの経営判断を証言した。',passed:true};
+ }
+ if(e.forBoss>=2&&e.negative>=2&&(c.boss||0)>=12){
+  return {icon:'',name:'社長の肖像画だけが先に届く',
+   line:'数字は達成した。しかし最終報告書の一枚目は社長の肖像画。現場は利益の代償を忘れていない。',passed:true};
+ }
+ if((s.rescueUsed||0)>=1&&e.positive>=2&&e.forPeople>=1){
+  return {icon:'',name:'閉店寸前から、町の約束へ',
+   line:'一度は資金が尽きた。それでも現場と町の人の信頼を積み直し、契約を最後まで守り抜いた。',passed:true};
+ }
+ return null;
+}
+const gameStories={EPISODES,POLICIES,POLICIES_BY_ID,brief,storyResult,echoes,castLine,active,CHAPTER_MOMENTS,chapterEvidence,chapterBrief,chapterDecision,epilogue,specialEnding};
 root.GameStories=gameStories;
 if(typeof module==='object'&&module.exports)module.exports=gameStories;
 })(typeof globalThis!=='undefined'?globalThis:this);
