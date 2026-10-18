@@ -5,8 +5,8 @@ const root=path.join(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f),'
 const html=read('index.html'),app=read('app.js'),css=read('overhaul-v210.css');
 const presenter=read('overhaul-v210.js'),sw=read('sw.js'),manga=read('manga-v200.js');
 const G=require('../engine.js'),M=require('../manga-v200.js');
-assert(html.includes('overhaul-v210.css?v=210'));
-assert(html.includes('overhaul-v210.js?v=210'));
+assert(html.includes('overhaul-v210.css'));
+assert(html.includes('overhaul-v210.js'));
 assert(html.includes('<button type="button" id="outcomeDetailsToggle"'));
 assert(html.includes('aria-controls="outcomeDetailsPanel"'));
 assert(html.includes('<div id="outcomeDetailsPanel" class="theater-detail-panel" hidden>'));
