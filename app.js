@@ -927,11 +927,28 @@ function setup(){
  $('historyToggle').addEventListener('click',()=>{const p=$('historyPanel');p.hidden=!p.hidden;$('historyToggle').setAttribute('aria-expanded',String(!p.hidden));});
  $('restartButton').addEventListener('click',()=>{if(!confirm('現在の経営を初期化しますか？（元に戻せません）'))return;game=G.initial(Date.now());selectedProject=null;selectedDevil=null;save();paint();changeScreen('office');showEntry('contracts');toast('新しい依頼を選んでください');});
  $('exportButton').addEventListener('click',()=>{
-  const data=new Blob([JSON.stringify(game,null,2)],{type:'application/json'}),url=URL.createObjectURL(data);const a=document.createElement('a');a.href=url;a.download='okyakusama-save-v1.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('セーブをJSONで書き出しました');
+  const data=new Blob([JSON.stringify(game,null,2)],{type:'application/json'}),url=URL.createObjectURL(data);const a=document.createElement('a');a.href=url;a.download='okyakusama-save-v1.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('旧形式のセーブをJSONで書き出しました');
+ });
+ $('exportFullBackup').addEventListener('click',()=>{
+  try{
+   const payload=window.GameBackup.exportFull(game,localStorage);
+   const data=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(data);
+   const a=document.createElement('a');a.href=url;a.download='okyakusama-full-backup-v2.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);
+   toast('セーブと実績をまとめてバックアップしました');
+  }catch(err){toast('バックアップ不可：'+(err.message||'保存エラー'));}
  });
  $('importButton').addEventListener('click',()=>$('importInput').click());
  $('importInput').addEventListener('change',async event=>{const file=event.target.files?.[0];event.target.value='';if(!file)return;
-  try{if(file.size>1024*1024)throw Error('ファイルが大きすぎます');const s=G.validateSaved(JSON.parse(await file.text()));if(!confirm(`第${Math.min(s.week,G.campaignWeeks(s))}週のデータを読み込み、今の記録を上書きしますか？`))return;game=s;selectedProject=null;selectedDevil=null;save();paint();changeScreen('office');toast('セーブを復元しました');}
+  try{
+   if(file.size>1024*1024)throw Error('ファイルが大きすぎます');
+   const parsed=window.GameBackup.parse(JSON.parse(await file.text())),s=parsed.campaign;
+   const mode=parsed.kind==='full'?'（実績・発見済みの結末は現在の記録と統合）':'（既存の実績は維持）';
+   if(!confirm(`第${Math.min(s.week,G.campaignWeeks(s))}週のデータを読み込み、今の経営記録を上書きしますか？${mode}`))return;
+   const restored=window.GameBackup.restore(parsed,localStorage);
+   game=restored.campaign;selectedProject=null;selectedDevil=null;paint();changeScreen('office');
+   if(!$('achievementsPanel').hidden)$('achievementsPanel').innerHTML=window.GameAchievements.markup(window.GameAchievements.read(localStorage));
+   toast(restored.mergedAchievements?'セーブと実績を統合しました':'旧形式セーブを復元しました（実績は維持）');
+  }
   catch(err){toast('読み込み不可：'+(err.message||'ファイルが不正です'));}
  });
  if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('オフライン準備に失敗',err));
