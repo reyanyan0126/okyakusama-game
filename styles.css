@@ -1242,3 +1242,7 @@ html .working-illustration,html .working-comic{
 .title-visual .title-news-badge{position:absolute;right:8px;top:8px;animation:none!important;}
 @media(max-width:380px){.title-cinema-svg{max-height:170px;}}
 @media(prefers-reduced-motion:reduce){.title-cinema-svg,.office-room-art{animation:none!important;transition:none!important;}}
+
+/* v1.8: concise decision costs and independent result causes, no extra scene. */
+.policy-tradeoff,.result-factors{font-size:13px;line-height:1.6;overflow-wrap:anywhere;color:#51483c}
+.action-option:focus-visible{outline:3px solid #275e68;outline-offset:2px}

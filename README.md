@@ -72,3 +72,18 @@ Backup before this release: `backup/pre-v1.4.0-20261018` (main `f305be3`).
 - `tests/office-v171.test.cjs` と `tests/office-v171.py` で素材の参照・場面状態・WebKit/Chromiumモバイル描画を追加検証します。
 
 変更前バックアップ: `backup/pre-v1.7.1-20261018`。
+
+
+## v1.8.0 — GAMEPLAY REFINEMENT（レビュー用）
+
+- 事故対応・緊急再建後の増減を実際の0〜100の範囲に合わせ、施策単独の説明から過去の後日談を分離。
+- 根本対策が失敗しても、購入済みの設備・人材・常連投資を失わないよう修正。
+- 施策費と再燃の可能性を選択前に表示。投資の当週効果と成否確率への次週効果を区別。
+- 個人の支払不足から未払いへの振替を明示。店舗と個人の独立会計を維持。
+- キーボードの矢印/Home/End選択、フォーカス保持、決算の短い原因一覧を追加。演出段数は増やさない。
+- 30週・4択・schema 1・12週旧セーブ・既存画像/PWAを維持。バランス定数と乱数順序は変更なし。
+
+[監査と固定800キャンペーンの前後比較](tests/results/v180-audit.md)。
+再計測: `node tests/balance-v180.cjs /tmp/balance.json`（200シード×4戦略）。
+回帰: `node tests/refinement-v180.test.cjs` と `python tests/refinement-v180.py`。
+ローカルでWebKit依存がない場合のみ `THEATER_BROWSERS=chromium python tests/refinement-v180.py`。CIは両エンジン必須。実機iPhoneは未検証。

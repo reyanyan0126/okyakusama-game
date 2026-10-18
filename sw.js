@@ -1,4 +1,4 @@
-const CACHE_NAME = 'okyakusama-v1.7.1-cache-1';
+const CACHE_NAME = 'okyakusama-v1.8.0-cache-1';
 const ASSETS = ['./','./index.html','./styles.css','./app.js','./engine.js','./stories.js','./finance.js','./scene.js','./assets/storyboards-v150.js','./assets/storyboards-v150.svg','./assets/prologue-v160.svg','./assets/incidents-v160.svg','./assets/policies-v160.svg','./assets/episode-cinema-v170.svg','./assets/office-cinema-v171.svg','./assets/portraits-v171.svg','./assets/root-cinema-v170.svg','./manifest.webmanifest','./icons/icon.svg','./icons/icon-180.png','./icons/icon-192.png','./icons/icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('okyakusama-')&&key!==CACHE_NAME).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));});

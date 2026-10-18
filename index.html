@@ -387,12 +387,13 @@
       <div id="actions" class="action-grid" role="radiogroup" aria-label="経営施策を選択"></div>
       <details id="optionalActions" class="optional-actions"><summary><span>今週の追加策 <small>使わなくてもOK</small></span><small id="optionalSummary">資金があれば投資／困ったら悪魔</small></summary>
       <div class="optional-body"><div class="investment-zone" aria-label="今週の設備投資">
-        <div class="investment-heading"><strong>設備・人材・常連への先行投資</strong><small>今週お金が減る／次週以降に効果・最大1つ</small></div>
+        <div class="investment-heading"><strong>設備・人材・常連への先行投資</strong><small>今週から営業に効果／施策の成否確率は次週から・最大1つ</small></div>
         <div id="projectChoices" class="project-choices" role="radiogroup" aria-label="追加投資"></div>
         <p id="projectNote" class="project-note">何も選ばなければ追加費用は0円。</p>
       </div>
       <details id="devilSection" class="devil-section"><summary><svg class="mini-ill"><use href="#art-devil"/></svg> 悪魔の取引 <small id="devilAvailability">今、お金を得て後で返済</small></summary><div id="devilChoices" class="devil-choices"></div><p id="devilNotice">1回の契約には必ず代償があります。</p></details></div></details>
       <div class="selected-detail"><span class="detail-icon" id="selectedIcon"><svg class="mini-ill" aria-hidden="true"><use href="#art-document"/></svg></span><div class="selected-text"><strong id="selectedTitle">選んだ施策</strong><p id="selectedDesc"></p></div></div>
+      <p id="selectedTradeoff" class="policy-tradeoff" aria-live="polite"></p>
       <div class="performance-preview"><div><strong>今回の施策の成否</strong><small id="successStreak">連続好調 0/3</small></div><p id="selectedPerformance">失敗・成功・大成功の確率を計算中</p><small>失敗＝通常効果80％／成功＝100％／大成功＝135％。費用は発生し、事故・炎上は別判定。</small></div>
       <div class="risk-row"><span>炎上リスク</span><strong id="riskLabel">低</strong><span class="risk-caption" id="riskNote">比較的穏やか</span></div>
       <button id="advanceButton" class="primary-btn" type="button">この案で営業する →</button>
@@ -445,6 +446,7 @@
         <div id="performanceReport" class="performance-result" role="status" hidden><strong id="performanceName">成功！</strong><p id="performanceMessage">今回の施策の判定</p><small id="performanceDetail"></small></div>
         <div id="crisisResponseBox" class="crisis-response" hidden><strong>前の問題に、どう対応した？</strong><p id="crisisResponseText"></p></div>
         <div id="reportVerdict" class="report-verdict" role="status"><span id="reportVerdictIcon"><svg class="mini-ill" aria-hidden="true"><use href="#art-graph"/></svg></span><div><strong id="reportVerdictTitle">黒字達成！</strong><small id="reportVerdictSub">今回の施策でお店はどうなった？</small></div></div>
+        <p id="resultFactors" class="result-factors"></p>
         <div id="economyReport" class="economy-report"><svg class="mini-ill"><use href="#art-bill"/></svg><span id="economyHeadline">今週の経済ニュース</span></div>
         <p class="settlement-profit">今週の営業利益 <strong id="settlementProfit"></strong></p><div class="report-cashflow"><div><span>お店の資金</span><strong id="reportCash">0万円</strong><small id="reportCashChange" class="money-change">先週から ±0万円</small><small id="storeMoneyWhy" class="cash-why">営業と支払いを集計中</small></div><div><span>自分の財布</span><strong id="reportExpenses">0万円</strong><small id="reportPersonalChange" class="money-change">先週から ±0万円</small><small id="personalMoneyWhy" class="cash-why">報酬と生活費を集計中</small></div></div>
         <button type="button" id="reportLedgerButton" class="report-ledger-button"><svg class="mini-ill" aria-hidden="true"><use href="#art-bill"/></svg> 今週のお金の動きを見る <span>›</span></button>
