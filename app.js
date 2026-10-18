@@ -604,7 +604,7 @@ function beginTheater(h){
  };
  frame(reducedMotion()?2:0);
  $('workingSkip').focus({preventScroll:true});
- const duration=reducedMotion()?350:3900;
+ const duration=reducedMotion()?6000:3900; // No motion, but leave time to read all three completed panels.
  if(!reducedMotion())for(const n of [1,2])theaterTimers.push(setTimeout(()=>frame(n),n*1200));
  theaterTimers.push(setTimeout(showOutcome,duration));
 }
