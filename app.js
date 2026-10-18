@@ -80,9 +80,9 @@ function renderPrologue(){
  $('prologueHeading').textContent=item.title;
  $('prologueText').textContent=item.text;
  const illustrationStep=prologueStep+1;
- $('prologueArt').setAttribute('href','#story-scene-'+illustrationStep);
+ $('prologueArt').setAttribute('href','./assets/prologue-v160.svg#prologue-'+illustrationStep);
  $('prologueArt').setAttribute('x','0');$('prologueArt').setAttribute('y','0');
- $('prologueArt').setAttribute('width','320');$('prologueArt').setAttribute('height','175');
+ $('prologueArt').setAttribute('width','720');$('prologueArt').setAttribute('height','420');
  $('prologueIllustration').dataset.scene=String(illustrationStep);
  $('prologueIllustration').classList.toggle('phone-ringing',prologueStep===2);
  $('prologueIllustration').classList.remove('story-art-enter');void $('prologueIllustration').offsetWidth;$('prologueIllustration').classList.add('story-art-enter');
@@ -567,9 +567,8 @@ function setPresentation(stage){if(!game.lastResult)return;game.presentation={we
 function clearTheaterTimers(){theaterTimers.forEach(clearTimeout);theaterTimers=[];}
 function hideTheater(){clearTheaterTimers();for(const id of ['workingScene','shockScene','outcomeScene','newsScene','reportScene','rescueScene'])$(id).hidden=true;resolving=false;}
 function installTheaterLayout(){
- const title=document.querySelector('.title-visual');if(title)title.innerHTML=T.art('arc_register_boss','worry','still');
- const introIds=['intro-bills','intro-calendar','intro-phone','office','shop','contract','intro-shadow'];
- introIds.forEach((id,i)=>{const symbol=$('story-scene-'+(i+1));if(symbol){symbol.setAttribute('viewBox','0 0 360 230');symbol.innerHTML=T.art(id,i<4?'worry':'normal','still');}});
+ const title=document.querySelector('.title-visual');if(title)title.innerHTML='<svg class="story-intro-panel" viewBox="0 0 720 420" role="img" aria-label="疲れたスタッフと常連客が店を支えるモグモグマート"><use href="./assets/prologue-v160.svg#prologue-5"></use></svg>';
+ // Intro artwork is a separate set of seven authored scenes, not the generic WeekTheater actors.
  const detail=$('financialDetail');
  for(const selector of ['#reportHeadline','#reportDescription','#storyEvent','#storyEcho','#performanceReport','#crisisResponseBox','#reportVerdict','#economyReport','#reportSatire','.report-impact','#reportGoal','.report-reaction']){
   const el=document.querySelector(selector);if(el)detail.append(el);
@@ -618,7 +617,7 @@ function renderNews(){
  const item=items[newsIndex];setPresentation('news');$('newsScene').hidden=false;$('newsScene').dataset.kind=item.kind;
  $('newsStep').textContent=`03 / 04 · ${item.kind==='memory'?'過去の選択から':'臨時ニュース'} ${newsIndex+1} / ${items.length}`;
  $('newsTitle').textContent=item.title;$('newsText').textContent=item.text;
- $('newsArt').innerHTML=T.art(h.accidentId==='freezer'?'maintenance':item.kind==='memory'?h.actionId:'media',item.kind==='positive'?'joy':item.kind==='memory'?'anger':'worry','news');
+ $('newsArt').innerHTML='<svg class="incident-illustration" viewBox="0 0 720 420" role="img" aria-label="'+esc(item.title)+'の現場"><use href="./assets/incidents-v160.svg#incident-'+(item.visualId||'memory')+'"></use></svg>';
  const pending=pendingAccident(h),isAccident=item.title===h.accidentTitle;
  $('accidentDecision').hidden=!(pending&&isAccident);
  if(pending&&isAccident){const cost=Math.min(28000,Math.round(h.incidentCost*.48)+4000);$('accidentRepair').textContent=`補償する −${man(cost)}万円`;$('accidentRepair').disabled=game.cash<cost;$('accidentDecisionText').textContent=game.cash<cost?'補償費が不足しています。費用を抑える対応を選んでください。':'追加費用で信用を守るか、費用を抑えるかを選んでください。';}
