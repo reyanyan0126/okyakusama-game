@@ -30,7 +30,7 @@ with sync_playwright() as p:
    cases=[('normal',1,'regular'),('busy',5,'parent'),('quiet',9,'senior'),('scandal',13,'student'),('critical',1,'regular')]
    for shop,week,customer in cases:
     page.evaluate("""({shop,week})=>{
-     const g=GameEngine.initial(1441);g.week=week;
+     const g=GameEngine.play(GameEngine.initial(1441),'quality');g.week=week;
      if(shop==='busy'){g.cash=320000;g.storeRep=78;g.sat=79;g.frust=17;g.fire=3;g.profit=165000;}
      if(shop==='quiet'){g.cash=152000;g.storeRep=51;g.sat=45;g.frust=41;g.profit=3000;}
      if(shop==='scandal'){g.fire=68;g.storeRep=30;g.profit=13000;}
