@@ -1,5 +1,6 @@
 """Boardroom dilemma is readable before decision and remembered in settlement and save."""
 from pathlib import Path
+import re
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from functools import partial
 from threading import Thread
@@ -51,6 +52,7 @@ try:
     assert page.locator('#reportScene').is_visible()
     page.locator('#financialDetail').evaluate('(el)=>el.open=true')
     assert '社長との駆け引き' in page.locator('#resultFactors').inner_text()
+    assert not re.search(r'社長 [＋+−-]?\\d+円',page.locator('#resultFactors').inner_text()),'trust change must not display as money'
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
     assert not errors,errors
     print('PASS v2.0 boardroom',browser_name,width,flush=True)
