@@ -184,12 +184,18 @@ function setFaces(){
  const s=game;
  const boss=s.fire>=48?'panic':s.profit>=145000?'happy':s.profit<0?'angry':'normal';
  const buyer=s.frust>=65?'angry':s.sat>=75?'happy':s.frust>=40?'sad':'normal';
- for(const [id,mood,label] of [['bossFace',boss,'店長'],['buyerFace',buyer,'消費者']]){
+ // Four recognizable local residents rotate in four-week story chapters.
+ // The manager is a stable recurring character; emotions change with game state.
+ const locals=[['mori','森さん'],['saito','斎藤さん'],['aoki','青木さん'],['tanaka','田中さん']];
+ const [resident,residentName]=locals[Math.floor((Math.max(1,s.week)-1)/4)%locals.length];
+ for(const [id,mood,portrait,label] of [['bossFace',boss,'manager','店長'],['buyerFace',buyer,resident,'常連・'+residentName]]){
   $(id).dataset.mood=mood;
-  $(id).setAttribute('viewBox','0 0 80 100');
-  $(id).innerHTML=T.person(id==='bossFace'?'manager':'customer',40,62,({panic:'worry',happy:'joy',angry:'anger',sad:'down',normal:'normal'})[mood],'idle',1);
-  $(id).setAttribute('aria-label',label+'・'+({panic:'パニック',happy:'笑顔',angry:'怒り',sad:'不満',normal:'普通'})[mood]+'の表情');
+  $(id).dataset.persona=portrait;
+  $(id).setAttribute('viewBox','0 0 100 120');
+  $(id).innerHTML='<use href="./assets/portraits-v171.svg#portrait-'+portrait+'-'+mood+'"></use>';
+  $(id).setAttribute('aria-label',label+'・'+({panic:'驚き',happy:'笑顔',angry:'怒り',sad:'落胆',normal:'普通'})[mood]+'の表情');
  }
+ if($('buyerPersona'))$('buyerPersona').textContent=residentName;
 }
 
 
