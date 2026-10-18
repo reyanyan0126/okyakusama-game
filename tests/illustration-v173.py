@@ -30,6 +30,7 @@ try:
     seen=set()
     for n in range(7):
      assert page.locator('#prologueCounter').inner_text()==f'{n+1:02d} / 07'
+     page.wait_for_function("""()=>{const img=document.querySelector('#prologuePaintedPerson');return img&&img.complete&&img.naturalWidth>0;}""",timeout=8000)
      loaded=page.evaluate("""()=>({
       name:document.querySelector('#prologuePaintedPerson').src.split('/').pop(),
       okay:document.querySelector('#prologuePaintedPerson').complete&&document.querySelector('#prologuePaintedPerson').naturalWidth>0,
