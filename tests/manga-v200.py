@@ -6,6 +6,8 @@ from threading import Thread
 from playwright.sync_api import sync_playwright
 
 root=Path(__file__).resolve().parents[1]
+visuals=root/'test-artifacts'
+visuals.mkdir(parents=True,exist_ok=True)
 class Quiet(SimpleHTTPRequestHandler):
  def log_message(self,*args):pass
 server=ThreadingHTTPServer(('127.0.0.1',0),partial(Quiet,directory=str(root)))
@@ -33,6 +35,8 @@ try:
      page.locator('#acceptMarket').click()
      page.locator('#prologueSkip').click()
      page.locator('#firstWeekStart').click()
+     if browser_name=='chromium' and width==390 and motion=='no-preference':
+      page.locator('#officeView').screenshot(path=str(visuals/'office-390.png'))
      page.locator('#openProposals').click()
      page.locator('#advanceButton').click()
      before=page.evaluate("""()=>{
@@ -51,7 +55,9 @@ try:
           getComputedStyle(svg).transform==='none';
      }"""),'person parts must not be CSS-animated'
      if motion=='reduce':
-      assert page.locator('#workingComic .manga-panel.is-revealed').count()==3,'reduced motion shows all three panels immediately'
+      assert page.locator('#workingComic .manga-panel.is-revealed').count()==3
+      if browser_name=='chromium' and width==390:
+       page.locator('#workingComic').screenshot(path=str(visuals/'manga-three-panels-390.png')),'reduced motion shows all three panels immediately'
      else:
       assert page.locator('#workingComic .manga-panel.is-revealed').count()>=1
       assert page.evaluate("""()=>{
@@ -66,6 +72,8 @@ try:
      page.evaluate("document.getElementById('workingSkip').click()")
      page.locator('#outcomeScene').wait_for(state='visible',timeout=6000)
      assert page.locator('#outcomeArt .manga-panel.is-revealed').count()==3
+     if browser_name=='chromium' and width==390 and motion=='no-preference':
+      page.locator('#outcomeArt').screenshot(path=str(visuals/'manga-result-390.png'))
      assert page.locator('#outcomeArt .manga-picture use').count()==3
      assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
      assert page.locator('#outcomeArt').bounding_box()['width']<=width+1
