@@ -760,6 +760,13 @@ function paint(){
  $('openProposals').textContent=s.rescuePending?'緊急再建会議へ →':s.finished?'契約結果を見る →':'4つの作戦を見る →';
  $('advanceButton').innerHTML=s.finished?'最終決算を見る <span aria-hidden="true"></span>':'この案で営業する <span aria-hidden="true"></span>';
 }
+function renderStrategyAdvice(){
+ const advisor=window.GameStrategyAdvisor;
+ if(!advisor)return;
+ const assessment=advisor.assess(game,game.selected,selectedProject);
+ $('strategyAdviceLabel').textContent=assessment?.head||'経営参謀のメモ';
+ $('strategyAdviceContent').innerHTML=advisor.markup(assessment);
+}
 function renderActions(){const s=game;
  const offers=s.finished?[G.ACTIONS.find(a=>a.id===s.selected)||G.ACTIONS[0]]:G.weeklyOffers(s);
  if(!s.finished&&!offers.some(x=>x.id===s.selected))s.selected=offers[0].id;
@@ -777,6 +784,7 @@ function renderActions(){const s=game;
  if(dilemma?.milestone)$('selectedTradeoff').textContent+=' ／ 【社長との駆け引き】'+(s.selected===dilemma.actionId?'社長案に従う：社長の信頼が上がるが現場との関係に注意':'社長案を見送る：現場の信頼が上がるが社長は不満');
  const r=riskLabel(G.previewRisk(s,s.selected)),label=$('riskLabel');label.textContent=r[0];label.className=r[1];
  $('riskNote').textContent=s.finished?'決算で結果を確認':r[2];
+ renderStrategyAdvice();
  const selectedOdds=G.performanceOdds(s,s.selected);
  $('selectedPerformance').textContent=selectedOdds?
   '失敗 '+selectedOdds.failure+'% ／ 成功 '+selectedOdds.success+'% ／ 大成功 '+selectedOdds.great+'%':
@@ -869,7 +877,7 @@ function setup(){
  $('prologueNext').addEventListener('click',advancePrologue);
  $('prologueSkip').addEventListener('click',finishPrologue);
  $('backTitle').addEventListener('click',()=>showEntry('title'));
- $('projectChoices').addEventListener('click',ev=>{const b=ev.target.closest('[data-project]');if(!b||b.disabled||game.finished)return;selectedProject=b.dataset.project==='none'?null:b.dataset.project;renderProjects();});
+ $('projectChoices').addEventListener('click',ev=>{const b=ev.target.closest('[data-project]');if(!b||b.disabled||game.finished)return;selectedProject=b.dataset.project==='none'?null:b.dataset.project;renderProjects();renderStrategyAdvice();});
  $('devilChoices').addEventListener('click',event=>{const b=event.target.closest('[data-devil]');if(!b||b.disabled)return;selectedDevil=b.dataset.devil==='none'?null:b.dataset.devil;renderDevil();});
  function selectPolicy(button){if(!button||button.disabled||game.finished)return;game.selected=button.dataset.id;save();renderActions();$('actions').querySelector('[aria-checked="true"]').focus({preventScroll:true});}
  $('actions').addEventListener('click',event=>selectPolicy(event.target.closest('[data-id]')));
