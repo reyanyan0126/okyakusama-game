@@ -1327,7 +1327,7 @@ html .working-illustration,html .working-comic{
 #workingScene.working-scene{gap:8px!important;}
 #workingScene #workingAction{font-size:14px!important;line-height:1.35!important;margin:4px 0 0!important;}
 #workingScene h2{font-size:16px!important;}
-#workingScene .work-footer{gap:10px!important;margin-top:5px!important;padding-top:7px!important;}
+#workingScene .work-footer{gap:16px!important;margin-top:5px!important;padding-top:7px!important;}
 #outcomeArt .manga-strip{display:flex;flex-direction:column;gap:9px;margin:12px auto;max-width:430px;}
 #outcomeArt .manga-panel{min-height:104px;}
 #outcomeArt .manga-panel:nth-child(2).is-revealed{animation-delay:.16s;}
