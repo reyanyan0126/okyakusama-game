@@ -201,3 +201,74 @@ button:focus-visible,summary:focus-visible{outline:3px solid #457dba;outline-off
   #titleScreen *,#contractsScreen *,#prologueScreen *,#app *,#weekScene *,
   #proposalSheet *,#moneySheet *,#statusSheet *{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+
+/* v2.1 independent illustration plates. Characters are complete images, never CSS anatomy. */
+.new-art-banner{
+ display:flex;align-items:stretch;gap:13px;min-width:0;
+ padding:10px;border-radius:15px;
+ background:linear-gradient(110deg,#e7edde,#fbf5e7);
+ border:1px solid #b8c7b4;overflow:hidden;box-shadow:0 3px 0 #d8d5c3;
+}
+.new-art-banner-img{
+ display:block;align-self:center;width:37%;min-width:0;aspect-ratio:4/5;
+ object-fit:cover;object-position:50% 35%;
+ background:#dfd8c9;border:1px solid #7b8f85;border-radius:10px;
+}
+.new-art-banner-copy{
+ display:flex;flex:1;min-width:0;justify-content:center;flex-direction:column;
+ padding:6px 3px;color:#36594f;gap:8px;
+}
+.new-art-banner-copy strong{font-size:clamp(16px,4.5vw,24px);line-height:1.4;letter-spacing:-.04em}
+.new-art-banner-copy p{font-size:12px;line-height:1.75;margin:0;font-weight:750;color:#667569}
+#titleScreen .v210-illustrated-cover{
+ display:block;aspect-ratio:auto!important;max-height:none!important;
+ border:0!important;border-radius:0!important;box-shadow:none!important;
+ background:transparent!important;margin:0 15px 22px!important;overflow:visible!important;
+}
+#titleScreen .new-art-banner-cover{
+ position:relative;min-height:210px;border:2px solid #385a50;border-radius:17px;
+ padding:13px;background:linear-gradient(125deg,#d6e5d4,#f6e5d3);
+ box-shadow:3px 5px 0 #c4bfad;
+}
+#titleScreen .new-art-banner-cover .new-art-banner-img{
+ width:44%;aspect-ratio:3/4;max-height:285px;object-fit:contain;
+ border-color:#92a39c;background:#f1e9db;
+}
+#titleScreen .new-art-banner-cover .new-art-banner-copy strong{font-size:clamp(20px,5vw,31px)}
+#titleScreen .new-art-banner-cover .new-art-banner-copy p{font-size:clamp(11px,2.9vw,14px)}
+#contractsScreen .new-art-banner-contract{
+ grid-column:1/-1;width:100%;margin-bottom:10px;
+ background:#e5eee2!important;border:1px solid #d2dbce;box-shadow:none;
+}
+#contractsScreen .new-art-banner-contract .new-art-banner-img{
+ width:28%;max-height:144px;object-fit:contain
+}
+#contractsScreen .new-art-banner-contract .new-art-banner-copy strong{font-size:15px}
+#officeView .new-office-person{
+ position:absolute;display:block;width:36%;height:94%;right:0;bottom:0;
+ object-fit:cover;object-position:50% 26%;z-index:1;border-radius:0 16px 16px 0;
+ opacity:.98;pointer-events:none;
+}
+#officeView .office-room-art{opacity:.34}
+#officeView .office-visitors{position:relative;z-index:3}
+#officeView .office-hero-caption{max-width:68%}
+#voiceView .new-art-banner,#recordsView .new-art-banner{
+ margin:0 0 13px;background:linear-gradient(115deg,#f8f4e9,#dfecde)
+}
+#voiceView .new-art-banner-img,#recordsView .new-art-banner-img{
+ width:29%;aspect-ratio:3/4;max-height:147px;object-fit:contain
+}
+#reportScene .new-art-banner-report{
+ margin:0 0 15px;background:#e9f0df;box-shadow:none;max-height:150px
+}
+#reportScene .new-art-banner-report .new-art-banner-img{
+ width:27%;max-height:120px;object-fit:contain
+}
+#reportScene .new-art-banner-report .new-art-banner-copy strong{font-size:16px}
+@media(max-width:370px){
+ .new-art-banner{gap:8px;padding:8px}
+ .new-art-banner-copy strong{font-size:14px}
+ .new-art-banner-copy p{font-size:11px}
+ #titleScreen .new-art-banner-cover .new-art-banner-img{width:41%}
+ #officeView .new-office-person{width:33%}
+}
