@@ -3,6 +3,135 @@
 const families=[["register",["arc_register_boss"]],["robot",["arc_staff_robot"]],["bento",["arc_bento_real"]],["photo",["arc_bento_camera"]],["staff",["arc_staff_listen"]],["parade",["arc_festival_parade"]],["press",["arc_media_open"]],["credit",["arc_finale_steal"]]];
 const lookup=Object.fromEntries(families.flatMap(([family,ids])=>ids.map(id=>[id,family])));
 const BASE='./assets/storyboards-v150.svg#';
+const CINEMA={
+ "arc_register_boss": [
+  "社長がレジへ",
+  "バーコードを通す",
+  "行列の行方は？"
+ ],
+ "arc_register_pay": [
+  "残業代を計算",
+  "給与を振り込む",
+  "増員してレジ再開"
+ ],
+ "arc_register_machine": [
+  "セルフ機械を搬入",
+  "セルフ操作を案内",
+  "精算機の反応は？"
+ ],
+ "arc_register_graduation": [
+  "卒業式の準備",
+  "従業員に花束を贈る",
+  "本人の反応は…"
+ ],
+ "arc_bento_real": [
+  "唐揚げを増量",
+  "5個ずつ盛り付け",
+  "実物を売り場へ"
+ ],
+ "arc_bento_camera": [
+  "巨大弁当を作る",
+  "広告を撮影",
+  "実物との違いは？"
+ ],
+ "arc_bento_chef": [
+  "料理人を招く",
+  "試作品を調理",
+  "監修弁当完成"
+ ],
+ "arc_bento_label": [
+  "但し書きを作る",
+  "巨大な文字を印刷",
+  "広告に貼り出す"
+ ],
+ "arc_staff_listen": [
+  "従業員の声を集める",
+  "待遇改善を協議",
+  "約束を確認する"
+ ],
+ "arc_staff_robot": [
+  "ロボットを搬入",
+  "接客を学習させる",
+  "店内で動かす"
+ ],
+ "arc_staff_pizza": [
+  "ピザを注文",
+  "従業員に配る",
+  "枚数が足りる？"
+ ],
+ "arc_staff_resign": [
+  "現場辞令を印刷",
+  "社長へ手渡す",
+  "社長が現場へ"
+ ],
+ "arc_media_open": [
+  "帳簿を整理",
+  "記者に数字を説明",
+  "記事の反応を待つ"
+ ],
+ "arc_media_fake": [
+  "撮影の準備",
+  "社長を密着取材",
+  "動画を公開"
+ ],
+ "arc_media_ignore": [
+  "取材は断る",
+  "売り場を改善",
+  "客に変化が伝わる？"
+ ],
+ "arc_media_silence": [
+  "口止めメールを作成",
+  "一斉送信する",
+  "記者にも届いた!?"
+ ],
+ "arc_festival_locals": [
+  "野菜を仕入れる",
+  "地元屋台を組む",
+  "町内客を迎える"
+ ],
+ "arc_festival_parade": [
+  "山車を準備",
+  "社長が登壇",
+  "商店街でお披露目"
+ ],
+ "arc_festival_free": [
+  "試食を準備",
+  "祭り客に配る",
+  "味で勝負する"
+ ],
+ "arc_festival_fee": [
+  "料金札を用意",
+  "通行人に請求",
+  "町内会に見つかる？"
+ ],
+ "arc_finale_team": [
+  "功労者を選考",
+  "スタッフを招く",
+  "表彰状を手渡す"
+ ],
+ "arc_finale_steal": [
+  "社長が式を準備",
+  "自分を表彰",
+  "従業員の反応は"
+ ],
+ "arc_finale_vote": [
+  "投票箱を設置",
+  "お客様が投票",
+  "社長の評価が判明"
+ ],
+ "arc_finale_contract": [
+  "最終契約を準備",
+  "社長に署名を求める",
+  "再建契約の結末は"
+ ]
+};
+const CINEMA_SRC='./assets/episode-cinema-v170.svg#cinema-';
+const ROOT_CINEMA={
+ fix_equipment:['腐食した配管を点検','冷凍庫を交換する','庫内温度を確認する'],
+ fix_people:['勤務シフトを整理','無理のない人数を配置','スタッフが定時退勤'],
+ fix_fans:['常連さんの声を聞く','売り場の改善を案内','お店へ戻ってきた']
+};
+const ROOT_SRC='./assets/root-cinema-v170.svg#repair-';
 const ADDITIONAL='./assets/policies-v160.svg#';
 const EXTRA={
  "raise": [
@@ -136,8 +265,11 @@ const EXTRA={
   "AIに送信させる"
  ]
 };
-const family=id=>lookup[id]||(EXTRA[id]?id:null);
-function symbol(id,phase='work',step=0){const group=family(id);if(!group)return null;
+const family=id=>(ROOT_CINEMA[id]||CINEMA[id])?id:(lookup[id]||(EXTRA[id]?id:null));
+function symbol(id,phase='work',step=0){
+ if(ROOT_CINEMA[id])return ROOT_SRC+id+'-'+(phase==='work'?'work-'+Math.max(0,Math.min(2,Math.trunc(step)||0)):phase==='result'?(['failure','success','great'].includes(step)?step:'success'):'work-1');
+ if(CINEMA[id])return CINEMA_SRC+id+'-'+(phase==='work'?'work-'+Math.max(0,Math.min(2,Math.trunc(step)||0)):phase==='result'?(['failure','success','great'].includes(step)?step:'success'):'work-1');
+ const group=family(id);if(!group)return null;
  const src=lookup[id]?BASE+group:ADDITIONAL+'policy-'+group;
  if(phase==='work')return src+'-work-'+Math.max(0,Math.min(2,Math.trunc(step)||0));
  if(phase==='result')return src+'-'+(['failure','success','great'].includes(step)?step:'success');
@@ -145,7 +277,7 @@ function symbol(id,phase='work',step=0){const group=family(id);if(!group)return 
 }
 function markup(id,phase='work',step=0,role='img'){
  const href=symbol(id,phase,step);if(!href)return null;
- const accessible=['work','result'].includes(phase)?'施策の専用イラスト':'イラスト';
+ const accessible=CINEMA[id]?'選んだ施策：'+CINEMA[id][phase==='work'?(Number.isInteger(step)?Math.min(2,Math.max(0,step)):1):2]:['work','result'].includes(phase)?'施策の専用イラスト':'イラスト';
  return '<svg class="storyboard-panel" viewBox="0 0 720 420" role="'+role+'" aria-label="'+accessible+'"><use href="'+href+'"></use></svg>';
 }
 const scripts=Object.freeze({
@@ -158,7 +290,7 @@ const scripts=Object.freeze({
  press:['記者の質問に答える','経営資料を公開する','記事の公開を待つ'],
  credit:['社長が表彰式を開く','社長が壇上の真ん中へ','従業員の反応は…']
 });
-const captions=id=>scripts[family(id)]||EXTRA[id]||null;
-root.PolicyStoryboards={family,symbol,markup,captions,BASE,families};
+const captions=id=>CINEMA[id]||ROOT_CINEMA[id]||scripts[family(id)]||EXTRA[id]||null;
+root.PolicyStoryboards={family,symbol,markup,captions,BASE,families,CINEMA,ROOT_CINEMA};
 if(typeof module!=='undefined'&&module.exports)module.exports=root.PolicyStoryboards;
 })(typeof window!=='undefined'?window:globalThis);
