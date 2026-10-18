@@ -199,7 +199,7 @@ function setFaces(){
   portrait.setAttribute('viewBox','0 0 160 180');
   portrait.innerHTML='<use href="./assets/portraits-v171.svg#portrait-'+who+'-'+mood+'" x="0" y="0" width="160" height="180"></use>';
   portrait.setAttribute('aria-label',label+'：'+({panic:'パニック',happy:'笑顔',angry:'怒り',down:'不満',normal:'通常'}[mood])+'の表情');
-  const caption=portrait.closest('.cast-portrait')?.querySelector('small');
+  const caption=$(id==='bossFace'?'managerFaceLabel':'buyerFaceLabel');
   if(caption)caption.textContent=id==='bossFace'?'店長':label;
  }
 }
