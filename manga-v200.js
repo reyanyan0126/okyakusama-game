@@ -17,6 +17,11 @@ const SPEAKER={
  customer:{label:'常連客',base:'./assets/portraits-v171.svg#portrait-mori-'},
  you:{label:'主人公',base:'./assets/manga-cast-v200.svg#manga-you-'}
 };
+// Single finished paintings cropped by frame. This is one image for each person,
+// never separately drawn or positioned face/hair/arm DOM nodes.
+const PAINTED_CAST='./assets/manga-painted-cast-v173.webp';
+const CAST_COLUMNS={you:0,boss:1,manager:2,worker:3,customer:4};
+const CAST_WIDTH=90,CAST_HEIGHT=126;
 const moodMap={boss:{normal:'normal',happy:'happy',angry:'angry',sad:'sad',panic:'panic'},
  manager:{normal:'normal',happy:'happy',angry:'angry',sad:'sad',panic:'panic'},
  worker:{normal:'normal',happy:'happy',angry:'angry',sad:'sad',panic:'panic'},
@@ -59,13 +64,14 @@ function art(role,mood,kind,index){
  const data=SPEAKER[role]||SPEAKER.manager;
  const emotion=(moodMap[role]||moodMap.manager)[mood]||'normal';
  const bg=s.bg[index%3];
- // Every person below is a *complete* SVG symbol; CSS never positions or animates body parts.
+ // Every person below is one crop of a finished painted character; CSS never creates anatomy.
  return '<svg class="manga-picture" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100" preserveAspectRatio="xMinYMid slice" role="img" aria-label="'+
-  clean(data.label+'・'+emotion+'。'+kind+'の場面')+'"><rect width="160" height="100" fill="'+bg+'"/>'+
+  clean(data.label+'の完成イラスト。'+kind+'の場面')+'"><rect width="160" height="100" fill="'+bg+'"/>'+
   '<path d="M0 80H160" stroke="'+s.accent+'" opacity=".5" stroke-width="7"/>'+
   s.prop+
   '<path d="M8 88Q32 80 73 88" fill="none" stroke="#6a5546" stroke-width="2" opacity=".3"/>'+
-  '<use href="'+data.base+emotion+'" x="2" y="-9" width="99" height="118"></use>'+
+  '<svg class="manga-painted-character" x="2" y="-9" width="99" height="118" viewBox="'+(CAST_COLUMNS[role]??CAST_COLUMNS.manager)*CAST_WIDTH+' 0 '+CAST_WIDTH+' '+CAST_HEIGHT+'" preserveAspectRatio="xMidYMid slice" overflow="hidden" aria-hidden="true">'+
+  '<image href="'+PAINTED_CAST+'" x="0" y="0" width="'+(CAST_WIDTH*5)+'" height="'+CAST_HEIGHT+'" preserveAspectRatio="none"></image></svg>'+
   '<rect x="2" y="2" width="156" height="96" rx="2" fill="none" stroke="#3e3735" stroke-width="2" opacity=".23"/></svg>';
 }
 function panel(line,index,kind,tier,all,actionId){
