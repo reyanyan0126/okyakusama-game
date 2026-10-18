@@ -7,6 +7,7 @@ const G=require('../engine.js');
 const read=name=>fs.readFileSync(path.join(__dirname,'..',name),'utf8');
 const svg=read('assets/episode-cinema-v170.svg');
 const old=read('assets/storyboards-v150.svg');
+const repairs=read('assets/root-cinema-v170.svg');
 const prologue=read('assets/prologue-v160.svg');
 const styles=read('styles.css');
 const app=read('app.js');
@@ -38,6 +39,15 @@ for(const id of ids){
  assert.equal(new Set(captions).size,3,'one scene does not repeat the same caption');
 }
 assert.equal(sceneNames.size,144);
+assert.equal((repairs.match(/<symbol /g)||[]).length,18);
+for(const id of ['fix_equipment','fix_people','fix_fans']){
+ assert.equal(B.family(id),id,'every root-cause fix must use custom art');
+ const refs=[0,1,2].map(step=>B.symbol(id,'work',step));
+ for(const tier of ['failure','success','great'])refs.push(B.symbol(id,'result',tier));
+ assert.equal(new Set(refs).size,6);
+ for(const ref of refs)assert(repairs.includes('id="'+ref.split('#')[1]+'"'),ref);
+ assert.equal(B.captions(id).length,3);
+}
 for(const n of ['raise','quality','staff','recall','maintenance']){
  assert(B.symbol(n,'work',0).includes('policies-v160.svg'));
 }
@@ -48,4 +58,5 @@ assert(!/animation-iteration-count:\s*infinite\s*!important/.test(styles));
 assert(app.includes('B?.family(h.actionId)'));
 assert(sw.includes('okyakusama-v1.7.0-cache-1'));
 assert(sw.includes('assets/episode-cinema-v170.svg'));
+assert(sw.includes('assets/root-cinema-v170.svg'));
 console.log('PASS v1.7.0: 24 independent episodes, 144 illustrated frames, suited protagonist, finite motion and offline cache');
