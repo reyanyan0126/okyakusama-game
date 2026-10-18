@@ -16,6 +16,9 @@ with sync_playwright() as p:
   errors=[]
   page.on('pageerror',lambda e:errors.append(str(e)))
   page.set_content(html,wait_until='load')
+  # A stable seed keeps this legacy narrative regression independent of
+  # rare bankruptcy outcomes from a random new-game seed.
+  page.evaluate("""()=>{const initial=GameEngine.initial;GameEngine.initial=()=>initial(447);}""")
   page.locator('#titleStart').click()
   page.locator('#acceptMarket').click()
   page.locator('#prologueSkip').click()
