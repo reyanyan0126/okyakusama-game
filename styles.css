@@ -1308,3 +1308,13 @@ html .working-illustration,html .working-comic{
 .strategy-advisor-list li strong{font-size:12px;color:#6f3d21}
 .strategy-advisor-note,.strategy-advisor-clear{font-size:11px;color:#6c5a4d;margin:10px 0 0}
 @media(prefers-reduced-motion:reduce){.strategy-advisor,.strategy-advisor *{transition:none!important}}
+
+/* v2.0 milestone H — chapter decisions and evidence-based final hearing. */
+.consequence-item.is-chapter{border-left:3px solid #8b5832;padding-left:10px}
+.finale-evidence{margin:14px 0;padding:11px;background:#fff7e9;border:1px solid #ddc6a2;border-radius:12px}
+.finale-evidence h3{font-size:14px;line-height:1.5;margin:0 0 8px;color:#503727}
+.finale-evidence ul{list-style:none;margin:0;padding:0}
+.finale-evidence li{padding:9px 1px;border-top:1px solid #e6d6bc;overflow-wrap:anywhere}
+.finale-evidence li strong{display:block;font-size:12px;line-height:1.5}
+.finale-evidence li p{font-size:12px;line-height:1.65;margin:4px 0 0;color:#55453a}
+@media(max-width:360px){.finale-evidence{padding:9px}}
