@@ -205,7 +205,11 @@ function renderOfficeScene(){
  hero.dataset.rootIssue=scene.rootIssue;
  $('officeSceneText').textContent=scene.note;
  const drawing=document.querySelector('.office-room-art');
- if(drawing){drawing.setAttribute('viewBox','0 0 360 230');drawing.innerHTML=T.art(scene.store==='scandal'?'media':scene.rootIssue==='repair'?'maintenance':'office',scene.store==='busy'?'joy':scene.store==='critical'?'worry':scene.store==='closed'?'down':'normal','still');}
+ if(drawing){
+  const kind=scene.store==='closed'?'closed':scene.store==='scandal'?'scandal':scene.store==='critical'?'critical':scene.rootIssue==='repair'?'repair':scene.store==='busy'?'busy':scene.office==='upgraded'?'upgraded':scene.devil?'devil':scene.store==='quiet'?'quiet':'normal';
+  drawing.setAttribute('viewBox','0 0 720 420');
+  drawing.innerHTML='<use href="./assets/office-cinema-v171.svg#office-'+kind+'"></use>';
+}
  if(drawing)drawing.setAttribute('aria-label',scene.description+' 雑居ビルの事務所とモグモグマートの現場写真。');
  if(previous && previous!==scene.store && !reducedMotion()){
   hero.classList.remove('scene-status-changed');void hero.offsetWidth;
