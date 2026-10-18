@@ -221,6 +221,8 @@ function weeklyBrief(s){
   return {id:'crisis',title:`${context}！ 緊急会議`,quote:evidence?'消費者「謝罪文より、商品の改善を見せてください」。社長「写真は小さく載せよう」':'店長「苦情の電話が止まりません」。社長「先に誰の責任か決めよう」',choices:evidence?['apology','recall','explain','blame']:['apology','explain','loyalty','blame'],cause:context};
  }
  if(s.cash<135000)return {id:'cash',title:' 今週の支払いが迫る！',quote:'経理「現金が足りません。社長の声量では振り込めません！」',choices:['loan','raise','staff','sale']};
+ // Three story-linked hearings after core authored episodes, unless a real crisis takes priority.
+ const chapter=STORIES.chapterBrief(s);if(chapter)return chapter;
  if(s.week===campaignWeeks(s))return BRIEFS.find(x=>x.id==='final');
  if(s.week===11)return {id:'chapter2',title:'第2章｜再建はまだ終わらない',quote:'社長「生き残ったな。今度は利益を倍にしろ。私の功績で。」',choices:['quality','raise','stamp','audit']};
  if(s.week===21)return {id:'chapter3',title:'第3章｜仕上げの10週間',quote:'社長「最後の追い込みだ。まず私の経歴を立派にしてくれ！」',choices:['loyalty','quality','photo','pop']};
@@ -306,6 +308,7 @@ function goalStatus(s){
 function ending(s){
  const g=goalStatus(s),fires=s.history.filter(h=>h.fireHit).length;
  if(!s.finished)return null;
+ const authored=STORIES.specialEnding(s,g);if(authored)return authored;
  if(s.personalFailed)return {icon:'',name:'請求書だけは出世した',line:'店は残った。しかし生活と養育費が回らず、契約を手放した。悪魔は更新書類を持ってきた。',passed:false};
  if(s.bankrupt)return {icon:'',name:'資金ショート！契約強制終了',line:'家賃も仕入れも待ってくれない。社長「店の資金繰りは君の担当だったよね？」',passed:false};
  if(g.passed&&(s.cast?.customers||0)>=14&&(s.cast?.manager||0)>=10)return {icon:'',name:'町に選ばれた再建者',line:'社長は最後まで自分の功績と主張。だが、町の人と従業員はあなたの行動を覚えている。',passed:true};
@@ -488,6 +491,8 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  const action=applyPerformance(s,id,applyAction(s,id),beforeAction,performance,upgradesBefore);
  s.momentum=performance.tier==='failure'?0:Math.min(3,(s.momentum||0)+(performance.tier==='great'?2:1));
  const storyResult=STORIES.storyResult(s,brief,id,performance.tier,ACTIONS_BY_ID[id]);
+ // The choice can affect character relationships, but does not produce an unreported cash flow.
+ const chapterDecision=STORIES.chapterDecision(s,brief,id,performance.tier);
  const actionSnapshot={rep:s.storeRep-previous.rep,fire:s.fire-previous.fire,sat:s.sat-previous.sat,frust:s.frust-previous.frust};
  const storyEcho=STORIES.echoes(s);
  const boardroomDilemma=resolveBoardroomDilemma(s,boardDemand,id);
@@ -607,7 +612,7 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  s.lowCashWeeks=s.cash<0?s.lowCashWeeks+1:0;
  if(s.cash<0){s.bankrupt=true;s.rescuePending=!s.personalFailed&&rescueOptions(s).length>0;} // The last chance appears before closing.
  if(s.maintenance>0)s.maintenance--;
- const report={actionImpact:actionSnapshot,storyEvent:storyResult,storyEcho:storyEcho.items,boardroomDilemma,performanceTier:performance.tier,performanceRoll:performance.roll,performanceOdds:performance.odds,performanceMultiplier:performance.multiplier,momentumAfter:s.momentum,crisisResponse,rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_')&&s.rootSolved,boardroomBonus,
+ const report={actionImpact:actionSnapshot,storyEvent:storyResult,storyEcho:storyEcho.items,chapterDecision,boardroomDilemma,performanceTier:performance.tier,performanceRoll:performance.roll,performanceOdds:performance.odds,performanceMultiplier:performance.multiplier,momentumAfter:s.momentum,crisisResponse,rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_')&&s.rootSolved,boardroomBonus,
  boardroomDemandId:boardDemand?.actionId||null,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':(QUOTES[id]||STORIES.castLine(s)),eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,investment,projectId:plan,projectLabel:plan?PROJECTS_BY_ID[plan].name:"なし",incidentCost,accidentResponse:accident?.positive?'not_needed':null,accidentPositive:!!accident?.positive,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,macroId:macro.id,macroName:macro.name,macroTag:macro.tag,macroDetail:macro.detail,macroPenalty,macroBonus,macroFixed:macro.fixed,devilId:devil,devilNote,devilPayment,personalDevilPayment,personalCashBefore:previous.personalCash,personalCashAfter:s.personalCash,arrearsBefore:previous.arrears,arrearsAfter:s.arrears,personalLiving:PERSONAL.living,personalShortfall,supportDue,supportPaid,feeFromStore:fee,personalFailed:s.personalFailed,fireHit,boycottHit,boycottActive,memoryEvent,chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
  s.history.push(report);s.lastResult=report;s.week++;
  if(s.week>campaignWeeks(s)||s.bankrupt||s.personalFailed)s.finished=true;
