@@ -87,3 +87,11 @@ Backup before this release: `backup/pre-v1.4.0-20261018` (main `f305be3`).
 再計測: `node tests/balance-v180.cjs /tmp/balance.json`（200シード×4戦略）。
 回帰: `node tests/refinement-v180.test.cjs` と `python tests/refinement-v180.py`。
 ローカルでWebKit依存がない場合のみ `THEATER_BROWSERS=chromium python tests/refinement-v180.py`。CIは両エンジン必須。実機iPhoneは未検証。
+
+
+## v2.0.0 — strategy audit (development PR, not released)
+
+- First milestone: matched-seed policy evaluation across four strategies and four common investment/accident-compensation rules, without changing game balance or saves.
+- Read [controlled-strategy checkpoint](tests/results/v200-strategy-checkpoint.md) for 40-seed preliminary measurements, limitations and reproduction.
+- Run `node tests/strategy-v200.test.cjs` or `STRATEGY_SEEDS=200 node tests/strategy-v200.cjs /tmp/v200-full.json` to create a detailed audit JSON.
+- This stage adds **tests and audit only**; no new gameplay or release was published. It is stacked on v1.8.0 PR #12.
