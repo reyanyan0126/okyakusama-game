@@ -25,19 +25,26 @@ function entries(game){
   return {title:'第'+h.week+'週・社長との経営会議',tag:d.followed?'社長案を採用':'社長案を見送った',
    body:d.text||'人間関係が変化しました。',positive:null,kind:'boardroom'};
  });
- return {ongoing,resolved,boardroom,count:ongoing.length+resolved.length+boardroom.length};
+ const chapter=history.filter(h=>h?.chapterDecision&&Number.isInteger(h.week)).reverse().map(h=>{
+  const decision=h.chapterDecision;
+  const tag=decision.route==='people'?'現場と常連を優先':decision.route==='sales'?'短期利益を優先':'社長の方針を優先';
+  return {title:decision.title||'第'+h.week+'週の重要会議',tag,
+   body:decision.text||'会議の選択を決算に記録しました。',positive:null,kind:'chapter'};
+ });
+ return {ongoing,resolved,boardroom,chapter,count:ongoing.length+resolved.length+boardroom.length+chapter.length};
 }
 function render(items,className){
  if(!items.length)return '';
  return '<ul class="consequence-list">'+items.map(x=>'<li class="consequence-item '+className+'"><small>'+esc(x.tag)+'</small><strong>'+esc(x.title)+'</strong><p>'+esc(x.body)+'</p></li>').join('')+'</ul>';
 }
 function markup(game){
- const {ongoing,resolved,boardroom,count}=entries(game);
+ const {ongoing,resolved,boardroom,chapter,count}=entries(game);
  if(!count)return '<p class="consequence-empty">まだ記録された大きな選択はありません。経営を進めると、選んだ方針の続報や後日談がここに残ります。</p>';
- return '<div class="consequence-summary">進行中 '+ongoing.length+'件・決着済み '+resolved.length+'件・社長との重要会議 '+boardroom.length+'件</div>'+
+ return '<div class="consequence-summary">進行中 '+ongoing.length+'件・決着済み '+resolved.length+'件・社長との重要会議 '+boardroom.length+'件・物語の転換点 '+chapter.length+'件</div>'+
  (ongoing.length?'<h3>この先に続く問題</h3>'+render(ongoing,'is-pending'):'')+
  (resolved.length?'<h3>過去の判断の結末</h3>'+render(resolved,'is-resolved'):'')+
  (boardroom.length?'<h3>社長との駆け引き</h3>'+render(boardroom,'is-boardroom'):'')+
+ (chapter.length?'<h3>中盤・終盤の選択</h3>'+render(chapter,'is-chapter'):'')+
  '<p class="consequence-note">これは保存済みの事件・選択履歴です。まだ起きていない未来の結果は表示しません。</p>';
 }
 const api={entries,markup};
