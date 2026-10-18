@@ -472,8 +472,10 @@
       <div class="loading-week" id="workingWeek">WEEK 01</div>
       <div id="workingComic"></div><svg hidden id="workingIllustration" class="working-illustration" viewBox="0 0 320 165" role="img" aria-label="今週選んだ施策の作業風景"><use id="workingArtUse" href="#policy-scene-product"/></svg><div id="workingAction" class="working-action">今週の施策を実行中</div>
       <h2>今週の営業中…</h2><p id="workingMessage">お客様が来店しています</p>
-      <div class="work-progress"><span></span></div>
-      <button id="workingSkip" class="secondary-btn" type="button">演出をスキップ →</button>
+      <div class="work-footer" role="group" aria-label="営業演出の操作">
+        <div class="work-progress" aria-hidden="true"><span></span></div>
+        <button id="workingSkip" class="secondary-btn" type="button">演出をスキップ →</button>
+      </div>
     </div>
     <div id="rescueScene" class="rescue-scene" hidden>
       <div class="rescue-card">

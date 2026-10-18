@@ -1180,3 +1180,39 @@ body.entry-mode{background:#f8f3e9}
 #newsArt .incident-illustration{max-height:min(37dvh,270px);margin:8px auto;}
 @media(max-width:380px){.prologue-illustration{max-height:205px!important;}.prologue-art-v160{max-height:205px!important;}}
 @media(prefers-reduced-motion:reduce){.prologue-art-v160,.incident-illustration{animation:none!important;transition:none!important;}}
+
+/* v1.6.1: Never overlay art/captions with the skippable playback control. */
+#workingScene.working-scene{
+  display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;
+  width:min(100%,480px);height:100%;min-height:0;max-height:100dvh;overflow-y:auto;
+  padding:clamp(30px,6dvh,64px) 20px calc(36px + env(safe-area-inset-bottom))!important;
+  gap:12px!important;scrollbar-gutter:stable;
+}
+#workingScene #workingComic{flex:none;min-height:0;margin:0 auto;width:100%;max-width:440px;}
+#workingScene #workingComic .storyboard-panel{max-height:min(31dvh,245px);object-fit:contain;}
+#workingScene #workingAction{margin:5px auto 0;max-width:100%;flex:none;}
+#workingScene h2{margin:0;flex:none;}
+#workingScene #workingMessage{min-height:2.5em;margin:0 auto;line-height:1.55;flex:none;}
+#workingScene .work-footer{
+  position:relative!important;display:flex;flex-direction:column;align-items:center;
+  gap:22px;align-self:stretch;margin-top:12px;padding-top:16px;
+  padding-bottom:max(12px,env(safe-area-inset-bottom));flex:none;
+}
+#workingScene .work-footer .work-progress{
+  position:relative!important;inset:auto!important;width:min(85%,300px);
+  margin:0 auto;flex:none;
+}
+#workingScene .work-footer #workingSkip{
+  position:static!important;inset:auto!important;transform:none!important;float:none!important;
+  display:flex;align-items:center;justify-content:center;flex:none;
+  width:min(100%,330px);min-height:48px;margin:0!important;
+  box-sizing:border-box;z-index:1;line-height:1.4;touch-action:manipulation;
+}
+@media(max-height:700px){
+ #workingScene.working-scene{padding-top:18px!important;gap:8px!important;}
+ #workingScene #workingComic .storyboard-panel{max-height:190px;}
+ #workingScene .work-footer{gap:16px;margin-top:8px;padding-top:10px;}
+}
+@media(prefers-reduced-motion:reduce){
+ #workingScene #workingComic .storyboard-panel{animation:none!important;}
+}
