@@ -50,10 +50,10 @@ with sync_playwright() as p:
    page.locator('#openProposals').click()
    c=page.locator('.action-option[data-id="arc_register_pay"]')
    assert c.count()==1, 'episode choice missing'
-   assert c.locator('svg use').get_attribute('href').endswith('#cinema-arc_register_pay-work-1')
+   assert c.locator('.policy-symbol use').get_attribute('href').startswith('./assets/policy-icons-v173.svg#icon-'), 'story card now has a large legible action symbol'
    c.click()
    page.locator('#advanceButton').click()
-   # Previously authored episode thumbnails remain in the proposal cards.
+   # Existing episode assets remain as a legacy resource; visible choice cards use simple icons.
    # Active theater now uses three whole-portrait manga panels, not CSS-built limbs.
    panels=page.locator('#workingComic .manga-panel')
    assert panels.count()==3,(page.locator('#workingComic').inner_html()[:400])
