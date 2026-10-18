@@ -182,13 +182,25 @@ function closeProposals(){
 }
 function setFaces(){
  const s=game;
- const boss=s.fire>=48?'panic':s.profit>=145000?'happy':s.profit<0?'angry':'normal';
- const buyer=s.frust>=65?'angry':s.sat>=75?'happy':s.frust>=40?'sad':'normal';
- for(const [id,mood,label] of [['bossFace',boss,'店長'],['buyerFace',buyer,'消費者']]){
-  $(id).dataset.mood=mood;
-  $(id).setAttribute('viewBox','0 0 80 100');
-  $(id).innerHTML=T.person(id==='bossFace'?'manager':'customer',40,62,({panic:'worry',happy:'joy',angry:'anger',sad:'down',normal:'normal'})[mood],'idle',1);
-  $(id).setAttribute('aria-label',label+'・'+({panic:'パニック',happy:'笑顔',angry:'怒り',sad:'不満',normal:'普通'})[mood]+'の表情');
+ const managerMood=s.fire>=48?'panic':s.profit>=145000?'happy':s.profit<0?'angry':'normal';
+ const buyerMood=s.frust>=65?'angry':s.sat>=75?'happy':s.frust>=40?'down':'normal';
+ // Each four-week chapter features a recognisable different local shopper.
+ // Purely visual: no customer-state randomness or changes to the save schema.
+ const regulars=['regular','parent','senior','student'];
+ const customers=['顔なじみの常連','親子で通うお客様','ご年配の常連','学生のお客様'];
+ const castIndex=Math.floor((Math.max(1,s.week)-1)/4)%regulars.length;
+ for(const [id,who,mood,label] of [
+  ['bossFace','manager',managerMood,'店長'],
+  ['buyerFace',regulars[castIndex],buyerMood,customers[castIndex]]
+ ]){
+  const portrait=$(id);
+  portrait.dataset.mood=mood;
+  portrait.dataset.character=who;
+  portrait.setAttribute('viewBox','0 0 160 180');
+  portrait.innerHTML='<use href="./assets/portraits-v171.svg#portrait-'+who+'-'+mood+'" x="0" y="0" width="160" height="180"></use>';
+  portrait.setAttribute('aria-label',label+'：'+({panic:'パニック',happy:'笑顔',angry:'怒り',down:'不満',normal:'通常'}[mood])+'の表情');
+  const caption=portrait.closest('.cast-portrait')?.querySelector('small');
+  if(caption)caption.textContent=id==='bossFace'?'店長':label;
  }
 }
 
@@ -205,8 +217,14 @@ function renderOfficeScene(){
  hero.dataset.rootIssue=scene.rootIssue;
  $('officeSceneText').textContent=scene.note;
  const drawing=document.querySelector('.office-room-art');
- if(drawing){drawing.setAttribute('viewBox','0 0 360 230');drawing.innerHTML=T.art(scene.store==='scandal'?'media':scene.rootIssue==='repair'?'maintenance':'office',scene.store==='busy'?'joy':scene.store==='critical'?'worry':scene.store==='closed'?'down':'normal','still');}
- if(drawing)drawing.setAttribute('aria-label',scene.description+' 雑居ビルの事務所とモグモグマートの現場写真。');
+ if(drawing){
+  drawing.setAttribute('viewBox','0 0 720 420');
+  drawing.setAttribute('preserveAspectRatio','xMidYMid slice');
+  drawing.innerHTML='<use href="./assets/storefront-v171.svg#store-'+scene.store+'" x="0" y="0" width="720" height="420"></use>';
+  drawing.setAttribute('aria-label','モグモグマートの現場：'+scene.note);
+ }
+ const nameplate=hero.querySelector('.office-nameplate');
+ if(nameplate)nameplate.textContent='担当店舗 ／ モグモグマート';
  if(previous && previous!==scene.store && !reducedMotion()){
   hero.classList.remove('scene-status-changed');void hero.offsetWidth;
   hero.classList.add('scene-status-changed');
