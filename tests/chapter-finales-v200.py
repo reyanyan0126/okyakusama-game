@@ -58,6 +58,9 @@ try:
     assert page.locator('#reportScene').is_visible()
     page.locator('#financialDetail').evaluate('(el)=>el.open=true')
     assert '重要会議の判断' in page.locator('#resultFactors').inner_text()
+    # Finish the settlement so reloading returns to the office rather than a resumed cinema.
+    page.locator('#reportContinue').click()
+    assert page.evaluate("JSON.parse(localStorage.getItem('okyakusama.save.v1')).presentation")==None
     page.reload()
     page.locator('#titleResume').click()
     page.locator('.game-tab[data-screen="records"]').click()
