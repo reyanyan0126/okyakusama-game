@@ -40,6 +40,7 @@ jobs:
           python -m playwright install --with-deps chromium webkit
       - name: Test first-run tutorial, resume and four-choice policies and dashboard
         run: |
+          python tests/trends-v200.py
           python tests/refinement-v180.py
           python tests/office-v171.py
           python tests/onboarding-v101.py
