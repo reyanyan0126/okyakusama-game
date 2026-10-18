@@ -830,7 +830,10 @@ function finishModal(){
  const s=game,goal=G.goalStatus(s),outcome=G.ending(s);
  const fires=s.history.filter(h=>h.fireHit).length;
  const memories=(s.storyJournal||[]).length;
- openModal(`<div class="modal-kicker">${s.bankrupt?'EMERGENCY / 資金ショート':'FINAL REPORT / 契約の最終審査'}</div><h2 id="modalTitle">${outcome.passed?' 契約達成！':' 契約結果のお知らせ'}</h2><div class="end-stamp"><svg class="mini-ill"><use href="#art-document"/></svg> ${esc(outcome.name)}</div><div class="result-grid" style="margin-top:15px"><div class="result-tile"><span>累計利益 / 目標</span><b>${man(goal.profit)} / ${man(s.contractGoal)}万</b><small>${goal.profit>=s.contractGoal?'利益目標クリア':'利益目標まで'+man(goal.profitGap)+'万円'}</small></div><div class="result-tile"><span>評判 / 条件</span><b>${s.storeRep} / 50</b><small>${s.storeRep>=50?'信用条件クリア':'信用条件まであと'+goal.repGap}</small></div><div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div><div class="result-tile"><span>炎上回数</span><b>${fires}回</b></div></div><div class="modal-comment">${esc(outcome.line)}</div><p class="modal-detail">主人公の財布：${man(s.personalCash)}万円 ／ 養育費未払い：${man(s.arrears)}万円 ／ 悪魔の契約：${s.pactCount}回 ／ 解決した事件：${memories}件。お店だけでなく、あなた自身も生き残れた？</p><div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい依頼を探す </button></div>`);
+ let achievementNote='';
+ try {const earned=window.GameAchievements?.record(s,localStorage);const names=(earned?.newIds||[]).map(id=>window.GameAchievements.title(id)).filter(Boolean);if(names.length)achievementNote='<p class="achievement-earned">新しい実績：'+names.map(esc).join('、')+'</p>';}
+ catch(err){console.warn('実績の保存ができませんでした',err);}
+ openModal(`<div class="modal-kicker">${s.bankrupt?'EMERGENCY / 資金ショート':'FINAL REPORT / 契約の最終審査'}</div><h2 id="modalTitle">${outcome.passed?' 契約達成！':' 契約結果のお知らせ'}</h2><div class="end-stamp"><svg class="mini-ill"><use href="#art-document"/></svg> ${esc(outcome.name)}</div><div class="result-grid" style="margin-top:15px"><div class="result-tile"><span>累計利益 / 目標</span><b>${man(goal.profit)} / ${man(s.contractGoal)}万</b><small>${goal.profit>=s.contractGoal?'利益目標クリア':'利益目標まで'+man(goal.profitGap)+'万円'}</small></div><div class="result-tile"><span>評判 / 条件</span><b>${s.storeRep} / 50</b><small>${s.storeRep>=50?'信用条件クリア':'信用条件まであと'+goal.repGap}</small></div><div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div><div class="result-tile"><span>炎上回数</span><b>${fires}回</b></div></div><div class="modal-comment">${esc(outcome.line)}</div><p class="modal-detail">主人公の財布：${man(s.personalCash)}万円 ／ 養育費未払い：${man(s.arrears)}万円 ／ 悪魔の契約：${s.pactCount}回 ／ 解決した事件：${memories}件。お店だけでなく、あなた自身も生き残れた？</p>${achievementNote}<div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい依頼を探す </button></div>`);
  $('endRestart').addEventListener('click',()=>{closeModal();showEntry('contracts');});
 }
 function showFirstWeekGuide(){
@@ -880,6 +883,11 @@ function setup(){
  $('moneyClose').addEventListener('click',closeMoney);
  $('moneyDone').addEventListener('click',closeMoney);
  $('moneyBackdrop').addEventListener('click',closeMoney);
+ $('achievementsToggle').addEventListener('click',()=>{
+  const panel=$('achievementsPanel'),opening=panel.hidden;
+  panel.hidden=!opening;$('achievementsToggle').setAttribute('aria-expanded',String(opening));
+  if(opening){try{panel.innerHTML=window.GameAchievements.markup(window.GameAchievements.read(localStorage));}catch(err){panel.textContent='実績データを読み込めませんでした。';console.warn(err);}}
+ });
  $('openStatusSheet').addEventListener('click',openStatusSheet);
  $('statusClose').addEventListener('click',closeStatusSheet);
  $('statusBackdrop').addEventListener('click',closeStatusSheet);
