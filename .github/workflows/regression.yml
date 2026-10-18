@@ -23,6 +23,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Check v2.0 strategy experiment controls
+        run: |
+          node tests/strategy-v200.test.cjs
+          STRATEGY_SEEDS=12 node tests/strategy-v200.cjs /tmp/strategy-v200-smoke.json
       - name: Run Node game tests
         run: |
           for test in tests/refinement-v180.test.cjs tests/crisis-v100.test.cjs tests/four-choice-v110.test.cjs tests/outcome-v120.test.cjs tests/story-v130.test.cjs tests/theater-v140.test.cjs tests/storyboards-v150.test.cjs tests/art-v160.test.cjs tests/cast-layout-v161.test.cjs tests/cinema-v170.test.cjs tests/office-v171.test.cjs tests/onboarding-v101.test.cjs tests/ui-smoke.test.cjs tests/v099-campaign.test.cjs tests/finance-v094.test.cjs tests/v095-rootcause.test.cjs; do echo "RUNNING $test"; timeout 45s node "$test"; done
