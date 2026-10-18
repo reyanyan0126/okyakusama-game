@@ -22,7 +22,12 @@ try:
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto(url)
     page.evaluate("""()=>{
-     let s=GameEngine.initial(42);s.week=2;s.cash=500000;
+     let s=GameEngine.initial(42);s.cash=850000;
+     const first=GameEngine.weeklyOffers(s)[0];
+     s=GameEngine.play(s,first.id);
+     if(s.rescuePending)s=GameEngine.resolveRescue(s,GameEngine.rescueOptions(s)[0].id);
+     if(s.lastResult.incidentCost>0&&!s.lastResult.accidentResponse)s=GameEngine.handleAccident(s,'ignore');
+     if(s.week!==2)throw Error('week 1 did not complete');
      s=GameEngine.play(s,GameEngine.weeklyOffers(s)[0].id);
      if(s.rescuePending)s=GameEngine.resolveRescue(s,GameEngine.rescueOptions(s)[0].id);
      if(s.lastResult.incidentCost>0&&!s.lastResult.accidentResponse)s=GameEngine.handleAccident(s,'ignore');
