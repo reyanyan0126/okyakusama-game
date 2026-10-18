@@ -424,7 +424,7 @@ function showWeekReport(h,finish){
  $('reportWeek').textContent='WEEK '+String(h.week).padStart(2,'0')+' / '+G.campaignWeeks(game);
  renderFlow(h);
  const macro=G.MACROS.find(x=>x.id===h.macroId);
- $('resultFactors').textContent=['社会情勢：'+(h.macroName||'旧記録'),h.accidentId?'臨時の出来事：'+h.accidentTitle:'',h.memoryEvent?'過去施策の再燃あり':'',h.storyEcho?.length?'以前の選択の後日談あり':'',h.boardroomDilemma?'社長との駆け引き：'+(h.boardroomDilemma.followed?'社長案を採用':'現場の判断を優先')+'（社長 '+sign(h.boardroomDilemma.delta.boss)+'・店長 '+sign(h.boardroomDilemma.delta.manager)+'・常連 '+sign(h.boardroomDilemma.delta.customers)+'）':'',h.fireHit?'炎上あり':''].filter(Boolean).join(' ／ ');
+ $('resultFactors').textContent=['社会情勢：'+(h.macroName||'旧記録'),h.accidentId?'臨時の出来事：'+h.accidentTitle:'',h.memoryEvent?'過去施策の再燃あり':'',h.storyEcho?.length?'以前の選択の後日談あり':'',h.chapterDecision?'重要会議の判断：'+h.chapterDecision.title+'（社長 '+sign(h.chapterDecision.delta.boss)+'・店長 '+sign(h.chapterDecision.delta.manager)+'・常連 '+sign(h.chapterDecision.delta.customers)+'）':'',h.boardroomDilemma?'社長との駆け引き：'+(h.boardroomDilemma.followed?'社長案を採用':'現場の判断を優先')+'（社長 '+sign(h.boardroomDilemma.delta.boss)+'・店長 '+sign(h.boardroomDilemma.delta.manager)+'・常連 '+sign(h.boardroomDilemma.delta.customers)+'）':'',h.fireHit?'炎上あり':''].filter(Boolean).join(' ／ ');
  $('economyHeadline').textContent=macro?`${macro.tag}｜${macro.name}${h.macroPenalty?'：是正費用 '+man(h.macroPenalty)+'万円':h.macroBonus?'：補助金 +'+man(h.macroBonus)+'万円':''}`:'今週の景気の変化';
 
  $('reportIcon').textContent='';
@@ -495,7 +495,8 @@ function showWeekReport(h,finish){
  $('reportBossFace').innerHTML=`<svg class="mini-ill"><use href="#${isFire?'art-warning':h.profit<0?'art-bill':h.profit>=145000?'art-coin':'art-meeting'}"/></svg>`;
  $('reportTakeaway').textContent=h.rescueChoice&&h.rescueChoice!=='giveup'?`緊急再建に成功！ ${h.rescueName}。代償は残ります`:game.personalFailed?'生活の支払いが限界。契約を続けられません':game.bankrupt?' 資金ショート。経営を続けられません！':h.cashAfter<80000?' 残り資金が危険水準です！':h.rootFixedThisWeek?' 根本原因を改善！ 来週以降の損失や客離れを抑えられます':isFire?' 利益より先に評判が燃えました':h.boycottActive?' 不買運動でお客さんが減っています':h.deltaRep<0&&h.profit>0?' 利益は出たけど、お店の信用が低下':h.deltaRep>0?' お店の信用が上がりました':h.profit<0?' 売上より経費が大きい週でした':' 大きなトラブルなく営業できました';
  $('reportCeo').textContent=h.ceo;
- if(h.storyEvent&&!h.fireHit)$('reportSatire').textContent=h.storyEvent.quote;
+ if(h.chapterDecision)$('reportSatire').textContent=h.chapterDecision.text;
+ else if(h.storyEvent&&!h.fireHit)$('reportSatire').textContent=h.storyEvent.quote;
  else if(tier==='great'&&!h.fireHit)$('reportSatire').textContent='社長「素晴らしい！ 最初から私も同じ案だったことにしよう」';
  else if(tier==='failure'&&!h.fireHit)$('reportSatire').textContent='社長「計画は完璧だ。現実のほうが計画を理解していない」';
  const goal=G.goalStatus(game);
@@ -717,8 +718,8 @@ function paint(){
  $('meetingStatus').textContent=`経営指標は「詳細ステータス」から確認できます`;
  const diagnosis=G.rootDiagnosis(s);
  const scene=G.weeklyBrief(s),upcoming=G.STORIES.active(s);
- $('storyPulse').hidden=!(scene.episode||upcoming.length);
- $('storyPulse').textContent=scene.episode?
+ $('storyPulse').hidden=!(scene.episode||scene.chapter||upcoming.length);
+ $('storyPulse').textContent=scene.chapter?'物語の転換点｜重要会議：過去の判断と人物関係が結末につながる':scene.episode?
   '物語の転換点｜'+(scene.phase==='follow'?'過去の判断に続報':'大型事件発生')+'・4つの対応が未来を変える':
   upcoming.length?'未解決の因縁 '+upcoming.length+'件｜数週間後に新展開':'';
  $('meetingSignal').textContent=diagnosis.active&&!diagnosis.solved&&s.cash>=125000?'現場調査：'+diagnosis.label+'。'+diagnosis.clue:G.boardroomSignal(s);
@@ -827,7 +828,7 @@ function renderDevil(){
 }
 function renderHistory(){const list=$('historyList');const arr=[...game.history].reverse();$('historyCount').textContent=`${arr.length}件`;
  if(!arr.length){list.innerHTML='<p class="modal-detail">まだ経営記録はありません。</p>';return;}
- list.innerHTML=arr.map(h=>`<div class="history-item"><span class="history-week">第${h.week}週</span><div><strong>${esc(h.actionName)}</strong><p>${esc(h.scenarioTitle||'経営会議')} → ${esc(h.title)}${h.boardroomDilemma?' ／ 社長への対応：'+(h.boardroomDilemma.followed?'従った':'見送った'):''}</p></div><span class="history-number">売上 ${man(h.sales)}万</span></div>`).join('');
+ list.innerHTML=arr.map(h=>`<div class="history-item"><span class="history-week">第${h.week}週</span><div><strong>${esc(h.actionName)}</strong><p>${esc(h.scenarioTitle||'経営会議')} → ${esc(h.title)}${h.boardroomDilemma?' ／ 社長への対応：'+(h.boardroomDilemma.followed?'従った':'見送った'):''}${h.chapterDecision?' ／ 重要会議：'+(h.chapterDecision.route==='people'?'現場を優先':h.chapterDecision.route==='sales'?'短期の数字を優先':'社長を優先'):''}</p></div><span class="history-number">売上 ${man(h.sales)}万</span></div>`).join('');
 }
 function renderConsequences(){
  // Older offline shells and embedded regression fixtures may not load v2 modules.
@@ -849,10 +850,15 @@ function finishModal(){
  const s=game,goal=G.goalStatus(s),outcome=G.ending(s);
  const fires=s.history.filter(h=>h.fireHit).length;
  const memories=(s.storyJournal||[]).length;
+ const epilogue=G.STORIES.epilogue(s);
+ const epilogueHtml=epilogue.lines.length?
+  '<section class="finale-evidence" aria-label="過去の選択の最終報告"><h3>'+esc(epilogue.lead)+'</h3><ul>'+
+   epilogue.lines.map(line=>'<li><strong>'+esc(line.label)+'</strong><p>'+esc(line.text)+'</p></li>').join('')+
+   '</ul></section>':'';
  let achievementNote='';
  try {const earned=window.GameAchievements?.record(s,localStorage);const names=(earned?.newIds||[]).map(id=>window.GameAchievements.title(id)).filter(Boolean);if(names.length)achievementNote='<p class="achievement-earned">新しい実績：'+names.map(esc).join('、')+'</p>';}
  catch(err){console.warn('実績の保存ができませんでした',err);}
- openModal(`<div class="modal-kicker">${s.bankrupt?'EMERGENCY / 資金ショート':'FINAL REPORT / 契約の最終審査'}</div><h2 id="modalTitle">${outcome.passed?' 契約達成！':' 契約結果のお知らせ'}</h2><div class="end-stamp"><svg class="mini-ill"><use href="#art-document"/></svg> ${esc(outcome.name)}</div><div class="result-grid" style="margin-top:15px"><div class="result-tile"><span>累計利益 / 目標</span><b>${man(goal.profit)} / ${man(s.contractGoal)}万</b><small>${goal.profit>=s.contractGoal?'利益目標クリア':'利益目標まで'+man(goal.profitGap)+'万円'}</small></div><div class="result-tile"><span>評判 / 条件</span><b>${s.storeRep} / 50</b><small>${s.storeRep>=50?'信用条件クリア':'信用条件まであと'+goal.repGap}</small></div><div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div><div class="result-tile"><span>炎上回数</span><b>${fires}回</b></div></div><div class="modal-comment">${esc(outcome.line)}</div><p class="modal-detail">主人公の財布：${man(s.personalCash)}万円 ／ 養育費未払い：${man(s.arrears)}万円 ／ 悪魔の契約：${s.pactCount}回 ／ 解決した事件：${memories}件。お店だけでなく、あなた自身も生き残れた？</p>${achievementNote}<div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい依頼を探す </button></div>`);
+ openModal(`<div class="modal-kicker">${s.bankrupt?'EMERGENCY / 資金ショート':'FINAL REPORT / 契約の最終審査'}</div><h2 id="modalTitle">${outcome.passed?' 契約達成！':' 契約結果のお知らせ'}</h2><div class="end-stamp"><svg class="mini-ill"><use href="#art-document"/></svg> ${esc(outcome.name)}</div><div class="result-grid" style="margin-top:15px"><div class="result-tile"><span>累計利益 / 目標</span><b>${man(goal.profit)} / ${man(s.contractGoal)}万</b><small>${goal.profit>=s.contractGoal?'利益目標クリア':'利益目標まで'+man(goal.profitGap)+'万円'}</small></div><div class="result-tile"><span>評判 / 条件</span><b>${s.storeRep} / 50</b><small>${s.storeRep>=50?'信用条件クリア':'信用条件まであと'+goal.repGap}</small></div><div class="result-tile"><span>累計報酬</span><b>${yen(s.pay)}円</b></div><div class="result-tile"><span>炎上回数</span><b>${fires}回</b></div></div><div class="modal-comment">${esc(outcome.line)}</div><p class="modal-detail">主人公の財布：${man(s.personalCash)}万円 ／ 養育費未払い：${man(s.arrears)}万円 ／ 悪魔の契約：${s.pactCount}回 ／ 解決した事件：${memories}件。お店だけでなく、あなた自身も生き残れた？</p>${epilogueHtml}${achievementNote}<div class="modal-actions"><button id="endRestart" class="primary-btn" type="button">新しい依頼を探す </button></div>`);
  $('endRestart').addEventListener('click',()=>{closeModal();showEntry('contracts');});
 }
 function showFirstWeekGuide(){
