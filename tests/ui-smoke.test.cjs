@@ -13,6 +13,7 @@ class Element {
   setAttribute(k,v){this.attrs[k]=v}
   getAttribute(k){return this.attrs[k]}
   querySelector(){return new Element('child')}
+  querySelectorAll(selector){return selector==='.manga-panel'?[new Element('panel0'),new Element('panel1'),new Element('panel2')]:[]}
   append(){}
   focus(){}
   click(){this.dispatch('click')}
