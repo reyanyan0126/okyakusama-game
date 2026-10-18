@@ -22,6 +22,21 @@ const SPEAKER={
 const PAINTED_CAST='./assets/manga-painted-cast-v173.webp';
 const CAST_COLUMNS={you:0,boss:1,manager:2,worker:3,customer:4};
 const CAST_WIDTH=90,CAST_HEIGHT=126;
+// Unlike the cast group portrait, these are three distinct painted expressions
+// of the protagonist already shipped for the seven-scene prologue.
+const PROTAGONIST_PAINTED=Object.freeze({
+ normal:null,
+ happy:'./assets/illustrated-protagonist-determined-v173.webp',
+ angry:'./assets/illustrated-protagonist-v173.webp',
+ sad:'./assets/illustrated-protagonist-thinking-v173.webp',
+ panic:'./assets/illustrated-protagonist-v173.webp'
+});
+const EMOTION_LABELS=Object.freeze({
+ normal:'平静',happy:'前向き',angry:'怒り',sad:'落胆',panic:'焦り'
+});
+function portraitSource(role,mood){
+ return role==='you'&&PROTAGONIST_PAINTED[mood]?PROTAGONIST_PAINTED[mood]:PAINTED_CAST;
+}
 const moodMap={boss:{normal:'normal',happy:'happy',angry:'angry',sad:'sad',panic:'panic'},
  manager:{normal:'normal',happy:'happy',angry:'angry',sad:'sad',panic:'panic'},
  worker:{normal:'normal',happy:'happy',angry:'angry',sad:'sad',panic:'panic'},
@@ -44,10 +59,10 @@ function expression(text,index,tier){
  if(tier==='failure'&&index===2)return 'sad';
  if(tier==='great'&&index===2)return 'happy';
  const s=String(text??'');
- if(/怒|許さ|反対|責任|！/.test(s))return 'angry';
- if(/？|\?|困|危機|誰が|心配/.test(s))return 'panic';
- if(/ありがとう|感謝|順調|よかった|！/.test(s))return 'happy';
- if(/減少|損失|厳し|無理/.test(s))return 'sad';
+ if(/怒|許さ|反対|責任|ふざけ|裏切/.test(s))return 'angry';
+ if(/？|\?|困|危機|誰が|心配|驚|大変/.test(s))return 'panic';
+ if(/減少|損失|厳し|無理|残念|悲し|失敗|足りな/.test(s))return 'sad';
+ if(/ありがとう|感謝|順調|よかった|良かった|安心|嬉し|成功|！/.test(s))return 'happy';
  return ['normal','normal','happy'][index%3];
 }
 function sceneKey(id,setting){
@@ -70,15 +85,19 @@ function art(role,mood,kind,index){
   '<path d="M0 80H160" stroke="'+s.accent+'" opacity=".5" stroke-width="7"/>'+
   s.prop+
   '<path d="M8 88Q32 80 73 88" fill="none" stroke="#6a5546" stroke-width="2" opacity=".3"/>'+
-  '<svg class="manga-painted-character" x="2" y="-9" width="99" height="118" viewBox="'+(CAST_COLUMNS[role]??CAST_COLUMNS.manager)*CAST_WIDTH+' 0 '+CAST_WIDTH+' '+CAST_HEIGHT+'" preserveAspectRatio="xMidYMid slice" overflow="hidden" aria-hidden="true">'+
-  '<image href="'+PAINTED_CAST+'" x="0" y="0" width="'+(CAST_WIDTH*5)+'" height="'+CAST_HEIGHT+'" preserveAspectRatio="none"></image></svg>'+
+  (portraitSource(role,emotion)===PAINTED_CAST?
+   '<svg class="manga-painted-character" x="2" y="-9" width="99" height="118" viewBox="'+(CAST_COLUMNS[role]??CAST_COLUMNS.manager)*CAST_WIDTH+' 0 '+CAST_WIDTH+' '+CAST_HEIGHT+'" preserveAspectRatio="xMidYMid slice" overflow="hidden" aria-hidden="true">'+
+    '<image href="'+PAINTED_CAST+'" x="0" y="0" width="'+(CAST_WIDTH*5)+'" height="'+CAST_HEIGHT+'" preserveAspectRatio="none"></image></svg>':
+   '<svg class="manga-painted-character" x="2" y="-9" width="99" height="118" viewBox="0 0 196 224" preserveAspectRatio="xMidYMid slice" overflow="hidden" aria-hidden="true">'+
+    '<image href="'+portraitSource(role,emotion)+'" x="0" y="0" width="196" height="224" preserveAspectRatio="none"></image></svg>')+
   '<rect x="2" y="2" width="156" height="96" rx="2" fill="none" stroke="#3e3735" stroke-width="2" opacity=".23"/></svg>';
 }
 function panel(line,index,kind,tier,all,actionId){
  const who=speaker(line,index,actionId),mood=expression(line,index,tier),label=SPEAKER[who].label;
- return '<article class="manga-panel'+(all?' is-revealed':'')+'" data-panel="'+index+'"'+(all?'':' aria-hidden="true"')+'>'+
+ return '<article class="manga-panel'+(all?' is-revealed':'')+'" data-panel="'+index+'" data-emotion="'+mood+'"'+(all?'':' aria-hidden="true"')+'>'+
   '<div class="manga-visual">'+art(who,mood,kind,index)+'</div>'+
-  '<div class="manga-dialogue"><span class="manga-beat">'+String(index+1)+' / 3 · '+clean(label)+'</span>'+
+  '<div class="manga-dialogue"><span class="manga-beat">'+String(index+1)+' / 3 · '+clean(label)+'</span>'+ 
+  '<span class="manga-emotion-cue" aria-label="このコマの感情の手掛かり">'+EMOTION_LABELS[mood]+'</span>'+
   '<p class="manga-line">'+clean(line)+'</p></div></article>';
 }
 function markup(id,lines,options={}){
@@ -112,7 +131,7 @@ function result(h){
  return markup(h.actionId,lines,{result:true,all:true,tier:h.performanceTier,setting:h.sceneSetting})+
   '<span class="manga-verdict" aria-label="施策の判定">'+clean(verdict)+'</span>';
 }
-const api={PANELS,sceneKey,speaker,expression,art,markup,reveal,result};
+const api={PANELS,sceneKey,speaker,expression,art,markup,reveal,result,portraitSource,EMOTION_LABELS};
 root.MangaCinema=api;
 if(typeof module==='object'&&module.exports)module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
