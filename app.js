@@ -424,6 +424,7 @@ function showWeekReport(h,finish){
  $('reportWeek').textContent='WEEK '+String(h.week).padStart(2,'0')+' / '+G.campaignWeeks(game);
  renderFlow(h);
  const macro=G.MACROS.find(x=>x.id===h.macroId);
+ $('resultFactors').textContent=['社会情勢：'+(h.macroName||'旧記録'),h.accidentId?'臨時の出来事：'+h.accidentTitle:'',h.memoryEvent?'過去施策の再燃あり':'',h.storyEcho?.length?'以前の選択の後日談あり':'',h.fireHit?'炎上あり':''].filter(Boolean).join(' ／ ');
  $('economyHeadline').textContent=macro?`${macro.tag}｜${macro.name}${h.macroPenalty?'：是正費用 '+man(h.macroPenalty)+'万円':h.macroBonus?'：補助金 +'+man(h.macroBonus)+'万円':''}`:'今週の景気の変化';
 
  $('reportIcon').textContent='';
@@ -764,10 +765,12 @@ function renderActions(){const s=game;
  const on=s.selected===a.id,disabled=s.finished||!G.enabled(s,a.id);
  const bonus=G.boardroomDemand(s)?.actionId===a.id;
  const odds=G.performanceOdds(s,a.id);
- return `<button type="button" class="action-option${a.id.startsWith('fix_')?' root-option':''}" role="radio" aria-checked="${on}" ${disabled?'disabled':''} data-id="${esc(a.id)}"><span class="action-emoji policy-preview" aria-hidden="true">${B?.markup(a.id,'work',1,'presentation')||`<svg class="policy-preview-svg" viewBox="0 0 320 165"><use href="#policy-scene-${policyScene(a.id)}"/></svg>`}</span><span class="action-name">${esc(a.name)}</span>${bonus?'<span class="boss-pick">社長の推し・臨時報酬</span>':''}${a.id.startsWith('fix_')?'<span class="root-pick">コンサルの根本対策</span>':''}<span class="action-effect">${esc(a.effect)}</span><span class="action-odds">失敗 ${odds?.failure??0}% <span>｜大成功 ${odds?.great??0}%</span></span></button>`;
+ return `<button type="button" class="action-option${a.id.startsWith('fix_')?' root-option':''}" role="radio" aria-checked="${on}" tabindex="${on?0:-1}" ${disabled?'disabled':''} data-id="${esc(a.id)}"><span class="action-emoji policy-preview" aria-hidden="true">${B?.markup(a.id,'work',1,'presentation')||`<svg class="policy-preview-svg" viewBox="0 0 320 165"><use href="#policy-scene-${policyScene(a.id)}"/></svg>`}</span><span class="action-name">${esc(a.name)}</span>${bonus?'<span class="boss-pick">社長の推し・臨時報酬</span>':''}${a.id.startsWith('fix_')?'<span class="root-pick">コンサルの根本対策</span>':''}<span class="action-effect">${esc(a.effect)}</span><span class="action-odds">失敗 ${odds?.failure??0}% <span>｜大成功 ${odds?.great??0}%</span></span></button>`;
  }).join('');
  const a=G.ACTIONS.find(a=>a.id===s.selected);
  $('selectedIcon').innerHTML=`<svg class="mini-ill"><use href="#${a.type==='kind'?'art-people':'art-graph'}"/></svg>`;$('selectedTitle').textContent=a.name;$('selectedDesc').textContent=a.detail;
+ const preview=G.policyPreview(s,s.selected);
+ $('selectedTradeoff').textContent=preview?[(preview.cost?'施策費 '+yen(preview.cost)+'円（成否にかかわらず）':preview.saving?'経費削減は成否で変動':'施策費の追加なし'),preview.financing?'融資16〜20万円・返済と利息あり（利益ではありません）':'',preview.uncertainRepair?'失敗時は根本問題が残ります':'',preview.memoryRisk?'数週後に再燃する可能性':'','効果は目安。週の利益や炎上回避を保証しません。'].filter(Boolean).join(' ／ '):'';
  const r=riskLabel(G.previewRisk(s,s.selected)),label=$('riskLabel');label.textContent=r[0];label.className=r[1];
  $('riskNote').textContent=s.finished?'決算で結果を確認':r[2];
  const selectedOdds=G.performanceOdds(s,s.selected);
@@ -796,7 +799,7 @@ function renderProjects(){
   return `<button type="button" class="project-choice ${selected?'is-selected':''}" role="radio" aria-checked="${selected}" data-project="${o.id}" ${disabled?'disabled':''}><span><svg class="mini-ill"><use href="#${o.id==='equipment'?'art-warning':o.id==='people'?'art-people':o.id==='fans'?'art-heart':'art-coin'}"/></svg> ${esc(o.name)}</span><small>${isNone?'いつでもOK':`Lv${o.level}/2 · ${caption}`}</small></button>`;
  }).join('');
  const found=options.find(x=>x.id===selectedProject);
- $('projectNote').textContent=found?`今週 −${yen(found.nextCost)}円。${found.desc}。次週から効果。選ばなくても進めます。`:'追加投資なし：0円。まず4つの作戦から1つ選ぼう。';
+ $('projectNote').textContent=found?`今週 −${yen(found.nextCost)}円。${found.desc}。営業には今週から効果、施策の成否確率は次週から。`:'追加投資なし：0円。まず4つの作戦から1つ選ぼう。';
  updateOptionalSummary();
 }
 function renderDevil(){
@@ -854,7 +857,15 @@ function setup(){
  $('backTitle').addEventListener('click',()=>showEntry('title'));
  $('projectChoices').addEventListener('click',ev=>{const b=ev.target.closest('[data-project]');if(!b||b.disabled||game.finished)return;selectedProject=b.dataset.project==='none'?null:b.dataset.project;renderProjects();});
  $('devilChoices').addEventListener('click',event=>{const b=event.target.closest('[data-devil]');if(!b||b.disabled)return;selectedDevil=b.dataset.devil==='none'?null:b.dataset.devil;renderDevil();});
- $('actions').addEventListener('click',event=>{const button=event.target.closest('[data-id]');if(!button||button.disabled||game.finished)return;game.selected=button.dataset.id;save();renderActions();});
+ function selectPolicy(button){if(!button||button.disabled||game.finished)return;game.selected=button.dataset.id;save();renderActions();$('actions').querySelector('[aria-checked="true"]').focus({preventScroll:true});}
+ $('actions').addEventListener('click',event=>selectPolicy(event.target.closest('[data-id]')));
+ $('actions').addEventListener('keydown',event=>{
+  if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.key))return;
+  const options=[...$('actions').querySelectorAll('[data-id]:not(:disabled)')];if(!options.length)return;
+  event.preventDefault();const i=options.findIndex(b=>b.dataset.id===game.selected);
+  const next=event.key==='Home'?0:event.key==='End'?options.length-1:(i+(['ArrowLeft','ArrowUp'].includes(event.key)?-1:1)+options.length)%options.length;
+  selectPolicy(options[next]);
+ });
  $('advanceButton').addEventListener('click',startWeek);
  $('workingSkip').addEventListener('click',showOutcome);
  $('outcomeNext').addEventListener('click',()=>{if($('outcomeScene').hidden)return;newsIndex=0;renderNews();});

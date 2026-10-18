@@ -40,6 +40,7 @@ function createLedger(h,kind){
    add('生活費',-value(h.personalLiving),'支払い');
    add('養育費の支払い',-value(h.supportPaid),'支払い');
    add('悪魔への返済',-value(h.personalDevilPayment),'支払い');
+   add('支払不足を未払いへ振替（現金収入ではありません）',h.personalShortfall,'未払い');
  }
  const sum=rows.reduce((a,r)=>a+r.amount,0);
  const delta=end-start;
