@@ -2,17 +2,18 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const B=require('../assets/storyboards-v150.js');
 const source=fs.readFileSync(path.join(__dirname,'../assets/storyboards-v150.svg'),'utf8');
+const cinema=fs.readFileSync(path.join(__dirname,'../assets/episode-cinema-v170.svg'),'utf8');
 const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
 const js=fs.readFileSync(path.join(__dirname,'../app.js'),'utf8');
 const sw=fs.readFileSync(path.join(__dirname,'../sw.js'),'utf8');
 assert.equal(B.families.length,8);
 assert.equal((source.match(/<symbol /g)||[]).length,48);
 for(const [family,actions] of B.families)for(const id of actions){
- assert.equal(B.family(id),family);
+ assert.equal(B.family(id),id,'current scene uses unique policy ID: '+id);
  const used=new Set();
  for(let i=0;i<3;i++){
   const symbol=B.symbol(id,'work',i);
-  assert(source.includes('id="'+symbol.split('#')[1]+'"'),symbol);
+  assert(cinema.includes('id="'+symbol.split('#')[1]+'"'),symbol);
   used.add(symbol);
   const markup=B.markup(id,'work',i);
   assert(markup.includes('<svg')&&markup.includes('<use href='));
