@@ -1,0 +1,26 @@
+'use strict';
+const assert=require('node:assert/strict');
+const G=require('../engine.js'),A=require('../achievements-v200.js');
+function store(){const obj=new Map();return {getItem:k=>obj.get(k)||null,setItem:(k,v)=>obj.set(k,v)};}
+const storage=store(),s=G.initial(42),saved=JSON.stringify(s);
+assert.deepEqual(A.evaluate(s),[]);
+assert.equal(A.record(s,storage).newIds.length,0);
+assert.equal(storage.getItem(A.KEY),null);
+const finished=JSON.parse(JSON.stringify(s));finished.week=31;finished.finished=true;finished.storeRep=92;finished.fire=5;
+finished.cast.manager=20;finished.cast.customers=20;finished.history=Array.from({length:30},(_,i)=>({week:i+1,profit:100000,fireHit:i===3}));
+finished.lastResult=finished.history[29];
+const first=A.record(finished,storage);
+assert(first.persisted);assert(first.newIds.includes('complete'));assert(first.newIds.includes('contract'));
+assert(first.newIds.includes('firefighter'));assert.equal(A.record(finished,storage).newIds.length,0);
+const another={...finished,storeRep:0,bankrupt:true,finished:true,week:12,rescuePending:false};
+const result=A.record(another,storage);assert(result.persisted);assert(A.read(storage).endings.length>=1);
+assert.equal(JSON.stringify(s),saved,'campaign must never mutate');
+const panel=A.markup(A.read(storage));
+assert(panel.includes('達成した実績'));assert(panel.includes('発見したエンディング'));
+assert(!panel.includes('<script'));
+const old=store();old.setItem(A.KEY,'{bad json');assert.deepEqual(A.read(old).unlocked,{});
+const broken=store();broken.setItem=()=>{throw Error('quota')};
+assert.equal(A.record(finished,broken).persisted,false);
+const rescue=JSON.parse(JSON.stringify(finished));rescue.rescuePending=true;
+assert.deepEqual(A.evaluate(rescue),[],'pending rescue must never unlock');
+console.log('PASS v2.0 achievements: idempotent completion, durable separate storage, corrupt/quota and pending-rescue safety');
