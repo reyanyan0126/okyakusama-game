@@ -591,17 +591,18 @@ function beginTheater(h){
  clearTheaterTimers();resolving=true;
  const custom=!!B?.family(h.actionId);
  const lines=(custom?B.captions(h.actionId):null)||T.captions[T.setting(h.actionId)];
+ const M=window.MangaCinema;
+ // Whole-illustration frames. No CSS-assembled eyes, hair, arms or figure poses.
+ $('workingComic').innerHTML=M.markup(h.actionId,lines,{setting:T.setting(h.actionId)});
  const frame=n=>{
   if($('workingScene').hidden)return;
-  $('workingComic').innerHTML=(custom?B.markup(h.actionId,'work',n):null)||T.art(h.actionId,'normal','work');
-  $('workingMessage').textContent=lines[n];
+  M.reveal($('workingComic'),n);
+  $('workingMessage').textContent='第'+(n+1)+'コマ / 全3コマ · 演出中（いつでもスキップできます）';
  };
- frame(0);
+ frame(reducedMotion()?2:0);
  $('workingSkip').focus({preventScroll:true});
- // The activity changes pose, props and story beat in three genuinely different drawings.
- // Playback is optional for reduced-motion and instantly skippable for everyone.
- const duration=reducedMotion()?350:3600;
- if(!reducedMotion())for(const n of [1,2])theaterTimers.push(setTimeout(()=>frame(n),n*1150));
+ const duration=reducedMotion()?350:3900;
+ if(!reducedMotion())for(const n of [1,2])theaterTimers.push(setTimeout(()=>frame(n),n*1200));
  theaterTimers.push(setTimeout(showOutcome,duration));
 }
 function showOutcome(){
@@ -610,8 +611,8 @@ function showOutcome(){
  $('outcomeScene').hidden=false;$('outcomeScene').dataset.tier=tier;
  $('outcomeTitle').textContent={failure:'失敗…',success:'成功！',great:'大成功！'}[tier];
  $('outcomePolicy').textContent=h.actionName;
- const mood=tier==='great'?'joy':tier==='failure'?'down':'normal';
- $('outcomeArt').innerHTML=B?.markup(h.actionId,'result',tier)||T.art(h.actionId,mood,'result');
+ // Three complete manga panels for the result, animated only as panels.
+ $('outcomeArt').innerHTML=window.MangaCinema.result(h);
  const policy=G.STORIES.POLICIES_BY_ID[h.actionId];
  $('outcomeText').textContent=policy?.[tier]||h.storyEvent?.text||(tier==='failure'?'現場は手順に追われ、狙った効果を十分に出せなかった。':tier==='great'?'現場の工夫がかみ合い、想定を上回る手応えがあった。':'現場で方針を共有し、計画どおりに施策を実行できた。');
  const impact=h.actionImpact;
