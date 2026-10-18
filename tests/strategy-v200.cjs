@@ -2,11 +2,31 @@
 // v2.0.0: matched-seed strategy experiment. This module never edits saves or the game rules.
 const G=require('../engine.js');
 const F=require('../finance.js');
-const STRATEGIES=['trust','profit','adaptive','random'];
+const STRATEGIES=['trust','profit','adaptive','random','guarded-profit'];
 const FINANCE_POLICIES=['no-invest-repair','invest-repair','no-invest-ignore','invest-ignore'];
 const TRUST={fix_equipment:100,fix_people:100,fix_fans:100,loyalty:65,audit:55,explain:50,local:45,quality:35,apology:30,bills:25,ceocut:20};
 const PROFIT={shrink:65,cheap:60,raise:55,staff:45,airtax:40,blame:35,stamp:30,points:25};
+const RISK_BUDGET={shrink:110,cheap:105,raise:100,staff:95,airtax:90,blame:88,stamp:85,points:82,photo:80,pop:77};
+// Forensics: can aggressive actions work when a player stops pushing through a crisis?
+// This is a reproducible comparator, never an automatic in-game recommendation or win-rate claim.
+function guardedScore(s,a){
+ if(a.id.startsWith('fix_'))return 400;
+ if(s.cash<95000&&a.id==='loan')return 310;
+ const alarm=s.storeRep<48||s.frust>=55||s.fire>=32||s.sat<47||s.staff<=40||s.quality<35||s.size<=65||s.cash<100000;
+ if(alarm){
+  const help={apology:240,recall:230,loyalty:215,audit:210,explain:205,quality:s.quality<40?225:160,restorestaff:s.staff<=40?225:160,bills:170,ceocut:165,local:160,sale:140,stamp:s.fire<20?110:0};
+  return help[a.id]??(a.type==='kind'?65:-110);
+ }
+ let score=RISK_BUDGET[a.id]??0;
+ if(a.id==='raise'&&s.price>=235)score-=120;
+ if(a.id==='shrink'&&s.size<=75)score-=150;
+ if(a.id==='cheap'&&s.quality<=45)score-=150;
+ if(a.id==='staff'&&s.staff<=45)score-=150;
+ if(a.id==='stamp'&&s.fire>=20)score-=75;
+ return score;
+}
 function score(s,a,strategy){
+ if(strategy==='guarded-profit')return guardedScore(s,a);
  if(strategy==='adaptive'){
   let n=(a.id.startsWith('fix_')?100:0)+(a.type==='kind'?15:0);
   if(s.cash<100000&&a.id==='loan')n+=150;
@@ -88,7 +108,7 @@ function experiment(count=200){
  }
  return results;
 }
-module.exports={STRATEGIES,FINANCE_POLICIES,score,select,execute,summary,experiment};
+module.exports={STRATEGIES,FINANCE_POLICIES,score,guardedScore,select,execute,summary,experiment};
 if(require.main===module){
  const count=Number(process.env.STRATEGY_SEEDS||200),results=experiment(count);
  if(process.argv[2])require('node:fs').writeFileSync(process.argv[2],JSON.stringify(results,null,2)+'\n');

@@ -13,6 +13,15 @@ for(const finance of X.FINANCE_POLICIES){
   assert.deepEqual(X.execute(seed,r.strategy,finance),r,'deterministic: '+r.strategy+'/'+finance);
  }
 }
+// Critical scenario: profitability tactics must yield to credible recovery choices.
+assert(X.STRATEGIES.includes('guarded-profit'));
+const healthy=G.initial(seed),troubled=G.initial(seed);
+troubled.storeRep=20;troubled.frust=80;troubled.fire=65;
+assert(X.guardedScore(healthy,G.ACTIONS.find(x=>x.id==='blame'))>X.guardedScore(healthy,G.ACTIONS.find(x=>x.id==='apology')));
+assert(X.guardedScore(troubled,G.ACTIONS.find(x=>x.id==='apology'))>X.guardedScore(troubled,G.ACTIONS.find(x=>x.id==='blame')));
+const budgetBefore=JSON.stringify(troubled);
+X.select(troubled,G.weeklyOffers(troubled),'guarded-profit',()=>0.4);
+assert.equal(JSON.stringify(troubled),budgetBefore,'guarded selection is pure');
 const s=G.initial(seed),before=JSON.stringify(s);
 const offers=G.weeklyOffers(s),selected=X.select(s,offers,'trust',()=>0.8);
 assert(offers.some(a=>a.id===selected.id));

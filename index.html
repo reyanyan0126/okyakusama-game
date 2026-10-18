@@ -21,6 +21,7 @@
   <script defer src="achievements-v200.js"></script>
   <script defer src="backup-v200.js"></script>
   <script defer src="consequences-v200.js"></script>
+  <script defer src="strategy-advisor-v200.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body>
@@ -404,6 +405,7 @@
       <p id="selectedTradeoff" class="policy-tradeoff" aria-live="polite"></p>
       <div class="performance-preview"><div><strong>今回の施策の成否</strong><small id="successStreak">連続好調 0/3</small></div><p id="selectedPerformance">失敗・成功・大成功の確率を計算中</p><small>失敗＝通常効果80％／成功＝100％／大成功＝135％。費用は発生し、事故・炎上は別判定。</small></div>
       <div class="risk-row"><span>炎上リスク</span><strong id="riskLabel">低</strong><span class="risk-caption" id="riskNote">比較的穏やか</span></div>
+      <details class="strategy-advisor" id="strategyAdvisor"><summary id="strategyAdviceLabel">経営参謀のメモ｜現在のリスクを確認</summary><div class="strategy-advisor-inner" id="strategyAdviceContent" aria-live="polite"></div></details>
       <button id="advanceButton" class="primary-btn" type="button">この案で営業する →</button>
     </div>
   </section>
