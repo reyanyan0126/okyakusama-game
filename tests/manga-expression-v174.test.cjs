@@ -34,7 +34,7 @@ assert.equal(M.expression('常連「残念だね」',0,'success'),'sad');
 const manga=M.markup('office',[
  'あなたは今週の資金繰りに困った？',
  '社長「私の責任なのか！」',
- '店長「良かった！」
+ '店長「良かった！」'
 ]);
 assert.equal((manga.match(/<article /g)||[]).length,3);
 assert(manga.includes('illustrated-protagonist-v173.webp'));
