@@ -26,7 +26,7 @@ for(const [family,actions] of B.families)for(const id of actions){
  const captions=B.captions(id);assert.equal(captions.length,3);
  assert.equal(new Set(captions).size,3);
 }
-assert.equal(B.markup('quality','work',0),null,'other policies retain compatible fallback');
+assert.equal(B.markup('nobody_has_this_id','work',0),null,'other policies retain compatible fallback');
 assert(html.includes('<script defer src="assets/storyboards-v150.js"></script>'));
 assert(js.includes('B?.markup(h.actionId'));
 assert(js.includes("B.markup(h.actionId,'work',n)"));
