@@ -37,7 +37,7 @@ assert.equal(Manga.speaker('現場に拍手が響いた',0,'arc_finale_steal'),'
 assert.equal(Manga.speaker('店長「数字を見ましょう」',1),'manager');
 assert.equal(Manga.speaker('常連「また来るね」',2),'customer');
 assert.equal(Manga.speaker('あなたは決算を見た',0),'you');
-assert.equal(Manga.expression('店長「安心しました」',0,'success'),'normal');
+assert.equal(Manga.expression('店長「安心しました」',0,'success'),'happy');
 assert.equal(Manga.expression('店長「怒ったぞ」',0,'success'),'angry');
 assert.equal(Manga.expression('店長「え？」',0,'success'),'panic');
 assert.equal(Manga.expression('店長「残念」',2,'failure'),'sad');
@@ -46,8 +46,10 @@ const first=Manga.markup('arc_register_boss',[
  '社長「私がやる！」','店長「本当に大丈夫？」','常連「<script>alert(1)</script>」'
 ],{setting:'register'});
 assert.equal((first.match(/class="manga-panel"/g)||[]).length,3);
-assert.equal((first.match(/<article class="manga-panel" data-panel="\d" aria-hidden="true">/g)||[]).length,3,'initially hide three manga panels, excluding decorative progress');
+assert.equal((first.match(/<article class="manga-panel" data-panel="\d" data-emotion="[^"]+" aria-hidden="true">/g)||[]).length,3,'initially hide three manga panels, excluding decorative progress');
 assert(first.includes('class="manga-painted-character"'),'complete painted portrait should render');
+assert(first.includes('class="manga-emotion-cue"'),'emotion cue should not be drawn as a movable body part');
+assert(first.includes('data-emotion="angry"'),'caption changes comic emotion emphasis');
 assert(first.includes('viewBox="90 0 90 126"'),'boss is cropped as one finished painted figure');
 assert(first.includes('viewBox="180 0 90 126"'),'manager has a dedicated painted portrait');
 assert(first.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
@@ -82,4 +84,4 @@ assert.equal((result.match(/<article /g)||[]).length,3);
 assert(result.includes('manga-strip-result'));
 assert(result.includes('manga-verdict'));
 assert(!result.includes('.arm'));
-console.log('PASS v2 manga: complete 15 figure symbols, 3-panel sequencing, no CSS anatomy, accessible and read-only');
+console.log('PASS manga: finished-portrait figures, live emotional cues, three panels, no CSS anatomy, state unchanged');
