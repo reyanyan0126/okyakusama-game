@@ -47,3 +47,10 @@ jobs:
           python tests/art-v160.py
           python tests/cast-layout-v161.py
           python tests/cinema-v170.py
+      - name: Upload manga visual review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: manga-390px-review
+          path: test-artifacts/*.png
+          if-no-files-found: warn
