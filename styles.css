@@ -1278,3 +1278,18 @@ html .working-illustration,html .working-comic{
 .achievement-endings li{font-size:12px;padding:5px}
 .achievement-note{font-size:11px;line-height:1.6;color:#635647;margin-top:12px}
 .achievement-earned{background:#fff0bd;border:1px solid #c7a45c;border-radius:8px;padding:10px;line-height:1.55;font-weight:800}
+
+/* v2.0: narrative ledger of known consequences, no future outcome spoilers. */
+.consequences-panel{padding:12px;background:#fff8ec;border:1px solid #d7bfa0;border-radius:12px;margin:9px 0 15px}
+.consequences-panel[hidden]{display:none!important}
+.consequence-summary{font-weight:850;font-size:12px;line-height:1.5;color:#453529;background:#f2e6d4;border-radius:7px;padding:9px}
+.consequences-panel h3{font-size:14px;margin:15px 0 6px;color:#443324}
+.consequence-list{list-style:none;padding:0;margin:0}
+.consequence-item{display:flex;flex-direction:column;gap:5px;padding:10px 5px;border-bottom:1px solid #ddcbb4;line-height:1.55;min-width:0}
+.consequence-item small{font-size:11px;font-weight:750;color:#645143}
+.consequence-item strong{font-size:13px;overflow-wrap:anywhere}
+.consequence-item p{font-size:12px;margin:0;overflow-wrap:anywhere}
+.consequence-item.is-pending{border-left:3px solid #99651d;padding-left:10px}
+.consequence-item.is-resolved{border-left:3px solid #315c4a;padding-left:10px}
+.consequence-item.is-boardroom{border-left:3px solid #655282;padding-left:10px}
+.consequence-note,.consequence-empty{color:#655647;font-size:12px;line-height:1.6}

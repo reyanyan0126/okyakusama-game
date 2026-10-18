@@ -20,6 +20,7 @@
   <script defer src="trends-v200.js"></script>
   <script defer src="achievements-v200.js"></script>
   <script defer src="backup-v200.js"></script>
+  <script defer src="consequences-v200.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body>
@@ -358,6 +359,8 @@
         <div class="scene-heading"><span class="scene-eyebrow">MY CONSULTING OFFICE</span><h2>コンサル手帳</h2><p>数字は嘘をつかない。言い訳は社長がする。</p></div>
         <div class="records-summary"><div><span>累計報酬</span><strong id="recordsPay">0円</strong></div><div><span>これまでの売上</span><strong id="recordsSales">0万円</strong></div><div><span>経営した週</span><strong id="recordsWeeks">0週</strong></div><div><span>自分の財布</span><strong id="recordsPersonal">2.8万円</strong></div></div>
         <div class="bottom-area">
+        <button id="consequencesToggle" class="utility-button" type="button" aria-expanded="false" aria-controls="consequencesPanel">▤ 判断のその後を見る <span id="consequencesCount">0件</span></button>
+        <div id="consequencesPanel" class="consequences-panel" hidden></div>
         <button id="achievementsToggle" class="utility-button" type="button" aria-expanded="false">★ 実績と見つけた結末を見る</button>
         <div id="achievementsPanel" class="achievements-panel" hidden></div>
         <button id="historyToggle" class="utility-button" type="button" aria-expanded="false">▤ これまでの経営記録 <span id="historyCount">0件</span> <span class="caret">⌄</span></button>

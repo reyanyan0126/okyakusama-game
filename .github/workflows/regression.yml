@@ -25,6 +25,7 @@ jobs:
           node-version: '22'
       - name: Check v2.0 strategy experiment controls
         run: |
+          node tests/consequences-v200.test.cjs
           node tests/backup-v200.test.cjs
           node tests/boardroom-v200.test.cjs
           node tests/achievements-v200.test.cjs
@@ -43,6 +44,7 @@ jobs:
           python -m playwright install --with-deps chromium webkit
       - name: Test first-run tutorial, resume and four-choice policies and dashboard
         run: |
+          python tests/consequences-v200.py
           python tests/backup-v200.py
           python tests/boardroom-v200.py
           python tests/achievements-v200.py

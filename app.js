@@ -756,7 +756,7 @@ function paint(){
  const brief=G.weeklyBrief(s);
  $('directorQuote').textContent=brief.quote;
  $('actionHeading').textContent=brief.title;
- renderActions();renderProjects();renderDevil();renderHistory();renderPublic();
+ renderActions();renderProjects();renderDevil();renderHistory();renderConsequences();renderPublic();
  $('advanceButton').disabled=false;
  $('openProposals').textContent=s.rescuePending?'緊急再建会議へ →':s.finished?'契約結果を見る →':'4つの作戦を見る →';
  $('advanceButton').innerHTML=s.finished?'最終決算を見る <span aria-hidden="true"></span>':'この案で営業する <span aria-hidden="true"></span>';
@@ -821,6 +821,13 @@ function renderDevil(){
 function renderHistory(){const list=$('historyList');const arr=[...game.history].reverse();$('historyCount').textContent=`${arr.length}件`;
  if(!arr.length){list.innerHTML='<p class="modal-detail">まだ経営記録はありません。</p>';return;}
  list.innerHTML=arr.map(h=>`<div class="history-item"><span class="history-week">第${h.week}週</span><div><strong>${esc(h.actionName)}</strong><p>${esc(h.scenarioTitle||'経営会議')} → ${esc(h.title)}${h.boardroomDilemma?' ／ 社長への対応：'+(h.boardroomDilemma.followed?'従った':'見送った'):''}</p></div><span class="history-number">売上 ${man(h.sales)}万</span></div>`).join('');
+}
+function renderConsequences(){
+ // Older offline shells and embedded regression fixtures may not load v2 modules.
+ if(!window.GameConsequences)return;
+ const info=window.GameConsequences.entries(game);
+ $('consequencesCount').textContent=info.count+'件';
+ if(!$('consequencesPanel').hidden)$('consequencesPanel').innerHTML=window.GameConsequences.markup(game);
 }
 function openModal(html,next){$('modalContent').innerHTML=html;modalNext=next||null;$('modal').hidden=false;document.body.style.overflow='hidden';$('modalClose').focus();}
 function closeModal(){if($('modal').hidden)return;$('modal').hidden=true;document.body.style.overflow='';const next=modalNext;modalNext=null;if(next)next();}
@@ -888,6 +895,11 @@ function setup(){
  $('moneyClose').addEventListener('click',closeMoney);
  $('moneyDone').addEventListener('click',closeMoney);
  $('moneyBackdrop').addEventListener('click',closeMoney);
+ $('consequencesToggle').addEventListener('click',()=>{
+  const p=$('consequencesPanel'),opening=p.hidden;
+  p.hidden=!opening;$('consequencesToggle').setAttribute('aria-expanded',String(opening));
+  if(opening)renderConsequences();
+ });
  $('achievementsToggle').addEventListener('click',()=>{
   const panel=$('achievementsPanel'),opening=panel.hidden;
   panel.hidden=!opening;$('achievementsToggle').setAttribute('aria-expanded',String(opening));
