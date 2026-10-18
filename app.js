@@ -8,6 +8,7 @@ const $=id=>document.getElementById(id);
 const yen=n=>Number(n).toLocaleString('ja-JP');
 const man=n=>(n/10000).toFixed(1);
 const sign=n=>(n>0?'+':'')+yen(n);
+const scoreDiff=n=>(n>0?'+':'')+String(n);
 const moneyChange=n=>(n>0?'＋':n<0?'−':'±')+yen(Math.abs(n))+'円';
 const cashClass=n=>n>0?'up':n<0?'down':'flat';
 
@@ -424,7 +425,7 @@ function showWeekReport(h,finish){
  $('reportWeek').textContent='WEEK '+String(h.week).padStart(2,'0')+' / '+G.campaignWeeks(game);
  renderFlow(h);
  const macro=G.MACROS.find(x=>x.id===h.macroId);
- $('resultFactors').textContent=['社会情勢：'+(h.macroName||'旧記録'),h.accidentId?'臨時の出来事：'+h.accidentTitle:'',h.memoryEvent?'過去施策の再燃あり':'',h.storyEcho?.length?'以前の選択の後日談あり':'',h.boardroomDilemma?'社長との駆け引き：'+(h.boardroomDilemma.followed?'社長案を採用':'現場の判断を優先')+'（社長 '+sign(h.boardroomDilemma.delta.boss)+'・店長 '+sign(h.boardroomDilemma.delta.manager)+'・常連 '+sign(h.boardroomDilemma.delta.customers)+'）':'',h.fireHit?'炎上あり':''].filter(Boolean).join(' ／ ');
+ $('resultFactors').textContent=['社会情勢：'+(h.macroName||'旧記録'),h.accidentId?'臨時の出来事：'+h.accidentTitle:'',h.memoryEvent?'過去施策の再燃あり':'',h.storyEcho?.length?'以前の選択の後日談あり':'',h.boardroomDilemma?'社長との駆け引き：'+(h.boardroomDilemma.followed?'社長案を採用':'現場の判断を優先')+'（社長 '+scoreDiff(h.boardroomDilemma.delta.boss)+'・店長 '+scoreDiff(h.boardroomDilemma.delta.manager)+'・常連 '+scoreDiff(h.boardroomDilemma.delta.customers)+'）':'',h.fireHit?'炎上あり':''].filter(Boolean).join(' ／ ');
  $('economyHeadline').textContent=macro?`${macro.tag}｜${macro.name}${h.macroPenalty?'：是正費用 '+man(h.macroPenalty)+'万円':h.macroBonus?'：補助金 +'+man(h.macroBonus)+'万円':''}`:'今週の景気の変化';
 
  $('reportIcon').textContent='';
@@ -774,7 +775,7 @@ function renderActions(){const s=game;
  const preview=G.policyPreview(s,s.selected);
  $('selectedTradeoff').textContent=preview?[(preview.cost?'施策費 '+yen(preview.cost)+'円（成否にかかわらず）':preview.saving?'経費削減は成否で変動':'施策費の追加なし'),preview.financing?'融資16〜20万円・返済と利息あり（利益ではありません）':'',preview.uncertainRepair?'失敗時は根本問題が残ります':'',preview.memoryRisk?'数週後に再燃する可能性':'','効果は目安。週の利益や炎上回避を保証しません。'].filter(Boolean).join(' ／ '):'';
  const dilemma=G.boardroomDemand(s);
- if(dilemma?.milestone)$('selectedTradeoff').textContent+=' ／ 【社長との駆け引き】'+(s.selected===dilemma.actionId?'社長案に従う：社長の信頼が上がるが現場との関係に注意':'社長案を見送る：現場の信頼が上がるが社長は不満');
+ if(dilemma?.milestone)$('selectedTradeoff').textContent+=' ／ 【社長との駆け引き】'+(s.selected===dilemma.actionId?'社長案に従う：社長を優先。現場との信頼には注意':'社長案を見送る：現場を優先。社長との信頼には注意');
  const r=riskLabel(G.previewRisk(s,s.selected)),label=$('riskLabel');label.textContent=r[0];label.className=r[1];
  $('riskNote').textContent=s.finished?'決算で結果を確認':r[2];
  const selectedOdds=G.performanceOdds(s,s.selected);
