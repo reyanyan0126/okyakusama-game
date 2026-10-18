@@ -27,9 +27,10 @@ with sync_playwright() as p:
     return out;
    }""")
    assert info==[[200,0,10,10],[200,0,25,25]],(engine,width,info)
-   title=page.locator('.title-cinema-svg use')
-   assert title.get_attribute('href').endswith('#office-title')
-   assert page.evaluate("document.querySelector('.title-cinema-svg use').getBBox().width")>0
+   title=page.locator('#titleScreen .new-art-banner-cover .new-art-banner-img')
+   assert title.is_visible()
+   assert title.get_attribute('src').endswith('illustrated-protagonist-thinking-v173.webp')
+   assert title.evaluate('(img)=>img.complete && img.naturalWidth>0')
    page.locator('#titleStart').click()
    page.locator('#acceptMarket').click()
    page.locator('#prologueSkip').click()
