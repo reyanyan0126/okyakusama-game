@@ -81,3 +81,13 @@ This hotfix branch is based directly on **main v1.7.1**. It replaces the public 
 The manga has three sequential panels (1 → 2 → 3), with whole-panel fade/slide animations and immediate all-three display for reduced-motion users. The skip button remains available. Existing illustrated policy choice cards remain unchanged. The manga portraits reuse existing 25 resident expressions and add 15 fixed-pose full-figure SVG illustrations for protagonist, owner and worker.
 
 The service-worker cache is bumped to `okyakusama-v1.7.2-manga-cache-1` to avoid keeping the old CSS-drawn version after release. Note that physical iPhone validation is still required; browser simulation is not equivalent to testing on an actual phone.
+
+
+### v1.7.3 — イラスト・4択の視認性刷新（開発PR）
+
+- プロローグの7画面で、従来の記号的な人体SVGを非表示にして、アニメ調で描いた主人公の完成済みイラスト3種を使うようにします。旧ストーリーの見出しと本文はそのまま。画像はWebPで自己ホストし、ネット接続なしでも表示できます。物語の主要人物の全表情刷新は別途必要です。
+- 4択カードの小さくて複雑なシーン絵を廃止し、計26種類の意味が分かる単独オブジェクトの大きなSVGシンボルを採用。通常施策、根本修理、24の物語特別施策に対応。
+- 320〜430pxでは2列×2行の選択肢を維持し、アイコンを60〜76pxに拡大。カード名、効果、成功率も併記します。コマ送り3コマ漫画、セーブ、RNG、会計は変更しません。
+- 画像3点とアイコンSVGをPWAキャッシュへ登録し、キャッシュキーをv1.7.3へ更新。
+- 自動検証は `node tests/illustration-v173.test.cjs` と `python tests/illustration-v173.py`（Chromium/WebKit × 320/375/390/430px）。390pxの画面キャプチャをCIアーティファクトに含めます。
+- GitHub Actions合格とiPhone実機の目視確認まで**公開版はv1.7.2のまま**です。
