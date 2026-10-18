@@ -49,7 +49,7 @@ assert.equal((first.match(/class="manga-panel"/g)||[]).length,3);
 assert.equal((first.match(/<article class="manga-panel" data-panel="\d" data-emotion="[^"]+" aria-hidden="true">/g)||[]).length,3,'initially hide three manga panels, excluding decorative progress');
 assert(first.includes('class="manga-painted-character"'),'complete painted portrait should render');
 assert(first.includes('class="manga-emotion-cue"'),'emotion cue should not be drawn as a movable body part');
-assert(first.includes('data-emotion="angry"'),'caption changes comic emotion emphasis');
+assert(first.includes('data-emotion="happy"'),'non-hostile exclamation is a positive/emphatic emotion');
 assert(first.includes('viewBox="90 0 90 126"'),'boss is cropped as one finished painted figure');
 assert(first.includes('viewBox="180 0 90 126"'),'manager has a dedicated painted portrait');
 assert(first.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
