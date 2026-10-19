@@ -29,6 +29,7 @@ try:
     assert not page.locator('#officeExtraMetricsV290').get_attribute('open')
     page.locator('#officeExtraMetricsV290 > summary').click()
     assert page.locator('#officeExtraMetricsV290 .stats-stack').is_visible()
+    assert page.locator('#officeExtraMetricsV290 #storeWeatherV250').is_visible()
     page.locator('#officeExtraMetricsV290 > summary').click()
     info=page.evaluate("""()=>{
       const office=document.querySelector('#officeView');
