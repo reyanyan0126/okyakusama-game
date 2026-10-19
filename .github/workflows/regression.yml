@@ -31,6 +31,7 @@ jobs:
           node tests/visual-v210.test.cjs
           node tests/scene-art-v211.test.cjs
           node tests/cast-direction-v220.test.cjs
+          node tests/cast-cinema-v260.test.cjs
           node tests/decision-ledger-v230.test.cjs
       - name: Run Node game tests
         run: |
@@ -47,6 +48,7 @@ jobs:
           python tests/illustration-v173.py
           python tests/manga-v200.py
           python tests/cast-direction-v220.py
+          python tests/cast-cinema-v260.py
           python tests/decision-ledger-v230.py
           python tests/office-v171.py
           python tests/onboarding-v101.py
