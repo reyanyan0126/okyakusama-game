@@ -1,4 +1,9 @@
 name: Game regression tests
+# Keep the newest commit under test; obsolete runs from repeated art review edits
+# should not exhaust browser CI workers or delay the final result.
+concurrency:
+  group: game-regression-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 on:
   pull_request:
   push:
@@ -39,6 +44,9 @@ jobs:
         run: |
           node scripts/audit-cast-art-v270.cjs
           node tests/audit-cast-art-v270.test.cjs
+          node tests/art-review-v280.test.cjs
+          node tests/art-review-handoff-v300.test.cjs
+          node tests/cast-gallery-v2100.test.cjs
       - name: Verify removal of procedural people and viewport safe areas
         run: node tests/layout-repair-v290.test.cjs
       - name: Run Node game tests
@@ -58,6 +66,8 @@ jobs:
           python tests/manga-v200.py
           python tests/cast-direction-v220.py
           python tests/cast-cinema-v260.py
+          python tests/art-review-v280.py
+          python tests/cast-gallery-v2100.py
           python tests/decision-ledger-v230.py
           python tests/store-scenes-v250.py
           python tests/office-v171.py

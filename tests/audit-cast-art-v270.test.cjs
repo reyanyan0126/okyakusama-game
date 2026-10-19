@@ -18,8 +18,32 @@ const temp=fs.mkdtempSync(path.join(os.tmpdir(),'art-audit-'));
 try{
  const manifest=JSON.parse(fs.readFileSync(path.join(__dirname,'../assets/approved-cast-v270/art-manifest.json'),'utf8'));
  manifest.status='ready';manifest.approvedAssets=['you-normal'];
- fs.mkdirSync(path.join(temp,'assets/approved-cast-v270'),{recursive:true});
- fs.writeFileSync(path.join(temp,'assets/approved-cast-v270/art-manifest.json'),JSON.stringify(manifest));
+ const assetDir=path.join(temp,'assets/approved-cast-v270');
+ fs.mkdirSync(assetDir,{recursive:true});
+ fs.writeFileSync(path.join(assetDir,'art-manifest.json'),JSON.stringify(manifest));
  assert.throws(()=>QA.run(temp),/検証失敗/,'cannot release 1 of 25 art samples');
+
+ // The release audit must enforce the SAME 4:5 ratio as the local review UI.
+ const sample=path.join(assetDir,'you-normal.png');
+ fs.writeFileSync(sample,tiny);
+ assert.equal(QA.inspect(sample,manifest).ok,true);
+ const stretched=Buffer.from(tiny);stretched.writeUInt32BE(1600,20);
+ fs.writeFileSync(sample,stretched);
+ assert.match(QA.inspect(sample,manifest).reason,/縦横比/);
+ fs.writeFileSync(sample,tiny);
+
+ // A full set of candidates is still not a release without all six independent approvals.
+ manifest.approvedAssets=QA.ROLES.flatMap(role=>QA.MOODS.map(mood=>role+'-'+mood));
+ for(const name of manifest.approvedAssets)fs.writeFileSync(path.join(assetDir,name+'.png'),tiny);
+ manifest.humanReview={};
+ fs.writeFileSync(path.join(assetDir,'art-manifest.json'),JSON.stringify(manifest));
+ assert.throws(()=>QA.run(temp),/manualReviewComplete.*false/,'missing review fields reject release');
+ manifest.humanReview={identity:true,expressions:true,style:true,anatomy:true,transparentBackground:true,phoneLegibility:true};
+ manifest.reviewOnly=true;
+ fs.writeFileSync(path.join(assetDir,'art-manifest.json'),JSON.stringify(manifest));
+ assert.throws(()=>QA.run(temp),/reviewOnly.*true/,'exported review proposals never become releases');
+ delete manifest.reviewOnly;
+ fs.writeFileSync(path.join(assetDir,'art-manifest.json'),JSON.stringify(manifest));
+ assert.equal(QA.run(temp).complete,true,'all explicit approvals and valid metadata pass');
 }finally{fs.rmSync(temp,{recursive:true,force:true});}
 console.log('PASS v2.7: production art QC rejects missing, unapproved, undersized or non-alpha artwork');

@@ -5,7 +5,8 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const ROLES=Object.freeze(['you','boss','manager','worker','customer']);
 const MOODS=Object.freeze(['normal','happy','angry','sad','panic']);
-const JPG_MAGIC=[0xff,0xd8];
+const REVIEW_KEYS=Object.freeze(['identity','expressions','style','anatomy','transparentBackground','phoneLegibility']);
+const PORTRAIT_RATIO=4/5, RATIO_TOLERANCE=0.06;
 function dimsPng(buf){
  if(buf.length<33||buf.subarray(0,8).toString('hex')!=='89504e470d0a1a0a'||buf.toString('ascii',12,16)!=='IHDR')return null;
  const width=buf.readUInt32BE(16),height=buf.readUInt32BE(20),depth=buf[24],color=buf[25];
@@ -31,6 +32,9 @@ function inspect(file,settings){
  if(!info)return {ok:false,reason:'形式または画像ヘッダーを認識できません'};
  if(info.width<settings.minWidth||info.height<settings.minHeight)return {ok:false,reason:'解像度不足',...info};
  if(!info.alpha)return {ok:false,reason:'アルファチャンネルがありません',...info};
+ // Match the review studio: a narrow crop or stretched image is not valid game artwork.
+ if(Math.abs(info.width/info.height-PORTRAIT_RATIO)>RATIO_TOLERANCE)
+  return {ok:false,reason:'縦横比が4:5から外れています',...info};
  return {ok:true,...info,size:bytes.length};
 }
 function run(root=path.join(__dirname,'..')){
@@ -50,9 +54,11 @@ function run(root=path.join(__dirname,'..')){
   const picked=fs.existsSync(webp)?webp:png;
   entries.push({name,approved:true,...inspect(picked,config)});
  }
- const complete=entries.every(x=>x.ok)&&Object.values(config.humanReview||{}).every(Boolean);
+ // The review studio exports a PROPOSAL only. It must never become a release manifest by copy/paste.
+ const manualReview=REVIEW_KEYS.every(key=>config.humanReview?.[key]===true);
+ const complete=entries.length===25&&entries.every(x=>x.ok)&&manualReview&&config.reviewOnly!==true;
  const result={status:config.status,complete,approved:entries.filter(x=>x.approved).length,valid:entries.filter(x=>x.ok).length,pending:entries.filter(x=>!x.ok).length,entries};
- if(config.status==='ready'&&!complete)throw Error('本番用の人物原画の検証失敗: '+JSON.stringify(result.entries.filter(x=>!x.ok)));
+ if(config.status==='ready'&&!complete)throw Error('本番用の人物原画の検証失敗: '+JSON.stringify({missing:result.entries.filter(x=>!x.ok),manualReviewComplete:manualReview,reviewOnly:config.reviewOnly===true}));
  return result;
 }
 if(require.main===module){
