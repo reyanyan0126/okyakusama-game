@@ -26,6 +26,9 @@ html,body{max-width:100%;overscroll-behavior-x:none}
 #voiceView .voice-duo,#recordsView .records-summary{min-width:0}
 #recordsView .records-summary>*{min-width:0}
 #recordsView .records-summary strong{overflow-wrap:anywhere;white-space:normal}
+/* Prologue also uses a complete resolution-independent portrait, not a tiny WebP. */
+#prologuePainting svg#prologuePaintedPerson{display:block;flex:0 0 47%;width:47%;height:93%;object-fit:contain;overflow:visible;background:transparent!important;filter:none;image-rendering:auto}
+#prologuePainting svg#prologuePaintedPerson use{pointer-events:none}
 /* Entry cards scroll only when physically taller than the available screen. */
 .entry-screen:not([hidden]){align-items:safe center;justify-content:center;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:max(10px,env(safe-area-inset-top)) 10px max(12px,env(safe-area-inset-bottom))}
 .entry-screen .entry-card{flex:none;max-width:100%;margin:auto}
