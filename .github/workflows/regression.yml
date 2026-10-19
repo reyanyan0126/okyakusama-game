@@ -33,6 +33,7 @@ jobs:
           node tests/cast-direction-v220.test.cjs
           node tests/cast-cinema-v260.test.cjs
           node tests/decision-ledger-v230.test.cjs
+          node tests/store-scenes-v250.test.cjs
       - name: Audit production character art readiness
         run: |
           node scripts/audit-cast-art-v270.cjs
@@ -54,6 +55,7 @@ jobs:
           python tests/cast-direction-v220.py
           python tests/cast-cinema-v260.py
           python tests/decision-ledger-v230.py
+          python tests/store-scenes-v250.py
           python tests/office-v171.py
           python tests/onboarding-v101.py
           python tests/dashboard-v110.py
