@@ -2,6 +2,7 @@
 (function(root){'use strict';
 const clean=x=>String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const PANELS=3;
+const CastDirector=(typeof module==='object'&&module.exports)?require('./cast-director-v220.js'):root.CharacterCastV220;
 const SCENES={
  office:{bg:['#e4ecf2','#eef0e4','#f4e0d7'],accent:'#5a7796',prop:'<path d="M105 16h44v47h-44Z" fill="#fbf6e6" stroke="#6a7e82" stroke-width="3"/><path d="M110 28h34m-34 9h28m-28 9h31" stroke="#9eb3b5" stroke-width="3"/>'},
  shop:{bg:['#dfe9db','#f5e9d5','#e0e8e9'],accent:'#4e9279',prop:'<path d="M104 27h53m-53 25h53m-45-20v-10m13 10V20m14 12V18m-27 26v-9m14 9v-9m14 9v-9" stroke="#79998f" stroke-width="5"/><path d="M101 60h56" stroke="#a18e73" stroke-width="8"/>'},
@@ -41,6 +42,7 @@ function speaker(text,index,actionId=''){
  return ['manager','worker','customer'][index%3];
 }
 function expression(text,index,tier){
+ if(CastDirector)return CastDirector.expression(text,index,tier);
  if(tier==='failure'&&index===2)return 'sad';
  if(tier==='great'&&index===2)return 'happy';
  const s=String(text??'');
@@ -63,6 +65,7 @@ function art(role,mood,kind,index){
  const scene=SCENES[kind]||SCENES.shop;
  const data=SPEAKER[role]||SPEAKER.manager;
  const emotion=(moodMap[role]||moodMap.manager)[mood]||'normal';
+ const portrait=CastDirector?CastDirector.portraitRef(role,emotion):data.base+emotion;
  const bg=scene.bg[index%3];
  // Render complete, independent 100x120 SVG character illustrations at any display density.
  // v1.7.3 raster atlas allocated only 90x126 source pixels to each actor; avoid upscaling it.
@@ -71,7 +74,7 @@ function art(role,mood,kind,index){
   '<path d="M0 80H160" stroke="'+scene.accent+'" opacity=".42" stroke-width="7"/>'+
   scene.prop+
   '<svg class="manga-illustrated-person" x="1" y="-9" width="101" height="121" viewBox="0 0 100 120" preserveAspectRatio="xMidYMid meet" overflow="hidden" aria-hidden="true">'+
-  '<use href="'+data.base+emotion+'"></use></svg>'+
+  '<use href="'+portrait+'"></use></svg>'+
   '<rect x="2" y="2" width="156" height="96" rx="2" fill="none" stroke="#3e3735" stroke-width="1.5" opacity=".19"/></svg>';
 }
 
