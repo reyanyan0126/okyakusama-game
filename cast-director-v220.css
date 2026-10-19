@@ -1,0 +1,24 @@
+/* v2.2.0 A — full illustration identities, never CSS-assembled bodies. */
+.cast-v220-gallery{margin:13px 0 18px;border:1.5px solid #b7cbb7;border-radius:17px;background:#fbfaf4;box-shadow:0 3px 0 #d9dacc;overflow:hidden}
+.cast-v220-gallery>summary{display:flex;align-items:center;justify-content:space-between;min-height:52px;cursor:pointer;list-style:none;user-select:none;padding:13px 18px;color:#305c52;background:#e5eddf;font-weight:900;font-size:15px;touch-action:manipulation}
+.cast-v220-gallery>summary::-webkit-details-marker{display:none}
+.cast-v220-gallery>summary::after{content:"＋";font-size:21px;line-height:1;color:#48796c}
+.cast-v220-gallery[open]>summary::after{content:"−"}
+.cast-v220-gallery>summary:focus-visible{outline:3px solid #3b79ad;outline-offset:-3px}
+.cast-v220-intro{margin:13px 15px 4px;color:#59675c;line-height:1.6;font-size:12px}
+.cast-v220-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:13px}
+.cast-v220-card{display:flex;align-items:center;gap:7px;min-width:0;min-height:111px;border:1px solid #d6dccd;border-radius:12px;background:#fffefa;padding:8px;overflow:hidden}
+.cast-v220-card:last-child{grid-column:1/-1}
+.cast-v220-picture{width:66px;height:87px;flex:0 0 66px;border-radius:9px;background:#e2ece7;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.cast-v220-boss .cast-v220-picture{background:#efe5d0}
+.cast-v220-worker .cast-v220-picture{background:#f5e4dd}
+.cast-v220-customer .cast-v220-picture{background:#e1e8ef}
+.cast-v220-you .cast-v220-picture{background:#dfe5ed}
+.cast-v220-portrait{width:100%;height:100%;display:block;image-rendering:auto;transform:none!important;animation:none!important}
+.cast-v220-words{min-width:0;overflow-wrap:anywhere}
+.cast-v220-words strong{display:block;font-size:14px;color:#324940;line-height:1.35}
+.cast-v220-words small{display:block;font-size:10px;font-weight:800;color:#93765f;line-height:1.5;margin-top:2px}
+.cast-v220-words p{font-size:11px;line-height:1.5;color:#59645e;margin:4px 0 0}
+@media(max-width:355px){.cast-v220-grid{grid-template-columns:1fr;gap:8px;padding:10px}.cast-v220-card:last-child{grid-column:auto}.cast-v220-card{min-height:88px}.cast-v220-picture{width:57px;height:75px;flex-basis:57px}}
+@media(prefers-reduced-motion:no-preference){.cast-v220-gallery[open] .cast-v220-card{animation:cast-v220-enter .28s ease-out both}@keyframes cast-v220-enter{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}}
+@media(prefers-reduced-motion:reduce){.cast-v220-gallery[open] .cast-v220-card{animation:none!important}}
