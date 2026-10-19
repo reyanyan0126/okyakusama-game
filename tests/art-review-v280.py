@@ -3,7 +3,7 @@ from pathlib import Path
 from functools import partial
 from threading import Thread
 from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler
-import zlib,struct,json
+import zlib,struct,json,hashlib
 from playwright.sync_api import sync_playwright
 root=Path(__file__).resolve().parents[1]
 class Quiet(SimpleHTTPRequestHandler):
@@ -54,6 +54,8 @@ try:
     assert proposal['approvedAssets']==[] and proposal['proposedAssets']==['manager-normal']
     assert not any(proposal['humanReview'].values())
     assert proposal['reviewItems'][0]['checks']['identity'] is True
+    assert proposal['reviewItems'][0]['sha256']==hashlib.sha256(png).hexdigest()
+    assert proposal['reviewItems'][0]['bytes']==len(png)
     assert not errors,(engine,width,errors)
     print('PASS original-art-review',engine,width,flush=True)
     ctx.close()
