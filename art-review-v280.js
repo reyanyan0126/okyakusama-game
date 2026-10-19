@@ -115,14 +115,21 @@ async function loadFile(file){
  return {name:file.name,ok:true};
 }
 function exportManifest(){
- const approvedAssets=[...TARGETS.values()].filter(qualified).map(t=>t.key);
- const completed=approvedAssets.length===25;
+ // Review completion is NOT publication approval. Keep exports incompatible with
+ // accidental "ready" releases even when all 25 visual checklists are checked.
+ const reviewItems=[...TARGETS.values()].filter(t=>t.imageValid).map(t=>({
+  name:t.key,width:t.width,height:t.height,
+  checks:Object.fromEntries([...t.flags].map(([id,box])=>[id,box.checked])),
+  proposed:qualified(t)
+ }));
  const manifest={
-  version:'v2.8.0',status:completed?'ready':'draft',
-  purpose:'Portrait review proposal. GitHub CI must verify asset files and independent final approval.',
+  version:'v2.8.0',status:'draft',
+  purpose:'Non-publishing portrait review proposal. Final human approval and repo assets are required.',
   roles:ROLES.map(r=>r.id),moods:MOODS.map(m=>m[0]),minWidth:MIN_W,minHeight:MIN_H,maxFileBytes:MAX_BYTES,
-  approvedAssets,
-  humanReview:Object.fromEntries(FLAGS.map(([id])=>[id,completed])),
+  approvedAssets:[],
+  proposedAssets:reviewItems.filter(item=>item.proposed).map(item=>item.name),
+  reviewItems,
+  humanReview:Object.fromEntries(FLAGS.map(([id])=>[id,false])),
   reviewOnly:true
  };
  const blob=new Blob([JSON.stringify(manifest,null,2)],{type:'application/json'});
