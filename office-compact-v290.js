@@ -17,6 +17,11 @@ function mount(){
  summary.textContent='その他の経営指標を表示';
  summary.setAttribute('aria-label','詳細な経営指標を展開または閉じる');
  const content=document.createElement('div');content.className='office-extra-metrics-body-v290';
+ // The legacy global style forcibly hides .stats-stack with !important.
+ // Once moved under the new closed-by-default disclosure, override that rule
+ // on the element itself; the native <details> still hides all content closed.
+ extra.style.setProperty('display','grid','important');
+ extra.style.setProperty('height','auto','important');
  content.append(dashboard,extra);
  container.append(summary,content);
  const before=main.querySelector('.news-strip');
