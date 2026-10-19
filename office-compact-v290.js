@@ -23,6 +23,10 @@ function mount(){
  extra.style.setProperty('display','grid','important');
  extra.style.setProperty('height','auto','important');
  content.append(dashboard,extra);
+ // The decorative state illustration remains accessible without pushing the
+ // critical weekly decision below the visible iPhone screen.
+ const storeIllustration=document.getElementById('storeWeatherV250');
+ if(storeIllustration)content.insertBefore(storeIllustration,content.firstChild);
  container.append(summary,content);
  const before=main.querySelector('.news-strip');
  if(before)before.insertAdjacentElement('beforebegin',container);
