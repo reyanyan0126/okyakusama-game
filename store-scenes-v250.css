@@ -1,0 +1,14 @@
+/* v2.5 complete vector scenery, no CSS-drawn human characters */
+.store-weather-v250{margin:14px 0 17px;border:2px solid #a8baa9;background:#f6efe0;border-radius:15px;overflow:hidden;box-shadow:0 4px 0 #d4d0c2}
+.store-weather-art-v250{display:block;width:100%;height:auto;aspect-ratio:720/400;object-fit:contain;background:#e0e1cc}
+.store-weather-copy-v250{padding:12px 15px 14px;border-top:1px solid #c8c7ae;background:linear-gradient(140deg,#fff9ed,#e8f0e5)}
+.store-weather-name-v250{display:block;font-size:15px;color:#365c52;line-height:1.55}
+.store-weather-detail-v250{font-size:12px;color:#667367;line-height:1.65;margin:4px 0 0}
+.store-weather-v250[data-scene="fire"]{border-color:#b7776b}
+.store-weather-v250[data-scene="fire"] .store-weather-copy-v250{background:#fff1e7}
+.store-weather-v250[data-scene="slump"]{border-color:#8c9b9c}
+.store-weather-v250[data-scene="slump"] .store-weather-copy-v250{background:#eef0eb}
+@media(min-width:700px){.store-weather-v250{max-width:690px}}
+@media(max-width:390px){.store-weather-v250{margin:10px 0 14px}.store-weather-copy-v250{padding:9px 12px 12px}.store-weather-name-v250{font-size:14px}}
+@media(prefers-reduced-motion:no-preference){.store-weather-v250{animation:store-weather-fade-v250 .3s ease-out both}@keyframes store-weather-fade-v250{from{opacity:.75;transform:translateY(5px)}to{opacity:1;transform:none}}}
+@media(prefers-reduced-motion:reduce){.store-weather-v250{animation:none!important}}
