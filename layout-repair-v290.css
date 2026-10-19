@@ -72,5 +72,5 @@ html,body{max-width:100%;overscroll-behavior-x:none}
 #officeView .office-extra-metrics-v290[open]>summary::before{content:"−"}
 #officeView .office-extra-metrics-body-v290{padding:3px 7px 10px;border-top:1px solid #d7e0d4}
 #officeView .office-extra-metrics-body-v290 .store-dashboard{margin:5px 0 10px}
-#officeView .office-extra-metrics-body-v290 .stats-stack{display:flex;flex-direction:column;gap:5px;overflow:visible;max-height:none}
+#officeView .office-extra-metrics-v290[open] .office-extra-metrics-body-v290 .stats-stack{display:flex!important;flex-direction:column;gap:5px;overflow:visible;max-height:none}
 #officeView .office-extra-metrics-body-v290 .stats-card{min-height:0}
