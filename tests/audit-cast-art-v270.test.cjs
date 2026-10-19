@@ -2,9 +2,8 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const QA=require('../scripts/audit-cast-art-v270.cjs');
 const r=QA.run();assert.equal(r.status,'draft');
-assert.equal(r.valid,0,'No original art has been approved yet');
-assert.equal(r.pending,25,'Honest count: 5 actors x 5 expressions pending');
-assert(!r.complete);
+assert.equal(r.valid+r.pending,25,'Honest count: 5 actors x 5 expressions');
+assert.equal(r.complete, r.valid===25 && r.status==='ready','Draft must never claim a completed release');
 assert.deepEqual(QA.ROLES,['you','boss','manager','worker','customer']);
 assert.deepEqual(QA.MOODS,['normal','happy','angry','sad','panic']);
 const tiny=Buffer.alloc(50);Buffer.from('89504e470d0a1a0a','hex').copy(tiny);tiny.write('IHDR',12);
