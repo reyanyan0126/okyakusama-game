@@ -36,7 +36,8 @@ function counts(){
 }
 function clearCandidate(target){
  if(target.url)URL.revokeObjectURL(target.url);
- target.url=null;target.imageValid=false;target.newImage.replaceChildren(node('span','portrait-placeholder','未登録'));
+ target.url=null;target.imageValid=false;target.width=0;target.height=0;target.sha256=null;target.bytes=0;
+ target.newImage.replaceChildren(node('span','portrait-placeholder','未登録'));
  for(const box of target.flags.values()){box.checked=false;box.disabled=true;}
  status(target,'新規原画：未登録');counts();
 }
@@ -60,7 +61,7 @@ function makeCard(actor,mood){
   wrapper.append(box,document.createTextNode(label));checks.append(wrapper);flags.set(id,box);
  }
  card.append(header,pair,msg,checks);
- const target={key,card,status:msg,newImage:newFrame,flags,imageValid:false,url:null,width:0,height:0};
+ const target={key,card,status:msg,newImage:newFrame,flags,imageValid:false,url:null,width:0,height:0,sha256:null,bytes:0};
  TARGETS.set(key,target);
  return card;
 }
@@ -91,6 +92,11 @@ function hasTransparentBackground(img){
  for(let i=3;i<pixels.length;i+=4)if(pixels[i]<245)clear++;
  return clear>=4;
 }
+async function fingerprint(file){
+ if(!globalThis.crypto?.subtle)throw Error('安全な接続が必要です（HTTPS または localhost）');
+ const digest=await crypto.subtle.digest('SHA-256',await file.arrayBuffer());
+ return Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
+}
 async function loadFile(file){
  const base=file.name.replace(/\.(png|webp)$/i,'');
  const t=TARGETS.get(base);
@@ -108,6 +114,8 @@ async function loadFile(file){
  if(width<MIN_W||height<MIN_H){status(t,'解像度不足：'+width+'×'+height,'invalid');return {name:file.name,error:'解像度不足'};}
  if(Math.abs(ratio-0.8)>0.06){status(t,'縦横比が4:5から外れています：'+width+'×'+height,'invalid');return {name:file.name,error:'比率不適合'};}
  if(!hasTransparentBackground(img)){status(t,'背景が不透明です。透明背景の人物画像を指定してください','invalid');return {name:file.name,error:'透明背景なし'};}
+ try{t.sha256=await fingerprint(file);t.bytes=file.size;}
+ catch(error){status(t,'原画の照合用SHA-256を取得できません（HTTPSで開いてください）','invalid');return {name:file.name,error:'SHA-256算出失敗'};}
  t.newImage.replaceChildren(img);img.alt=t.key+'・新規原画候補';
  t.imageValid=true;
  for(const box of t.flags.values())box.disabled=false;
@@ -118,7 +126,7 @@ function exportManifest(){
  // Review completion is NOT publication approval. Keep exports incompatible with
  // accidental "ready" releases even when all 25 visual checklists are checked.
  const reviewItems=[...TARGETS.values()].filter(t=>t.imageValid).map(t=>({
-  name:t.key,width:t.width,height:t.height,
+  name:t.key,width:t.width,height:t.height,bytes:t.bytes,sha256:t.sha256,
   checks:Object.fromEntries([...t.flags].map(([id,box])=>[id,box.checked])),
   proposed:qualified(t)
  }));
@@ -153,7 +161,7 @@ function init(){
  $('exportReview').addEventListener('click',exportManifest);
  window.addEventListener('pagehide',()=>{for(const t of TARGETS.values())if(t.url)URL.revokeObjectURL(t.url);});
 }
-const API=Object.freeze({ROLES,MOODS,FLAGS,MIN_W,MIN_H,MAX_BYTES});
+const API=Object.freeze({ROLES,MOODS,FLAGS,MIN_W,MIN_H,MAX_BYTES,REVIEW_PROTOCOL:2});
 window.PortraitReviewV280=API;
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
