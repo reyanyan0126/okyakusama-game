@@ -24,6 +24,11 @@ try:
     page.locator('#prologueSkip').click()
     page.locator('#firstWeekStart').click()
     assert page.locator('#storeWeatherV250').is_visible()
+    assert page.locator('#officeExtraMetricsV290').count()==1
+    assert not page.locator('#officeExtraMetricsV290').get_attribute('open')
+    page.locator('#officeExtraMetricsV290 > summary').click()
+    assert page.locator('#officeExtraMetricsV290 .stats-stack').is_visible()
+    page.locator('#officeExtraMetricsV290 > summary').click()
     info=page.evaluate("""()=>{
       const office=document.querySelector('#officeView');
       const nav=document.querySelector('.game-nav');
