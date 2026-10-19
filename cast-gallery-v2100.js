@@ -1,5 +1,5 @@
 'use strict';
-/* Public gallery of 25 existing SVG expressions — no save/game state changes. */
+/* v2.11: show illustrated game cast portraits; legacy SVG retained only for offline fallback. */
 (()=>{
 const cast=Object.freeze([
  {id:'you',name:'主人公',role:'経営コンサルタント',description:'貯金も時間も足りない。モグモグマートの再建を託され、難しい選択を迫られる。',asset:'manga-cast-v200.svg',prefix:'manga-you-'},
@@ -11,7 +11,19 @@ const cast=Object.freeze([
 const moods=Object.freeze([['normal','通常'],['happy','喜び'],['angry','怒り'],['sad','悲しみ'],['panic','驚き']]);
 const $=id=>document.getElementById(id);
 let actor=cast[0],mood=moods[0];
+function assetFor(item,moodId){
+ const assets=window.CastGalleryArtV2110 || {};
+ return assets[item.id+'-'+moodId] || (moodId==='normal' ? null : assets[item.id+'-normal']) || null;
+}
 function artwork(item,moodId,label){
+ const src=assetFor(item,moodId);
+ if(src){
+  const img=document.createElement('img');
+  img.src=src;img.alt=label;img.decoding='async';img.loading='eager';
+  img.className='illustrated-portrait';
+  return img;
+ }
+ // Offline fallback only: real illustrations take priority whenever bundled.
  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
  svg.setAttribute('viewBox','0 0 100 120');svg.setAttribute('role','img');
  svg.setAttribute('aria-label',label);
@@ -23,10 +35,17 @@ function show(){
  $('castName').textContent=actor.name;
  $('castRole').textContent=actor.role;
  $('castDescription').textContent=actor.description;
- $('castPortrait').replaceWith(Object.assign(artwork(actor,mood[0],actor.name+'・'+mood[1]),{id:'castPortrait'}));
- $('moodStatus').textContent=mood[1];
+ if(!assetFor(actor,mood[0]))mood=moods[0];
+ const portrait=artwork(actor,mood[0],actor.name+'・'+mood[1]);
+ portrait.id='castPortrait';
+ $('castPortrait').replaceWith(portrait);
+ const hasMoods=moods.every(m=>Boolean((window.CastGalleryArtV2110||{})[actor.id+'-'+m[0]]));
+ $('moodStatus').textContent=hasMoods?mood[1]:'通常（表情差分準備中）';
  for(const btn of document.querySelectorAll('.cast-button'))btn.setAttribute('aria-pressed',String(btn.dataset.id===actor.id));
- for(const btn of document.querySelectorAll('.mood-picks button'))btn.setAttribute('aria-pressed',String(btn.dataset.mood===mood[0]));
+ for(const btn of document.querySelectorAll('.mood-picks button')){
+  btn.disabled=!hasMoods&&btn.dataset.mood!=='normal';
+  btn.setAttribute('aria-pressed',String(btn.dataset.mood===mood[0]));
+ }
 }
 function init(){
  if(!$('castList')||!$('moodPicks'))return;
