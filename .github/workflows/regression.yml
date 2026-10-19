@@ -1,4 +1,9 @@
 name: Game regression tests
+# Keep the newest commit under test; obsolete runs from repeated art review edits
+# should not exhaust browser CI workers or delay the final result.
+concurrency:
+  group: game-regression-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 on:
   pull_request:
   push:
