@@ -29,7 +29,7 @@ assert(pane.includes('./assets/portraits-v171.svg#portrait-manager-'));
 assert(pane.includes('./assets/manga-cast-v200.svg#manga-worker-'));
 for(const file of ['overhaul-v210.css','overhaul-v210.js','assets/manga-cast-v200.svg','assets/portraits-v171.svg'])
  assert(sw.includes("'./"+file+"'"),file+' cached');
-assert(sw.includes('okyakusama-v2.4.0-review-preview-cache-1'));
+assert(sw.includes('okyakusama-v2.5.0-store-scenes-cache-1'));
 const s=G.initial(21),before=JSON.stringify(s);
 M.markup(G.weeklyOffers(s)[0].id,['店長「準備」','従業員「実行」','常連「結果」'],{});
 assert.equal(JSON.stringify(s),before,'UI is read-only against game RNG and balances');
