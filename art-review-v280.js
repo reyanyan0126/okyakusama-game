@@ -77,6 +77,20 @@ function build(){
  for(const actor of ROLES)for(const mood of MOODS)root.append(makeCard(actor,mood));
  counts();
 }
+function hasTransparentBackground(img){
+ // Decode the uploaded picture locally. A PNG/WebP filename or alpha-capable
+ // format does not prove that its actual pixels have any transparency.
+ const canvas=document.createElement('canvas');
+ canvas.width=32;canvas.height=40;
+ const ctx=canvas.getContext('2d',{willReadFrequently:true});
+ if(!ctx)return false;
+ ctx.clearRect(0,0,32,40);
+ ctx.drawImage(img,0,0,32,40);
+ const pixels=ctx.getImageData(0,0,32,40).data;
+ let clear=0;
+ for(let i=3;i<pixels.length;i+=4)if(pixels[i]<245)clear++;
+ return clear>=4;
+}
 async function loadFile(file){
  const base=file.name.replace(/\.(png|webp)$/i,'');
  const t=TARGETS.get(base);
@@ -93,6 +107,7 @@ async function loadFile(file){
  const ratio=width/height;
  if(width<MIN_W||height<MIN_H){status(t,'解像度不足：'+width+'×'+height,'invalid');return {name:file.name,error:'解像度不足'};}
  if(Math.abs(ratio-0.8)>0.06){status(t,'縦横比が4:5から外れています：'+width+'×'+height,'invalid');return {name:file.name,error:'比率不適合'};}
+ if(!hasTransparentBackground(img)){status(t,'背景が不透明です。透明背景の人物画像を指定してください','invalid');return {name:file.name,error:'透明背景なし'};}
  t.newImage.replaceChildren(img);img.alt=t.key+'・新規原画候補';
  t.imageValid=true;
  for(const box of t.flags.values())box.disabled=false;
@@ -125,7 +140,7 @@ function init(){
   let okay=0,invalid=0;
   for(const file of files){const res=await loadFile(file);res.ok?okay++:invalid++;}
   counts();
-  $('uploadStatus').textContent='読み込み：適合 '+okay+'件、不適合 '+invalid+'件。透過・絵柄・顔の一貫性は目視確認してください。';
+  $('uploadStatus').textContent='読み込み：適合 '+okay+'件、不適合 '+invalid+'件。ピクセル透過は自動検査済み。絵柄・顔の一貫性は目視確認してください。';
   e.target.value='';
  });
  $('exportReview').addEventListener('click',exportManifest);
