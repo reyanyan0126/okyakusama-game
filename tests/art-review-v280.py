@@ -3,7 +3,7 @@ from pathlib import Path
 from functools import partial
 from threading import Thread
 from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler
-import zlib,struct
+import zlib,struct,json
 from playwright.sync_api import sync_playwright
 root=Path(__file__).resolve().parents[1]
 class Quiet(SimpleHTTPRequestHandler):
@@ -49,6 +49,11 @@ try:
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),(engine,width,'horizontal overflow')
     with page.expect_download() as d:page.locator('#exportReview').click()
     assert d.value.suggested_filename=='art-review-proposal-v280.json'
+    proposal=json.loads(Path(d.value.path()).read_text())
+    assert proposal['status']=='draft' and proposal['reviewOnly'] is True
+    assert proposal['approvedAssets']==[] and proposal['proposedAssets']==['manager-normal']
+    assert not any(proposal['humanReview'].values())
+    assert proposal['reviewItems'][0]['checks']['identity'] is True
     assert not errors,(engine,width,errors)
     print('PASS original-art-review',engine,width,flush=True)
     ctx.close()
