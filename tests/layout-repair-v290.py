@@ -40,7 +40,7 @@ try:
     assert 'class="arm' not in art and 'class="head' not in art,(engine,width,'legacy procedural figures')
     page.locator('#openProposals').click(timeout=6000)
     assert page.locator('#proposalSheet').is_visible()
-    page.locator('#closeProposal').click() if page.locator('#closeProposal').count() else page.locator('#closeProposalBackdrop').click()
+    page.locator('#closeProposals').click()
     page.locator('.game-tab[data-screen="voice"]').click()
     assert page.locator('#voiceView').is_visible()
     page.locator('.game-tab[data-screen="records"]').click()
