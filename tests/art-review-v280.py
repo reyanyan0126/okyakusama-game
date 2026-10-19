@@ -28,6 +28,14 @@ try:
     assert page.locator('.portrait-card').count()==25
     assert page.locator('.portrait-frame svg use').count()==25
     assert page.locator('#assetCount').inner_text()=='0 / 25'
+    # Full-size but completely opaque RGBA must fail the actual alpha check.
+    ihdr=chunk(b'IHDR',struct.pack('>IIBBBBB',1024,1280,8,6,0,0,0))
+    opaque_row=b'\x00'+(b'\x10\x20\x30\xff'*1024)
+    opaque=b'\x89PNG\r\n\x1a\n'+ihdr+chunk(b'IDAT',zlib.compress(opaque_row*1280,level=6))+chunk(b'IEND',b'')
+    page.locator('#candidateFiles').set_input_files({'name':'manager-happy.png','mimeType':'image/png','buffer':opaque})
+    page.wait_for_function("document.querySelector('#portrait-manager-happy').dataset.state==='invalid'")
+    assert page.locator('#assetCount').inner_text()=='0 / 25'
+
     page.locator('#characterFilter button[data-role="manager"]').click()
     assert page.locator('.portrait-card:visible').count()==5
     page.locator('#candidateFiles').set_input_files({'name':'manager-normal.png','mimeType':'image/png','buffer':png})
