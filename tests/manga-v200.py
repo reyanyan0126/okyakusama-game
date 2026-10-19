@@ -82,11 +82,18 @@ try:
      assert page.locator('#workingComic .cast .arm').count()==0
      assert page.locator('#workingComic .portrait-hair').count()==0
      assert page.locator('#workingComic .manga-dialogue').count()==3
-     assert page.evaluate("""()=>{
-       const svg=document.querySelector('#workingComic .manga-illustrated-person');
-       return svg && getComputedStyle(svg).animationName==='none' &&
-          getComputedStyle(svg).transform==='none';
-     }"""),'person parts must not be CSS-animated'
+     # v2.6: animate only the finished illustration, never independent limbs or hair.
+     result=page.evaluate("""()=>{
+       const svg=document.querySelector('#workingComic .manga-panel.is-revealed .manga-illustrated-person');
+       if(!svg)return {intact:false,anim:'missing'};
+       return {intact:svg.querySelectorAll('use').length===1 && svg.querySelectorAll('.arm,.hair,.face').length===0,
+         anim:getComputedStyle(svg).animationName};
+     }""")
+     assert result['intact'],(browser_name,width,'single intact complete SVG')
+     if motion=='reduce':
+      assert result['anim']=='none',(browser_name,width,'reduced motion must disable movement')
+     else:
+      assert result['anim'].startswith('cast-v260-'),(browser_name,width,result['anim'])
      if motion=='reduce':
       assert page.locator('#workingComic .manga-panel.is-revealed').count()==3,'reduced motion shows all three panels immediately'
      else:
