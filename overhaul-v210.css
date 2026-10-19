@@ -244,11 +244,7 @@ button:focus-visible,summary:focus-visible{outline:3px solid #457dba;outline-off
  width:28%;max-height:144px;object-fit:contain
 }
 #contractsScreen .new-art-banner-contract .new-art-banner-copy strong{font-size:15px}
-#officeView .new-office-person{
- position:absolute;display:block;width:36%;height:94%;right:0;bottom:0;
- object-fit:cover;object-position:50% 26%;z-index:1;border-radius:0 16px 16px 0;
- opacity:.98;pointer-events:none;
-}
+
 #officeView .office-room-art{opacity:.34}
 #officeView .office-visitors{position:relative;z-index:3}
 #officeView .office-hero-caption{max-width:68%}
@@ -270,5 +266,5 @@ button:focus-visible,summary:focus-visible{outline:3px solid #457dba;outline-off
  .new-art-banner-copy strong{font-size:14px}
  .new-art-banner-copy p{font-size:11px}
  #titleScreen .new-art-banner-cover .new-art-banner-img{width:41%}
- #officeView .new-office-person{width:33%}
+ 
 }
