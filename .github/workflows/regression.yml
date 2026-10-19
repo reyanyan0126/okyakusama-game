@@ -26,6 +26,10 @@ jobs:
         run: node tests/illustration-v173.test.cjs
       - name: Check complete-portrait manga and CSS removal
         run: node tests/manga-v200.test.cjs
+      - name: Verify the v2.1 and v2.1.1 visual rebuild
+        run: |
+          node tests/visual-v210.test.cjs
+          node tests/scene-art-v211.test.cjs
       - name: Run Node game tests
         run: |
           for test in tests/crisis-v100.test.cjs tests/four-choice-v110.test.cjs tests/outcome-v120.test.cjs tests/story-v130.test.cjs tests/theater-v140.test.cjs tests/storyboards-v150.test.cjs tests/art-v160.test.cjs tests/cast-layout-v161.test.cjs tests/cinema-v170.test.cjs tests/office-v171.test.cjs tests/onboarding-v101.test.cjs tests/ui-smoke.test.cjs tests/v099-campaign.test.cjs tests/finance-v094.test.cjs tests/v095-rootcause.test.cjs; do echo "RUNNING $test"; timeout 45s node "$test"; done
