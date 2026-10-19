@@ -1,0 +1,28 @@
+/* v2.3 decision ledger / v2.4 strategy review */
+.ledger-v230{margin:14px 0;padding:0;border-radius:15px;border:1.5px solid #bbcab9;background:#fcfaf3;overflow:hidden;box-shadow:0 3px 0 #dce0d3}
+.ledger-v230>summary{cursor:pointer;min-height:52px;display:flex;align-items:center;justify-content:space-between;padding:14px 15px;background:#e7eee3;color:#2e5a4d;font-weight:800;font-size:15px;list-style:none;touch-action:manipulation}
+.ledger-v230>summary::-webkit-details-marker{display:none}
+.ledger-v230>summary::after{content:"＋";font-size:20px;margin-left:12px}
+.ledger-v230[open]>summary::after{content:"−"}
+.ledger-v230>summary:focus-visible,.ledger-v230-picker:focus-visible{outline:3px solid #4784ac;outline-offset:-3px}
+.ledger-v230-note{padding:0 15px;color:#596b61;font-size:12px;line-height:1.65;margin:12px 0}
+.ledger-v230-picker{margin:2px 15px 12px;width:calc(100% - 30px);min-height:46px;border:1px solid #89a99b;background:#fffefa;color:#2d4a40;border-radius:10px;padding:10px;font:inherit;font-weight:700}
+.ledger-v230-body{padding:3px 15px 14px}
+.ledger-v230-heading{display:flex;justify-content:space-between;gap:8px;align-items:baseline;line-height:1.5;color:#2f4d43;flex-wrap:wrap}
+.ledger-v230-heading strong{font-size:15px}
+.ledger-v230-heading span{font-size:12px;font-weight:700;color:#8b6b52}
+.ledger-v230-line{display:flex;flex-direction:column;gap:3px;border-bottom:1px dashed #d4dacf;padding:10px 0;font-size:12px;line-height:1.55}
+.ledger-v230-line strong{font-size:13px;color:#305c52}
+.ledger-v230-line span{color:#485850;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ledger-v230-money{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.ledger-v230-money span{display:block;background:#ecefe5;color:#385047;border-radius:9px;padding:8px 10px;font-size:12px;font-weight:700}
+.ledger-v230-subhead{font-size:13px;color:#31584e}
+.ledger-v230-factors{padding-left:20px;margin:7px 0;line-height:1.7;font-size:12px;color:#566b5f}
+.ledger-v230-story{border-left:3px solid #86a496;margin:9px 0;padding:7px 11px;background:#f2f4ec;font-size:12px;line-height:1.6}
+.ledger-v230-warning{font-size:11px;line-height:1.6;padding:10px;border-radius:8px;background:#f5f0e6;color:#6c6154;margin:11px 0 0}
+.ledger-v240-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.ledger-v240-stat{padding:11px 9px;display:flex;flex-direction:column;gap:5px;border-radius:10px;background:#f1f3e9;border:1px solid #d6dbcc}
+.ledger-v240-stat span{font-size:11px;color:#647368}
+.ledger-v240-stat strong{font-size:16px;color:#2f5a4f;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+@media(max-width:340px){.ledger-v240-grid{grid-template-columns:1fr}.ledger-v230-body{padding:3px 10px 12px}}
+@media(prefers-reduced-motion:reduce){.ledger-v230 *{animation:none!important;transition:none!important}}
