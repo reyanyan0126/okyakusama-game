@@ -1,0 +1,101 @@
+/* v2.9.0: Mobile viewport + legacy procedural-figure removal.
+ * Never conceal actionable text with body overflow hacks. Scroll only the content
+ * that genuinely exceeds the available viewport; reserve nav & safe-area space.
+ */
+:root{--v290-tab-space:calc(74px + env(safe-area-inset-bottom,0px))}
+html,body{max-width:100%;overscroll-behavior-x:none}
+#app.app-shell{min-height:0;max-height:100dvh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+#app.app-shell>main{min-height:0;flex:1;max-width:100%;overflow:hidden;margin-bottom:var(--v290-tab-space)!important}
+#app .view-panel{height:100%;min-height:0;min-width:0;max-width:100%;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:auto;-webkit-overflow-scrolling:touch}
+#officeView.view-panel{display:block!important;overflow-y:auto!important;overflow-x:hidden!important}
+#officeView .layout{height:auto!important;min-height:0!important;overflow:visible!important;display:flex!important;flex-direction:column!important;gap:7px!important;padding-bottom:18px}
+#officeView .layout>.main-column,#officeView .layout>.action-column{height:auto!important;min-height:0;overflow:visible!important;flex:0 0 auto!important;max-width:100%;width:100%}
+#officeView .decision-card{min-height:0!important;max-height:none!important}
+#officeView .store-weather-v250{max-width:100%;display:grid;grid-template-columns:minmax(96px,32%) minmax(0,1fr);align-items:stretch;gap:0;margin:5px 0 11px;min-height:0;box-shadow:none}
+#officeView .store-weather-art-v250{width:100%;height:100%;min-height:102px;aspect-ratio:auto;object-fit:cover;object-position:center}
+#officeView .store-weather-copy-v250{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0;border-top:0;border-left:1px solid #c8c7ae;padding:10px 12px}
+#officeView .store-weather-name-v250{font-size:13px;line-height:1.4}
+#officeView .store-weather-detail-v250{font-size:11px;line-height:1.5;margin:0;overflow-wrap:anywhere}
+#officeView .office-hero{max-width:100%}
+#officeView .office-vitals .play-stat{min-width:0}
+#officeView .office-vitals .play-stat strong{max-width:100%;overflow-wrap:anywhere}
+#voiceView .scene-v211-voice,#recordsView .scene-v211-records{height:clamp(82px,12dvh,132px);margin-bottom:10px}
+#voiceView .scene-heading,#recordsView .scene-heading{margin-bottom:9px!important;padding:12px!important}
+#voiceView .scene-heading h2,#recordsView .scene-heading h2{font-size:20px!important}
+#voiceView .scene-heading p,#recordsView .scene-heading p{line-height:1.45}
+#voiceView .voice-duo,#recordsView .records-summary{min-width:0}
+#recordsView .records-summary>*{min-width:0}
+#recordsView .records-summary strong{overflow-wrap:anywhere;white-space:normal}
+/* Prologue also uses a complete resolution-independent portrait, not a tiny WebP. */
+#prologuePainting svg#prologuePaintedPerson{display:block;flex:0 0 47%;width:47%;height:93%;object-fit:contain;overflow:visible;background:transparent!important;filter:none;image-rendering:auto}
+#prologuePainting svg#prologuePaintedPerson use{pointer-events:none}
+/* Entry cards scroll only when physically taller than the available screen. */
+.entry-screen:not([hidden]){align-items:safe center;justify-content:center;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:max(10px,env(safe-area-inset-top)) 10px max(12px,env(safe-area-inset-bottom))}
+.entry-screen .entry-card{flex:none;max-width:100%;margin:auto}
+/* Result: preserve the established 3 panels, keep controls fully reachable. */
+#weekScene.week-scene:not([hidden]){align-items:flex-start;justify-content:center;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:calc(65px + env(safe-area-inset-top)) 12px calc(18px + env(safe-area-inset-bottom))!important}
+#weekScene .theater-panel,#weekScene .report-scene,#weekScene .working-scene,#weekScene .rescue-scene{width:100%;max-width:490px;flex:none;min-width:0}
+#weekScene .theater-panel .primary-btn,#weekScene #outcomeDetailsToggle{min-height:48px;touch-action:manipulation}
+#weekScene .theater-panel .primary-btn{position:relative;bottom:auto;margin-bottom:6px;box-shadow:none}
+#weekScene #outcomeDetailsPanel:not([hidden]){display:block;position:relative;z-index:3}
+#proposalSheet .proposal-panel,#moneySheet .money-sheet-panel,#statusSheet .status-panel{max-height:calc(100dvh - 18px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:0}
+#proposalSheet .proposal-panel{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+#moneySheet #moneyPanel,#statusSheet .status-content{min-height:0;overflow-y:auto}
+#officeView .theater-portrait{pointer-events:none;image-rendering:auto}
+/* The original 3-panel artwork must never be scaled with pixelated image rendering. */
+#outcomeArt svg,#workingComic svg,#officeView .office-room-art{image-rendering:auto}
+@media (max-height:750px) and (max-width:600px){
+ #app .site-header{padding:5px 10px!important;min-height:38px!important;margin-bottom:5px!important}
+ #officeView .office-hero{height:clamp(82px,18dvh,126px)!important}
+ #voiceView .scene-v211-voice,#recordsView .scene-v211-records{height:78px}
+ #officeView .store-weather-art-v250{min-height:80px}
+ #officeView .store-weather-copy-v250{padding:8px 10px}
+ #titleScreen .title-visual{max-height:clamp(110px,20dvh,190px)}
+}
+@media (max-width:359px){
+ #officeView .store-weather-v250{grid-template-columns:minmax(84px,30%) minmax(0,1fr)}
+ #officeView .store-weather-name-v250{font-size:12px}
+ #officeView .store-weather-detail-v250{font-size:10px}
+ #app.app-shell{padding-inline:8px}
+}
+@media(min-width:851px){
+ #officeView .layout{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:start}
+ #officeView .layout>.main-column,#officeView .layout>.action-column{width:auto}
+ #officeView .store-weather-v250{grid-template-columns:minmax(130px,36%) minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){#officeView .theater-portrait{animation:none!important;transform:none!important}}
+
+/* Compact disclosure for duplicate KPIs. Metric nodes remain live and accessible. */
+#officeView .office-extra-metrics-v290{display:block;margin:5px 0 8px;border:1px solid #b8caba;border-radius:11px;background:#f6f8ef;overflow:visible}
+#officeView .office-extra-metrics-v290>summary{display:flex;align-items:center;min-height:44px;cursor:pointer;padding:9px 13px;color:#34665a;font-size:12px;font-weight:900;touch-action:manipulation}
+#officeView .office-extra-metrics-v290>summary::before{content:"＋";font-size:15px;margin-right:8px}
+#officeView .office-extra-metrics-v290[open]>summary::before{content:"−"}
+#officeView .office-extra-metrics-body-v290{padding:3px 7px 10px;border-top:1px solid #d7e0d4}
+#officeView .office-extra-metrics-body-v290 .store-dashboard{margin:5px 0 10px}
+#officeView .office-extra-metrics-v290[open] .office-extra-metrics-body-v290 .stats-stack{display:flex!important;flex-direction:column;gap:5px;overflow:visible;max-height:none}
+#officeView .office-extra-metrics-body-v290 .stats-card{min-height:0}
+
+/* 320x667 iPhone-class viewport: keep primary CTA entirely above the tab bar.
+ * Limit reductions to decorative art and redundant card spacing, not text.
+ */
+@media(max-width:359px) and (max-height:720px){
+ #officeView .office-hero{height:clamp(76px,13dvh,96px)!important;min-height:0!important}
+ #officeView .office-vitals .play-stat{min-height:54px!important;padding:5px 6px!important}
+ #officeView .layout{gap:4px!important}
+ #officeView .decision-card{padding:7px 9px!important;gap:5px!important}
+ #officeView .office-extra-metrics-v290{margin:2px 0 5px!important}
+}
+
+/* Short 320px iPhones: preserve a fully visible 44pt+ decision CTA.
+ * The header illustration is decorative; the operation button is essential. */
+@media (max-width:359px) and (max-height:750px){
+ #officeView .office-hero{height:76px!important;min-height:76px!important}
+ #officeView .office-hero-heading{font-size:9px;line-height:1.1}
+ #officeView .office-hero-caption{bottom:3px!important}
+ #officeView .office-hero-caption h2{font-size:15px!important;line-height:1.05!important}
+ #officeView .layout{gap:4px!important;padding-bottom:7px!important}
+ #officeView .office-vitals{margin-top:3px!important;gap:4px!important}
+ #officeView .office-extra-metrics-v290{margin:2px 0 4px}
+ #officeView .decision-card{gap:5px!important;padding:7px 9px!important}
+ #officeView .meeting-brief{gap:5px!important}
+}
