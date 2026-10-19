@@ -1,0 +1,31 @@
+{
+  "version": "v2.7.0",
+  "status": "draft",
+  "purpose": "Approved 25 unique transparent game portraits; no concept crops are production assets",
+  "roles": [
+    "you",
+    "boss",
+    "manager",
+    "worker",
+    "customer"
+  ],
+  "moods": [
+    "normal",
+    "happy",
+    "angry",
+    "sad",
+    "panic"
+  ],
+  "minWidth": 1024,
+  "minHeight": 1280,
+  "maxFileBytes": 6291456,
+  "approvedAssets": [],
+  "humanReview": {
+    "identity": false,
+    "expressions": false,
+    "style": false,
+    "anatomy": false,
+    "transparentBackground": false,
+    "phoneLegibility": false
+  }
+}

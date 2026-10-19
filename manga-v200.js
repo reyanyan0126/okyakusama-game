@@ -80,7 +80,7 @@ function art(role,mood,kind,index){
 
 function panel(line,index,kind,tier,all,actionId){
  const who=speaker(line,index,actionId),mood=expression(line,index,tier),label=SPEAKER[who].label;
- return '<article class="manga-panel'+(all?' is-revealed':'')+'" data-panel="'+index+'"'+(all?'':' aria-hidden="true"')+'>'+
+ return '<article class="manga-panel'+(all?' is-revealed':'')+'" data-panel="'+index+'" data-role="'+clean(who)+'" data-mood="'+clean(mood)+'" data-setting="'+clean(kind)+'"'+(all?'':' aria-hidden="true"')+'>'+
   '<div class="manga-visual">'+art(who,mood,kind,index)+'</div>'+
   '<div class="manga-dialogue"><span class="manga-beat">'+String(index+1)+' / 3 · '+clean(label)+'</span>'+
   '<p class="manga-line">'+clean(line)+'</p></div></article>';
