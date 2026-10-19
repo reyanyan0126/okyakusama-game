@@ -45,6 +45,13 @@ try:
     art=page.evaluate("WeekTheater.art('product','joy','work')")
     assert art.count('class="theater-portrait"')>=2,(engine,width,'complete-portrait art')
     assert 'class="arm' not in art and 'class="head' not in art,(engine,width,'legacy procedural figures')
+    # Critical CTA must be visible without first scrolling the office panel.
+    action=page.evaluate("""()=>{
+      const a=document.getElementById('openProposals').getBoundingClientRect();
+      const nav=document.querySelector('.game-nav').getBoundingClientRect();
+      return {top:a.top,bottom:a.bottom,navTop:nav.top,viewport:innerHeight};
+    }""")
+    assert action['top']>=0 and action['bottom']<=min(action['navTop']+1,action['viewport']),(engine,width,'primary action hidden below navigation',action)
     page.locator('#openProposals').click(timeout=6000)
     assert page.locator('#proposalSheet').is_visible()
     page.locator('#closeProposals').click()
