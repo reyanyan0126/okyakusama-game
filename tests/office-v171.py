@@ -27,10 +27,11 @@ with sync_playwright() as p:
     return out;
    }""")
    assert info==[[200,0,10,10],[200,0,25,25]],(engine,width,info)
-   title=page.locator('#titleScreen .new-art-banner-cover .new-art-banner-img')
+   # v2.1.1 replaces the generic bitmap cover with a unique resolution-independent scene.
+   title=page.locator('#titleScreen .scene-v211-cover svg')
    assert title.is_visible()
-   assert title.get_attribute('src').endswith('illustrated-protagonist-thinking-v173.webp')
-   assert title.evaluate('(img)=>img.complete && img.naturalWidth>0')
+   assert title.get_attribute('viewBox')=='0 0 720 350'
+   assert title.locator('use[href*="manga-cast-v200.svg"]').count()==1
    page.locator('#titleStart').click()
    page.locator('#acceptMarket').click()
    page.locator('#prologueSkip').click()
