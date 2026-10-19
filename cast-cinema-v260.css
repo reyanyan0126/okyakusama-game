@@ -1,0 +1,39 @@
+/* v2.6: character expression viewer and single-illustration scene acting.
+ * Never compose or independently transform body parts, hair or facial features.
+ */
+.cast-v220-gallery[open] .cast-v220-grid{grid-template-columns:1fr;gap:13px}
+.cast-v220-gallery .cast-v220-card{display:grid;grid-template-columns:112px minmax(0,1fr);gap:8px 13px;min-height:170px;padding:11px 12px;align-items:center}
+.cast-v220-gallery .cast-v220-card:last-child{grid-column:auto}
+.cast-v220-gallery .cast-v220-picture{width:112px;height:140px;flex:initial;border:1px solid #c4d5c7;border-radius:11px}
+.cast-v220-gallery .cast-v220-portrait{height:100%;width:100%;display:block;image-rendering:auto}
+.cast-v220-gallery .cast-v220-words strong{font-size:16px}
+.cast-v220-gallery .cast-v220-words small{font-size:12px}
+.cast-v220-gallery .cast-v220-words p{font-size:12px}
+.cast-v260-tools{grid-column:1/-1;display:flex;flex-direction:column;gap:7px;border-top:1px solid #e2e3d8;padding-top:9px}
+.cast-v260-caption{font-size:12px;color:#53665e}
+.cast-v260-moods{display:flex;flex-wrap:wrap;gap:6px}
+.cast-v260-mood{appearance:none;min-width:48px;min-height:44px;flex:1 0 calc(20% - 6px);border:1px solid #afc5b6;border-radius:10px;background:#f9faf5;color:#45665a;cursor:pointer;touch-action:manipulation;font-size:12px;line-height:1.2;font-weight:850;padding:7px 3px}
+.cast-v260-mood[aria-pressed="true"]{background:#326a5c;color:#fffef6;border-color:#326a5c;box-shadow:inset 0 0 0 1px #fff9db}
+.cast-v260-mood:focus-visible{outline:3px solid #397bba;outline-offset:2px}
+.cast-v260-current{font-size:11px;color:#63766c}
+@media(min-width:650px){.cast-v220-gallery[open] .cast-v220-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cast-v220-gallery .cast-v220-card{grid-template-columns:98px minmax(0,1fr)}.cast-v220-gallery .cast-v220-picture{width:98px;height:125px}}
+@media(max-width:350px){.cast-v220-gallery .cast-v220-card{grid-template-columns:92px minmax(0,1fr);padding:9px}.cast-v220-gallery .cast-v220-picture{width:92px;height:118px}.cast-v260-mood{flex-basis:calc(33% - 5px);font-size:11px}}
+/* Single-stage animation of the entire previously finished portrait.
+ * This is NOT component animation of limbs, hair or facial parts. */
+@media(prefers-reduced-motion:no-preference){
+ .cast-v220-portrait.cast-v260-switch{animation:cast-v260-switch-in .25s ease-out both!important}
+ @keyframes cast-v260-switch-in{from{opacity:.4;transform:translateY(3px)}to{opacity:1;transform:none}}
+ .manga-panel.is-revealed[data-mood="happy"] .manga-illustrated-person{animation:cast-v260-happy .55s ease-out .12s both}
+ .manga-panel.is-revealed[data-mood="sad"] .manga-illustrated-person{animation:cast-v260-sad .55s ease-out .12s both}
+ .manga-panel.is-revealed[data-mood="angry"] .manga-illustrated-person{animation:cast-v260-angry .43s ease-in-out .12s both}
+ .manga-panel.is-revealed[data-mood="panic"] .manga-illustrated-person{animation:cast-v260-panic .55s ease-in-out .12s both}
+ .manga-panel.is-revealed[data-mood="normal"] .manga-illustrated-person{animation:cast-v260-normal .48s ease-out .12s both}
+ @keyframes cast-v260-happy{0%{opacity:.45;transform:translateY(7px)}65%{opacity:1;transform:translateY(-2px)}100%{transform:translateY(0)}}
+ @keyframes cast-v260-sad{0%{opacity:.45;transform:translateY(-4px)}100%{opacity:1;transform:translateY(2px)}}
+ @keyframes cast-v260-angry{0%{opacity:.5;transform:translateX(4px)}38%{opacity:1;transform:translateX(-3px)}75%{transform:translateX(2px)}100%{transform:none}}
+ @keyframes cast-v260-panic{0%{opacity:.5;transform:translateX(-3px)}30%{opacity:1;transform:translateX(3px)}65%{transform:translateX(-2px)}100%{transform:none}}
+ @keyframes cast-v260-normal{from{opacity:.45;transform:translateY(3px)}to{opacity:1;transform:none}}
+}
+@media(prefers-reduced-motion:reduce){
+ .cast-v220-portrait.cast-v260-switch,.manga-panel.is-revealed .manga-illustrated-person{animation:none!important;transform:none!important;opacity:1!important}
+}
