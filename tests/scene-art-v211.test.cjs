@@ -8,7 +8,7 @@ for(const scene of ['cover','contract','voice','records','decision','ledger','st
  assert(js.includes(' '+scene+':frame('),'unique artwork '+scene);
  assert(css.includes('.scene-v211-'+scene),'scene style '+scene);
 }
-assert(js.includes("office.querySelectorAll('.new-office-person')"));
+assert(!js.includes(".new-office-person"),"legacy person overlay fully removed");
 assert(js.includes("office.classList.add('scene-v211-office')"));
 assert(js.includes("insertAfter(q('#statusSheet .status-head')"));
 assert(js.includes("insertAfter(q('#moneySheet .money-sheet-top')"));
