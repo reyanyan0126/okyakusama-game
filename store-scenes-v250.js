@@ -35,9 +35,10 @@ function create(){
  return {figure,art,use,label,detail};
 }
 function mount(){
- const office=document.querySelector('#officeView .office-hero');
+ const office=document.querySelector('#officeView .decision-card');
  if(!office||document.getElementById('storeWeatherV250'))return;
  const built=create();
+ // Place after the weekly decision actions. Never push primary buttons underneath the sticky bottom nav.
  office.insertAdjacentElement('afterend',built.figure);
  let previous='';
  function refresh(){
