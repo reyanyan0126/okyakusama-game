@@ -74,3 +74,14 @@ html,body{max-width:100%;overscroll-behavior-x:none}
 #officeView .office-extra-metrics-body-v290 .store-dashboard{margin:5px 0 10px}
 #officeView .office-extra-metrics-v290[open] .office-extra-metrics-body-v290 .stats-stack{display:flex!important;flex-direction:column;gap:5px;overflow:visible;max-height:none}
 #officeView .office-extra-metrics-body-v290 .stats-card{min-height:0}
+
+/* 320x667 iPhone-class viewport: keep primary CTA entirely above the tab bar.
+ * Limit reductions to decorative art and redundant card spacing, not text.
+ */
+@media(max-width:359px) and (max-height:720px){
+ #officeView .office-hero{height:clamp(76px,13dvh,96px)!important;min-height:0!important}
+ #officeView .office-vitals .play-stat{min-height:54px!important;padding:5px 6px!important}
+ #officeView .layout{gap:4px!important}
+ #officeView .decision-card{padding:7px 9px!important;gap:5px!important}
+ #officeView .office-extra-metrics-v290{margin:2px 0 5px!important}
+}
