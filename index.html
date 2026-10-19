@@ -11,6 +11,8 @@
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="overhaul-v210.css">
+  <link rel="stylesheet" href="scene-art-v211.css">
   <title>お客様のために。｜経営コンサルゲーム</title>
   <script defer src="stories.js"></script>
   <script defer src="engine.js"></script>
@@ -20,6 +22,8 @@
   <script defer src="manga-v200.js"></script>
   <script defer src="policy-symbols-v173.js"></script>
   <script defer src="app.js"></script>
+  <script defer src="overhaul-v210.js"></script>
+  <script defer src="scene-art-v211.js"></script>
 </head>
 <body>
 <svg class="ui-symbols" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -190,7 +194,7 @@
         <button id="titleResume" class="secondary-btn" type="button" hidden>つづきから <span>→</span></button>
         <button id="titleHelp" class="text-btn" type="button">あそびかた</button>
       </div>
-      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v1.7.3</p>
+      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v2.1.0</p>
     </div>
   </section>
   <section id="contractsScreen" class="entry-screen" aria-label="コンサル依頼一覧" hidden>
@@ -363,7 +367,7 @@
       <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-people"/></svg></span><strong>世論</strong></button>
       <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-bill"/></svg></span><strong>記録</strong></button>
     </nav>
-    <footer>フィクション・2026 お客様のために。 / v1.4.0</footer>
+    <footer>フィクション・2026 お客様のために。 / v2.1.0</footer>
   </div>
 
   <section id="statusSheet" class="status-sheet" role="dialog" aria-modal="true" aria-labelledby="statusTitle" hidden>
@@ -399,7 +403,7 @@
     <button id="weekSceneClose" class="week-scene-close" type="button" aria-label="結果画面を閉じる">閉じる ×</button>
     <div id="shockScene" class="shock-scene" hidden><svg class="shock-art"><use id="shockUse" href="#art-warning"/></svg><span id="shockLabel">緊急速報</span><strong id="shockTitle">事故発生！</strong><p id="shockText">予想外の損失が発生しました</p></div>
     <section id="outcomeScene" class="theater-panel" hidden aria-labelledby="outcomeTitle">
-      <p class="theater-step">02 / 04 · 選んだ施策の結果</p><h2 id="outcomeTitle" tabindex="-1"></h2><p id="outcomePolicy" class="theater-policy"></p><div id="outcomeArt"></div><p id="outcomeText" class="theater-line"></p><div id="outcomeImpact" class="theater-impact"></div><blockquote id="outcomeQuote"></blockquote><details><summary>判定の詳細</summary><p id="outcomeOdds"></p></details><button id="outcomeNext" class="primary-btn" type="button">続きを見る →</button>
+      <p class="theater-step">02 / 04 · 選んだ施策の結果</p><h2 id="outcomeTitle" tabindex="-1"></h2><p id="outcomePolicy" class="theater-policy"></p><div id="outcomeArt"></div><p id="outcomeText" class="theater-line"></p><div id="outcomeImpact" class="theater-impact"></div><blockquote id="outcomeQuote"></blockquote><button type="button" id="outcomeDetailsToggle" class="theater-detail-toggle" aria-expanded="false" aria-controls="outcomeDetailsPanel">判定の詳細を見る</button><div id="outcomeDetailsPanel" class="theater-detail-panel" hidden><p id="outcomeOdds"></p></div><button id="outcomeNext" class="primary-btn" type="button">続きを見る →</button>
     </section>
     <section id="newsScene" class="theater-panel" hidden aria-labelledby="newsTitle">
       <p id="newsStep" class="theater-step">03 / 04 · 臨時ニュース</p><h2 id="newsTitle" tabindex="-1"></h2><div id="newsArt"></div><p id="newsText" class="theater-line"></p><div id="newsDecision"></div><button id="newsNext" class="primary-btn" type="button">決算を見る →</button>

@@ -48,17 +48,17 @@ with sync_playwright() as p:
    assert page.locator('#workingComic .manga-panel.is-revealed').count()>=1
    assert page.locator('#workingComic .manga-panel[aria-hidden="true"]').count()<=2
    assert page.evaluate("""async()=>{
-    const nodes=[...document.querySelectorAll('#workingComic .manga-painted-character image')];
+    const nodes=[...document.querySelectorAll('#workingComic .manga-illustrated-person use')];
     if(nodes.length!==3)return false;
-    return (await Promise.all(nodes.map(async node=>{
-     const href=node.getAttribute('href');
-     if(!href.includes('manga-painted-cast-v173.webp'))return false;
-     const image=new Image();image.src=href;
-     await image.decode();
-     const box=node.getBoundingClientRect();
-     return image.naturalWidth>0 && image.naturalHeight>0 && box.width>0 && box.height>0;
-    }))).every(Boolean);
-   }"""),(name,width,'painted portraits must decode and occupy visible space')
+    const links=nodes.map(node=>node.getAttribute('href'));
+    if(!links.every(link=>link && link.includes('.svg#')))return false;
+    const paths=[...new Set(links.map(link=>link.split('#')[0]))];
+    const valid=await Promise.all(paths.map(async path=>{
+     const res=await fetch(path),doc=new DOMParser().parseFromString(await res.text(),'image/svg+xml');
+     return res.ok && doc.querySelectorAll('parsererror').length===0;
+    }));
+    return valid.every(Boolean);
+   }"""),(name,width,'complete vector portraits must be available')
    page.wait_for_timeout(1260)
    assert page.locator('#workingComic .manga-panel.is-revealed').count()>=2
    page.wait_for_timeout(1240)

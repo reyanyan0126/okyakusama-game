@@ -60,20 +60,21 @@ function sceneKey(id,setting){
  return 'shop';
 }
 function art(role,mood,kind,index){
- const s=SCENES[kind]||SCENES.shop;
+ const scene=SCENES[kind]||SCENES.shop;
  const data=SPEAKER[role]||SPEAKER.manager;
  const emotion=(moodMap[role]||moodMap.manager)[mood]||'normal';
- const bg=s.bg[index%3];
- // Every person below is one crop of a finished painted character; CSS never creates anatomy.
+ const bg=scene.bg[index%3];
+ // Render complete, independent 100x120 SVG character illustrations at any display density.
+ // v1.7.3 raster atlas allocated only 90x126 source pixels to each actor; avoid upscaling it.
  return '<svg class="manga-picture" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100" preserveAspectRatio="xMinYMid slice" role="img" aria-label="'+
-  clean(data.label+'の完成イラスト。'+kind+'の場面')+'"><rect width="160" height="100" fill="'+bg+'"/>'+
-  '<path d="M0 80H160" stroke="'+s.accent+'" opacity=".5" stroke-width="7"/>'+
-  s.prop+
-  '<path d="M8 88Q32 80 73 88" fill="none" stroke="#6a5546" stroke-width="2" opacity=".3"/>'+
-  '<svg class="manga-painted-character" x="2" y="-9" width="99" height="118" viewBox="'+(CAST_COLUMNS[role]??CAST_COLUMNS.manager)*CAST_WIDTH+' 0 '+CAST_WIDTH+' '+CAST_HEIGHT+'" preserveAspectRatio="xMidYMid slice" overflow="hidden" aria-hidden="true">'+
-  '<image href="'+PAINTED_CAST+'" x="0" y="0" width="'+(CAST_WIDTH*5)+'" height="'+CAST_HEIGHT+'" preserveAspectRatio="none"></image></svg>'+
-  '<rect x="2" y="2" width="156" height="96" rx="2" fill="none" stroke="#3e3735" stroke-width="2" opacity=".23"/></svg>';
+  clean(data.label+'・'+emotion+'。'+kind+'の場面')+'"><rect width="160" height="100" fill="'+bg+'"/>'+
+  '<path d="M0 80H160" stroke="'+scene.accent+'" opacity=".42" stroke-width="7"/>'+
+  scene.prop+
+  '<svg class="manga-illustrated-person" x="1" y="-9" width="101" height="121" viewBox="0 0 100 120" preserveAspectRatio="xMidYMid meet" overflow="hidden" aria-hidden="true">'+
+  '<use href="'+data.base+emotion+'"></use></svg>'+
+  '<rect x="2" y="2" width="156" height="96" rx="2" fill="none" stroke="#3e3735" stroke-width="1.5" opacity=".19"/></svg>';
 }
+
 function panel(line,index,kind,tier,all,actionId){
  const who=speaker(line,index,actionId),mood=expression(line,index,tier),label=SPEAKER[who].label;
  return '<article class="manga-panel'+(all?' is-revealed':'')+'" data-panel="'+index+'"'+(all?'':' aria-hidden="true"')+'>'+

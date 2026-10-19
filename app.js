@@ -635,6 +635,9 @@ function showOutcome(){
  const impact=h.actionImpact;
  $('outcomeImpact').innerHTML=impact?[['評判',impact.rep],['満足度',impact.sat],['炎上度',impact.fire]].map(([label,n])=>`<div><span>${label}</span><strong class="${n<0?'down':label==='炎上度'?'flat':'up'}">${sign(n)}</strong></div>`).join(''):'<p>この記録には施策単独の増減がありません。週全体の数字は決算で確認できます。</p>';
  $('outcomeQuote').textContent=h.storyEvent?.quote||(tier==='failure'?'店長「うまくいかなかった。でも、次の手は一緒に考えます」':(game.cast?.manager||0)<-10?'店長「成果は出ました。現場の声にも耳を傾けてください」':tier==='great'?'店長「みんな、よくやってくれました！」':'店長「一つずつ、立て直していきましょう」');
+ // The detailed odds are intentionally hidden on every new outcome, independently of prior rounds.
+ $('outcomeDetailsToggle').setAttribute('aria-expanded','false');
+ $('outcomeDetailsPanel').hidden=true;
  const odds=h.performanceOdds;
  $('outcomeOdds').textContent=odds?`失敗 ${odds.failure}%・成功 ${odds.success}%・大成功 ${odds.great}%。効果倍率 ${h.performanceMultiplier}倍。費用は通常どおり。臨時ニュースは別判定です。`:'旧バージョンの記録です。';
  $('outcomeNext').textContent=T.news(h,G).length?'臨時ニュースへ →':'今週の決算へ →';
@@ -875,6 +878,12 @@ function setup(){
  $('actions').addEventListener('click',event=>{const button=event.target.closest('[data-id]');if(!button||button.disabled||game.finished)return;game.selected=button.dataset.id;save();renderActions();});
  $('advanceButton').addEventListener('click',startWeek);
  $('workingSkip').addEventListener('click',showOutcome);
+ $('outcomeDetailsToggle').addEventListener('click',()=>{
+  const toggle=$('outcomeDetailsToggle'),panel=$('outcomeDetailsPanel');
+  const willOpen=toggle.getAttribute('aria-expanded')!=='true';
+  toggle.setAttribute('aria-expanded',String(willOpen));panel.hidden=!willOpen;
+  if(willOpen)panel.scrollIntoView({block:'nearest',behavior:'auto'});
+ });
  $('outcomeNext').addEventListener('click',()=>{if($('outcomeScene').hidden)return;newsIndex=0;renderNews();});
  $('newsNext').addEventListener('click',()=>{if($('newsScene').hidden||$('newsNext').disabled)return;newsIndex++;renderNews();});
  $('officeStoreMoney').addEventListener('click',()=>openMoney('store',$('officeStoreMoney')));
@@ -898,6 +907,7 @@ function setup(){
   let lastTap=0;
   panel.addEventListener('touchend',event=>{
    const now=Date.now();
+   if(event.target.closest('button,summary,details,input,select,textarea,a,label')){lastTap=0;return;}
    if(now-lastTap<310&&event.touches.length===0&&event.changedTouches.length===1){event.preventDefault();lastTap=0;}
    else lastTap=now;
   },{passive:false});

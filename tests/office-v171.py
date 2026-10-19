@@ -27,9 +27,11 @@ with sync_playwright() as p:
     return out;
    }""")
    assert info==[[200,0,10,10],[200,0,25,25]],(engine,width,info)
-   title=page.locator('.title-cinema-svg use')
-   assert title.get_attribute('href').endswith('#office-title')
-   assert page.evaluate("document.querySelector('.title-cinema-svg use').getBBox().width")>0
+   # v2.1.1 replaces the generic bitmap cover with a unique resolution-independent scene.
+   title=page.locator('#titleScreen .scene-v211-cover svg')
+   assert title.is_visible()
+   assert title.get_attribute('viewBox')=='0 0 720 350'
+   assert title.locator('use[href*="manga-cast-v200.svg"]').count()==1
    page.locator('#titleStart').click()
    page.locator('#acceptMarket').click()
    page.locator('#prologueSkip').click()
