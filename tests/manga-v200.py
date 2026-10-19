@@ -33,13 +33,35 @@ try:
      assert external=={'status':200,'errors':0,'symbols':15},(browser_name,width,external)
      painted=page.evaluate("""async()=>{const r=await fetch('./assets/manga-painted-cast-v173.webp');return {status:r.status,size:(await r.arrayBuffer()).byteLength}}""")
      assert painted['status']==200 and painted['size']>4000,(browser_name,width,painted)
+     # Each surface has its own illustrated scene, not a repeated protagonist bitmap.
+     assert page.locator('#titleScreen .scene-v211-cover').is_visible()
+     assert page.locator('#titleScreen .scene-v211-cover svg').count()==1
      page.locator('#titleStart').click()
+     assert page.locator('#contractsScreen .scene-v211-contract').is_visible()
      page.locator('#acceptMarket').click()
+     assert page.locator('#prologuePainting .v211-story-item use').count()==1
+     page.locator('#prologueNext').click()
+     assert page.locator('#prologuePainting .v211-story-item use').get_attribute('href')=='#art-home'
      page.locator('#prologueSkip').click()
      page.locator('#firstWeekStart').click()
+     assert page.locator('#officeView .scene-v211-office').is_visible()
+     assert page.locator('#officeView .new-office-person').count()==0
+     # Check both sheets and all three main tabs in real Chromium/WebKit.
+     page.locator('#openStatusSheet').click()
+     assert page.locator('#statusSheet .scene-v211-status').is_visible()
+     page.locator('#statusClose').click()
+     page.locator('#officeStoreMoney').click()
+     assert page.locator('#moneySheet .scene-v211-money').is_visible()
+     page.locator('#moneyClose').click()
+     page.locator('.game-tab[data-screen="voice"]').click()
+     assert page.locator('#voiceView .scene-v211-voice').is_visible()
+     page.locator('.game-tab[data-screen="records"]').click()
+     assert page.locator('#recordsView .scene-v211-records').is_visible()
+     page.locator('.game-tab[data-screen="office"]').click()
      if browser_name=='chromium' and width==390 and motion=='no-preference':
       page.locator('#officeView').screenshot(path=str(visuals/'office-390.png'))
      page.locator('#openProposals').click()
+     assert page.locator('#proposalSheet .scene-v211-decision').is_visible()
      page.locator('#advanceButton').click()
      before=page.evaluate("""()=>{
        const s=JSON.parse(localStorage.getItem('okyakusama.save.v1'));
