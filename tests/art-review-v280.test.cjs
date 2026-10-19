@@ -18,6 +18,7 @@ assert(js.includes("reviewOnly:true"),'exports remain proposals, not publication
 assert(js.includes("version:'v2.8.0',status:'draft'"),'never export release-ready status');
 assert(js.includes('approvedAssets:[]')&&js.includes('proposedAssets:'),'suggestions and approvals must remain separate');
 assert(js.includes('reviewItems,')&&js.includes('checks:Object.fromEntries'),'review file retains per-image checklist without publication approval');
+assert(js.includes("crypto.subtle.digest('SHA-256'")&&js.includes('sha256:t.sha256'),'candidate review tied to exact image bytes');
 assert(js.includes('humanReview:Object.fromEntries(FLAGS.map(([id])=>[id,false]))'),'review export must not assert final human approval');
 assert(!js.includes('fetch(')&&!js.includes('XMLHttpRequest')&&!js.includes('navigator.sendBeacon'),'never upload user previews');
 assert(!js.includes('localStorage')&&!js.includes('GameEngine.play('),'never touch games or saves');
