@@ -17,7 +17,7 @@ assert(app.includes('prologuePaintedPerson'),'prologue switches actual painted a
 assert(css.includes('grid-template-columns:repeat(2,minmax(0,1fr))!important'));
 assert(css.includes('#prologuePaintedPerson'));
 assert(css.includes('.policy-symbol'));
-assert(sw.includes('okyakusama-v2.6.0-cast-cinema-cache-1'));
+assert(sw.includes('okyakusama-v2.9.0-figure-removal-mobile-layout-cache-1'));
 for(const icon of ids)assert(symbols.includes('id="icon-'+icon+'"'));
 const story=G.STORIES.POLICIES;
 assert.equal(story.length,24);
@@ -31,22 +31,17 @@ assert.equal(PolicySymbols.key('fix_equipment'),'wrench');
 assert.equal(PolicySymbols.key('fix_people'),'people');
 assert.equal(PolicySymbols.key('fix_fans'),'heart');
 assert(!PolicySymbols.markup('quality').includes('<script'));
-for(const name of [
- 'illustrated-protagonist-v173.webp',
- 'illustrated-protagonist-thinking-v173.webp',
- 'illustrated-protagonist-determined-v173.webp']){
- const b=fs.readFileSync(path.join(__dirname,'../assets',name));
- assert(b.length>1000,'image contains substantial bitmap content '+name);
- assert.equal(b.toString('ascii',0,4),'RIFF');
- assert.equal(b.toString('ascii',8,12),'WEBP');
- assert.equal(b.toString('ascii',12,16),'VP8 ','painted asset is decodable lossy WebP: '+name);
- const imageWidth=b.readUInt16LE(26)&0x3fff;
- const imageHeight=b.readUInt16LE(28)&0x3fff;
- assert(imageWidth>=190 && imageHeight>=220,
-   'reject incomplete tiny face cutouts; expect full bust artwork '+name+' '+imageWidth+'x'+imageHeight);
-
- assert(sw.includes('./assets/'+name),'painted artwork cached for offline '+name);
+const prologue=file('app.js');
+assert(html.includes('<svg id="prologuePaintedPerson"'));
+assert(html.includes('#manga-you-normal'));
+assert(prologue.includes("const frames=['normal','sad','panic','angry','sad','happy','panic']"));
+assert(prologue.includes("querySelector('use').setAttribute('href','./assets/manga-cast-v200.svg#manga-you-'"));
+const finished=file('assets/manga-cast-v200.svg');
+for(const mood of ['normal','happy','angry','sad','panic']){
+ assert(finished.includes('<symbol id="manga-you-'+mood+'"'),'whole-character SVG expression '+mood);
 }
+assert(sw.includes("'./assets/manga-cast-v200.svg'"));
+
 const s=G.initial(1024),before=JSON.stringify(s);
 const four=G.weeklyOffers(s);
 assert.equal(four.length,4);

@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),G=require('../engine.js'),T=require('../scene.js').theater;
 const ids=['arc_register_boss','arc_staff_robot','arc_bento_real','arc_bento_camera','arc_staff_listen','arc_festival_parade','arc_media_open','arc_finale_steal'];
 assert.equal(new Set(ids.map(T.setting)).size,8);
-for(const role of ['boss','manager','you','worker','customer'])for(const mood of ['normal','joy','worry','anger','down'])assert(T.person(role,0,0,mood).includes('mood-'+mood));
+for(const role of ['boss','manager','you','worker','customer'])for(const mood of ['normal','joy','worry','anger','down']){const portrait=T.person(role,0,0,mood);const corresponding={normal:'normal',joy:'happy',worry:'panic',anger:'angry',down:'sad'}[mood];assert(portrait.includes('class="theater-portrait"'));assert(portrait.includes('-'+corresponding+'"'));assert(portrait.includes('<use href="./assets/'));assert(!portrait.includes('class="arm'));}
 const seen=new Set(), impacts={};
 for(let seed=1;seed<500;seed++){
  const state=G.play(G.initial(seed),'quality'),h=state.lastResult;

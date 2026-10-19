@@ -30,10 +30,10 @@ try:
     seen=set()
     for n in range(7):
      assert page.locator('#prologueCounter').inner_text()==f'{n+1:02d} / 07'
-     page.wait_for_function("""()=>{const img=document.querySelector('#prologuePaintedPerson');return img&&img.complete&&img.naturalWidth>0;}""",timeout=8000)
+     page.wait_for_function("""()=>{const svg=document.querySelector('#prologuePaintedPerson');return svg&&svg.querySelector('use')&&svg.getBoundingClientRect().width>0;}""",timeout=8000)
      loaded=page.evaluate("""()=>({
-      name:document.querySelector('#prologuePaintedPerson').src.split('/').pop(),
-      okay:document.querySelector('#prologuePaintedPerson').complete&&document.querySelector('#prologuePaintedPerson').naturalWidth>0,
+      name:document.querySelector('#prologuePaintedPerson use').getAttribute('href').split('#').pop(),
+      okay:document.querySelector('#prologuePaintedPerson use').getAttribute('href').startsWith('./assets/manga-cast-v200.svg#'),
       hiddenLegacy:getComputedStyle(document.querySelector('.prologue-art-v160')).opacity==='0',
       w:document.querySelector('#prologuePaintedPerson').getBoundingClientRect().width
      })""")
@@ -44,7 +44,7 @@ try:
      if browser_name=='chromium' and width==390 and n==0:
       page.locator('#prologueIllustration').screenshot(path=str(ARTIFACTS/'prologue-illustrated-390.png'))
      if n<6:page.locator('#prologueNext').click()
-    assert len(seen)==3,seen
+    assert len(seen)==5,seen
     page.locator('#prologueSkip').click()
     page.locator('#firstWeekStart').click()
     page.locator('#openProposals').click()

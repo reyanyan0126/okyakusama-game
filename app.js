@@ -83,10 +83,7 @@ function renderPrologue(){
  $('prologueArt').setAttribute('href','./assets/prologue-v160.svg#prologue-'+illustrationStep);
  $('prologueArt').setAttribute('x','0');$('prologueArt').setAttribute('y','0');
  $('prologueArt').setAttribute('width','720');$('prologueArt').setAttribute('height','420');
- const frames=['illustrated-protagonist-v173.webp','illustrated-protagonist-thinking-v173.webp',
-   'illustrated-protagonist-thinking-v173.webp','illustrated-protagonist-determined-v173.webp',
-   'illustrated-protagonist-v173.webp','illustrated-protagonist-determined-v173.webp',
-   'illustrated-protagonist-thinking-v173.webp'];
+ const frames=['normal','sad','panic','angry','sad','happy','panic'];
  const visualCaptions=[
   ['最後の28,000円','残高 28,000円','家賃74,000円・光熱費18,400円'],
   ['請求書の山','仕事はゼロ','支払いだけが待っている'],
@@ -96,7 +93,7 @@ function renderPrologue(){
   ['決断のとき','店を変える','ごまかさず、考える'],
   ['契約書の影','誰のための改革？','あなたが選ぶ30週間']
  ];
- $('prologuePaintedPerson').src='./assets/'+frames[prologueStep];
+ $('prologuePaintedPerson').querySelector('use').setAttribute('href','./assets/manga-cast-v200.svg#manga-you-'+frames[prologueStep]);
  $('prologuePaintedStage').textContent=String(prologueStep+1).padStart(2,'0')+' / 07　'+visualCaptions[prologueStep][0];
  $('prologuePaintedHeading').textContent=visualCaptions[prologueStep][1];
  $('prologuePaintedDetail').textContent=visualCaptions[prologueStep][2];
