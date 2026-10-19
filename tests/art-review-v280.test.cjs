@@ -12,6 +12,7 @@ assert.deepEqual(data.moods,['normal','happy','angry','sad','panic']);
 assert(js.includes("window.PortraitReviewV280=API"));
 assert(js.includes("img.naturalWidth")&&js.includes('MAX_BYTES=6*1024*1024'));
 assert(js.includes('Math.abs(ratio-0.8)>0.06'));
+assert(js.includes('hasTransparentBackground(img)')&&js.includes('getImageData(0,0,32,40)'),'actual pixel alpha, not just file extension');
 assert(js.includes('imageValid:true')===false,'image approval requires runtime dimension check');
 assert(js.includes("reviewOnly:true"),'exports remain proposals, not publication state');
 assert(!js.includes('fetch(')&&!js.includes('XMLHttpRequest')&&!js.includes('navigator.sendBeacon'),'never upload user previews');
