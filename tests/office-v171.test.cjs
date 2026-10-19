@@ -24,7 +24,7 @@ assert(js.includes('drawing.innerHTML=\'<use href="./assets/office-cinema-v171.s
 assert(js.includes("Math.floor((Math.max(1,s.week)-1)/4)%locals.length"));
 assert(js.includes("portrait-'+portrait+'-'+mood"));
 assert(styles.includes('.title-cinema-svg'));
-assert(sw.includes('okyakusama-v2.10.0-character-gallery-review-cache-1'));
+assert(sw.includes('okyakusama-v2.10.1-original-art-preview-cache-1'));
 assert(sw.includes('assets/portraits-v171.svg'));
 assert(sw.includes('assets/office-cinema-v171.svg'));
 for(const [state,expect] of [
