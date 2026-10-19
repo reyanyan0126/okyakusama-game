@@ -40,6 +40,7 @@ jobs:
           node scripts/audit-cast-art-v270.cjs
           node tests/audit-cast-art-v270.test.cjs
           node tests/art-review-v280.test.cjs
+          node tests/art-review-handoff-v300.test.cjs
       - name: Verify removal of procedural people and viewport safe areas
         run: node tests/layout-repair-v290.test.cjs
       - name: Run Node game tests
