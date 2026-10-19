@@ -20,6 +20,10 @@ for(const file of ['manga-cast-v200.svg','portraits-v171.svg'])assert(read('asse
 for(const file of ['layout-repair-v290.css']){assert(html.includes(file));assert(sw.includes("'./"+file+"'"));}
 assert(sw.includes('okyakusama-v2.9.0-figure-removal-mobile-layout-cache-1'));
 assert(css.includes('#officeView.view-panel{display:block!important;overflow-y:auto!important'));
+assert(html.includes('office-compact-v290.js'));
+assert(sw.includes("'./office-compact-v290.js'"));
+assert(require('../office-compact-v290.js').mount);
+assert(css.includes('#officeView .office-extra-metrics-v290>summary'));
 assert(css.includes('#officeView .store-weather-v250{max-width:100%;display:grid'));
 assert(css.includes('#weekScene.week-scene:not([hidden])'));
 assert(css.includes('#outcomeDetailsPanel:not([hidden])'));
