@@ -29,7 +29,7 @@ function mount(){
  if(title){title.replaceChildren(makeScene('cover','開店前の商店と経営コンサルタントの情景'));title.classList.remove('v210-illustrated-cover')}
  const contract=q('#contractsScreen .contract-item.available');
  if(contract){const old=contract.querySelector('.new-art-banner');if(old)old.remove();contract.insertBefore(makeScene('contract','再建が必要な店と依頼書'),contract.firstChild)}
- const office=q('#officeView .office-hero');if(office){office.querySelectorAll('.new-office-person').forEach(n=>n.remove());office.classList.add('scene-v211-office')}
+ const office=q('#officeView .office-hero');if(office){office.classList.add('scene-v211-office')}
  const viewScene=(sel,kind,label)=>{const heading=q(sel+' .scene-heading');const old=heading?.nextElementSibling;if(old?.classList.contains('new-art-banner'))old.remove();insertAfter(heading,makeScene(kind,label))};
  viewScene('#voiceView','voice','常連客・店長・買い物客の三者三様の声');
  viewScene('#recordsView','records','数字を記録した経営帳簿と売上グラフ');
