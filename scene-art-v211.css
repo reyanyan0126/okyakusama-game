@@ -1,0 +1,37 @@
+/* v2.1.1: unique scene illustrations for non-outcome screens; no CSS-drawn anatomy. */
+.scene-v211{position:relative;display:block;overflow:hidden;border:2px solid #618679;border-radius:16px;background:#dce9df;box-shadow:3px 4px 0 #d1c5af;isolation:isolate;}
+.scene-v211>svg{display:block;width:100%;height:100%;object-fit:cover;}
+#titleScreen .title-visual .scene-v211-cover{height:100%;border:0;border-radius:12px;box-shadow:none;}
+#titleScreen .title-visual{background:#ebdbb9!important;}
+#contractsScreen .scene-v211-contract{width:100%;height:142px;grid-column:1/-1;margin-bottom:5px;flex:1 0 100%;}
+#contractsScreen .contract-item.available{flex-wrap:wrap;}
+#officeView .scene-v211-office .office-room-art{opacity:1!important;filter:none!important;}
+#officeView .scene-v211-office .office-hero-caption{max-width:65%;z-index:2;}
+#officeView .scene-v211-office .office-hero-heading{z-index:3;}
+#voiceView .scene-v211-voice,#recordsView .scene-v211-records{height:148px;margin:0 0 16px;}
+#proposalSheet .scene-v211-decision{height:86px;margin:5px 0 10px;border-width:1px;box-shadow:none;border-radius:10px;}
+#proposalSheet .scene-v211-decision svg{object-position:center;}
+#reportScene .scene-v211-ledger{height:120px;margin-bottom:16px;box-shadow:none;}
+#statusSheet .scene-v211-status,#moneySheet .scene-v211-money{height:96px;margin:6px 15px 12px;border-width:1px;box-shadow:none;border-radius:10px;}
+#rescueScene .scene-v211-rescue{height:114px;margin:10px 0;border-color:#b37661;box-shadow:none;}
+#voiceView .new-art-banner,#recordsView .new-art-banner,#reportScene .new-art-banner{display:none!important;}
+#officeView .new-office-person{display:none!important;}
+.v211-story-item{position:absolute;right:3%;top:4%;z-index:6;width:48px;height:48px;padding:8px;border-radius:14px;background:#fff9efed;border:2px solid #718a76;box-shadow:2px 2px 0 #77665060;pointer-events:none;}
+.v211-story-item svg{width:100%;height:100%;display:block;}
+#prologuePainting .v211-story-item{opacity:.95;}
+#outcomeScene .theater-detail-toggle{position:relative;z-index:10;min-height:52px;touch-action:manipulation;}
+#outcomeDetailsPanel:not([hidden]){position:relative;z-index:10;padding:15px;border:1px solid #a7c2ae;border-radius:9px;background:#fdfaf1;}
+#outcomeDetailsPanel p{font-size:15px;line-height:1.75;}
+@media(max-width:390px){
+ #voiceView .scene-v211-voice,#recordsView .scene-v211-records{height:132px}
+ #contractsScreen .scene-v211-contract{height:119px}
+ #reportScene .scene-v211-ledger{height:105px}
+ #statusSheet .scene-v211-status,#moneySheet .scene-v211-money{height:78px;margin:4px 10px 9px}
+ #proposalSheet .scene-v211-decision{height:72px}
+ .v211-story-item{width:38px;height:38px;padding:5px}
+}
+@media(prefers-reduced-motion:no-preference){
+ .scene-v211{animation:v211-scene-enter .35s ease-out both}
+ @keyframes v211-scene-enter{from{opacity:.7;transform:translateY(5px)}to{opacity:1;transform:none}}
+}
+@media(prefers-reduced-motion:reduce){.scene-v211{animation:none!important}}
