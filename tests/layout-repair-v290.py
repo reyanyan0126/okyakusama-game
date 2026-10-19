@@ -45,6 +45,8 @@ try:
     art=page.evaluate("WeekTheater.art('product','joy','work')")
     assert art.count('class="theater-portrait"')>=2,(engine,width,'complete-portrait art')
     assert 'class="arm' not in art and 'class="head' not in art,(engine,width,'legacy procedural figures')
+    # Check from the original, unscrolled office position, not after opening details.
+    page.evaluate("document.querySelector('#officeView').scrollTop=0")
     # Critical CTA must be visible without first scrolling the office panel.
     action=page.evaluate("""()=>{
       const a=document.getElementById('openProposals').getBoundingClientRect();
