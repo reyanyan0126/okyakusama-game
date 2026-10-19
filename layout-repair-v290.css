@@ -99,3 +99,7 @@ html,body{max-width:100%;overscroll-behavior-x:none}
  #officeView .decision-card{gap:5px!important;padding:7px 9px!important}
  #officeView .meeting-brief{gap:5px!important}
 }
+
+/* v2.10 optional gallery entry: visible, thumb-friendly link within title actions */
+.entry-actions a.cast-gallery-link{display:flex;justify-content:center;align-items:center;min-height:44px;line-height:1.5;border-radius:10px;text-align:center;color:#346c5b;text-decoration:underline;text-underline-offset:3px}
+.entry-actions a.cast-gallery-link:focus-visible{outline:3px solid #3982b0;outline-offset:2px}
