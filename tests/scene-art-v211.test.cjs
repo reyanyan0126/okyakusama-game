@@ -3,7 +3,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 const dir=path.join(__dirname,'..'),read=p=>fs.readFileSync(path.join(dir,p),'utf8');
 const html=read('index.html'),js=read('scene-art-v211.js'),css=read('scene-art-v211.css'),sw=read('sw.js');
 for(const file of ['scene-art-v211.js','scene-art-v211.css']){assert(html.includes(file),'document includes '+file);assert(sw.includes("'./"+file+"'"),'offline caches '+file);}
-assert(sw.includes('okyakusama-v2.10.0-character-gallery-review-cache-1'));
+assert(sw.includes('okyakusama-v2.10.1-original-art-preview-cache-1'));
 for(const scene of ['cover','contract','voice','records','decision','ledger','status','money','rescue']){
  assert(js.includes(' '+scene+':frame('),'unique artwork '+scene);
  assert(css.includes('.scene-v211-'+scene),'scene style '+scene);
