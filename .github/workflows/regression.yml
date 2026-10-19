@@ -38,6 +38,7 @@ jobs:
         run: |
           node scripts/audit-cast-art-v270.cjs
           node tests/audit-cast-art-v270.test.cjs
+          node tests/art-review-v280.test.cjs
       - name: Run Node game tests
         run: |
           for test in tests/crisis-v100.test.cjs tests/four-choice-v110.test.cjs tests/outcome-v120.test.cjs tests/story-v130.test.cjs tests/theater-v140.test.cjs tests/storyboards-v150.test.cjs tests/art-v160.test.cjs tests/cast-layout-v161.test.cjs tests/cinema-v170.test.cjs tests/office-v171.test.cjs tests/onboarding-v101.test.cjs tests/ui-smoke.test.cjs tests/v099-campaign.test.cjs tests/finance-v094.test.cjs tests/v095-rootcause.test.cjs; do echo "RUNNING $test"; timeout 45s node "$test"; done
@@ -54,6 +55,7 @@ jobs:
           python tests/manga-v200.py
           python tests/cast-direction-v220.py
           python tests/cast-cinema-v260.py
+          python tests/art-review-v280.py
           python tests/decision-ledger-v230.py
           python tests/store-scenes-v250.py
           python tests/office-v171.py
