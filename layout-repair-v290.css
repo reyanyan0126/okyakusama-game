@@ -64,3 +64,13 @@ html,body{max-width:100%;overscroll-behavior-x:none}
  #officeView .store-weather-v250{grid-template-columns:minmax(130px,36%) minmax(0,1fr)}
 }
 @media(prefers-reduced-motion:reduce){#officeView .theater-portrait{animation:none!important;transform:none!important}}
+
+/* Compact disclosure for duplicate KPIs. Metric nodes remain live and accessible. */
+#officeView .office-extra-metrics-v290{display:block;margin:5px 0 8px;border:1px solid #b8caba;border-radius:11px;background:#f6f8ef;overflow:visible}
+#officeView .office-extra-metrics-v290>summary{display:flex;align-items:center;min-height:44px;cursor:pointer;padding:9px 13px;color:#34665a;font-size:12px;font-weight:900;touch-action:manipulation}
+#officeView .office-extra-metrics-v290>summary::before{content:"＋";font-size:15px;margin-right:8px}
+#officeView .office-extra-metrics-v290[open]>summary::before{content:"−"}
+#officeView .office-extra-metrics-body-v290{padding:3px 7px 10px;border-top:1px solid #d7e0d4}
+#officeView .office-extra-metrics-body-v290 .store-dashboard{margin:5px 0 10px}
+#officeView .office-extra-metrics-body-v290 .stats-stack{display:flex;flex-direction:column;gap:5px;overflow:visible;max-height:none}
+#officeView .office-extra-metrics-body-v290 .stats-card{min-height:0}
