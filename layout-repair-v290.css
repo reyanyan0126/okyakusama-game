@@ -85,3 +85,17 @@ html,body{max-width:100%;overscroll-behavior-x:none}
  #officeView .decision-card{padding:7px 9px!important;gap:5px!important}
  #officeView .office-extra-metrics-v290{margin:2px 0 5px!important}
 }
+
+/* Short 320px iPhones: preserve a fully visible 44pt+ decision CTA.
+ * The header illustration is decorative; the operation button is essential. */
+@media (max-width:359px) and (max-height:750px){
+ #officeView .office-hero{height:76px!important;min-height:76px!important}
+ #officeView .office-hero-heading{font-size:9px;line-height:1.1}
+ #officeView .office-hero-caption{bottom:3px!important}
+ #officeView .office-hero-caption h2{font-size:15px!important;line-height:1.05!important}
+ #officeView .layout{gap:4px!important;padding-bottom:7px!important}
+ #officeView .office-vitals{margin-top:3px!important;gap:4px!important}
+ #officeView .office-extra-metrics-v290{margin:2px 0 4px}
+ #officeView .decision-card{gap:5px!important;padding:7px 9px!important}
+ #officeView .meeting-brief{gap:5px!important}
+}
