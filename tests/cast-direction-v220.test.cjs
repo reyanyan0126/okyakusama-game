@@ -32,7 +32,7 @@ assert(!css.includes('.arm')&&!css.includes('.hair')&&!css.includes('.face'));
 assert(html.indexOf('cast-director-v220.js')<html.indexOf('manga-v200.js'),'cast registry loaded first');
 for(const asset of ['cast-director-v220.js','cast-director-v220.css'])
  assert(sw.includes("'./"+asset+"'"));
-assert(sw.includes('okyakusama-v2.2.0-cast-foundation-cache-1'));
+assert(sw.includes('okyakusama-v2.4.0-review-preview-cache-1'));
 const s=G.initial(9441),before=JSON.stringify(s);
 for(const action of G.weeklyOffers(s)){Manga.markup(action.id,['店長「頑張ろう！」','従業員「失敗だ！」','常連「困ったね」'],{setting:'shop'});}
 assert.equal(JSON.stringify(s),before,'display only: game state is unchanged');
