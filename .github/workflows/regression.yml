@@ -53,13 +53,13 @@ jobs:
           python -m playwright install --with-deps chromium webkit
       - name: Test first-run tutorial, resume and four-choice policies and dashboard
         run: |
+          python tests/layout-repair-v290.py
           python tests/illustration-v173.py
           python tests/manga-v200.py
           python tests/cast-direction-v220.py
           python tests/cast-cinema-v260.py
           python tests/decision-ledger-v230.py
           python tests/store-scenes-v250.py
-          python tests/layout-repair-v290.py
           python tests/office-v171.py
           python tests/onboarding-v101.py
           python tests/dashboard-v110.py
