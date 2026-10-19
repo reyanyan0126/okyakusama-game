@@ -46,6 +46,7 @@ jobs:
           node tests/audit-cast-art-v270.test.cjs
           node tests/art-review-v280.test.cjs
           node tests/art-review-handoff-v300.test.cjs
+          node tests/cast-gallery-v2100.test.cjs
       - name: Verify removal of procedural people and viewport safe areas
         run: node tests/layout-repair-v290.test.cjs
       - name: Run Node game tests
@@ -66,6 +67,7 @@ jobs:
           python tests/cast-direction-v220.py
           python tests/cast-cinema-v260.py
           python tests/art-review-v280.py
+          python tests/cast-gallery-v2100.py
           python tests/decision-ledger-v230.py
           python tests/store-scenes-v250.py
           python tests/office-v171.py
