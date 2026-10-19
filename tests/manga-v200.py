@@ -36,8 +36,12 @@ try:
      # Each surface has its own illustrated scene, not a repeated protagonist bitmap.
      assert page.locator('#titleScreen .scene-v211-cover').is_visible()
      assert page.locator('#titleScreen .scene-v211-cover svg').count()==1
+     if browser_name=='chromium' and width==390 and motion=='no-preference':
+      page.locator('#titleScreen').screenshot(path=str(visuals/'v211-title-390.png'))
      page.locator('#titleStart').click()
      assert page.locator('#contractsScreen .scene-v211-contract').is_visible()
+     if browser_name=='chromium' and width==390 and motion=='no-preference':
+      page.locator('#contractsScreen').screenshot(path=str(visuals/'v211-contract-390.png'))
      page.locator('#acceptMarket').click()
      assert page.locator('#prologuePainting .v211-story-item use').count()==1
      page.locator('#prologueNext').click()
@@ -55,8 +59,12 @@ try:
      page.locator('#moneyClose').click()
      page.locator('.game-tab[data-screen="voice"]').click()
      assert page.locator('#voiceView .scene-v211-voice').is_visible()
+     if browser_name=='chromium' and width==390 and motion=='no-preference':
+      page.locator('#voiceView').screenshot(path=str(visuals/'v211-voice-390.png'))
      page.locator('.game-tab[data-screen="records"]').click()
      assert page.locator('#recordsView .scene-v211-records').is_visible()
+     if browser_name=='chromium' and width==390 and motion=='no-preference':
+      page.locator('#recordsView').screenshot(path=str(visuals/'v211-records-390.png'))
      page.locator('.game-tab[data-screen="office"]').click()
      if browser_name=='chromium' and width==390 and motion=='no-preference':
       page.locator('#officeView').screenshot(path=str(visuals/'office-390.png'))
