@@ -46,7 +46,7 @@ const first=Manga.markup('arc_register_boss',[
  '社長「私がやる！」','店長「本当に大丈夫？」','常連「<script>alert(1)</script>」'
 ],{setting:'register'});
 assert.equal((first.match(/class="manga-panel"/g)||[]).length,3);
-assert.equal((first.match(/<article class="manga-panel" data-panel="\d" aria-hidden="true">/g)||[]).length,3,'initially hide three manga panels, excluding decorative progress');
+assert.equal((first.match(/<article class="manga-panel" data-panel="\d" data-role="[^"]+" data-mood="[^"]+" data-setting="[^"]+" aria-hidden="true">/g)||[]).length,3,'initially hide three emotion-directed panels, excluding decorative progress');
 assert(first.includes('class="manga-illustrated-person"'),'one complete high-density vector person in each frame');
 assert(first.includes('./assets/manga-cast-v200.svg#manga-boss-'),'boss artwork is vector and resolution-independent');
 assert(first.includes('./assets/portraits-v171.svg#portrait-manager-'),'manager artwork is vector and resolution-independent');
