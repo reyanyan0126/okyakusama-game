@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" aria-hidden="true">
+ <defs>
+  <linearGradient id="sky-day" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#a2ccd3"/><stop offset=".62" stop-color="#f5e5bb"/><stop offset="1" stop-color="#e9ccaa"/></linearGradient>
+  <linearGradient id="sky-busy" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#efb78f"/><stop offset=".6" stop-color="#ffe5b7"/><stop offset="1" stop-color="#e1ad8f"/></linearGradient>
+  <linearGradient id="sky-rain" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#748b9b"/><stop offset="1" stop-color="#b5b4ab"/></linearGradient>
+  <linearGradient id="sky-fire" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6e5369"/><stop offset=".56" stop-color="#cb8678"/><stop offset="1" stop-color="#edbc94"/></linearGradient>
+  <linearGradient id="front" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eee0bd"/><stop offset=".52" stop-color="#c7bda5"/><stop offset="1" stop-color="#a5aa9c"/></linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8ac2c6"/><stop offset=".49" stop-color="#d0dfcb"/><stop offset=".51" stop-color="#678f92"/><stop offset="1" stop-color="#527d81"/></linearGradient>
+  <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#dcba98"/><stop offset="1" stop-color="#958477"/></linearGradient>
+  <radialGradient id="glow"><stop stop-color="#fff8b6" stop-opacity=".9"/><stop offset="1" stop-color="#fff2b2" stop-opacity="0"/></radialGradient>
+  <pattern id="brick" width="45" height="23" patternUnits="userSpaceOnUse"><path d="M0 0H45M0 23H45M22 0V23M0 11H22M45 11H22" stroke="#816f62" opacity=".14" fill="none"/></pattern>
+  <filter id="softShadow" x="-20%" y="-25%" width="145%" height="155%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#4f4a43" flood-opacity=".21"/></filter>
+  <symbol id="shop-shell" viewBox="0 0 720 400">
+   <path d="M0 319 81 294 163 314 256 295 334 321 413 296 501 321 596 291 720 319V400H0Z" fill="#718f83" opacity=".48"/>
+   <path d="M0 351H720V400H0Z" fill="url(#floor)"/>
+   <path d="M0 373H720" stroke="#eedbc0" stroke-width="4" stroke-dasharray="29 35" opacity=".66"/>
+   <rect x="90" y="108" width="544" height="245" rx="4" fill="url(#front)" stroke="#7b7163" stroke-width="6" filter="url(#softShadow)"/>
+   <rect x="93" y="111" width="538" height="240" fill="url(#brick)"/>
+   <rect x="116" y="184" width="492" height="145" fill="#625d51" rx="5"/>
+   <rect x="123" y="190" width="477" height="133" fill="url(#glass)" rx="3"/>
+   <path d="M151 191V324M554 191V324M350 190V326" stroke="#e5dec9" stroke-width="9"/>
+   <path d="M132 212H591" stroke="#bbd9d3" stroke-width="5" opacity=".75"/>
+   <path d="M127 194L171 194 291 318 246 318Z" fill="#fffde1" opacity=".23"/>
+   <path d="M398 193 440 193 560 319 521 319Z" fill="#fffde1" opacity=".14"/>
+   <path d="M128 278h182m97 0h181" stroke="#435b51" stroke-width="11" opacity=".65"/>
+   <rect x="349" y="195" width="11" height="133" fill="#ded9c9"/>
+   <rect x="359" y="241" width="15" height="34" rx="7" fill="#e8cc90" stroke="#756e60" stroke-width="2"/>
+   <path d="M111 170H615l-14 38-32 9-33-9-33 9-32-9-33 9-33-9-33 9-33-9-33 9-33-9-33 9-33-9-33 9-33-9-31-38Z" fill="#ba715e" stroke="#7a6155" stroke-width="4"/>
+   <path d="M138 173 157 208 184 212 173 174M248 173 264 210 289 213 283 173M358 173 376 210 405 213 398 173M473 173 491 210 521 213 512 173M585 173 601 206" stroke="#f8e1b6" stroke-width="17" opacity=".92"/>
+   <rect x="178" y="112" width="366" height="61" rx="11" fill="#36685f" stroke="#faf0d0" stroke-width="6"/>
+   <path d="M196 127h330" stroke="#77a18d" stroke-width="3" opacity=".6"/>
+   <text x="361" y="155" text-anchor="middle" font-size="31" letter-spacing="1.3" font-family="sans-serif" font-weight="900" fill="#fff9de">もぐもぐマート</text>
+   <rect x="103" y="331" width="514" height="9" rx="4" fill="#857e6d"/>
+   <path d="M59 355q-25-78 18-105 32 21 11 107Z" fill="#5b8f70" stroke="#476b55" stroke-width="6"/>
+   <rect x="70" y="324" width="17" height="43" rx="3" fill="#9b805c"/>
+   <path d="M663 353q-34-68-1-104 40 21 25 104Z" fill="#5d8872" stroke="#4c6e55" stroke-width="6"/>
+   <rect x="669" y="330" width="15" height="36" rx="3" fill="#9b805c"/>
+  </symbol>
+  <symbol id="produce" viewBox="0 0 150 80">
+   <rect x="4" y="34" width="143" height="40" rx="6" fill="#b98b62" stroke="#785e44" stroke-width="5"/>
+   <path d="M17 34 33 74m21-40 13 40m18-40 10 40m19-40 10 40" stroke="#e4bc88" stroke-width="5" opacity=".8"/>
+   <circle cx="25" cy="28" r="17" fill="#d95f45"/><circle cx="49" cy="19" r="18" fill="#e7c75e"/><circle cx="70" cy="27" r="16" fill="#b7bb56"/>
+   <circle cx="96" cy="18" r="17" fill="#d87358"/><circle cx="119" cy="29" r="16" fill="#e4b957"/>
+   <path d="M15 13q10-10 20 0M87 7q9-10 18 0" stroke="#5e9270" stroke-width="5" fill="none"/>
+  </symbol>
+  <symbol id="scene-normal" viewBox="0 0 720 400">
+   <rect width="720" height="350" fill="url(#sky-day)"/>
+   <circle cx="601" cy="62" r="57" fill="#fff4c4" opacity=".8"/>
+   <path d="M0 137q100-75 206 0t216-9 298-5V0H0Z" fill="#fff5e0" opacity=".3"/>
+   <use href="#shop-shell" width="720" height="400"/>
+   <use href="#produce" x="131" y="252" width="115" height="63"/>
+   <use href="#produce" x="464" y="255" width="109" height="59"/>
+   <path d="M128 342h100m264 0h100" stroke="#fff8e4" stroke-width="5" opacity=".8"/>
+   <rect x="218" y="223" width="86" height="24" rx="3" fill="#fff4d4" opacity=".8"/>
+   <text x="261" y="239" font-size="14" font-family="sans-serif" font-weight="bold" fill="#64806f" text-anchor="middle">本日営業中</text>
+  </symbol>
+  <symbol id="scene-boom" viewBox="0 0 720 400">
+   <rect width="720" height="350" fill="url(#sky-busy)"/>
+   <circle cx="595" cy="61" r="71" fill="url(#glow)"/>
+   <path d="M0 115q126-39 240-3 93 25 222-5 123-29 258-3" stroke="#ffedd0" stroke-width="24" opacity=".35" fill="none"/>
+   <use href="#shop-shell" width="720" height="400"/>
+   <use href="#produce" x="126" y="242" width="130" height="71"/>
+   <use href="#produce" x="466" y="240" width="130" height="71"/>
+   <path d="M108 151q60 21 118-3 61 23 119 1 58 25 117-2 62 21 142-4" fill="none" stroke="#f7df8c" stroke-width="5"/>
+   <path d="M149 155l-9 14 23 1ZM294 156l-10 14 23 0ZM453 151l-9 14 23 1ZM571 150l-9 14 23 1Z" fill="#f3c873"/>
+   <rect x="260" y="218" width="205" height="33" rx="9" fill="#fff4d4" stroke="#d29b5b" stroke-width="3"/>
+   <text x="362" y="241" font-size="20" font-family="sans-serif" font-weight="900" fill="#b56a4b" text-anchor="middle">大盛況！</text>
+   <path d="M54 94l5 12 12 5-12 5-5 12-5-12-12-5 12-5ZM660 129l5 12 12 5-12 5-5 12-5-12-12-5 12-5Z" fill="#fff7ce"/>
+  </symbol>
+  <symbol id="scene-slump" viewBox="0 0 720 400">
+   <rect width="720" height="350" fill="url(#sky-rain)"/>
+   <path d="M0 122q88-47 178-5 111-56 231-4 138-48 311-3V0H0Z" fill="#546d7e" opacity=".43"/>
+   <use href="#shop-shell" width="720" height="400"/>
+   <path d="M32 57 5 92m95-26-29 39m135-38-25 35m148-40-31 43m147-43-27 43m145-45-33 51m121-49-28 45M42 230l-22 32m680-50-29 44" stroke="#dfeefa" stroke-width="4" opacity=".7"/>
+   <path d="M114 284h174m142 0h183" stroke="#566d6b" stroke-width="12"/>
+   <rect x="227" y="245" width="100" height="35" rx="4" fill="#e1d8bf" stroke="#9a9281" stroke-width="4"/>
+   <text x="277" y="268" font-size="17" font-family="sans-serif" font-weight="bold" fill="#7c7468" text-anchor="middle">本日閑散</text>
+   <path d="M0 374q90-15 172-4t182 3q86-13 169-2t197 1" stroke="#c7d7d8" stroke-width="9" opacity=".58" fill="none"/>
+  </symbol>
+  <symbol id="scene-fire" viewBox="0 0 720 400">
+   <rect width="720" height="350" fill="url(#sky-fire)"/>
+   <path d="M0 105q121-33 224 9 139-29 251-10t245-1V0H0Z" fill="#634e60" opacity=".3"/>
+   <use href="#shop-shell" width="720" height="400"/>
+   <rect x="505" y="40" width="167" height="65" rx="15" fill="#fff0df" stroke="#a94543" stroke-width="6" filter="url(#softShadow)"/>
+   <path d="M537 55v21m0 8v3" stroke="#a94543" stroke-width="8" stroke-linecap="round"/>
+   <text x="599" y="80" font-size="24" font-family="sans-serif" font-weight="900" text-anchor="middle" fill="#a94543">炎上中</text>
+   <path d="M63 71l39 30-8 12-41-25zM113 48l39 31-10 12-40-30z" fill="#f3d1ba" opacity=".7"/>
+   <circle cx="109" cy="113" r="22" fill="#d26359" opacity=".73"/>
+   <path d="M250 216h219" stroke="#eeb79f" stroke-width="8" opacity=".45"/>
+   <rect x="237" y="246" width="252" height="45" rx="7" fill="#fff5e8" stroke="#a74747" stroke-width="5"/>
+   <text x="363" y="275" text-anchor="middle" font-size="20" font-family="sans-serif" font-weight="bold" fill="#a74747">お問い合わせ対応中</text>
+  </symbol>
+ </defs>
+ <use href="#scene-normal" width="720" height="400"/>
+</svg>
