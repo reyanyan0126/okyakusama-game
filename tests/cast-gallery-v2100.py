@@ -1,4 +1,4 @@
-"""v2.10 public character gallery: render existing art and verify touch at narrow widths."""
+"""v2.11 cast portraits: all five new images, five protagonist moods and touch layout."""
 from http.server import SimpleHTTPRequestHandler,ThreadingHTTPServer
 from threading import Thread
 from functools import partial
@@ -20,14 +20,22 @@ try:
     page.goto(f'http://127.0.0.1:{server.server_port}/cast-gallery-v2100.html',wait_until='networkidle')
     assert page.locator('.cast-button').count()==5
     assert page.locator('.mood-picks button').count()==5
-    assert page.locator('#castPortrait use').get_attribute('href').endswith('#manga-you-normal')
-    page.locator('.cast-button[data-id="manager"]').click()
-    assert page.locator('#castName').inner_text()=='店長'
+    assert page.locator('.cast-thumb img.illustrated-portrait').count()==5
+    assert page.locator('#castPortrait').evaluate('(e)=>e.tagName')=='IMG'
+    assert page.locator('#castPortrait').evaluate('(e)=>e.complete && e.naturalWidth===1024'),(engine,width,'hero image')
+    hero_normal=page.locator('#castPortrait').get_attribute('src')
     page.locator('.mood-picks button[data-mood="angry"]').click()
-    assert page.locator('#castPortrait use').get_attribute('href').endswith('#portrait-manager-angry')
+    hero_angry=page.locator('#castPortrait').get_attribute('src')
+    assert hero_angry!=hero_normal and hero_angry.startswith('data:image/webp;base64,')
     assert page.locator('#moodStatus').inner_text()=='怒り'
-    assert page.locator('.cast-button[data-id="manager"]').get_attribute('aria-pressed')=='true'
-    assert page.locator('.mood-picks button[data-mood="angry"]').get_attribute('aria-pressed')=='true'
+    for actor in ('boss','manager','worker','customer'):
+     page.locator(f'.cast-button[data-id="{actor}"]').click()
+     assert page.locator('#castPortrait').evaluate('(e)=>e.tagName')=='IMG'
+     assert page.locator('#castPortrait').evaluate('(e)=>e.complete && e.naturalWidth===512'),(engine,width,actor)
+     assert page.locator('.mood-picks button[data-mood="angry"]').is_disabled()
+     assert page.locator('.cast-button[data-id="'+actor+'"]').get_attribute('aria-pressed')=='true'
+    page.locator('.cast-button[data-id="you"]').click()
+    assert page.locator('.mood-picks button[data-mood="angry"]').is_enabled()
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),(engine,width,'overflow')
     assert page.locator('.mood-picks button').first.evaluate('(el)=>el.getBoundingClientRect().height')>=44
     assert not errors,(engine,width,errors)

@@ -47,6 +47,7 @@ jobs:
           node tests/art-review-v280.test.cjs
           node tests/art-review-handoff-v300.test.cjs
           node tests/cast-gallery-v2100.test.cjs
+          node tests/cast-gallery-art-v2110.test.cjs
           node tests/protagonist-preview-v2101.test.cjs
       - name: Verify removal of procedural people and viewport safe areas
         run: node tests/layout-repair-v290.test.cjs
