@@ -60,7 +60,6 @@ jobs:
           python tests/decision-ledger-v230.py
           python tests/store-scenes-v250.py
           python tests/layout-repair-v290.py
-          python tests/layout-repair-v290.py
           python tests/office-v171.py
           python tests/onboarding-v101.py
           python tests/dashboard-v110.py
