@@ -23,7 +23,7 @@ with sync_playwright() as p:
      for(const name of names){
       const response=await fetch('./assets/'+name);
       const parsed=new DOMParser().parseFromString(await response.text(),'image/svg+xml');
-      out.push([response.status,parsed.querySelectorAll('parsererror').length,parsed.querySelectorAll('[data-character]').length]);
+      out.push([response.status,parsed.querySelectorAll('parsererror').length,parsed.querySelectorAll('[data-modern-portrait-v213]').length]);
      }return out;
    }""")
    assert parse==[[200,0,312],[200,0,96]],(browser_name,width,parse)
