@@ -24,7 +24,7 @@ with sync_playwright() as p:
     const doc=new DOMParser().parseFromString(content,'image/svg+xml');
     return {status:response.status,errors:doc.querySelectorAll('parsererror').length,symbols:doc.querySelectorAll('symbol').length};
    }""")
-   assert info=={'status':200,'errors':0,'symbols':144},info
+   assert info=={'status':200,'errors':0,'symbols':152},info
    count=page.evaluate("""()=>{
     const ids=GameEngine.STORIES.EPISODES.flatMap(e=>e.choices.map(a=>a.id));
     return {count:ids.length,refs:ids.every(id=>PolicyStoryboards.symbol(id,'work',0).includes('#cinema-'+id+'-work-0')),
