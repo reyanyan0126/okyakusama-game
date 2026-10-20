@@ -18,7 +18,7 @@ for(const role of roles)for(const mood of moods){
 }
 for(const file of ['manga-cast-v200.svg','portraits-v171.svg'])assert(read('assets/'+file).includes('<symbol'));
 for(const file of ['layout-repair-v290.css']){assert(html.includes(file));assert(sw.includes("'./"+file+"'"));}
-assert(sw.includes('okyakusama-v2.11.0-cast-illustration-gallery-cache-1'));
+assert(sw.includes('okyakusama-v2.12.0-global-character-art-cache-1'));
 assert(css.includes('#officeView.view-panel{display:block!important;overflow-y:auto!important'));
 assert(html.includes('office-compact-v290.js'));
 assert(sw.includes("'./office-compact-v290.js'"));
