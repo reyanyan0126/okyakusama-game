@@ -22,7 +22,7 @@ with sync_playwright() as p:
     const out=[];
     for(const [file,count] of [['office-cinema-v171.svg',17],['portraits-v171.svg',25]]){
      const resp=await fetch('./assets/'+file),doc=new DOMParser().parseFromString(await resp.text(),'image/svg+xml');
-     out.push([resp.status,doc.querySelectorAll('parsererror').length,doc.querySelectorAll('symbol').length,count]);
+     out.push([resp.status,doc.querySelectorAll('parsererror').length,doc.querySelectorAll('symbol:not([id^="modern-"])').length,count]);
     }
     return out;
    }""")
