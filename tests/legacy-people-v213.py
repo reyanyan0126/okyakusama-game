@@ -14,6 +14,9 @@ class Quiet(SimpleHTTPRequestHandler):
 server=ThreadingHTTPServer(('127.0.0.1',0), partial(Quiet,directory=str(ROOT)))
 Thread(target=server.serve_forever,daemon=True).start()
 CASES=[('prologue-v160.svg','prologue-1'),
+       ('prologue-v160.svg','prologue-5'),
+       ('prologue-v160.svg','prologue-6'),
+       ('policies-v160.svg','policy-staff-work-2'),
        ('office-cinema-v171.svg','office-normal'),
        ('incidents-v160.svg','incident-absent'),
        ('policies-v160.svg','policy-raise-work-0'),
