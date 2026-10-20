@@ -31,7 +31,7 @@ assert(js.includes('M.reveal('));
 assert(js.includes('window.MangaCinema.result(h)'));
 assert(!js.includes("B.markup(h.actionId,'work',n)"));
 assert(!js.includes('T.art(h.actionId'));
-assert(sw.includes('okyakusama-v2.13.0-rebuilt-scenes-cache-1'));
+assert(sw.includes('okyakusama-v2.14.0-simple-home-cache-1'));
 assert(sw.includes("'./manga-v200.js'")&&sw.includes("'./assets/manga-cast-v200.svg'"));
 assert.equal(Manga.speaker('社長「責任は君にある！」',0),'boss');
 assert.equal(Manga.speaker('社長がレジへ',0),'boss');
