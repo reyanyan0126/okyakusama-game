@@ -52,7 +52,7 @@ for(const n of ['raise','quality','staff','recall','maintenance']){
  assert(B.symbol(n,'work',0).includes('policies-v160.svg'));
 }
 assert.equal((prologue.match(/data-modern-portrait-v213="you"/g)||[]).length,5,'new illustrated protagonist throughout introduction');
-assert.equal((old.match(/<symbol id="(?:register|robot|bento|staff|festival|shop|press|repair)-/g)||[]).length,48,'48 legacy scene IDs retained but people replaced');
+assert.equal((old.match(/<symbol id="(?:register|robot|bento|staff|festival|shop|press|repair|photo|parade|credit)-/g)||[]).length,48,'48 legacy scene IDs retained but people replaced');
 assert(styles.includes('animation-iteration-count:1!important'),'global finite animation policy');
 assert(!/animation-iteration-count:\s*infinite\s*!important/.test(styles));
 assert(app.includes('B?.family(h.actionId)'));
