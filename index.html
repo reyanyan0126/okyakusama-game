@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="decision-ledger-v230.css">
   <link rel="stylesheet" href="store-scenes-v250.css">
   <link rel="stylesheet" href="layout-repair-v290.css">
+  <link rel="stylesheet" href="compact-home-v214.css">
   <title>お客様のために。｜経営コンサルゲーム</title>
   <script defer src="stories.js"></script>
   <script defer src="engine.js"></script>
@@ -209,7 +210,7 @@
         <a class="text-btn cast-gallery-link" href="./cast-gallery-v2100.html">登場人物ギャラリー →</a>
         <a class="text-btn cast-gallery-link" href="./protagonist-preview-v2101.html">新イラスト5表情を先行公開 →</a>
       </div>
-      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v2.13.0</p>
+      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v2.14.0</p>
     </div>
   </section>
   <section id="contractsScreen" class="entry-screen" aria-label="コンサル依頼一覧" hidden>
@@ -262,13 +263,13 @@
 
     <main>
       <div id="officeView" class="view-panel" role="region" aria-label="経営画面">
-      <div class="topline"><span class="eyebrow">CONSULTING FILE / 001</span><span class="topline-right">30週間チャレンジ <span id="weekIndicator">1 / 30</span></span></div>
+      <div class="topline"><span class="eyebrow">経営再建チャレンジ</span><span class="topline-right"><span id="weekIndicator">1 / 30</span> 週</span></div>
       <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
       <div class="layout">
         <section class="main-column" aria-labelledby="clientTitle">
           <article class="client-hero office-hero" aria-label="小さなコンサル事務所。仕事机と未払いの請求書">
             <svg class="office-room-art" viewBox="0 0 720 420" role="img" aria-label="経営状況に応じて変わる、スーツ姿のコンサルとモグモグマートの情景"><use href="./assets/office-cinema-v171.svg#office-normal"></use></svg>
-            <div class="office-hero-heading"><span class="office-nameplate">雑居ビル3階 ／ コンサル事務所</span><span id="heroWeek" class="office-week">第1週</span></div>
+            <div class="office-hero-heading"><span class="office-nameplate">現在の案件</span><span id="heroWeek" class="office-week">第1週</span></div>
             <div class="office-hero-caption"><span>担当案件</span><h2 id="clientTitle">モグモグマート</h2><span id="officeSceneText" class="office-under" aria-live="polite">開店したばかり。再建はここから。</span></div>
             <div class="office-visitors" aria-label="店長と常連客の表情">
               <div class="cast-portrait cast-avatar">
@@ -279,6 +280,7 @@
                 <svg id="buyerFace" class="portrait-complete" data-mood="normal" viewBox="0 0 100 120" role="img" aria-label="常連・森さん・普通の表情"><use href="./assets/portraits-v171.svg#portrait-mori-normal"></use></svg>
                 <small id="buyerPersona">森さん</small>
               </div>
+              <div class="cast-portrait cast-avatar cast-ceo-v214"><svg class="portrait-complete" viewBox="0 0 100 120" role="img" aria-label="社長のイラスト"><use href="./assets/manga-cast-v200.svg#manga-boss-normal"></use></svg><small>社長</small></div>
             </div>
           </article>
           <section class="office-vitals play-stats" aria-label="今週の重要ステータス">
@@ -286,6 +288,8 @@
             <button id="officePersonalMoney" class="play-stat personal cash-open" type="button" aria-label="自分のお金の流れを見る"><span><svg class="mini-ill"><use href="#art-wallet"/></svg> 自分の財布</span><strong id="personalBalance">28,000円</strong><em id="personalTrend" class="cash-delta">ゲーム開始時点</em><span id="personalFlow" class="vital-flow">毎週 生活費 7,000円</span><span class="vital-secondary">養育費 <b id="supportDue">第4週・3.6万円</b></span><span id="arrearsBadge" class="arrears-badge" hidden>未払い</span><span class="cash-hint">入金・支払いを見る ›</span></button>
             <div class="play-stat trust"><span><svg class="mini-ill"><use href="#art-heart"/></svg> お店の評判</span><strong id="repCount">58<small>/100</small></strong><div class="play-meter"><i id="repMeter"></i></div><span class="vital-secondary">炎上 <b id="heatCount">4<small>/100</small></b><span class="tiny-meter"><i id="heatMeter"></i></span></span></div>
           </section>
+          <div class="home-actions-v214" role="group" aria-label="今週の操作"><button id="openProposals" class="primary-btn" type="button">作戦を選ぶ →</button><button id="openStatusSheet" type="button" class="office-status-link"><svg class="mini-ill" aria-hidden="true"><use href="#art-document"/></svg> 経営状況を確認する <span aria-hidden="true">›</span></button></div>
+          <details id="homeMetrics" class="home-metrics-v214"><summary>お店の様子と詳しい指標を見る <span aria-hidden="true">＋</span></summary>
           <div class="store-dashboard" aria-label="店舗の主要指標">
             <div><span>週間売上</span><strong id="dashSales">48.0<small>万円</small></strong></div>
             <div><span>営業利益</span><strong id="dashProfit">6.1<small>万円</small></strong></div>
@@ -294,7 +298,7 @@
             <div><span>スタッフ</span><strong id="dashStaff">60<small>/100</small></strong></div>
             <div><span>顧客満足</span><strong id="dashSat">61<small>/100</small></strong></div>
           </div>
-          <button id="openStatusSheet" type="button" class="office-status-link"><svg class="mini-ill" aria-hidden="true"><use href="#art-document"/></svg> ほかの経営状況を見る <span aria-hidden="true">›</span></button>
+          </details>
           <div class="world-ribbon" id="worldRibbon"><svg class="ribbon-ill"><use href="#art-bill"/></svg><div><small>社会情勢</small><strong id="macroName">物価高</strong></div><span id="macroEffect">仕入れ価格が高騰中</span></div>
           <div class="office-details"><span id="goalChip">契約利益 0 / 100万</span><span class="week-expenses">固定費 <strong id="overheadCount">毎週 約15.5万円</strong><span id="loanHint"></span></span></div>
           <details class="advanced-stats" id="advancedStats"><summary>経営の詳細を見る</summary><div class="advanced-profit">直近の営業利益 <b id="netCount">6.1万円</b> <small>※ 店の現金増減とは異なります</small></div>
@@ -347,7 +351,7 @@
             <div class="meeting-alert"><svg class="mini-ill" aria-hidden="true"><use href="#art-warning"/></svg><span id="meetingSignal">危機の兆候を調査中…</span></div>
             <div id="storyPulse" class="story-pulse" hidden></div>
             <div id="meetingDeal" class="meeting-deal" hidden><svg class="mini-ill" aria-hidden="true"><use href="#art-coin"/></svg><span id="meetingDealText">社長の指示で臨時報酬</span></div>
-            <div class="meeting-actions"><button id="meetingMoneyButton" type="button" class="meeting-money-btn"><svg class="mini-ill" aria-hidden="true"><use href="#art-bill"/></svg> お金の説明</button><button id="openProposals" class="primary-btn" type="button">作戦を選ぶ →</button></div>
+            <div class="meeting-actions"><button id="meetingMoneyButton" type="button" class="meeting-money-btn"><svg class="mini-ill" aria-hidden="true"><use href="#art-bill"/></svg> お金の説明</button></div>
           </div>
         </aside>
       </div>
@@ -382,7 +386,7 @@
       <button type="button" class="game-tab" data-screen="voice" aria-pressed="false" aria-controls="voiceView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-people"/></svg></span><strong>世論</strong></button>
       <button type="button" class="game-tab" data-screen="records" aria-pressed="false" aria-controls="recordsView"><span aria-hidden="true"><svg class="nav-ill"><use href="#art-bill"/></svg></span><strong>記録</strong></button>
     </nav>
-    <footer>フィクション・2026 お客様のために。 / v2.13.0</footer>
+    <footer>フィクション・2026 お客様のために。 / v2.14.0</footer>
   </div>
 
   <section id="statusSheet" class="status-sheet" role="dialog" aria-modal="true" aria-labelledby="statusTitle" hidden>
