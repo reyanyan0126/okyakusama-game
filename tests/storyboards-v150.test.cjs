@@ -8,7 +8,7 @@ const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
 const js=fs.readFileSync(path.join(__dirname,'../app.js'),'utf8');
 const sw=fs.readFileSync(path.join(__dirname,'../sw.js'),'utf8');
 assert.equal(B.families.length,8);
-assert.equal((source.match(/<symbol /g)||[]).length,48);
+assert.equal((source.match(/<symbol id="(?:register|robot|bento|staff|festival|shop|press|repair)-/g)||[]).length,48);
 for(const [family,actions] of B.families)for(const id of actions){
  assert.equal(B.family(id),id,'current scene uses unique policy ID: '+id);
  const used=new Set();
