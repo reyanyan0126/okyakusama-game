@@ -7,7 +7,8 @@ const O=require('../scene.js');const G=require('../engine.js');
 const sceneNames=['normal','quiet','critical','scandal','busy','closed','repair','upgraded','devil','title'];
 const visitors=['manager','mori','saito','aoki','tanaka'],moods=['normal','happy','angry','sad','panic'];
 assert.equal((svg.match(/<symbol id="office-/g)||[]).length,10);
-assert.equal((portraits.match(/<symbol /g)||[]).length,25);
+assert.equal((portraits.match(/<symbol id="portrait-/g)||[]).length,25,'five visitors × five compatible expressions');
+assert(portraits.includes('id="modern-manager-normal"'),'new illustrated sprites present');
 for(const name of sceneNames){
  const symbol=svg.match(new RegExp('<symbol id="office-'+name+'"[^>]*>[\\s\\S]*?<\\/symbol>'));
  assert(symbol,'Missing state '+name);
