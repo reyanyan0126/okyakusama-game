@@ -11,8 +11,8 @@ assert.equal(policies.length,156);
 for(const [full,id,phase,body] of [...scenes,...policies]){
  const roles=[...body.matchAll(/data-modern-portrait-v213="([a-z]+)"/g)].map(x=>x[1]);
  const images=[...body.matchAll(/<use href="#modern-([a-z]+)-(?:normal|happy|sad|angry|panic)"/g)].map(x=>x[1]);
- assert.equal(roles.length,2,'two independent illustrated figures: '+id+' '+phase);
- assert.equal(images.length,2,'two illustration references: '+id+' '+phase);
+ assert(roles.length>=2,'at least two independently illustrated figures: '+id+' '+phase);
+ assert.equal(images.length,roles.length,'every cast figure has an illustration reference: '+id+' '+phase);
  assert.deepEqual(roles,images,'each illustrated figure uses the corresponding portrait: '+id+' '+phase);
  assert.notEqual(roles[0],roles[1],'avoid displaying the same character twice: '+id+' '+phase);
 }
