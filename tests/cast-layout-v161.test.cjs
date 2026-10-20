@@ -23,5 +23,5 @@ assert(css.includes('#workingScene .work-footer #workingSkip{'));
 assert(css.includes('position:static!important'));
 assert(css.includes('max-height:100dvh'));
 assert(css.includes('overflow-y:auto'));
-assert(sw.includes('okyakusama-v2.13.0-rebuilt-scenes-cache-1'));
+assert(sw.includes('okyakusama-v2.13.1-unlabeled-people-cache-1'));
 console.log('PASS v2.13: 204 illustrated panels, 408 actors, correct portrait references, mobile footer and cache');
