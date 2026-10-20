@@ -20,13 +20,13 @@ with sync_playwright() as p:
    page.goto(url,wait_until='networkidle')
    info=page.evaluate("""async()=>{
     const out=[];
-    for(const [file,count] of [['office-cinema-v171.svg',10],['portraits-v171.svg',25]]){
+    for(const [file,count] of [['office-cinema-v171.svg',17],['portraits-v171.svg',25]]){
      const resp=await fetch('./assets/'+file),doc=new DOMParser().parseFromString(await resp.text(),'image/svg+xml');
      out.push([resp.status,doc.querySelectorAll('parsererror').length,doc.querySelectorAll('symbol').length,count]);
     }
     return out;
    }""")
-   assert info==[[200,0,10,10],[200,0,25,25]],(engine,width,info)
+   assert info==[[200,0,17,17],[200,0,25,25]],(engine,width,info)
    # v2.1.1 replaces the generic bitmap cover with a unique resolution-independent scene.
    title=page.locator('#titleScreen .scene-v211-cover svg')
    assert title.is_visible()
