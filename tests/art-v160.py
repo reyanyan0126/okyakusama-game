@@ -17,7 +17,7 @@ with sync_playwright() as p:
    context=browser.new_context(viewport={'width':width,'height':844},reduced_motion='reduce')
    page=context.new_page();errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
    page.goto(url)
-   counts=page.evaluate("""async()=>{const files=['prologue-v160.svg','incidents-v160.svg'];const n=[];for(const file of files){const res=await fetch('./assets/'+file),text=await res.text(),dom=new DOMParser().parseFromString(text,'image/svg+xml');n.push([res.status,dom.querySelectorAll('parsererror').length,dom.querySelectorAll('symbol').length]);}return n;}""")
+   counts=page.evaluate("""async()=>{const files=['prologue-v160.svg','incidents-v160.svg'];const n=[];for(const file of files){const res=await fetch('./assets/'+file),text=await res.text(),dom=new DOMParser().parseFromString(text,'image/svg+xml');n.push([res.status,dom.querySelectorAll('parsererror').length,dom.querySelectorAll('symbol:not([id^="modern-"])').length]);}return n;}""")
    assert counts==[[200,0,7],[200,0,21]],counts
    page.locator('#titleStart').click();page.locator('#acceptMarket').click()
    for n in range(1,8):
