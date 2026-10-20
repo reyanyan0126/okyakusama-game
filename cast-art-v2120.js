@@ -67,7 +67,7 @@ function scan(rootNode){
  let count=0;
  if(rootNode.localName==='use'&&paint(rootNode))count++;
  if(rootNode.querySelectorAll){
-  for(const use of rootNode.querySelectorAll('svg use[href],svg use[xlink\\:href]'))if(paint(use))count++;
+  for(const use of rootNode.querySelectorAll('use'))if(paint(use))count++;
  }
  return count;
 }
