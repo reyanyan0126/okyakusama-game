@@ -26,7 +26,7 @@ with sync_playwright() as p:
       out.push([response.status,parsed.querySelectorAll('parsererror').length,parsed.querySelectorAll('[data-modern-portrait-v213]').length]);
      }return out;
    }""")
-   assert parse==[[200,0,312],[200,0,96]],(browser_name,width,parse)
+   assert parse==[[200,0,333],[200,0,96]],(browser_name,width,parse)
    page.locator('#titleStart').click()
    page.locator('#acceptMarket').click()
    page.locator('#prologueSkip').click()
