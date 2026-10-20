@@ -21,7 +21,7 @@ const html=read('index.html'),sw=read('sw.js');
 assert(html.indexOf('src="assets/cast-gallery-art-v2110.js"') < html.indexOf('src="cast-art-v2120.js"'));
 assert(html.indexOf('src="cast-art-v2120.js"') < html.indexOf('src="scene-art-v211.js"'));
 assert(html.indexOf('src="cast-art-v2120.js"') < html.indexOf('src="cast-director-v220.js"'));
-assert(sw.includes("'./cast-art-v2120.js'")&&sw.includes('okyakusama-v2.12.0-global-character-art-cache-1'));
+assert(sw.includes("'./cast-art-v2120.js'")&&sw.includes('okyakusama-v2.13.0-rebuilt-scenes-cache-1'));
 assert(script.includes("MutationObserver")&&script.includes("attributeFilter:['href','xlink:href']"),'live image changes must be monitored');
 assert(!script.includes('localStorage')&&!script.includes('GameEngine')&&!script.includes('Math.random'), 'rendering must not change saves/economy');
 const manifest=JSON.parse(read('assets/approved-cast-v270/art-manifest.json'));
