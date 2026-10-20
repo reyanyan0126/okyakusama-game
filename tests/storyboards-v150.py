@@ -23,9 +23,9 @@ with sync_playwright() as p:
     const res=await fetch('./assets/storyboards-v150.svg');
     const content=await res.text();
     const svg=new DOMParser().parseFromString(content,'image/svg+xml');
-    return {status:res.status,parseErrors:svg.querySelectorAll('parsererror').length,symbols:svg.querySelectorAll('symbol').length};
+    return {status:res.status,parseErrors:svg.querySelectorAll('parsererror').length,symbols:svg.querySelectorAll('symbol[id^="modern-"]').length + svg.querySelectorAll('symbol:not([id^="modern-"])').length};
    }""")
-   assert svgtest=={'status':200,'parseErrors':0,'symbols':48},svgtest
+   assert svgtest=={'status':200,'parseErrors':0,'symbols':52},svgtest
    page.locator('#titleStart').click()
    page.locator('#acceptMarket').click()
    page.locator('#prologueSkip').click()

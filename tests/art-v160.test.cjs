@@ -8,9 +8,9 @@ const B=require('../assets/storyboards-v150.js');
 const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
 const app=fs.readFileSync(path.join(__dirname,'../app.js'),'utf8');
 const sw=fs.readFileSync(path.join(__dirname,'../sw.js'),'utf8');
-assert.equal((pro.match(/<symbol /g)||[]).length,7);
-assert.equal((inc.match(/<symbol /g)||[]).length,21);
-assert.equal((policies.match(/<symbol /g)||[]).length,156);
+assert.equal((pro.match(/<symbol id="prologue-/g)||[]).length,7);
+assert.equal((inc.match(/<symbol id="incident-/g)||[]).length,21);
+assert.equal((policies.match(/<symbol id="policy-/g)||[]).length,156);
 const nativeIds=['raise','lower','shrink','cheap','quality','staff','explain','sale','points','pop','tasting','local','restorestaff','apology','recall','blame','loyalty','stamp','audit','maintenance','loan','airtax','photo','ceocut','bills','apologybot'];
 for(const id of nativeIds){
  assert.equal(B.family(id),id,'dedicated family '+id);

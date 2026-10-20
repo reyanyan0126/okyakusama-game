@@ -6,13 +6,14 @@ const js=read('app.js'),html=read('index.html'),sw=read('sw.js'),styles=read('st
 const O=require('../scene.js');const G=require('../engine.js');
 const sceneNames=['normal','quiet','critical','scandal','busy','closed','repair','upgraded','devil','title'];
 const visitors=['manager','mori','saito','aoki','tanaka'],moods=['normal','happy','angry','sad','panic'];
-assert.equal((svg.match(/<symbol /g)||[]).length,10);
-assert.equal((portraits.match(/<symbol /g)||[]).length,25);
+assert.equal((svg.match(/<symbol id="office-/g)||[]).length,10);
+assert.equal((portraits.match(/<symbol id="portrait-/g)||[]).length,25,'five visitors × five compatible expressions');
+assert(portraits.includes('id="modern-manager-normal"'),'new illustrated sprites present');
 for(const name of sceneNames){
  const symbol=svg.match(new RegExp('<symbol id="office-'+name+'"[^>]*>[\\s\\S]*?<\\/symbol>'));
  assert(symbol,'Missing state '+name);
  assert(symbol[0].includes('<title>'),'Accessible title '+name);
- assert(symbol[0].includes('data-role=')||name==='closed','Narrative cast '+name);
+ assert(symbol[0].includes('data-modern-portrait-v213=')||name==='closed','Narrative cast '+name);
 }
 for(const v of visitors)for(const m of moods){
  assert(portraits.includes('id="portrait-'+v+'-'+m+'"'),v+' '+m);
@@ -24,7 +25,7 @@ assert(js.includes('drawing.innerHTML=\'<use href="./assets/office-cinema-v171.s
 assert(js.includes("Math.floor((Math.max(1,s.week)-1)/4)%locals.length"));
 assert(js.includes("portrait-'+portrait+'-'+mood"));
 assert(styles.includes('.title-cinema-svg'));
-assert(sw.includes('okyakusama-v2.12.0-global-character-art-cache-1'));
+assert(sw.includes('okyakusama-v2.13.0-rebuilt-scenes-cache-1'));
 assert(sw.includes('assets/portraits-v171.svg'));
 assert(sw.includes('assets/office-cinema-v171.svg'));
 for(const [state,expect] of [

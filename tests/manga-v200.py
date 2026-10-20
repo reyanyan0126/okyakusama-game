@@ -28,7 +28,7 @@ try:
       const response=await fetch('./assets/manga-cast-v200.svg');
       const svg=new DOMParser().parseFromString(await response.text(),'image/svg+xml');
       return {status:response.status,errors:svg.querySelectorAll('parsererror').length,
-       symbols:svg.querySelectorAll('symbol').length};
+       symbols:svg.querySelectorAll('symbol[id^="manga-"]').length};
      }""")
      assert external=={'status':200,'errors':0,'symbols':15},(browser_name,width,external)
      painted=page.evaluate("""async()=>{const r=await fetch('./assets/manga-painted-cast-v173.webp');return {status:r.status,size:(await r.arrayBuffer()).byteLength}}""")

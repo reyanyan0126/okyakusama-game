@@ -8,13 +8,15 @@ const js=read('app.js'),html=read('index.html'),sw=read('sw.js');
 const G=require('../engine.js');
 assert.equal(Manga.PANELS,3);
 const variants=[...svg.matchAll(/<symbol id="([^"]+)"/g)].map(m=>m[1]);
-assert.equal(variants.length,15,'three complete busts, five expressions each');
+assert.equal(variants.filter(id=>id.startsWith('manga-')).length,15,'3 characters × 5 named expression IDs');
+assert(variants.some(id=>id.startsWith('modern-')),'new shared illustrated sprites must be bundled');
 for(const role of ['boss','worker','you'])for(const mood of ['normal','happy','angry','sad','panic']){
  const id='manga-'+role+'-'+mood;
  assert(variants.includes(id),'complete-portrait symbol: '+id);
  const pattern=new RegExp('<symbol id="'+id+'"[\\s\\S]*?<\\/symbol>');
  const markup=svg.match(pattern)?.[0];
- assert(markup&&markup.includes('<title>')&&markup.includes('<ellipse'),'full human rendered in one symbol');
+ assert(markup&&markup.includes('<title>')&&markup.includes('<use href="#modern-'),'compatibility symbol must use new illustration instead of procedural figure');
+ assert(!markup.includes('<ellipse')&&!markup.includes('<circle'),'no old facial anatomy permitted');
  assert(!markup.includes('class="arm')&&!markup.includes('class="hair'),'no independently transformed body parts');
 }
 assert(!css.includes('.comic-scene .arm{'));
@@ -29,7 +31,7 @@ assert(js.includes('M.reveal('));
 assert(js.includes('window.MangaCinema.result(h)'));
 assert(!js.includes("B.markup(h.actionId,'work',n)"));
 assert(!js.includes('T.art(h.actionId'));
-assert(sw.includes('okyakusama-v2.12.0-global-character-art-cache-1'));
+assert(sw.includes('okyakusama-v2.13.0-rebuilt-scenes-cache-1'));
 assert(sw.includes("'./manga-v200.js'")&&sw.includes("'./assets/manga-cast-v200.svg'"));
 assert.equal(Manga.speaker('社長「責任は君にある！」',0),'boss');
 assert.equal(Manga.speaker('社長がレジへ',0),'boss');
