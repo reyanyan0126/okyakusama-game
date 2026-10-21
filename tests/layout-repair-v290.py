@@ -25,6 +25,11 @@ try:
     page.locator('#firstWeekStart').click()
     assert page.locator('#storeWeatherV250').count()==1
     assert not page.locator('#storeWeatherV250').is_visible()
+    # v2.14 nests secondary scene metrics beneath the primary six KPI cards.
+    # Open the outer disclosure before testing the legacy on-demand controls.
+    if page.locator('#homeMetrics').count():
+     page.locator('#homeMetrics > summary').click()
+     assert page.locator('#dashSales').is_visible()
     assert page.locator('#officeExtraMetricsV290').count()==1
     assert not page.locator('#officeExtraMetricsV290').get_attribute('open')
     page.locator('#officeExtraMetricsV290 > summary').click()

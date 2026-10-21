@@ -1,0 +1,27 @@
+/* v2.15 phase 3-4: unified gameplay surfaces; no changes to state or saves. */
+:root{--game-paper:#fffdf8;--game-panel:#f7f8f4;--game-line:#dce4d9;--game-text:#243d34;--game-soft:#617369;--game-accent:#296b5e}
+#app :is(.scene-heading,.decision-card,.voice-top-card,.records-summary,.report-sheet,.proposal-panel,.status-panel,.money-panel){box-sizing:border-box;max-width:100%;min-width:0}
+#app :is(.scene-heading,.decision-card,.voice-top-card,.records-summary,.report-sheet,.proposal-panel){box-shadow:none!important}
+#app :is(.scene-heading,.voice-top-card,.records-summary,.report-sheet,.proposal-panel){color:var(--game-text);border-radius:16px}
+#app .scene-heading{padding:12px 2px!important;margin-bottom:12px!important}
+#app .scene-heading h2{font-size:clamp(19px,5vw,25px);line-height:1.3;margin:4px 0}
+#app .scene-heading p{font-size:13px;line-height:1.6;color:var(--game-soft);margin:4px 0 0}
+#app :is(.voice-top-card,.records-summary,.report-sheet,.proposal-panel){background:var(--game-paper)!important;border:1px solid var(--game-line)!important}
+#app :is(.voice-top-card,.records-summary,.report-sheet,.proposal-panel) :is(p,small,span){overflow-wrap:anywhere}
+#app :is(.records-summary,.voice-top-card){gap:10px}
+#app :is(.records-summary,.voice-top-card) strong{font-variant-numeric:tabular-nums}
+#app :is(.proposal-panel,.report-sheet){width:min(100%,650px);margin-inline:auto}
+#app :is(.proposal-panel,.report-sheet) h2{line-height:1.35;overflow-wrap:anywhere}
+#app .action-option{min-height:56px;box-shadow:none!important;border-radius:12px!important}
+#app :is(.report-scene,.proposal-sheet,.theater-panel) button{touch-action:manipulation}
+#app :is(.theater-panel,.story-event,.report-scene){max-width:100%;min-width:0}
+#app :is(.theater-panel,.story-event,.report-scene) :is(h2,h3,p){overflow-wrap:anywhere}
+#app :is(.report-sheet,.proposal-panel,.story-event) :is(button,a):focus-visible{outline:3px solid var(--ui-focus,#237b67)!important;outline-offset:2px!important}
+@media(max-width:430px){
+ #app :is(.proposal-panel,.report-sheet){border-radius:14px}
+ #app :is(.scene-heading,.voice-top-card,.records-summary){max-width:100%}
+ #app .scene-heading p{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ #app :is(.theater-panel,.story-event,.report-scene,.proposal-panel) *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}

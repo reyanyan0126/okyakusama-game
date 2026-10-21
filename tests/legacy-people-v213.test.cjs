@@ -27,7 +27,7 @@ const html=read('index.html'),sw=read('sw.js');
 assert(!html.includes('fill="#f3c39e"')&&!html.includes('fill="#f1be99"')&&!html.includes('fill="#efc097"'),'old storyboard people are gone');
 assert((html.match(/data-modern-portrait-v213/g)||[]).length>=10);
 assert(html.includes('modern-boss-normal')&&html.includes('modern-worker-normal'));
-assert(sw.includes('okyakusama-v2.13.0-rebuilt-scenes-cache-1'),'PWA must invalidate old SVG assets');
+assert(sw.includes('okyakusama-v2.14.0-simple-home-cache-1'),'PWA must invalidate old SVG assets');
 const manifest=JSON.parse(read('assets/approved-cast-v270/art-manifest.json'));
 assert.equal(manifest.status,'draft');
 assert.deepEqual(manifest.approvedAssets,[],'art prototypes do not automatically pass final art review');

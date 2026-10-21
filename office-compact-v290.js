@@ -9,6 +9,7 @@ function mount(){
  const main=view.querySelector('.main-column');
  const extra=main?.querySelector('.stats-stack');
  const dashboard=main?.querySelector('.store-dashboard');
+ const homeMetrics=main?.querySelector('#homeMetrics');
  const weather=view.querySelector('#storeWeatherV250');
  if(!main||!extra||!dashboard)return false;
  const container=document.createElement('details');
@@ -24,12 +25,16 @@ function mount(){
  extra.style.setProperty('display','grid','important');
  extra.style.setProperty('height','auto','important');
  if(weather)content.append(weather);
- content.append(dashboard,extra);
+ // v2.14 owns its primary six KPIs: do not relocate them into a second
+ // closed disclosure. Older game layouts continue using the v2.9 wrapper.
+ if(!homeMetrics)content.append(dashboard);
+ content.append(extra);
  // The decorative state illustration remains accessible without pushing the
  // critical weekly decision below the visible iPhone screen.
  container.append(summary,content);
  const before=main.querySelector('.news-strip');
- if(before)before.insertAdjacentElement('beforebegin',container);
+ if(homeMetrics)homeMetrics.append(container);
+ else if(before)before.insertAdjacentElement('beforebegin',container);
  else main.append(container);
  return true;
 }

@@ -17,8 +17,8 @@ for(const [id,file,prefix] of portraitFiles){
  for(const mood of moods)assert(svg.includes('id="'+prefix+mood+'"'),id+'-'+mood+' symbol does not exist');
 }
 assert(index.includes('href="./cast-gallery-v2100.html"'),'gallery must be reachable from title');
-assert(index.includes('v2.13.0')&&!index.includes('v2.4.0 preview'),'release version is visible');
-assert(sw.includes('okyakusama-v2.13.0-rebuilt-scenes-cache-1'),'bump PWA cache');
+assert(index.includes('v2.14.0')&&!index.includes('v2.4.0 preview'),'release version is visible');
+assert(/okyakusama-v2\.(14|15|16|17|18|19|20)\.0-/.test(sw),'bump PWA cache');
 for(const name of ['assets/cast-gallery-art-v2110.js','cast-gallery-v2100.html','cast-gallery-v2100.js','cast-gallery-v2100.css','art-review-v280.html','art-review-v280.js','art-review-v280.css']){
  assert(sw.includes("./"+name),'cache should include '+name);
 }

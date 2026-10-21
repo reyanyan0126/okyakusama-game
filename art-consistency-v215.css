@@ -1,0 +1,17 @@
+/* v2.15 phase 4: one visual hierarchy across art and character screens.
+   Decorative scene backdrops are suppressed where they compete with UI.
+   Story artwork and actual cast portraits remain visible. */
+:root{--art-surface:#f6f7f2;--art-stroke:#dbe4d9}
+#app :is(.scene-v211,.new-art-banner,.title-visual){box-shadow:none!important}
+#app .scene-v211{border:1px solid var(--art-stroke)!important;border-radius:12px!important;background:var(--art-surface)!important}
+#app :is(.cast-v220-picture,.cast-v220-card,.cast-v260-tools){box-shadow:none!important}
+#app .cast-v220-picture{border:1px solid var(--art-stroke)!important;background:var(--art-surface)!important;overflow:hidden}
+#app .cast-v220-portrait{object-fit:contain!important;object-position:center!important}
+#app .cast-v220-card{background:#fffdf8!important;border-radius:12px!important}
+#app :is(.scene-v211-voice,.scene-v211-records,.scene-v211-decision,.scene-v211-ledger,.scene-v211-status,.scene-v211-money){display:none!important}
+#app :is(.cast-v260-mood,.cast-v260-tools button){touch-action:manipulation}
+#app .cast-v260-mood:focus-visible{outline:3px solid var(--ui-focus,#237b67)!important}
+@media(max-width:430px){
+ #app .cast-v220-gallery .cast-v220-card{grid-template-columns:minmax(80px,32%) minmax(0,1fr);gap:10px}
+ #app .cast-v220-gallery .cast-v220-picture{width:100%;height:auto;aspect-ratio:4/5}
+}

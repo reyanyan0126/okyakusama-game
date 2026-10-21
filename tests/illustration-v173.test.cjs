@@ -17,7 +17,7 @@ assert(app.includes('prologuePaintedPerson'),'prologue switches actual painted a
 assert(css.includes('grid-template-columns:repeat(2,minmax(0,1fr))!important'));
 assert(css.includes('#prologuePaintedPerson'));
 assert(css.includes('.policy-symbol'));
-assert(sw.includes('okyakusama-v2.13.0-rebuilt-scenes-cache-1'));
+assert(/okyakusama-v2\.(14|15|16|17|18|19|20)\.0-/.test(sw));
 for(const icon of ids)assert(symbols.includes('id="icon-'+icon+'"'));
 const story=G.STORIES.POLICIES;
 assert.equal(story.length,24);

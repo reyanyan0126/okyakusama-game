@@ -17,6 +17,7 @@ with sync_playwright() as p:
         page.locator('#titleStart').click();page.locator('#acceptMarket').click();page.locator('#prologueSkip').click()
         assert page.locator('#firstWeekStart').is_visible()
         page.locator('#firstWeekStart').click()
+        page.locator('#homeMetrics summary').click()
         for id in ['dashSales','dashProfit','dashPrice','dashQuality','dashStaff','dashSat']:
             assert page.locator('#'+id).is_visible(),(width,id)
         assert '200' in page.locator('#dashPrice').inner_text()

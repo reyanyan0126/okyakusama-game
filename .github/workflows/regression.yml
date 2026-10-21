@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - main
+      - feature/v2.15.0-ui-consistency
       - feature/v1.1.0-four-choice-compact
       - feature/v1.2.0-outcomes-comedy
       - feature/v1.3.0-consequence-arcs
@@ -50,6 +51,7 @@ jobs:
           node tests/cast-gallery-art-v2110.test.cjs
           node tests/cast-art-v2120.test.cjs
           node tests/legacy-people-v213.test.cjs
+          node tests/compact-home-v214.test.cjs
           node tests/protagonist-preview-v2101.test.cjs
       - name: Verify removal of procedural people and viewport safe areas
         run: node tests/layout-repair-v290.test.cjs
@@ -74,6 +76,8 @@ jobs:
           python tests/cast-gallery-v2100.py
           python tests/cast-art-v2120.py
           python tests/legacy-people-v213.py
+          python tests/compact-home-v214.py
+          python tests/screen-audit-v215.py
           python tests/protagonist-preview-v2101.py
           python tests/decision-ledger-v230.py
           python tests/store-scenes-v250.py
