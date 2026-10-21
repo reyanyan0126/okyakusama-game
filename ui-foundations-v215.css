@@ -1,0 +1,45 @@
+/* v2.15 phase 2: shared UI foundations.
+   Scoped to application controls; preserves scene illustration geometry and game logic. */
+:root{
+  --ui-bg:#fffdf8;
+  --ui-surface:#f5f7f1;
+  --ui-ink:#243e35;
+  --ui-muted:#64756a;
+  --ui-primary:#296b5e;
+  --ui-border:#d8e1d6;
+  --ui-focus:#237b67;
+  --ui-radius:12px;
+  --ui-touch:44px;
+}
+#app :is(.primary-btn,.secondary-btn,.game-tab,.header-help){
+  min-height:var(--ui-touch);
+  border-radius:var(--ui-radius);
+}
+#app :is(button,a,summary,[role="button"]):focus-visible,
+.entry-screen :is(button,a,summary):focus-visible,
+.proposal-sheet :is(button,a,summary):focus-visible{
+  outline:3px solid var(--ui-focus)!important;
+  outline-offset:3px!important;
+}
+#app :is(.view-panel,.proposal-panel,.status-sheet,.report-sheet){
+  color:var(--ui-ink);
+}
+#app :is(.view-panel,.proposal-panel,.status-sheet,.report-sheet) :is(p,li){
+  overflow-wrap:anywhere;
+}
+#app :is(.view-panel,.proposal-panel,.status-sheet,.report-sheet) button{
+  touch-action:manipulation;
+}
+@media(max-width:365px){
+  #app :is(.view-panel,.proposal-panel,.status-sheet,.report-sheet){
+    min-width:0;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  #app :is(button,a,summary,[role="button"]),
+  .entry-screen :is(button,a,summary),
+  .proposal-sheet :is(button,a,summary){
+    transition-duration:.01ms!important;
+    animation-duration:.01ms!important;
+  }
+}
