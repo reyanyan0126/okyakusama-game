@@ -77,6 +77,7 @@ jobs:
           python tests/cast-art-v2120.py
           python tests/legacy-people-v213.py
           python tests/compact-home-v214.py
+          python tests/screen-audit-v215.py
           python tests/protagonist-preview-v2101.py
           python tests/decision-ledger-v230.py
           python tests/store-scenes-v250.py
