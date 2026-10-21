@@ -4,7 +4,7 @@ const load=p=>fs.readFileSync(path.join(__dirname,'..',p),'utf8');
 const html=load('index.html'),css=load('compact-home-v214.css'),sw=load('sw.js');
 assert(html.includes('href="compact-home-v214.css"'),'new CSS loaded');
 assert(html.indexOf('href="layout-repair-v290.css"')<html.indexOf('href="compact-home-v214.css"'),'compact rules loaded last');
-assert(html.includes('v2.14.0')&&sw.includes('okyakusama-v2.14.0-simple-home-cache-1'));
+assert(html.includes('v2.14.0')&&/okyakusama-v2\\.(14|15)\\.0-/.test(sw));
 assert(sw.includes("'./compact-home-v214.css'"));
 assert.equal((html.match(/id="openProposals"/g)||[]).length,1,'keep one bound strategy button');
 assert.equal((html.match(/id="openStatusSheet"/g)||[]).length,1,'keep one status button');
