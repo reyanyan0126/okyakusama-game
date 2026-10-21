@@ -99,3 +99,13 @@
 @media (prefers-reduced-motion:reduce){
  #app :is(button,a,summary,[role="button"]){scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
+
+/* v2.15: eliminate collage styling in the client card. One visual language. */
+#officeView .office-hero{background:#fffdf8!important;border:1px solid #dce4da!important;box-shadow:none!important}
+#officeView .office-visitors{align-self:center!important;align-items:center!important;justify-content:flex-end!important;gap:5px!important}
+#officeView .office-visitors .cast-avatar{background:transparent!important;border:0!important;box-shadow:none!important;overflow:hidden!important}
+#officeView .office-visitors .portrait-complete{background:#f3f3ed!important;border:1px solid #e3e7dd!important;border-radius:11px!important;box-shadow:none!important;object-fit:contain!important}
+#officeView .office-visitors .cast-avatar small{overflow:hidden;text-overflow:ellipsis;max-width:100%;color:#52665a!important}
+#officeView .office-hero-heading,#officeView .office-hero-caption{isolation:isolate}
+#officeView .office-hero-caption h2{max-width:100%;overflow-wrap:anywhere}
+@media (max-width:365px){#officeView .office-visitors{gap:3px!important}#officeView .office-visitors .cast-avatar{max-width:43px!important}#officeView .office-hero{grid-template-columns:minmax(0,1fr) minmax(0,132px)!important}}
