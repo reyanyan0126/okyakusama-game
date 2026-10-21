@@ -92,3 +92,10 @@
  #officeView .office-vitals .play-stat{min-height:115px!important;padding:14px 17px!important}
  #officeView .decision-card{padding:20px!important}
 }
+
+/* v2.15 groundwork: visible keyboard focus and comfortable touch controls. */
+#app :is(button,a,summary,[role="button"]):focus-visible{outline:3px solid #237b67!important;outline-offset:3px!important}
+#app .game-nav .game-tab,#officeView .home-actions-v214 button{touch-action:manipulation}
+@media (prefers-reduced-motion:reduce){
+ #app :is(button,a,summary,[role="button"]){scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
