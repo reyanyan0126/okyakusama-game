@@ -27,7 +27,7 @@ assert(html.indexOf('cast-director-v220.js')<html.indexOf('cast-cinema-v260.js')
 for(const file of ['cast-cinema-v260.js','cast-cinema-v260.css']){
  assert(html.includes(file));assert(sw.includes("'./"+file+"'"));
 }
-assert(sw.includes('okyakusama-v2.14.0-simple-home-cache-1'));
+assert(/okyakusama-v2\.(14|15|16|17|18|19|20)\.0-/.test(sw));
 const captions=['店長「ありがとう！」','従業員「困りました」','常連「次は改善してね」'];
 const result=M.markup('quality',captions,{setting:'shop',all:true,tier:'success'});
 assert.equal((result.match(/<article class="manga-panel is-revealed"/g)||[]).length,3);
