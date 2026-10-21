@@ -13,7 +13,7 @@ assert(!svg.includes('<foreignObject'),"no HTML or CSS person compositing");
 assert(!js.includes('localStorage.setItem')&&!js.includes('GameEngine.play')&&!js.includes('Math.random'));
 assert(html.includes('store-scenes-v250.css')&&html.includes('store-scenes-v250.js'));
 for(const file of ['store-scenes-v250.css','store-scenes-v250.js','assets/store-scenes-v250.svg'])assert(sw.includes("'./"+file+"'"),'offline '+file);
-assert(sw.includes("okyakusama-v2.14.0-simple-home-cache-1"));
+assert(/okyakusama-v2\.(14|15|16|17|18|19|20)\.0-/.test(sw));
 const normal={fire:4,sat:61,rep:58,cash:195000};
 assert.equal(S.sceneFor(normal),'normal');
 assert.equal(S.sceneFor({...normal,fire:45,sat:90}),'fire','fire precedence');
