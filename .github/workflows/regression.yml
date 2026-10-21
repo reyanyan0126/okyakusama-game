@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - main
+      - feature/v2.15.0-ui-consistency
       - feature/v1.1.0-four-choice-compact
       - feature/v1.2.0-outcomes-comedy
       - feature/v1.3.0-consequence-arcs
