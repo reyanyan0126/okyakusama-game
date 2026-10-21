@@ -30,8 +30,12 @@ try:
     page.locator('#firstWeekStart').click()
     figure=page.locator('#storeWeatherV250')
     assert not figure.is_visible(),(engine,width,'optional art is collapsed to prioritize play')
-    page.locator('#officeExtraMetricsV290 > summary').click()
-    assert figure.is_visible()
+    # v2.14 nests optional scene art behind the compact-home disclosure.
+    page.locator('#homeMetrics > summary').click()
+    legacy=page.locator('#officeExtraMetricsV290 > summary')
+    if legacy.count() and legacy.is_visible():
+     legacy.click()
+    assert figure.is_visible(),(engine,width,'scene visible after opening details')
     assert figure.get_attribute('data-scene')=='normal'
     assert page.locator('.store-weather-art-v250 use').get_attribute('href').endswith('#scene-normal')
     assert page.evaluate("document.querySelector('.store-weather-art-v250 use').getBBox().width")>0
