@@ -43,3 +43,10 @@
     animation-duration:.01ms!important;
   }
 }
+
+/* Phase 5 preparation: auxiliary dialogs and safe-area alignment. */
+#app :is(.status-sheet,.money-sheet,.proposal-sheet){max-width:100vw}
+#app :is(.status-sheet,.money-sheet,.proposal-sheet) :is(button,a){touch-action:manipulation}
+#app :is(.status-sheet,.money-sheet,.proposal-sheet) :is(h2,h3,p){overflow-wrap:anywhere}
+#app :is(.view-panel,.report-scene,.theater-panel){min-width:0}
+#app :is(.view-panel,.report-scene,.theater-panel) img{max-width:100%;height:auto}
