@@ -272,7 +272,7 @@
       <div class="layout">
         <section class="main-column" aria-labelledby="clientTitle">
           <article class="client-hero office-hero" aria-label="小さなコンサル事務所。仕事机と未払いの請求書">
-            <svg class="office-room-art" viewBox="0 0 720 420" role="img" aria-label="経営状況に応じて変わる、スーツ姿のコンサルとモグモグマートの情景"><use href="./assets/office-cinema-v171.svg#office-normal"></use></svg>
+            
             <div class="office-hero-heading"><span class="office-nameplate">現在の案件</span><span id="heroWeek" class="office-week">第1週</span></div>
             <div class="office-hero-caption"><span>担当案件</span><h2 id="clientTitle">モグモグマート</h2><span id="officeSceneText" class="office-under" aria-live="polite">開店したばかり。再建はここから。</span></div>
             <div class="office-visitors" aria-label="店長と常連客の表情">
@@ -287,12 +287,13 @@
               <div class="cast-portrait cast-avatar cast-ceo-v214"><svg class="portrait-complete" viewBox="0 0 100 120" role="img" aria-label="社長のイラスト"><use href="./assets/manga-cast-v200.svg#manga-boss-normal"></use></svg><small>社長</small></div>
             </div>
           </article>
-          <section class="office-vitals play-stats" aria-label="今週の重要ステータス">
+          <div class="home-actions-v214" role="group" aria-label="今週の操作"><button id="openProposals" class="primary-btn" type="button">作戦を選ぶ →</button><button id="openStatusSheet" type="button" class="office-status-link"><svg class="mini-ill" aria-hidden="true"><use href="#art-document"/></svg> 経営状況を確認する <span aria-hidden="true">›</span></button></div>
+<section class="office-vitals play-stats" aria-label="今週の重要ステータス">
             <button id="officeStoreMoney" class="play-stat money cash-open" type="button" aria-label="お店のお金の流れを見る"><span><svg class="mini-ill"><use href="#art-store"/></svg> 店の資金</span><strong id="cashCount">19.5<small>万円</small></strong><em id="cashTrend" class="cash-delta">ゲーム開始時点</em><span class="cash-hint">お金の理由を見る ›</span></button>
             <button id="officePersonalMoney" class="play-stat personal cash-open" type="button" aria-label="自分のお金の流れを見る"><span><svg class="mini-ill"><use href="#art-wallet"/></svg> 自分の財布</span><strong id="personalBalance">28,000円</strong><em id="personalTrend" class="cash-delta">ゲーム開始時点</em><span id="personalFlow" class="vital-flow">毎週 生活費 7,000円</span><span class="vital-secondary">養育費 <b id="supportDue">第4週・3.6万円</b></span><span id="arrearsBadge" class="arrears-badge" hidden>未払い</span><span class="cash-hint">入金・支払いを見る ›</span></button>
             <div class="play-stat trust"><span><svg class="mini-ill"><use href="#art-heart"/></svg> お店の評判</span><strong id="repCount">58<small>/100</small></strong><div class="play-meter"><i id="repMeter"></i></div><span class="vital-secondary">炎上 <b id="heatCount">4<small>/100</small></b><span class="tiny-meter"><i id="heatMeter"></i></span></span></div>
           </section>
-          <div class="home-actions-v214" role="group" aria-label="今週の操作"><button id="openProposals" class="primary-btn" type="button">作戦を選ぶ →</button><button id="openStatusSheet" type="button" class="office-status-link"><svg class="mini-ill" aria-hidden="true"><use href="#art-document"/></svg> 経営状況を確認する <span aria-hidden="true">›</span></button></div>
+          
           <details id="homeMetrics" class="home-metrics-v214"><summary>お店の様子と詳しい指標を見る <span aria-hidden="true">＋</span></summary>
           <div class="store-dashboard" aria-label="店舗の主要指標">
             <div><span>週間売上</span><strong id="dashSales">48.0<small>万円</small></strong></div>
