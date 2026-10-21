@@ -27,6 +27,9 @@ try:
     assert page.locator('#officeView .office-visitors .cast-avatar').count()==3
     assert page.locator('#openProposals').is_visible()
     assert page.locator('#openStatusSheet').is_visible()
+    for target in ('#openProposals','#openStatusSheet'):
+     box=page.locator(target).bounding_box()
+     assert box and box['width']>=44 and box['height']>=40,(engine,width,target,'touch target too small')
     details=page.locator('#homeMetrics')
     assert details.locator(':scope > summary').count()==1
     assert not details.evaluate('(d)=>d.open')
