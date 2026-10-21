@@ -109,3 +109,12 @@
 #officeView .office-hero-heading,#officeView .office-hero-caption{isolation:isolate}
 #officeView .office-hero-caption h2{max-width:100%;overflow-wrap:anywhere}
 @media (max-width:365px){#officeView .office-visitors{gap:3px!important}#officeView .office-visitors .cast-avatar{max-width:43px!important}#officeView .office-hero{grid-template-columns:minmax(0,1fr) minmax(0,132px)!important}}
+
+/* v2.15 phase 3: remove redundant character collage from the home summary.
+   Dynamic portraits remain available in dedicated story/cast scenes. */
+#officeView .office-hero{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto 1fr!important;min-height:138px!important;height:auto!important;max-height:none!important;padding:17px!important}
+#officeView .office-hero-heading{grid-column:1!important;grid-row:1!important}
+#officeView .office-hero-caption{grid-column:1!important;grid-row:2!important;max-width:100%!important}
+#officeView .office-visitors{display:none!important}
+#officeView .office-hero-caption h2{font-size:clamp(21px,5.2vw,29px)!important;line-height:1.25!important}
+@media(min-width:760px){#officeView .office-hero{min-height:148px!important;height:auto!important;grid-template-columns:minmax(0,1fr)!important}}
