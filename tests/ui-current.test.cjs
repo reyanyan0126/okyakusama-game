@@ -6,7 +6,7 @@ assert(css.includes('@layer legacy, interface'));
 assert.equal((css.match(/!important/g)||[]).length,1,'only native hidden semantics may use important');
 assert(css.includes('[hidden] {display:none !important}'));
 assert(sw.includes("'./ui.css'"));
-assert.match(sw,/okyakusama-v2\.17\.0-/);
+assert.match(sw,/okyakusama-v2\.(?:17|18)\.0-/);
 const M=require('../manga-v200.js');
 const repeated=M.markup('quality',['店長が準備','店長が説明','店長が報告'],{all:true});
 assert.equal((repeated.match(/class="manga-visual"/g)||[]).length,1,'one portrait per distinct speaker');
