@@ -186,6 +186,8 @@ function closeWeekScene(){
 }
 function openProposals(){
  if(resolving||!$('weekScene').hidden||game.finished)return;
+ // Feedback from the preceding week must not cover this week's confirmation.
+ clearTimeout(toastTimer);$('toast').hidden=true;
  renderActions();renderDevil();$('optionalActions').open=!!(selectedProject||selectedDevil);$('proposalSheet').hidden=false;document.body.classList.add('scene-locked');
  $('closeProposals').focus({preventScroll:true});
 }
@@ -647,7 +649,7 @@ function renderNews(){
  const item=items[newsIndex];setPresentation('news');$('newsScene').hidden=false;$('newsScene').dataset.kind=item.kind;
  $('newsStep').textContent=`03 / 04 · ${item.kind==='memory'?'過去の選択から':'臨時ニュース'} ${newsIndex+1} / ${items.length}`;
  $('newsTitle').textContent=item.title;$('newsText').textContent=item.text;
- $('newsArt').innerHTML='<svg class="incident-illustration" viewBox="0 0 720 420" role="img" aria-label="'+esc(item.title)+'の現場"><use href="./assets/incidents-v160.svg#incident-'+(item.visualId||'memory')+'"></use></svg>';
+ $('newsArt').innerHTML='<svg class="news-symbol" viewBox="0 0 64 64" aria-hidden="true"><use href="#art-document"></use></svg>';
  const pending=pendingAccident(h),isAccident=item.title===h.accidentTitle;
  $('accidentDecision').hidden=!(pending&&isAccident);
  if(pending&&isAccident){const cost=Math.min(28000,Math.round(h.incidentCost*.48)+4000);$('accidentRepair').textContent=`補償する −${man(cost)}万円`;$('accidentRepair').disabled=game.cash<cost;$('accidentDecisionText').textContent=game.cash<cost?'補償費が不足しています。費用を抑える対応を選んでください。':'追加費用で信用を守るか、費用を抑えるかを選んでください。';}

@@ -1,0 +1,15 @@
+const assert=require('node:assert/strict'),fs=require('fs'),path=require('path');
+const root=path.join(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const html=read('index.html'),css=read('ui.css'),sw=read('sw.js');
+assert.deepEqual([...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]),['ui.css']);
+assert(css.includes('@layer legacy, interface'));
+assert.equal((css.match(/!important/g)||[]).length,1,'only native hidden semantics may use important');
+assert(css.includes('[hidden] {display:none !important}'));
+assert(sw.includes("'./ui.css'"));
+assert.match(sw,/okyakusama-v2\.17\.0-/);
+const M=require('../manga-v200.js');
+const repeated=M.markup('quality',['店長が準備','店長が説明','店長が報告'],{all:true});
+assert.equal((repeated.match(/class="manga-visual"/g)||[]).length,1,'one portrait per distinct speaker');
+assert.equal((repeated.match(/class="manga-panel/g)||[]).length,3,'all narrative beats survive');
+for(const name of ['engine.js','finance.js','stories.js'])assert(fs.existsSync(path.join(root,name)));
+console.log('PASS current UI: one stylesheet, semantic hidden, unique portraits, all narrative beats');

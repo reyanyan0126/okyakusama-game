@@ -7,7 +7,7 @@ h1{font-size:clamp(23px,5vw,32px);margin:8px 0}h2{font-size:18px;margin:0 0 6px}
 .upload{background:#fffef8;border:1px solid #c7d4c7;border-radius:15px;padding:16px;margin:16px 0}.upload p{font-size:12px;color:#5d695f}.upload code{font-size:12px;overflow-wrap:anywhere}
 .file-label,#exportReview{display:inline-flex;align-items:center;justify-content:center;min-height:48px;border-radius:11px;font-weight:800;cursor:pointer;touch-action:manipulation;padding:10px 15px}
 .file-label{background:#306d5e;color:#fff}#candidateFiles{display:block;max-width:100%;margin:11px 0;font-size:12px}#exportReview{background:#fff;border:2px solid #306d5e;color:#306d5e}#uploadStatus{font-weight:800}.privacy{font-size:11px}
-#characterFilter{display:flex;gap:6px;overflow-x:auto;padding:6px 0 12px}#characterFilter button{border:1px solid #b7c9bd;border-radius:99px;background:#fffaf1;color:#3f665a;font-size:13px;flex:none;padding:9px 15px;min-height:44px;font-weight:800}
+#characterFilter{display:flex;flex-wrap:wrap;gap:6px;padding:6px 0 12px}#characterFilter button{border:1px solid #b7c9bd;border-radius:99px;background:#fffaf1;color:#3f665a;font-size:13px;flex:none;padding:9px 15px;min-height:44px;font-weight:800}
 #characterFilter button[aria-pressed=true]{background:#306d5e;color:white}
 .portrait-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
 .portrait-card{background:#fffefa;border-radius:15px;border:2px solid #d6decf;padding:12px;min-width:0}

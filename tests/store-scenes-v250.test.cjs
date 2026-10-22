@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const read=name=>fs.readFileSync(path.join(__dirname,'..',name),'utf8');
 const S=require('../store-scenes-v250.js');
-const svg=read('assets/store-scenes-v250.svg'),html=read('index.html'),sw=read('sw.js'),js=read('store-scenes-v250.js'),css=read('store-scenes-v250.css');
+const svg=read('assets/store-scenes-v250.svg'),html=read('index.html')+read('ui.css'),sw=read('sw.js'),js=read('store-scenes-v250.js'),css=read('store-scenes-v250.css');
 assert.equal(Object.keys(S.SCENES).length,4);
 for(const id of ['normal','boom','slump','fire']){
  assert(svg.includes('<symbol id="scene-'+id+'"'),id+' art is distinct');

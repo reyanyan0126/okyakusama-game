@@ -39,13 +39,17 @@ function enhanceCard(card,person){
  const title=document.createElement('strong');title.className='cast-v260-caption';title.textContent='表情を選ぶ';
  const buttons=document.createElement('div');buttons.className='cast-v260-moods';
  buttons.setAttribute('role','group');buttons.setAttribute('aria-label',person.label+'の表情切り替え');
- for(const mood of MOODS)buttons.append(makeButton(mood,mood==='normal'));
+ for(const mood of MOODS){
+  const button=makeButton(mood,mood==='normal');
+  button.disabled=!root.CastGalleryArtV2110?.[person.id+'-'+mood];
+  buttons.append(button);
+ }
  const feedback=document.createElement('span');feedback.className='cast-v260-current';
- feedback.textContent='通常';feedback.setAttribute('aria-live','off');
+ feedback.textContent=MOODS.every(m=>root.CastGalleryArtV2110?.[person.id+'-'+m])?'通常':'通常（表情差分準備中）';feedback.setAttribute('aria-live','off');
  tools.append(title,buttons,feedback);
  card.append(tools);
  function change(mood){
-  if(!MOODS.includes(mood))return;
+  if(!MOODS.includes(mood)||!root.CastGalleryArtV2110?.[person.id+'-'+mood])return;
   // Complete external vector portrait. Never substitute the low-resolution WebP atlas.
   use.setAttribute('href',Cast.portraitRef(person.id,mood));
   svg.setAttribute('aria-label',person.label+'・'+LABELS[mood]);

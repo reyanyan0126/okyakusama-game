@@ -10,21 +10,8 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="overhaul-v210.css">
-  <link rel="stylesheet" href="scene-art-v211.css">
-  <link rel="stylesheet" href="cast-director-v220.css">
-  <link rel="stylesheet" href="cast-cinema-v260.css">
-  <link rel="stylesheet" href="decision-ledger-v230.css">
-  <link rel="stylesheet" href="store-scenes-v250.css">
-  <link rel="stylesheet" href="layout-repair-v290.css">
-  <link rel="stylesheet" href="compact-home-v214.css">
-  <link rel="stylesheet" href="ui-foundations-v215.css">
-  <link rel="stylesheet" href="gameplay-unified-v215.css">
-  <link rel="stylesheet" href="art-consistency-v215.css">
-  <link rel="stylesheet" href="screen-structure-v216.css">
-  <link rel="stylesheet" href="home-rebuild-v216.css">
   <title>お客様のために。｜経営コンサルゲーム</title>
+  <link rel="stylesheet" href="ui.css">
   <script defer src="stories.js"></script>
   <script defer src="engine.js"></script>
   <script defer src="finance.js"></script>
@@ -215,7 +202,7 @@
         <a class="text-btn cast-gallery-link" href="./cast-gallery-v2100.html">登場人物ギャラリー →</a>
         <a class="text-btn cast-gallery-link" href="./protagonist-preview-v2101.html">新イラスト5表情を先行公開 →</a>
       </div>
-      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v2.14.0</p>
+      <p class="entry-disclaimer">登場する企業・商品・人物はフィクションです。 v2.17.0</p>
     </div>
   </section>
   <section id="contractsScreen" class="entry-screen" aria-label="コンサル依頼一覧" hidden>
@@ -276,7 +263,7 @@
             
             <div class="office-hero-heading"><span class="office-nameplate">現在の案件</span><span id="heroWeek" class="office-week">第1週</span></div>
             <div class="office-hero-caption"><span>担当案件</span><h2 id="clientTitle">モグモグマート</h2><span id="officeSceneText" class="office-under" aria-live="polite">開店したばかり。再建はここから。</span></div>
-            <div class="office-visitors" aria-label="店長と常連客の表情">
+            <div class="office-visitors" hidden aria-label="店長と常連客の表情">
               <div class="cast-portrait cast-avatar">
                 <svg id="bossFace" class="portrait-complete" data-mood="normal" viewBox="0 0 100 120" role="img" aria-label="店長・普通の表情"><use href="./assets/portraits-v171.svg#portrait-manager-normal"></use></svg>
                 <small>店長</small>
@@ -408,6 +395,7 @@
     <button class="proposal-scrim" id="closeProposalBackdrop" aria-label="提案を閉じる" type="button"></button>
     <div class="proposal-panel">
       <div class="proposal-top"><span><svg class="mini-ill" aria-hidden="true"><use href="#art-meeting"/></svg> 経営会議</span><button type="button" id="closeProposals">閉じる ×</button></div>
+      <div class="proposal-body">
       <h2 id="proposalTitle">どの施策を採用する？</h2>
       <p class="proposal-budget" id="proposalBudget">毎週、固定費が発生します</p><button type="button" id="proposalMoneyButton" class="proposal-money-btn">なぜ資金が減る？ お金の説明を見る ›</button><p class="proposal-meeting-target" id="proposalMeetingTarget">今週の会議目標</p><p class="proposal-diagnosis" id="proposalDiagnosis" hidden></p>
       <div id="actions" class="action-grid" role="radiogroup" aria-label="経営施策を選択"></div>
@@ -421,6 +409,7 @@
       <div class="selected-detail"><span class="detail-icon" id="selectedIcon"><svg class="mini-ill" aria-hidden="true"><use href="#art-document"/></svg></span><div class="selected-text"><strong id="selectedTitle">選んだ施策</strong><p id="selectedDesc"></p></div></div>
       <div class="performance-preview"><div><strong>今回の施策の成否</strong><small id="successStreak">連続好調 0/3</small></div><p id="selectedPerformance">失敗・成功・大成功の確率を計算中</p><small>失敗＝通常効果80％／成功＝100％／大成功＝135％。費用は発生し、事故・炎上は別判定。</small></div>
       <div class="risk-row"><span>炎上リスク</span><strong id="riskLabel">低</strong><span class="risk-caption" id="riskNote">比較的穏やか</span></div>
+      </div>
       <button id="advanceButton" class="primary-btn" type="button">この案で営業する →</button>
     </div>
   </section>

@@ -12,6 +12,12 @@ function mount(){
  const homeMetrics=main?.querySelector('#homeMetrics');
  const weather=view.querySelector('#storeWeatherV250');
  if(!main||!extra||!dashboard)return false;
+ if(homeMetrics){
+  if(weather)homeMetrics.append(weather);
+  homeMetrics.append(extra);
+  extra.classList.add('expanded-metrics');
+  return true;
+ }
  const container=document.createElement('details');
  container.id='officeExtraMetricsV290';
  container.className='office-extra-metrics-v290';
@@ -22,8 +28,8 @@ function mount(){
  // The legacy global style forcibly hides .stats-stack with !important.
  // Once moved under the new closed-by-default disclosure, override that rule
  // on the element itself; the native <details> still hides all content closed.
- extra.style.setProperty('display','grid','important');
- extra.style.setProperty('height','auto','important');
+ extra.classList.add('expanded-metrics');
+ 
  if(weather)content.append(weather);
  // v2.14 owns its primary six KPIs: do not relocate them into a second
  // closed disclosure. Older game layouts continue using the v2.9 wrapper.

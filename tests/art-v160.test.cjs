@@ -41,5 +41,5 @@ assert(multiple.every(x=>inc.includes('id="incident-'+x.visualId+'"')));
 assert(sw.includes('assets/prologue-v160.svg'));
 assert(sw.includes('assets/incidents-v160.svg'));
 assert(sw.includes('assets/policies-v160.svg'));
-assert(app.includes("item.visualId||'memory'"));
+assert(app.includes('class="news-symbol"'),"news uses a single symbol, not duplicated actors");
 console.log('PASS v1.6.0: seven story drawings, 11 accident drawings, 10 distinct news/echo illustrations, all story references, offline cache');

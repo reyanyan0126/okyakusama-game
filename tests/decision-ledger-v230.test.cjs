@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const read=p=>fs.readFileSync(path.join(__dirname,'..',p),'utf8');
 const R=require('../decision-ledger-v230.js'),G=require('../engine.js');
-const html=read('index.html'),css=read('decision-ledger-v230.css'),js=read('decision-ledger-v230.js'),sw=read('sw.js');
+const html=read('index.html')+read('ui.css'),css=read('decision-ledger-v230.css'),js=read('decision-ledger-v230.js'),sw=read('sw.js');
 for(const file of ['decision-ledger-v230.js','decision-ledger-v230.css']){
  assert(html.includes(file));assert(sw.includes("'./"+file+"'"));
 }
