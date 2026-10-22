@@ -2310,4 +2310,49 @@ button:focus-visible,a:focus-visible,summary:focus-visible {outline:3px solid #2
 .news-symbol {display:block;width:48px;height:48px;margin:8px auto}
 #newsArt {height:auto;min-height:0;margin:8px 0}
 
+/* v2.18 minimal interface: reduce competing visual emphasis without hiding game data. */
+:root{--ui-border:#dbe2d8;--ui-surface:#fffdf9}
+#officeView .eyebrow,#voiceView .scene-eyebrow,#recordsView .scene-eyebrow,
+#officeView .office-nameplate{letter-spacing:0;text-transform:none}
+#officeView .topline{margin-bottom:8px;padding:0;gap:8px}
+#officeView .topline .eyebrow{display:none}
+#officeView .progress-track{height:5px;margin-bottom:12px;box-shadow:none}
+#officeView .office-hero{min-height:0;box-shadow:none;border:1px solid var(--ui-border);border-radius:12px}
+#officeView .office-hero-caption{box-shadow:none;border:0;background:transparent}
+#officeView .office-hero-caption h2{font-size:clamp(22px,5.5vw,29px)}
+#officeView .office-visitors,#officeView .office-room-art{display:none}
+#officeView .office-vitals{gap:8px}
+#officeView .office-vitals>*{border:1px solid var(--ui-border);box-shadow:none;border-radius:12px}
+#officeView .decision-card{border:1px solid var(--ui-border);box-shadow:none;border-radius:12px}
+#officeView .home-actions-v214{gap:8px}
+#officeView .home-actions-v214 button{box-shadow:none}
+#officeView .home-metrics-v214{border:1px solid var(--ui-border);box-shadow:none}
+#voiceView .scene-heading,#recordsView .scene-heading{margin-bottom:12px}
+#voiceView .scene-heading p,#recordsView .scene-heading p{display:none}
+#voiceView .scene-heading .scene-eyebrow,#recordsView .scene-heading .scene-eyebrow{display:none}
+#voiceView .voice-top-card,#recordsView .records-summary,
+#recordsView .history-panel,#voiceView .social-feed>*{box-shadow:none;border-color:var(--ui-border)}
+#recordsView .records-summary{gap:8px}
+#recordsView .records-summary>div{padding:12px 10px;min-width:0}
+#recordsView .records-summary strong{overflow-wrap:anywhere}
+.proposal-sheet .proposal-top .mini-ill,.proposal-sheet .action-option .mini-ill{width:28px;height:28px}
+.proposal-sheet .action-option{box-shadow:none;border:1px solid var(--ui-border);border-radius:12px;min-height:0}
+.proposal-sheet .action-option:focus-visible{outline:3px solid #357a66;outline-offset:2px}
+.proposal-sheet .proposal-budget{font-size:13px;line-height:1.5}
+.status-sheet .status-panel,.money-sheet .money-sheet-panel,.modal-layer .modal-dialog{box-shadow:none;border:1px solid var(--ui-border);border-radius:14px}
+#weekScene .report-sheet,#weekScene .manga-panel{box-shadow:none}
+#weekScene .report-sheet .report-cashflow{gap:8px}
+#weekScene .report-sheet .report-cashflow>*{min-width:0}
+#weekScene .theater-panel h2{font-size:clamp(19px,5vw,24px)}
+#weekScene .theater-panel .theater-line{line-height:1.7}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #357a66;outline-offset:2px}
+@media(max-width:430px){
+ .app-shell{padding-inline:12px}
+ #officeView .office-vitals{grid-template-columns:repeat(3,minmax(0,1fr))}
+ #officeView .office-vitals>*{padding:9px 6px;min-width:0}
+ #officeView .office-vitals strong{overflow-wrap:anywhere}
+ #recordsView .records-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .proposal-sheet .proposal-panel{padding-inline:12px}
+}
+
 }
