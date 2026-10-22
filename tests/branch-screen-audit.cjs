@@ -35,9 +35,11 @@ for(const width of (process.env.WIDTHS||'320,375,390,430,768,1024').split(',').m
  }
  // PWA precache must serve the same UI with the origin disconnected.
  // WebKit setOffline rejects even literal SW responses (Playwright #42775);
- // destroy server sockets instead, and prove an uncached fetch fails.
+ // destroy server sockets instead; a direct HTTP probe must fail.
+ // Keep the intentional probe outside the page so WebKit does not report
+ // its expected failed SW request as an application pageerror.
  // Chromium additionally uses browser-level offline emulation.
- await p.evaluate(async()=>{await navigator.serviceWorker.ready;if(!navigator.serviceWorker.controller)await new Promise(r=>navigator.serviceWorker.addEventListener('controllerchange',r,{once:true}));const cached=await caches.match(location.href);if(!cached)throw Error('Navigation was not precached')});networkUnavailable=true;if(process.env.BROWSER!=='webkit')await p.context().setOffline(true);assert.equal(await p.evaluate(async()=>{try{await fetch('/uncached-offline-probe');return false}catch{return true}}),true,'Uncached network must be unavailable');await p.reload();await font();await snap('offline-title');if(!await p.locator('#titleResume').isVisible())throw Error('Offline save missing');await p.locator('#titleResume').click();await snap('offline-finished');networkUnavailable=false;await p.context().setOffline(false);
+ await p.evaluate(async()=>{await navigator.serviceWorker.ready;if(!navigator.serviceWorker.controller)await new Promise(r=>navigator.serviceWorker.addEventListener('controllerchange',r,{once:true}));const cached=await caches.match(location.href);if(!cached)throw Error('Navigation was not precached')});networkUnavailable=true;if(process.env.BROWSER!=='webkit')await p.context().setOffline(true);await assert.rejects(new Promise((resolve,reject)=>http.get(origin+'/uncached-offline-probe',resolve).on('error',reject)),/socket hang up|ECONNRESET/,'Origin must be unavailable');await p.reload();await font();await snap('offline-title');if(!await p.locator('#titleResume').isVisible())throw Error('Offline save missing');await p.locator('#titleResume').click();await snap('offline-finished');networkUnavailable=false;await p.context().setOffline(false);
  for(const file of ['cast-gallery-v2100.html','protagonist-preview-v2101.html','art-review-v280.html']){await p.goto(origin+'/'+file);await font();await snap(file.replace('.html',''));}
  console.log(width,'screens',results.filter(r=>r.width===width).length,'errors',errors);await b.close();
 }
