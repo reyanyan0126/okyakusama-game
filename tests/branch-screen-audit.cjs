@@ -7,7 +7,7 @@ for(const width of (process.env.WIDTHS||'320,375,390,430,768,1024').split(',').m
  const b=await (process.env.BROWSER==='webkit'?webkit:chromium).launch(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH,args:['--no-sandbox','--disable-dev-shm-usage','--single-process']}:{headless:true});
 
  const p=await b.newPage({viewport:{width,height:844},reducedMotion:'reduce'});p.setDefaultTimeout(6000);let errors=[];p.on('pageerror',e=>errors.push(e.message));
- const origin='http://127.0.0.1:'+server.address().port;
+ const origin='http://localhost:'+server.address().port;
  const fixtures=require('./build-ui-fixtures.cjs');
  await p.goto(origin);
  const font=async()=>{if(fontRoot)await p.addStyleTag({content:fs.readFileSync(fontRoot+'/400.css','utf8').replaceAll('./files/','/qa-font/files/')+' body,button,svg text{font-family:"Noto Sans JP",sans-serif !important}'});await p.evaluate(()=>document.fonts.ready)};
