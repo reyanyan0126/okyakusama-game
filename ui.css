@@ -2307,4 +2307,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible {outline:3px solid #2
 #weekScene.week-scene:not([hidden]) {background:#f3f2eb;align-items:flex-start}
 #weekScene .report-scene {margin:0 auto}
 
+.news-symbol {display:block;width:48px;height:48px;margin:8px auto}
+#newsArt {height:auto;min-height:0;margin:8px 0}
+
 }

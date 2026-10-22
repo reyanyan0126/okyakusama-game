@@ -34,7 +34,7 @@ for(const width of (process.env.WIDTHS||'320,375,390,430,768,1024').split(',').m
  const state=await p.evaluate(()=>JSON.parse(localStorage.getItem('okyakusama.save.v1')));if(state.history.length!==week)throw Error('Wrong history length '+week);if(state.finished&&week<30)throw Error('Campaign ended early '+week);
  }
  // PWA precache and fallback must serve the same UI offline.
- await p.evaluate(async()=>{await navigator.serviceWorker.ready;await new Promise(r=>setTimeout(r,250))});await p.context().setOffline(true);await p.reload();await font();await snap('offline-title');if(!await p.locator('#titleResume').isVisible())throw Error('Offline save missing');await p.locator('#titleResume').click();await snap('offline-finished');await p.context().setOffline(false);
+ await p.evaluate(async()=>{await navigator.serviceWorker.ready;if(!navigator.serviceWorker.controller)await new Promise(r=>navigator.serviceWorker.addEventListener('controllerchange',r,{once:true}));const cached=await caches.match(location.href);if(!cached)throw Error('Navigation was not precached')});await p.context().setOffline(true);await p.reload();await font();await snap('offline-title');if(!await p.locator('#titleResume').isVisible())throw Error('Offline save missing');await p.locator('#titleResume').click();await snap('offline-finished');await p.context().setOffline(false);
  for(const file of ['cast-gallery-v2100.html','protagonist-preview-v2101.html','art-review-v280.html']){await p.goto(origin+'/'+file);await font();await snap(file.replace('.html',''));}
  console.log(width,'screens',results.filter(r=>r.width===width).length,'errors',errors);await b.close();
 }
