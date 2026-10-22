@@ -21,6 +21,8 @@ Base: 931fa86f37047f60575a30b4c5054941cb61045f. No engine, finance, story or sav
 | P1 | Offline navigation regression initially blocks release | Current-release cache-first response; verify controlled page and disconnected origin |
 | P2 | News card repeats portraits in one illustration | A single neutral news symbol |
 | P2 | Unavailable expressions repeat the normal portrait | Disable missing variants and label them pending |
+| P2 | Prologue retains a vertical portrait shadow | Remove legacy shadow, flex sizing and copy border |
+| P1 | Previous-week feedback covers the next proposal confirmation | Clear stale feedback when entering proposals |
 | P3 | Overlarge choice illustrations and heavy shadows | Compact symbols, restrained borders |
 
 ## Validation

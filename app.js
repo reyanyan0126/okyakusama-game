@@ -186,6 +186,8 @@ function closeWeekScene(){
 }
 function openProposals(){
  if(resolving||!$('weekScene').hidden||game.finished)return;
+ // Feedback from the preceding week must not cover this week's confirmation.
+ clearTimeout(toastTimer);$('toast').hidden=true;
  renderActions();renderDevil();$('optionalActions').open=!!(selectedProject||selectedDevil);$('proposalSheet').hidden=false;document.body.classList.add('scene-locked');
  $('closeProposals').focus({preventScroll:true});
 }

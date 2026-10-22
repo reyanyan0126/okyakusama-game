@@ -29,7 +29,7 @@ for(const width of (process.env.WIDTHS||'320,375,390,430,768,1024').split(',').m
  await load(fixtures['large-low-reputation']);await snap('large-low-reputation');await p.locator('#openStatusSheet').click();await snap('large-status');await p.locator('#statusDone').click();
  await load(fixtures.campaign);
  for(let week=2;week<=30;week++){
- await p.locator('#openProposals').click();const count=await p.locator('.action-option').count();if(count!==4)throw Error('Expected four offers at week '+week);
+ await p.locator('#openProposals').click();assert.equal(await p.locator('#toast').isVisible(),false,'Previous-week feedback must not cover the confirmation');const count=await p.locator('.action-option').count();if(count!==4)throw Error('Expected four offers at week '+week);
  await p.locator('.action-option:not(:disabled)').first().click();if(week===30)await snap('week30-choice');await p.locator('#advanceButton').click();await drain('campaign-week-'+week);
  const state=await p.evaluate(()=>JSON.parse(localStorage.getItem('okyakusama.save.v1')));if(state.history.length!==week)throw Error('Wrong history length '+week);if(state.finished&&week<30)throw Error('Campaign ended early '+week);
  }
