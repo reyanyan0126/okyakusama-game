@@ -2,9 +2,8 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const load=p=>fs.readFileSync(path.join(__dirname,'..',p),'utf8');
 const html=load('index.html'),css=load('compact-home-v214.css'),sw=load('sw.js');
-assert(html.includes('href="compact-home-v214.css"'),'new CSS loaded');
-assert(html.indexOf('href="layout-repair-v290.css"')<html.indexOf('href="compact-home-v214.css"'),'compact rules loaded last');
-assert(html.includes('v2.14.0')&&/okyakusama-v2\.(14|15|16|17|18|19|20)\.0-/.test(sw));
+assert(html.includes('href="ui.css"'),'single stylesheet loaded');
+assert(html.includes('v2.17.0')&&/okyakusama-v2\.(14|15|16|17|18|19|20)\.0-/.test(sw));
 assert(sw.includes("'./compact-home-v214.css'"));
 assert.equal((html.match(/id="openProposals"/g)||[]).length,1,'keep one bound strategy button');
 assert.equal((html.match(/id="openStatusSheet"/g)||[]).length,1,'keep one status button');

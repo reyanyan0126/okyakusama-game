@@ -78,10 +78,11 @@ function art(role,mood,kind,index){
   '<rect x="2" y="2" width="156" height="96" rx="2" fill="none" stroke="#3e3735" stroke-width="1.5" opacity=".19"/></svg>';
 }
 
-function panel(line,index,kind,tier,all,actionId){
+function panel(line,index,kind,tier,all,actionId,seen=new Set()){
  const who=speaker(line,index,actionId),mood=expression(line,index,tier),label=SPEAKER[who].label;
+ const repeated=seen.has(who);seen.add(who);
  return '<article class="manga-panel'+(all?' is-revealed':'')+'" data-panel="'+index+'" data-role="'+clean(who)+'" data-mood="'+clean(mood)+'" data-setting="'+clean(kind)+'"'+(all?'':' aria-hidden="true"')+'>'+
-  '<div class="manga-visual">'+art(who,mood,kind,index)+'</div>'+
+  (repeated?'':'<div class="manga-visual">'+art(who,mood,kind,index)+'</div>')+
   '<div class="manga-dialogue"><span class="manga-beat">'+String(index+1)+' / 3 · '+clean(label)+'</span>'+
   '<p class="manga-line">'+clean(line)+'</p></div></article>';
 }
@@ -89,9 +90,9 @@ function markup(id,lines,options={}){
  const raw=Array.isArray(lines)?lines:[];
  const fallback=['店長「今週の作戦を確認しましょう」','従業員「売り場へ伝えます」','常連「どんな店になるのかな」'];
  const text=[0,1,2].map(i=>raw[i]||fallback[i]);
- const scene=sceneKey(id,options.setting),all=Boolean(options.all);
+ const scene=sceneKey(id,options.setting),all=Boolean(options.all),seen=new Set();
  return '<div class="manga-strip'+(options.result?' manga-strip-result':'')+'" role="group" aria-label="3コマ漫画・'+clean(options.result?'施策の結果':'営業中の出来事')+'">'+
-  text.map((line,i)=>panel(line,i,scene,options.tier||'success',all,id)).join('')+
+  text.map((line,i)=>panel(line,i,scene,options.tier||'success',all,id,seen)).join('')+
   '<p class="manga-progress" aria-hidden="true">● ● ●</p></div>';
 }
 function reveal(container,index){

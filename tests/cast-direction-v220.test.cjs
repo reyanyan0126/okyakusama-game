@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const read=n=>fs.readFileSync(path.join(__dirname,'..',n),'utf8');
 const Cast=require('../cast-director-v220.js'),Manga=require('../manga-v200.js'),G=require('../engine.js');
-const html=read('index.html'),sw=read('sw.js'),css=read('cast-director-v220.css'),js=read('cast-director-v220.js');
+const html=read('index.html')+read('ui.css'),sw=read('sw.js'),css=read('cast-director-v220.css'),js=read('cast-director-v220.js');
 assert.equal(Cast.CAST.length,5);
 assert.equal(new Set(Cast.CAST.map(c=>c.id)).size,5);
 assert.equal(new Set(Cast.CAST.map(c=>c.label)).size,5);

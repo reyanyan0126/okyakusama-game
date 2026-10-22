@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const read=p=>fs.readFileSync(path.join(__dirname,'..',p),'utf8');
 const T=require('../scene.js').theater,G=require('../engine.js');
-const js=read('scene.js'),html=read('index.html'),css=read('layout-repair-v290.css'),sw=read('sw.js');
+const js=read('scene.js'),html=read('index.html')+read('ui.css'),css=read('layout-repair-v290.css'),sw=read('sw.js');
 assert(!js.includes('class="arm arm-left"'),'no old procedural arms');
 assert(!js.includes('class="head"'),'no procedural head');
 assert(!js.includes('const hair=boss?'),'remove SVG drawn human anatomy');

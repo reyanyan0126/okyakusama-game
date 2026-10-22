@@ -56,7 +56,7 @@ assert.equal((old.match(/<symbol id="(?:register|robot|bento|staff|festival|shop
 assert(styles.includes('animation-iteration-count:1!important'),'global finite animation policy');
 assert(!/animation-iteration-count:\s*infinite\s*!important/.test(styles));
 assert(app.includes('B?.family(h.actionId)'));
-assert(sw.includes('okyakusama-v2.14.0-simple-home-cache-1'));
+assert(/const CACHE_NAME = 'okyakusama-v[0-9.]+-[^']+'/.test(sw));
 assert(sw.includes('assets/episode-cinema-v170.svg'));
 assert(sw.includes('assets/root-cinema-v170.svg'));
 console.log('PASS v1.7.0: 24 independent episodes, 144 illustrated frames, suited protagonist, finite motion and offline cache');

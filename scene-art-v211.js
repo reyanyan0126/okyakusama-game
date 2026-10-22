@@ -26,20 +26,7 @@ function makeScene(kind,label){
 function insertAfter(target,node){if(target)target.insertAdjacentElement('afterend',node)}
 function mount(){
  const title=q('#titleScreen .title-visual');
- if(title){title.replaceChildren(makeScene('cover','開店前の商店と経営コンサルタントの情景'));title.classList.remove('v210-illustrated-cover')}
- const contract=q('#contractsScreen .contract-item.available');
- if(contract){const old=contract.querySelector('.new-art-banner');if(old)old.remove();contract.insertBefore(makeScene('contract','再建が必要な店と依頼書'),contract.firstChild)}
- const office=q('#officeView .office-hero');if(office){office.classList.add('scene-v211-office')}
- const viewScene=(sel,kind,label)=>{const heading=q(sel+' .scene-heading');const old=heading?.nextElementSibling;if(old?.classList.contains('new-art-banner'))old.remove();insertAfter(heading,makeScene(kind,label))};
- viewScene('#voiceView','voice','常連客・店長・買い物客の三者三様の声');
- viewScene('#recordsView','records','数字を記録した経営帳簿と売上グラフ');
- const proposal=q('#proposalSheet .proposal-top');
- insertAfter(proposal,makeScene('decision','ホワイトボードで週の戦略を相談する会議'));
- const report=q('#reportScene .report-sheet');
- if(report){report.querySelectorAll('.new-art-banner').forEach(n=>n.remove());report.insertBefore(makeScene('ledger','今週の経営結果をまとめた収支報告書'),report.firstChild)}
- insertAfter(q('#statusSheet .status-head'),makeScene('status','経営状況を調査するコンサルタントと棒グラフ'));
- insertAfter(q('#moneySheet .money-sheet-top'),makeScene('money','伝票と財布を並べた会計説明'));
- insertAfter(q('#rescueScene .rescue-kicker'),makeScene('rescue','経営危機の警告と資金回復グラフ'));
+ if(title){title.replaceChildren();title.classList.remove('v210-illustrated-cover')}
  const painting=q('#prologuePainting'),counter=q('#prologueCounter');
  if(painting&&counter){
   const symbol=document.createElement('div');symbol.className='v211-story-item';painting.append(symbol);

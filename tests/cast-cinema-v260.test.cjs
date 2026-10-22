@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const read=n=>fs.readFileSync(path.join(__dirname,'..',n),'utf8');
 const S=require('../cast-cinema-v260.js'),C=require('../cast-director-v220.js'),M=require('../manga-v200.js'),G=require('../engine.js');
-const html=read('index.html'),sw=read('sw.js'),css=read('cast-cinema-v260.css'),js=read('cast-cinema-v260.js');
+const html=read('index.html')+read('ui.css'),sw=read('sw.js'),css=read('cast-cinema-v260.css'),js=read('cast-cinema-v260.js');
 assert.equal(C.CAST.length,5);
 assert.deepEqual(S.MOODS,['normal','happy','angry','sad','panic']);
 for(const actor of C.CAST){

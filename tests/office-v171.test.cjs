@@ -19,7 +19,7 @@ for(const v of visitors)for(const m of moods){
  assert(portraits.includes('id="portrait-'+v+'-'+m+'"'),v+' '+m);
 }
 assert(html.includes('office-cinema-v171.svg#office-title'));
-assert(html.includes('office-cinema-v171.svg#office-normal'));
+assert(!html.includes('class="office-room-art"'),'retired decorative office must not return');
 assert(html.includes('id="buyerPersona"'));
 assert(js.includes('drawing.innerHTML=\'<use href="./assets/office-cinema-v171.svg#office-\'+kind'));
 assert(js.includes("Math.floor((Math.max(1,s.week)-1)/4)%locals.length"));

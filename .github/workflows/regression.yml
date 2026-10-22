@@ -1,24 +1,11 @@
 name: Game regression tests
-# Keep the newest commit under test; obsolete runs from repeated art review edits
-# should not exhaust browser CI workers or delay the final result.
-concurrency:
-  group: game-regression-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 on:
   pull_request:
   push:
-    branches:
-      - main
-      - feature/v2.15.0-ui-consistency
-      - feature/v1.1.0-four-choice-compact
-      - feature/v1.2.0-outcomes-comedy
-      - feature/v1.3.0-consequence-arcs
-      - feature/v1.4.0-week-theater
-      - feature/v1.5.0-art-storyboards
-      - feature/v1.6.0-story-incidents
-      - feature/v1.6.1-cast-layout
-      - feature/v1.7.0-scene-cinema
-      - feature/v1.7.1-office-story-art
+    branches: [main]
+concurrency:
+  group: game-regression-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -28,73 +15,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Check illustrated prologue and semantic choice symbols
-        run: node tests/illustration-v173.test.cjs
-      - name: Check complete-portrait manga and CSS removal
-        run: node tests/manga-v200.test.cjs
-      - name: Verify the v2.1 and v2.1.1 visual rebuild
-        run: |
-          node tests/visual-v210.test.cjs
-          node tests/scene-art-v211.test.cjs
-          node tests/cast-direction-v220.test.cjs
-          node tests/cast-cinema-v260.test.cjs
-          node tests/decision-ledger-v230.test.cjs
-          node tests/store-scenes-v250.test.cjs
-          node tests/layout-repair-v290.test.cjs
-      - name: Audit production character art readiness
-        run: |
-          node scripts/audit-cast-art-v270.cjs
-          node tests/audit-cast-art-v270.test.cjs
-          node tests/art-review-v280.test.cjs
-          node tests/art-review-handoff-v300.test.cjs
-          node tests/cast-gallery-v2100.test.cjs
-          node tests/cast-gallery-art-v2110.test.cjs
-          node tests/cast-art-v2120.test.cjs
-          node tests/legacy-people-v213.test.cjs
-          node tests/compact-home-v214.test.cjs
-          node tests/protagonist-preview-v2101.test.cjs
-      - name: Verify removal of procedural people and viewport safe areas
-        run: node tests/layout-repair-v290.test.cjs
-      - name: Run Node game tests
-        run: |
-          for test in tests/crisis-v100.test.cjs tests/four-choice-v110.test.cjs tests/outcome-v120.test.cjs tests/story-v130.test.cjs tests/theater-v140.test.cjs tests/storyboards-v150.test.cjs tests/art-v160.test.cjs tests/cast-layout-v161.test.cjs tests/cinema-v170.test.cjs tests/office-v171.test.cjs tests/onboarding-v101.test.cjs tests/ui-smoke.test.cjs tests/v099-campaign.test.cjs tests/finance-v094.test.cjs tests/v095-rootcause.test.cjs; do echo "RUNNING $test"; timeout 45s node "$test"; done
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Install browser test dependencies
-        run: |
-          python -m pip install playwright==1.51.0
-          python -m playwright install --with-deps chromium webkit
-      - name: Test first-run tutorial, resume and four-choice policies and dashboard
-        run: |
-          python tests/layout-repair-v290.py
-          python tests/illustration-v173.py
-          python tests/manga-v200.py
-          python tests/cast-direction-v220.py
-          python tests/cast-cinema-v260.py
-          python tests/art-review-v280.py
-          python tests/cast-gallery-v2100.py
-          python tests/cast-art-v2120.py
-          python tests/legacy-people-v213.py
-          python tests/compact-home-v214.py
-          python tests/screen-audit-v215.py
-          python tests/protagonist-preview-v2101.py
-          python tests/decision-ledger-v230.py
-          python tests/store-scenes-v250.py
-          python tests/office-v171.py
-          python tests/onboarding-v101.py
-          python tests/dashboard-v110.py
-          python tests/outcome-v120.py
-          python tests/story-v130.py
-          python tests/theater-v140.py
-          python tests/storyboards-v150.py
-          python tests/art-v160.py
-          python tests/cast-layout-v161.py
-          python tests/cinema-v170.py
-      - name: Upload manga visual review screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: manga-390px-review
-          path: test-artifacts/*.png
-          if-no-files-found: warn
+      - name: Current game, save compatibility, finance, story and art regression suite
+        run: node --test tests/*.test.cjs
+      # Browser assertions now live in ui-audit.yml: six widths, both engines,
+      # all branches and a full 30-week DOM campaign. Version-specific visual
+      # snapshots remain in tests/ as historical references, not current gates.

@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path');
 const root=path.join(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f),'utf8');
-const html=read('index.html'),app=read('app.js'),css=read('overhaul-v210.css');
+const html=read('index.html')+read('ui.css'),app=read('app.js'),css=read('overhaul-v210.css');
 const presenter=read('scene-art-v211.js'),sw=read('sw.js'),manga=read('manga-v200.js');
 const G=require('../engine.js'),M=require('../manga-v200.js');
 assert(html.includes('overhaul-v210.css'));
@@ -20,7 +20,7 @@ for(const key of ['titleScreen','contractsScreen','prologueScreen','officeView',
  assert(css.includes('#'+key),key+' has redesigned styling');
 for(const role of ['cover','contract','voice','records','ledger'])
  assert(presenter.includes(' '+role+':frame('),role+' has a dedicated illustrated scene');
-assert(presenter.includes("if(report){report.querySelectorAll")&&presenter.includes("const title=q('#titleScreen .title-visual')"));
+assert(!presenter.includes("if(report){report.querySelectorAll"),"report is text-first without a decorative banner");
 assert(!presenter.includes("q('#outcomeScene'"),"keep the existing three-panel outcome composition");
 assert(!manga.includes('manga-painted-character'),'low-resolution 90px sprite enlargement removed');
 assert(manga.includes('manga-illustrated-person'));

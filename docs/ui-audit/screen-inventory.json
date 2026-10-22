@@ -1,0 +1,190 @@
+{
+  "base": "931fa86f37047f60575a30b4c5054941cb61045f",
+  "nodes": [
+    {
+      "tag": "section",
+      "id": "titleScreen",
+      "attributes": " class=\"entry-screen\" aria-label=\"タイトル画面\""
+    },
+    {
+      "tag": "section",
+      "id": "contractsScreen",
+      "attributes": " class=\"entry-screen\" aria-label=\"コンサル依頼一覧\" hidden"
+    },
+    {
+      "tag": "section",
+      "id": "prologueScreen",
+      "attributes": " class=\"entry-screen prologue-screen\" aria-label=\"依頼前の短い物語\" hidden"
+    },
+    {
+      "tag": "div",
+      "id": "officeView",
+      "attributes": " class=\"view-panel\" role=\"region\" aria-label=\"経営画面\""
+    },
+    {
+      "tag": "details",
+      "id": "homeMetrics",
+      "attributes": " class=\"home-metrics-v214\""
+    },
+    {
+      "tag": "section",
+      "id": "voiceView",
+      "attributes": " class=\"view-panel\" role=\"region\" aria-label=\"世間の声\" hidden"
+    },
+    {
+      "tag": "section",
+      "id": "recordsView",
+      "attributes": " class=\"view-panel\" role=\"region\" aria-label=\"経営記録\" hidden"
+    },
+    {
+      "tag": "div",
+      "id": "historyPanel",
+      "attributes": " class=\"history-panel\" hidden"
+    },
+    {
+      "tag": "section",
+      "id": "statusSheet",
+      "attributes": " class=\"status-sheet\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"statusTitle\" hidden"
+    },
+    {
+      "tag": "section",
+      "id": "proposalSheet",
+      "attributes": " class=\"proposal-sheet\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"proposalTitle\" hidden"
+    },
+    {
+      "tag": "details",
+      "id": "optionalActions",
+      "attributes": " class=\"optional-actions\""
+    },
+    {
+      "tag": "details",
+      "id": "devilSection",
+      "attributes": " class=\"devil-section\""
+    },
+    {
+      "tag": "div",
+      "id": "weekScene",
+      "attributes": " class=\"week-scene\" role=\"dialog\" aria-modal=\"true\" aria-label=\"今週の経営結果\" hidden"
+    },
+    {
+      "tag": "div",
+      "id": "shockScene",
+      "attributes": " class=\"shock-scene\" hidden"
+    },
+    {
+      "tag": "section",
+      "id": "outcomeScene",
+      "attributes": " class=\"theater-panel\" hidden aria-labelledby=\"outcomeTitle\""
+    },
+    {
+      "tag": "div",
+      "id": "outcomeDetailsPanel",
+      "attributes": " class=\"theater-detail-panel\" hidden"
+    },
+    {
+      "tag": "section",
+      "id": "newsScene",
+      "attributes": " class=\"theater-panel\" hidden aria-labelledby=\"newsTitle\""
+    },
+    {
+      "tag": "div",
+      "id": "workingScene",
+      "attributes": " class=\"working-scene\""
+    },
+    {
+      "tag": "div",
+      "id": "rescueScene",
+      "attributes": " class=\"rescue-scene\" hidden"
+    },
+    {
+      "tag": "div",
+      "id": "reportScene",
+      "attributes": " class=\"report-scene\" hidden"
+    },
+    {
+      "tag": "section",
+      "id": "moneySheet",
+      "attributes": " class=\"money-sheet\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"moneyTitle\" hidden"
+    },
+    {
+      "tag": "div",
+      "id": "modal",
+      "attributes": " class=\"modal-layer\" hidden"
+    },
+    {
+      "tag": "div",
+      "id": "modalContent",
+      "attributes": ""
+    }
+  ],
+  "modal_functions": [
+    "openModal",
+    "closeModal",
+    "resultModal",
+    "finishModal",
+    "showFirstWeekGuide",
+    "aboutModal"
+  ],
+  "fixtures": [
+    "outcome-success",
+    "fire",
+    "story-arc_register_machine",
+    "outcome-great",
+    "accident-delivery",
+    "accident-rain",
+    "story-loyalty",
+    "rescue",
+    "outcome-failure",
+    "memory",
+    "story-arc_bento_camera",
+    "story-blame",
+    "story-arc_staff_listen",
+    "ending-資金ショート！契約強制終了",
+    "accident-donation",
+    "accident-complaint",
+    "story-arc_register_graduation",
+    "story-apology",
+    "accident-absent",
+    "story-arc_bento_chef",
+    "story-recall",
+    "accident-freezer",
+    "story-arc_staff_robot",
+    "accident-waste",
+    "story-arc_media_fake",
+    "accident-viral",
+    "story-arc_register_boss",
+    "story-audit",
+    "story-arc_bento_label",
+    "story-explain",
+    "story-arc_staff_pizza",
+    "story-arc_media_ignore",
+    "story-arc_festival_fee",
+    "accident-rival",
+    "story-arc_finale_steal",
+    "ending-優良店の改革者",
+    "story-arc_register_pay",
+    "accident-festival",
+    "story-arc_bento_real",
+    "story-pop",
+    "story-arc_staff_resign",
+    "story-arc_media_silence",
+    "story-arc_festival_locals",
+    "story-tasting",
+    "accident-power",
+    "story-arc_finale_vote",
+    "ending-町に選ばれた再建者",
+    "story-arc_festival_free",
+    "story-local",
+    "story-arc_media_open",
+    "ending-契約満了、更新なし",
+    "story-arc_festival_parade",
+    "story-arc_finale_contract",
+    "ending-責任者、荷物をまとめる",
+    "story-arc_finale_team",
+    "ending-悪魔の敏腕コンサル",
+    "ending-契約更新！",
+    "ending-黒字の代償",
+    "campaign",
+    "large-low-reputation"
+  ]
+}
