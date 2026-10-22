@@ -17,6 +17,10 @@ Base: 931fa86f37047f60575a30b4c5054941cb61045f. No engine, finance, story or sav
 | P2 | Same actor repeated in one manga scene | Keep first portrait per distinct speaker, preserve all dialogue |
 | P2 | Home week and headings repeated | One visible week indicator |
 | P2 | Title still says v2.14 despite v2.16 cache | Visible release and cache version updated together |
+| P1 | Art review character filters overflow at 320px | Wrapping filter controls |
+| P1 | Offline navigation fails in browser regression | Current-release cache-first response; controlled-page precondition |
+| P2 | News card repeats portraits in one illustration | A single neutral news symbol |
+| P2 | Unavailable expressions repeat the normal portrait | Disable missing variants and label them pending |
 | P3 | Overlarge choice illustrations and heavy shadows | Compact symbols, restrained borders |
 
 ## Validation
@@ -34,3 +38,7 @@ Existing artwork is reused. No new portraits have been generated. The existing a
 ## CSS maintenance
 
 The running game loads only ui.css. Its lower legacy layer retains historical presentation; the interface layer owns current layout. Historical standalone styles remain for auxiliary gallery/preview pages and archived tests. Edit current layout in the interface layer, not by adding another stylesheet. Only the HTML hidden semantic has an important declaration.
+
+## Follow-up verification (2026-10-22)
+
+Commit 99d46e5 passes GitHub Game regression tests. Local Chromium at 320px passes 368 branch/progression/auxiliary-page snapshots with zero horizontal overflows and page errors, including 30-week completion and offline reload. The six-width Chromium/WebKit CI matrix remains the release gate. The added sw-offline.test.cjs verifies cached documents/assets without network, navigation fallback, external-request exclusion, and rejection of missing non-document resources. Artwork variants remain a known P2 limitation; no placeholder is represented as a finished expression.
