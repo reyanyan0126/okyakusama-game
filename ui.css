@@ -2355,4 +2355,44 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #35
  .proposal-sheet .proposal-panel{padding-inline:12px}
 }
 
+/* v2.19 visual-first presentation: preserve DOM hooks, reduce visible prose. */
+#officeView .office-hero-caption>span:first-child,#officeView .office-nameplate,#officeView .decision-top .eyebrow,#officeView .decision-week{display:none}
+#officeView .office-hero-heading{min-height:0;margin:0;padding:0}
+#officeView .office-hero-caption{gap:4px}
+#officeView .office-hero-caption #officeSceneText{font-size:13px;line-height:1.45}
+#officeView .office-details{font-size:12px}
+#officeView .meeting-speaker{font-size:11px}
+#officeView .meeting-brief-copy .action-intro{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#officeView .meeting-stakes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#officeView .meeting-stakes>div{min-width:0}
+#officeView .meeting-stakes span{font-size:11px}
+#officeView .meeting-stakes strong{font-size:14px}
+#officeView .news-strip #latestBody{display:none}
+#voiceView .scene-heading p,#recordsView .scene-heading p{display:none}
+#voiceView .public-news p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#voiceView .voice-metric{min-width:0}
+#recordsView .records-summary{gap:8px}
+#proposalSheet .proposal-meeting-target{font-size:12px}
+#proposalSheet .proposal-budget{font-size:12px}
+#proposalSheet .proposal-money-btn{font-size:12px}
+#proposalSheet .investment-heading small,#proposalSheet .project-note{font-size:11px}
+#proposalSheet .performance-preview>small{display:none}
+#proposalSheet .risk-caption{font-size:12px}
+#reportScene .report-description{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+#reportScene .report-satire,#reportScene .report-next{display:none}
+#reportScene .report-cashflow .cash-why{font-size:11px}
+#reportScene .report-impact{gap:8px}
+#reportScene .report-impact>div{min-width:0}
+#reportScene .financial-detail>summary{font-weight:650}
+#workingScene .working-action{font-size:12px}
+#moneySheet .money-sheet-top>div>span{display:none}
+#moneySheet .money-explainer{font-size:12px;line-height:1.5}
+@media(max-width:430px){
+ #officeView .meeting-brief{gap:8px}
+ #officeView .meeting-brief-copy h3{font-size:16px}
+ #officeView .decision-card{padding:12px}
+ #proposalSheet .proposal-body{gap:10px}
+ #reportScene .report-sheet{padding-inline:12px}
+}
+
 }
