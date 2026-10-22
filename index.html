@@ -255,14 +255,14 @@
 
     <main>
       <div id="officeView" class="view-panel" role="region" aria-label="経営画面">
-      <div class="topline"><span class="eyebrow"></span><span class="topline-right"><span id="weekIndicator">1 / 30</span> 週</span></div>
+      <div class="topline"><span class="topline-right"><span id="weekIndicator">1 / 30</span> 週</span></div>
       <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
       <div class="layout">
         <section class="main-column" aria-labelledby="clientTitle">
           <article class="client-hero office-hero" aria-label="小さなコンサル事務所。仕事机と未払いの請求書">
             
-            <div class="office-hero-heading"><span class="office-nameplate">現在の案件</span><span id="heroWeek" class="office-week">第1週</span></div>
-            <div class="office-hero-caption"><span>案件</span><h2 id="clientTitle">モグモグマート</h2><span id="officeSceneText" class="office-under" aria-live="polite">開店したばかり。再建はここから。</span></div>
+            <div class="office-hero-heading"><span id="heroWeek" class="office-week">第1週</span></div>
+            <div class="office-hero-caption"><h2 id="clientTitle">モグモグマート</h2><span id="officeSceneText" class="office-under" aria-live="polite">開店したばかり。再建はここから。</span></div>
             <div class="office-visitors" hidden aria-label="店長と常連客の表情">
               <div class="cast-portrait cast-avatar">
                 <svg id="bossFace" class="portrait-complete" data-mood="normal" viewBox="0 0 100 120" role="img" aria-label="店長・普通の表情"><use href="./assets/portraits-v171.svg#portrait-manager-normal"></use></svg>
@@ -350,7 +350,7 @@
       </div>
       </div><!-- officeView -->
       <section id="voiceView" class="view-panel" role="region" aria-label="世間の声" hidden>
-        <div class="scene-heading"><span class="scene-eyebrow">SOCIAL WATCH</span><h2>街のみんなの声</h2><p></p></div>
+        <div class="scene-heading"><h2><svg class="mini-ill" aria-hidden="true"><use href="#art-people"/></svg> 世論</h2></div>
         <div class="voice-top-card">
           <div class="voice-score-title"><span class="voice-mascot" id="voiceFace" aria-hidden="true"><svg class="mini-ill" aria-hidden="true"><use href="#art-smile"/></svg></span><div><span class="scene-eyebrow">お店の評判</span><strong id="voiceTrust">65 / 100</strong></div></div>
           <div class="voice-track"><span id="voiceTrustBar"></span></div>
@@ -361,11 +361,11 @@
           <div class="voice-metric"><span><svg class="mini-ill" aria-hidden="true"><use href="#art-warning"/></svg> 不満</span><b id="voiceFrust">23</b><div class="voice-track"><span id="voiceFrustBar" class="warm"></span></div></div>
         </div>
         <div class="public-news"><span class="live-pill">● 街の速報</span><h3 id="voiceHeadline">開店準備は万端！</h3><p id="voiceBody">新着なし</p></div>
-        <div class="section-bar voice-feed-heading"><h3>街の声</h3></div>
+        
         <div id="publicFeed" class="social-feed"></div>
       </section>
       <section id="recordsView" class="view-panel" role="region" aria-label="経営記録" hidden>
-        <div class="scene-heading"><span class="scene-eyebrow">MY CONSULTING OFFICE</span><h2>コンサル手帳</h2><p></p></div>
+        <div class="scene-heading"><h2><svg class="mini-ill" aria-hidden="true"><use href="#art-bill"/></svg> 記録</h2></div>
         <div class="records-summary"><div><span>累計報酬</span><strong id="recordsPay">0円</strong></div><div><span>これまでの売上</span><strong id="recordsSales">0万円</strong></div><div><span>経営した週</span><strong id="recordsWeeks">0週</strong></div><div><span>自分の財布</span><strong id="recordsPersonal">2.8万円</strong></div></div>
         <div class="bottom-area">
         <button id="historyToggle" class="utility-button" type="button" aria-expanded="false">▤ 経営履歴 <span id="historyCount">0件</span> <span class="caret">⌄</span></button>
@@ -385,7 +385,7 @@
   <section id="statusSheet" class="status-sheet" role="dialog" aria-modal="true" aria-labelledby="statusTitle" hidden>
     <button type="button" id="statusBackdrop" class="status-backdrop" aria-label="経営の詳細を閉じる"></button>
     <div class="status-panel">
-      <div class="status-head"><div><small>CONSULTING FILE</small><h2 id="statusTitle">経営の詳しい状況</h2></div><button id="statusClose" type="button" class="dialog-close">閉じる ×</button></div>
+      <div class="status-head"><div><h2 id="statusTitle">経営の詳しい状況</h2></div><button id="statusClose" type="button" class="dialog-close">閉じる ×</button></div>
       <div id="statusContent" class="status-content"></div>
       <button id="statusReport" class="status-report-btn" type="button" hidden>前回の決算を見る ›</button>
       <button type="button" id="statusDone" class="primary-btn">画面に戻る</button>
@@ -394,10 +394,10 @@
   <section id="proposalSheet" class="proposal-sheet" role="dialog" aria-modal="true" aria-labelledby="proposalTitle" hidden>
     <button class="proposal-scrim" id="closeProposalBackdrop" aria-label="提案を閉じる" type="button"></button>
     <div class="proposal-panel">
-      <div class="proposal-top"><span><svg class="mini-ill" aria-hidden="true"><use href="#art-meeting"/></svg> 経営会議</span><button type="button" id="closeProposals">閉じる ×</button></div>
+      <div class="proposal-top"><span aria-hidden="true"><svg class="mini-ill"><use href="#art-meeting"/></svg></span><button type="button" id="closeProposals">閉じる ×</button></div>
       <div class="proposal-body">
       <h2 id="proposalTitle">作戦を選ぶ</h2>
-      <p class="proposal-budget" id="proposalBudget">毎週、固定費が発生します</p><button type="button" id="proposalMoneyButton" class="proposal-money-btn">なぜ資金が減る？ 収支内訳を見る ›</button><p class="proposal-meeting-target" id="proposalMeetingTarget">今週の会議目標</p><p class="proposal-diagnosis" id="proposalDiagnosis" hidden></p>
+      <div class="proposal-finance-row"><p class="proposal-budget" id="proposalBudget">毎週、固定費が発生します</p><button type="button" id="proposalMoneyButton" class="proposal-money-btn">収支内訳 ›</button></div><p class="proposal-meeting-target" id="proposalMeetingTarget">今週の会議目標</p><p class="proposal-diagnosis" id="proposalDiagnosis" hidden></p>
       <div id="actions" class="action-grid" role="radiogroup" aria-label="経営施策を選択"></div>
       <details id="optionalActions" class="optional-actions"><summary><span>追加策</span><small id="optionalSummary">投資・契約</small></summary>
       <div class="optional-body"><div class="investment-zone" aria-label="今週の設備投資">
@@ -406,7 +406,7 @@
         <p id="projectNote" class="project-note">未選択なら0円</p>
       </div>
       <details id="devilSection" class="devil-section"><summary><svg class="mini-ill"><use href="#art-devil"/></svg> 悪魔の取引 <small id="devilAvailability">今、お金を得て後で返済</small></summary><div id="devilChoices" class="devil-choices"></div><p id="devilNotice">1回の契約には必ず代償があります。</p></details></div></details>
-      <div class="selected-detail"><span class="detail-icon" id="selectedIcon"><svg class="mini-ill" aria-hidden="true"><use href="#art-document"/></svg></span><div class="selected-text"><strong id="selectedTitle">選んだ施策</strong><p id="selectedDesc"></p></div></div>
+      <details class="selected-detail" open><summary>選択中の作戦</summary><span class="detail-icon" id="selectedIcon"><svg class="mini-ill" aria-hidden="true"><use href="#art-document"/></svg></span><div class="selected-text"><strong id="selectedTitle">選んだ施策</strong><p id="selectedDesc"></p></div></div>
       <div class="performance-preview"><div><strong>今回の施策の成否</strong><small id="successStreak">連続好調 0/3</small></div><p id="selectedPerformance">失敗・成功・大成功の確率を計算中</p><small>失敗＝通常効果80％／成功＝100％／大成功＝135％。費用は発生し、事故・炎上は別判定。</small></div>
       <div class="risk-row"><span>炎上リスク</span><strong id="riskLabel">低</strong><span class="risk-caption" id="riskNote">比較的穏やか</span></div>
       </div>
@@ -445,7 +445,7 @@
     </div>
     <div id="reportScene" class="report-scene" hidden>
       <div class="report-sheet">
-        <div class="report-eyebrow" id="reportWeek">WEEK 01 / 30</div>
+        <div class="report-eyebrow" id="reportWeek">第1週</div>
         <div class="report-icon" id="reportIcon" aria-hidden="true"><svg class="mini-ill" aria-hidden="true"><use href="#art-document"/></svg></div>
         <h2 id="reportTitle">今週の結果</h2>
         <p class="report-headline" id="reportHeadline"></p>
@@ -463,11 +463,11 @@
         <div id="economyReport" class="economy-report"><svg class="mini-ill"><use href="#art-bill"/></svg><span id="economyHeadline">今週の経済ニュース</span></div>
         <p class="settlement-profit">今週の営業利益 <strong id="settlementProfit"></strong></p><div class="report-cashflow"><div><span>お店の資金</span><strong id="reportCash">0万円</strong><small id="reportCashChange" class="money-change">先週から ±0万円</small><small id="storeMoneyWhy" class="cash-why">営業と支払いを集計中</small></div><div><span>自分の財布</span><strong id="reportExpenses">0万円</strong><small id="reportPersonalChange" class="money-change">先週から ±0万円</small><small id="personalMoneyWhy" class="cash-why">報酬と生活費を集計中</small></div></div>
         <button type="button" id="reportLedgerButton" class="report-ledger-button"><svg class="mini-ill" aria-hidden="true"><use href="#art-bill"/></svg> 収支内訳 <span>›</span></button>
-        <p id="reportSatire" class="report-satire">数字は正直。会議は別。</p>
+        
         <details class="financial-detail" id="financialDetail"><summary>決算詳細</summary>
         <div class="report-big-number"><span>今週の売上</span><strong id="reportSales">0万円</strong><small id="reportSalesDiff"></small></div>
         <div class="money-flow" aria-label="今週の収支の内訳">
-          <div class="money-flow-title"><strong>収支</strong><small>売上比</small></div>
+          <div class="money-flow-title"><strong>収支</strong></div>
           <div id="moneyFlowRows" class="money-flow-rows"></div>
           <div class="money-flow-total"><span>最終利益</span><strong id="flowProfit">0万円</strong></div>
           <div id="investmentResult" class="investment-result" hidden></div>
