@@ -10,5 +10,18 @@ const server=http.createServer((q,r)=>{const file=q.url.split('?')[0];r.setHeade
 }).listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));const b=await ({chromium,webkit})[process.env.BROWSER||'chromium'].launch(),p=await b.newPage();p.setDefaultTimeout(20000);
 await p.goto('http://localhost:'+server.address().port+'/');await p.evaluate(async()=>{await navigator.serviceWorker.ready;});await p.waitForFunction(()=>!!navigator.serviceWorker.controller);
 const save=G.play(G.initial(51),G.weeklyOffers(G.initial(51))[0].id);save.presentation={week:1,stage:'outcome',newsIndex:0};await p.evaluate(s=>localStorage.setItem('okyakusama.save.v1',JSON.stringify(s)),save);
-old=false;await p.evaluate(async()=>{const r=await navigator.serviceWorker.getRegistration();await r.update();});await p.waitForFunction(async()=>{const k=await caches.keys();return k.some(x=>x.startsWith('okyakusama-v3.0.0'))&&!k.includes('okyakusama-v2.18.0-simplified-ui-cache-1');});await p.reload();assert(await p.locator('body').innerText().then(t=>t.includes('PIXEL EDITION')));assert.deepEqual(await p.evaluate(()=>JSON.parse(localStorage.getItem('okyakusama.save.v1'))),save);await p.locator('#titleResume').click();await p.locator('#outcomeNext').waitFor();assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('okyakusama.save.v1')).rng),save.rng);
+old=false;
+await p.evaluate(async()=>{
+ const previous=navigator.serviceWorker.controller;
+ const changed=new Promise(resolve=>navigator.serviceWorker.addEventListener('controllerchange',resolve,{once:true}));
+ const registration=await navigator.serviceWorker.getRegistration();
+ await registration.update();
+ if(navigator.serviceWorker.controller===previous)await changed;
+});
+const cacheNames=await p.evaluate(async()=>{for(let i=0;i<100;i++){const keys=await caches.keys();if(keys.some(n=>n.startsWith('okyakusama-v3.0.0'))&&!keys.includes('okyakusama-v2.18.0-simplified-ui-cache-1'))return keys;await new Promise(r=>setTimeout(r,50));}return caches.keys();});
+assert(cacheNames.some(n=>n.startsWith('okyakusama-v3.0.0')));
+assert(!cacheNames.includes('okyakusama-v2.18.0-simplified-ui-cache-1'));
+await p.reload();await p.locator('#titleResume').waitFor();
+assert((await p.locator('body').innerText()).includes('PIXEL EDITION'));
+assert.deepEqual(await p.evaluate(()=>JSON.parse(localStorage.getItem('okyakusama.save.v1'))),save);await p.locator('#titleResume').click();await p.locator('#outcomeNext').waitFor();assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('okyakusama.save.v1')).rng),save.rng);
 console.log('PASS same-origin installed cache upgrade; exact save preservation; pending outcome resumes without reroll');await b.close();server.close();})().catch(e=>{console.error(e);process.exit(1)});
