@@ -31,7 +31,7 @@ Assets are original, rect-only SVG pixel art, with integer coordinates and `shap
 
 The five existing characters retain their original visual identifiers: dark-haired suited consultant with red tie; bespectacled president with brown suit; brown-haired female manager in green apron; orange-capped employee; brown-haired regular customer Mori in muted purple. The devil has a separate red/gold visual identity.
 
-Every character has normal, happy, angry, confused, surprised and sad expressions, in both full-body and face forms. There are 72 character assets, six store states, four room backgrounds, and ten icons (92 SVG assets total). See [asset gallery](assets.html).
+Every character has normal, happy, angry, confused, surprised and sad expressions, in both full-body and face forms. There are 72 character assets, six store states, four room backgrounds, and ten icons (93 SVG assets total, including the title logo). See [asset gallery](assets.html).
 
 ## Screen inventory and replacement
 
@@ -74,3 +74,5 @@ The original source-coupled UI tests are preserved under `tests/legacy-spec/*.hi
 - Save data is local to each browser and origin, as before. Changing device/browser requires export/import.
 - Costs on strategy cards describe the action's own expense or estimated saving, not total business outflow. Successful savings scale with outcome. Detailed financial records preserve that distinction.
 - A final release report will record actual CI, merge, deployment, and public checks. Source implementation alone is not deployment completion.
+
+The pixel title lettering is built from OFL-licensed Noto Sans JP glyphs using `scripts/build-pixel-brand.py` (license included). The install icons are exported from the same vector store illustration.

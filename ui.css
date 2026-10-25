@@ -181,6 +181,7 @@ header small {
   letter-spacing: 0.05em;
   text-shadow: 2px 2px 0 #d6d1bb;
 }
+.pixel-logo { width:272px; height:40px; }
 .title .tagline {
   font-size: 13px;
   letter-spacing: 0.12em;
