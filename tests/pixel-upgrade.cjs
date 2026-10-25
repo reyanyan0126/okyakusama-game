@@ -18,8 +18,8 @@ await p.evaluate(async()=>{
  await registration.update();
  if(navigator.serviceWorker.controller===previous)await changed;
 });
-const cacheNames=await p.evaluate(async()=>{for(let i=0;i<100;i++){const keys=await caches.keys();if(keys.some(n=>n.startsWith('okyakusama-v3.0.0'))&&!keys.includes('okyakusama-v2.18.0-simplified-ui-cache-1'))return keys;await new Promise(r=>setTimeout(r,50));}return caches.keys();});
-assert(cacheNames.some(n=>n.startsWith('okyakusama-v3.0.0')));
+const cacheNames=await p.evaluate(async()=>{for(let i=0;i<100;i++){const keys=await caches.keys();if(keys.some(n=>n.startsWith('okyakusama-v3.1.0'))&&!keys.includes('okyakusama-v2.18.0-simplified-ui-cache-1'))return keys;await new Promise(r=>setTimeout(r,50));}return caches.keys();});
+assert(cacheNames.some(n=>n.startsWith('okyakusama-v3.1.0')));
 assert(!cacheNames.includes('okyakusama-v2.18.0-simplified-ui-cache-1'));
 await p.reload();await p.locator('#titleResume').waitFor();
 assert((await p.locator('body').innerText()).includes('PIXEL EDITION'));

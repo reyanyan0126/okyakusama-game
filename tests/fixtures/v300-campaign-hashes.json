@@ -1,0 +1,162 @@
+[
+  {
+    "seed": 53,
+    "hash": "7b20de1f5d489b7cb69320e9c39a311c56a5f6ba0852de1331d58e8e76224036"
+  },
+  {
+    "seed": 106,
+    "hash": "8361653e185a362a80d957f625d74b30a619b8c38691b9761ce6d657f3719432"
+  },
+  {
+    "seed": 159,
+    "hash": "c209c78506509dcbf2e46ec5527ae30232427e8414ebec551838a06312ae0e52"
+  },
+  {
+    "seed": 212,
+    "hash": "c0783de02f5bf2bb5ee6670259f3ba4226e7811c8ceef8ec8ca5812c871592ef"
+  },
+  {
+    "seed": 265,
+    "hash": "498fbbfb52c8ebb16ad2525dc258fe1197cb0ba336a27058b1ebf00163bd5806"
+  },
+  {
+    "seed": 318,
+    "hash": "d06af19cac59979bb85c523751795c9491685233bb67fad2ed5da6162aae7f8e"
+  },
+  {
+    "seed": 371,
+    "hash": "24002b55956415b83aaee1e8f946da1a162e477b8fa277cc756301308b91ef31"
+  },
+  {
+    "seed": 424,
+    "hash": "aefeacf723223750bdef53415e026316060b6f1bba12450651355d699c8276b6"
+  },
+  {
+    "seed": 477,
+    "hash": "0406bade90309f38f369cc45a554597b3cc1403778dd4c64931aa6f56a53991a"
+  },
+  {
+    "seed": 530,
+    "hash": "bb86f3e9594958d9fa699d0ca11c341e7af59ddd3217cbeb1510fcc1c5e083e8"
+  },
+  {
+    "seed": 583,
+    "hash": "0ba821ef69afabc72d9df79a058d04968bf46fe89af6f54e4020226eb1f14262"
+  },
+  {
+    "seed": 636,
+    "hash": "f0bc86379c371f4088ee73fa3b5e7a23b9fa347ad60034148cc6d7b95cd6523d"
+  },
+  {
+    "seed": 689,
+    "hash": "22d0f27128ec683be2b91c78709cbf7f515b846fef8ae8d9e97926ca4d07ca48"
+  },
+  {
+    "seed": 742,
+    "hash": "5e2cb1ee396d534212ceab36899acf9fd8f9665415de4f1c1652bf47dd45c09b"
+  },
+  {
+    "seed": 795,
+    "hash": "402f47333144bf6696188b430868061c957c507705d3fa9f404e404c183a56e9"
+  },
+  {
+    "seed": 848,
+    "hash": "7efab0ee0395b9fc54e1b7b0ee9fd733f326ab5b4bf03188a0cd77653544cb1f"
+  },
+  {
+    "seed": 901,
+    "hash": "49f381d3b8daca29015d0a408968666382f9dbfd87a6d0b9a48bbf40fb42b5d3"
+  },
+  {
+    "seed": 954,
+    "hash": "c5dbfee277e08b80144dae5f3cf8f2be70751aadc0eee030eb52ea045fc24ce2"
+  },
+  {
+    "seed": 1007,
+    "hash": "a85905dbe282c22a4262ee81e8097ae2b1dd72d60ca9713bde5579b8efa3ef69"
+  },
+  {
+    "seed": 1060,
+    "hash": "b2692b318aaca91332614f4faa765a6d05360ef0b544427a34f6073b40f8a453"
+  },
+  {
+    "seed": 1113,
+    "hash": "b18438d7c1c1ba79efb514e08a0765c0499872413c8228e0393abc5f20dc5222"
+  },
+  {
+    "seed": 1166,
+    "hash": "385ec22aca6c4810f4bffcc4b6feae343aaf7fe8f9a5fe297a634364b56baf4d"
+  },
+  {
+    "seed": 1219,
+    "hash": "7cd2a76b5cb7123d1dd4feee5253fa215a333d7f40566feb45cb3a0465a5c057"
+  },
+  {
+    "seed": 1272,
+    "hash": "cbd19e36f45c5bdba9905df696409a5155897d6408cc5edf3e5027c372197495"
+  },
+  {
+    "seed": 1325,
+    "hash": "849c9c701c2d21568f51d54c6a9ed9357c7664c955f14f5db1bdc07944224abd"
+  },
+  {
+    "seed": 1378,
+    "hash": "92104c62b20f1230b55f9126ef2b9193c3d26e55a70061b9d90de52f43ae98de"
+  },
+  {
+    "seed": 1431,
+    "hash": "f419cfae7d9b88043957365ba7d3d825e030ffc6d2f1f4e3173eddee576147b5"
+  },
+  {
+    "seed": 1484,
+    "hash": "1290bd9b28eccea3abe4d01d4064c49497215795cbcdf6a00dfcd20b5c54e6d5"
+  },
+  {
+    "seed": 1537,
+    "hash": "2e9f9d65db7dcc4171f30006f63e24741edcba6040039086efc2dca3d9b99b44"
+  },
+  {
+    "seed": 1590,
+    "hash": "b37d03cfc2e014134079b54665d631635c9d17e0393860d5ddda7db29d2b4709"
+  },
+  {
+    "seed": 1643,
+    "hash": "9deded4312dcdb4c123bdb880c1ccf59424fc6b080385beac189f6c920752d6d"
+  },
+  {
+    "seed": 1696,
+    "hash": "797484ae040d18dbfa29aaed5b81db27a0f3d691607178b3fac32ee3d81ecaf7"
+  },
+  {
+    "seed": 1749,
+    "hash": "87b23f2da28cdb041dc8dcbca99cbe7e714e95536e3aa4d875d80ddde079af21"
+  },
+  {
+    "seed": 1802,
+    "hash": "cde9a2261f4000d8ee5387b25cc3c33b4511deb5847aecb72bc7f8e6aa7498e4"
+  },
+  {
+    "seed": 1855,
+    "hash": "4301d32165d1504464b26eabb91c02c3e521dba56cd5e7fe0bc68eec5f8aef18"
+  },
+  {
+    "seed": 1908,
+    "hash": "2d43e823c175a38ed1406eb672081885d9316d9b6d126a2633c8f916b9cc2e2b"
+  },
+  {
+    "seed": 1961,
+    "hash": "8266eace94b341656e9ea75b77c4700ff8e9ba6747f35ebe85a61c4ae3506dbe"
+  },
+  {
+    "seed": 2014,
+    "hash": "b96280591f669f29e43659200eec5779c7ddb56816f06365471438d4d92ee96a"
+  },
+  {
+    "seed": 2067,
+    "hash": "999926c5d74e38c751078636cedeebea981ff62befb985ca1c853402350028a4"
+  },
+  {
+    "seed": 2120,
+    "hash": "f53bc61761afe9e2ad6655166871afb10a1bb36e59fef8610d6bb1d26db64e42"
+  }
+]

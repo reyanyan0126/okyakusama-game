@@ -21,6 +21,7 @@
     main = document.getElementById("main");
   let game,
     screen = "title",
+    difficulty = "normal",
     project = null,
     devil = null,
     prologue = 0,
@@ -103,7 +104,7 @@
   }
   function title() {
     render(
-      `<section class="title"><span class="eyebrow">30週間の経営再建</span><h1><img class="pixel-logo" src="assets/pixel/logo.svg" width="136" height="20" alt="お客様のために。"></h1><p class="tagline">可愛い店で、黒い経営。</p>${store(G.initial(1), true)}<div class="buttons">${button("titleStart", "はじめる", "primary")}${hasSave && !loadError ? button("titleResume", "つづきから") : ""}${button("titleHelp", "遊び方", "quiet")}</div>${loadError ? '<p class="warn">セーブを読み込めませんでした。元データは上書きしていません。記録から書き出して保管できます。</p><button data-go="records">バックアップへ</button>' : ""}<p class="version">PIXEL EDITION · 3.0</p></section>`,
+      `<section class="title"><span class="eyebrow">30週間の経営再建</span><h1><img class="pixel-logo" src="assets/pixel/logo.svg" width="136" height="20" alt="お客様のために。"></h1><p class="tagline">可愛い店で、黒い経営。</p>${store(G.initial(1), true)}<div class="buttons">${button("titleStart", "はじめる", "primary")}${hasSave && !loadError ? button("titleResume", "つづきから") : ""}${button("titleHelp", "遊び方", "quiet")}</div>${loadError ? '<p class="warn">セーブを読み込めませんでした。元データは上書きしていません。記録から書き出して保管できます。</p><button data-go="records">バックアップへ</button>' : ""}<p class="version">PIXEL EDITION · 3.1.0</p></section>`,
     );
   }
   function contracts() {
@@ -111,12 +112,12 @@
       `${header("新しい依頼", "title")}<section class="stack">${store(G.initial(1))}<div class="panel stack"><span class="eyebrow">再建案件 01</span><h2>モグモグマート</h2>${dialogue("manager", "来月の給料も厳しいんです。相談だけでも、できますか。", "confused")}${list(
         [
           ["契約期間", "30週間"],
-          ["累計利益の目標", "255万円"],
+          ["累計利益の目標", money(G.MANAGEMENT.DIFFICULTIES[difficulty].target)],
           ["評判の条件", "50以上"],
-          ["店の資金", "19万5,000円"],
+          ["店の資金", money(G.MANAGEMENT.DIFFICULTIES[difficulty].cash)],
           ["自分の財布", "2万8,000円"],
         ],
-      )}${hasSave ? '<p class="warn">新しく始めると現在のセーブを置き換えます。記録画面でバックアップできます。</p>' : ""}${button("acceptMarket", "依頼を受ける", "primary")}</div></section>`,
+      )}<label>難易度<select id="difficulty">${Object.entries(G.MANAGEMENT.DIFFICULTIES).map(([id,d])=>`<option value="${id}" ${difficulty===id?"selected":""}>${d.name}</option>`).join("")}</select></label><p class="hint">難易度は開始資金と利益目標を変更します。途中変更不可。人員削減は短期の経費を減らしますが、士気低下・疲労・離職につながります。</p>${hasSave ? '<p class="warn">新しく始めると現在のセーブを置き換えます。記録画面でバックアップできます。</p>' : ""}${button("acceptMarket", "依頼を受ける", "primary")}</div></section>`,
     );
   }
   function showPrologue() {
@@ -268,7 +269,7 @@
             ],
             ["社会情勢", h.macroName || "旧記録：不明"],
           ]) +
-          `<p>${esc(h.macroDetail || "")}</p><p>${esc(h.crisisResponse || "")}</p><p>${esc(h.devilNote || "")}</p><p>${esc(h.rescueText || "")}</p>`,
+          `<p>${esc(h.workforceNote || "")}</p><p>${esc(h.macroDetail || "")}</p><p>${esc(h.crisisResponse || "")}</p><p>${esc(h.devilNote || "")}</p><p>${esc(h.rescueText || "")}</p>`,
       )}${dialogue("boss", h.ceo, h.fireHit ? "angry" : h.profit < 0 ? "sad" : "happy")}${button("reportContinue", returnScreen === "history" ? "経営に戻る" : game.finished ? "結末を見る" : "次の週へ", "primary")}</section>`,
     );
   }
@@ -296,9 +297,18 @@
     }
     go(game.finished ? "ending" : "home");
   }
+  function achievements() {
+    try { const a=JSON.parse(localStorage.getItem("okyakusama.achievements.v1")||"[]"); return Array.isArray(a)?a.filter(id=>Object.hasOwn(G.MANAGEMENT.ENDINGS,id)):[]; } catch { return []; }
+  }
+  function recordAchievement(e) {
+    if(!e?.id)return;
+    try { localStorage.setItem("okyakusama.achievements.v1",JSON.stringify([...new Set([...achievements(),e.id])])); }
+    catch { notify("実績を保存できません。この画面の結末は確認できます。"); }
+  }
   function ending() {
     const e = G.ending(game),
       g = G.goalStatus(game);
+    recordAchievement(e);
     render(
       `<section class="stack"><div class="result-heading">${character("you", e.passed ? "happy" : "sad")}<span class="eyebrow">契約終了</span><h1>${esc(e.name)}</h1></div>${store({ ...game, sat: e.passed ? 80 : game.sat })}<div class="panel stack">${list(
         [
@@ -313,7 +323,7 @@
           ["炎上", game.history.filter((h) => h.fireHit).length + "回"],
           ["悪魔の契約", game.pactCount + "回"],
         ],
-      )}</div><p>${esc(e.line)}</p>${details("事件の結末", (game.storyJournal || []).map((x) => `<p>${esc(x.summary)}</p>`).join("") || "<p>記録された後日談はありません。</p>")}${button("endRestart", "もう一度はじめる", "primary")}<button data-go="records">記録を見る</button></section>`,
+      )}</div><p>${esc(e.line)}</p>${e.legacyName ? details("従来の契約評価", `<p>${esc(e.legacyName)}</p><p>${esc(e.legacyLine)}</p>`) : ""}${details("事件の結末", (game.storyJournal || []).map((x) => `<p>${esc(x.summary)}</p>`).join("") || "<p>記録された後日談はありません。</p>")}${button("endRestart", "もう一度はじめる", "primary")}<button data-go="records">記録を見る</button></section>`,
     );
   }
   function voice() {
@@ -332,11 +342,11 @@
       true,
     );
   }
-  function chart() {
-    const h = game.history;
+  function chart(key="cashAfter",label="店の資金") {
+    const h = game.history.filter(x=>Number.isFinite(x[key]));
     if (h.length < 2)
-      return '<p class="hint">2週目から資金の推移を表示します。</p>';
-    const values = h.map((x) => x.cashAfter),
+      return '<p class="hint">2週分の記録から推移を表示します。</p>';
+    const values = h.map((x) => x[key]),
       min = Math.min(0, ...values),
       max = Math.max(1, ...values),
       pts = values
@@ -345,7 +355,7 @@
             `${10 + (i * 280) / (h.length - 1)},${110 - ((n - min) / (max - min)) * 95}`,
         )
         .join(" ");
-    return `<svg class="chart" viewBox="0 0 300 140" role="img" aria-label="店の資金の推移。週ごとの正確な数値は下の履歴で確認できます。"><path d="M10 10V115H290" fill="none" stroke="#d6d1bb"/><polyline points="${pts}" fill="none" stroke="#315c49" stroke-width="2"/><text x="10" y="135" font-size="10" fill="#667366">第1週</text><text x="250" y="135" font-size="10" fill="#667366">第${h.length}週</text></svg>`;
+    return `<p>${esc(label)}：${Math.round(min).toLocaleString("ja-JP")} ～ ${Math.round(max).toLocaleString("ja-JP")}${key==="repAfter"?"点":"円"}</p><svg class="chart" viewBox="0 0 300 140" role="img" aria-label="${esc(label)}の推移"><path d="M10 10V115H290" fill="none" stroke="#d6d1bb"/><polyline points="${pts}" fill="none" stroke="#315c49" stroke-width="2"/><text x="10" y="135" font-size="10" fill="#667366">第${h[0].week}週</text><text x="250" y="135" font-size="10" fill="#667366">第${h[h.length-1].week}週</text></svg>`;
   }
   function records() {
     const h = game.history,
@@ -355,7 +365,7 @@
         ["記録", h.length + "週"],
         ["累計利益", money(G.goalStatus(game).profit)],
         ["累計報酬", money(game.pay)],
-      ])}${chart()}${details(
+      ])}${chart()}${details("売上・利益・評判の推移",chart("sales","売上")+chart("profit","営業利益")+chart("repAfter","評判"))}${details("周回実績", `<p>${achievements().length} / 8 達成（このブラウザに保存）</p>${Object.entries(G.MANAGEMENT.ENDINGS).map(([id,e])=>`<p>${achievements().includes(id)?"達成":"未達"} · ${esc(e[0])}</p>`).join("")}<p class="hint">実績はゲームのJSONとは別保存です。端末移行では引き継がれません。</p>`)}${details(
         "作戦の成績",
         list([
           [
@@ -401,11 +411,12 @@
     const d = G.rootDiagnosis(game),
       macro = G.currentMacro(game);
     render(
-      `${header("店舗の詳細")}<section class="stack">${meter("評判", game.storeRep)}${meter("満足度", game.sat)}${meter("不満", game.frust)}${meter("炎上", game.fire)}${list(
+      `${header("店舗の詳細")}<section class="stack">${meter("評判", game.storeRep)}${meter("満足度", game.sat)}${meter("不満", game.frust)}${meter("炎上", game.fire)}${game.workforce ? `<div class="panel">${meter("士気",game.workforce.morale)}${meter("疲労",game.workforce.fatigue)}<p>今週決算時の離職率 ${game.workforce.turnover}% · 退職 ${game.workforce.departures}回</p><p>難易度：${esc(G.MANAGEMENT.DIFFICULTIES[game.difficulty].name)}</p></div>` : ""}${list(
         [
           ["商品価格", money(game.price)],
           ["内容量", game.size + "g"],
           ["品質", game.quality + "/100"],
+          ["営業利益率", game.sales ? (game.profit/game.sales*100).toFixed(1)+"%" : "売上なし"],
           ["スタッフ", game.staff + "/100"],
           ["有能さ", game.skill + "/100"],
           ["悪名", game.notoriety + "/100"],
@@ -532,7 +543,7 @@
         case "prologueNext":
           if (++prologue < C.PROLOGUE.length) go("prologue");
           else {
-            game = G.initial(Date.now());
+            game = G.initial(Date.now(), {difficulty});
             loadError = false;
             project = null;
             devil = null;
@@ -654,17 +665,20 @@
     }
   });
   main.addEventListener("change", async (e) => {
+    if(e.target.id === "difficulty"){difficulty=e.target.value;contracts();return;}
     if (e.target.id !== "importSave" || !e.target.files[0]) return;
     try {
       const file = e.target.files[0];
       if (file.size > 2000000) throw Error("ファイルが大きすぎます。");
       const s = G.validateSaved(JSON.parse(await file.text()));
       if (!confirm("現在の記録を、このバックアップで置き換えますか？")) return;
+      // Commit to storage before replacing the live session; quota failures preserve both.
+      localStorage.setItem(KEY, JSON.stringify(s));
       game = s;
+      hasSave = true;
       loadError = false;
       project = null;
       devil = null;
-      save();
       resume();
     } catch (err) {
       notify("復元できません：" + err.message);
