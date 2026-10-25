@@ -1,0 +1,6787 @@
+[
+  {
+    "width": 320,
+    "name": "title",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "help",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "contracts",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "prologue-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "prologue-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "prologue-3",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "prologue-4",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "prologue-5",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "prologue-6",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "prologue-7",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "home",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "status",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "status-detail",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "money-store",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "money-personal",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "voice",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "records",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "backup",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "cast",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "choices",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "choice-0",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "choice-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "choice-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "choice-3",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "meeting",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "investments-devil",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "optional-selected",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "working",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "week-one-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "week-one-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "week-two",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-outcome-success-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-outcome-success-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-fire-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-fire-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-fire-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-fire-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_register_machine-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_register_machine-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_register_machine-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_register_machine-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-outcome-great-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-outcome-great-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-outcome-great-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-delivery-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-delivery-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-delivery-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-rain-news-0",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-rain-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-rain-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-rain-rescue",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-rain-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-loyalty-news-0",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-loyalty-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-loyalty-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-loyalty-rescue",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-loyalty-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-rescue-news-0",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-rescue-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-rescue-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-rescue-rescue",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-rescue-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-outcome-failure-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-outcome-failure-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-outcome-failure-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-outcome-failure-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-memory-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-memory-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-memory-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-memory-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_camera-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_camera-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_camera-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_camera-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-blame-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-blame-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-blame-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_listen-news-0",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_listen-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_listen-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_listen-news-3",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_listen-news-4",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_listen-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "ending-story-arc_staff_listen",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-資金ショート！契約強制終了-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-資金ショート！契約強制終了-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-資金ショート！契約強制終了-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-資金ショート！契約強制終了-news-3",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-資金ショート！契約強制終了-news-4",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-資金ショート！契約強制終了-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "ending-ending-資金ショート！契約強制終了",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-donation-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-donation-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-donation-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-complaint-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-complaint-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-complaint-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_register_graduation-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_register_graduation-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_register_graduation-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-apology-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-apology-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-absent-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-absent-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-absent-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_chef-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_chef-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_chef-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-recall-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-recall-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-recall-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-freezer-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-freezer-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-freezer-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_robot-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_robot-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_robot-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-waste-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-waste-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-waste-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_fake-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_fake-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_fake-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-viral-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-viral-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-viral-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_register_boss-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_register_boss-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-audit-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-audit-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_label-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_label-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_label-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_label-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-explain-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-explain-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-explain-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_pizza-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_pizza-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_pizza-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_ignore-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_ignore-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_fee-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_fee-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_fee-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-rival-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-rival-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-rival-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_finale_steal-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_finale_steal-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-優良店の改革者-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-優良店の改革者-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "ending-ending-優良店の改革者",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_register_pay-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_register_pay-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-festival-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-festival-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-festival-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_real-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_bento_real-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-pop-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-pop-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-pop-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_resign-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_staff_resign-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_silence-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_silence-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_locals-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_locals-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_locals-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-tasting-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-tasting-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-tasting-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-power-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-power-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-power-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-accident-power-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_finale_vote-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_finale_vote-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-町に選ばれた再建者-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-町に選ばれた再建者-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "ending-ending-町に選ばれた再建者",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_free-news-0",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_free-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_free-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_free-news-3",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_free-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-local-rescue",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-local-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_open-news-0",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_open-accident",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_open-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_open-news-3",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_media_open-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-契約満了、更新なし-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-契約満了、更新なし-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "ending-ending-契約満了、更新なし",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_parade-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_parade-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_parade-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_festival_parade-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_finale_contract-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_finale_contract-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_finale_contract-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-責任者、荷物をまとめる-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-責任者、荷物をまとめる-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-責任者、荷物をまとめる-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "ending-ending-責任者、荷物をまとめる",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_finale_team-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_finale_team-news-1",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_finale_team-news-2",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-story-arc_finale_team-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-悪魔の敏腕コンサル-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-悪魔の敏腕コンサル-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "ending-ending-悪魔の敏腕コンサル",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-契約更新！-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-契約更新！-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "ending-ending-契約更新！",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-黒字の代償-outcome",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "branch-ending-黒字の代償-report",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "ending-ending-黒字の代償",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "large-balances",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "campaign-ending",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "offline-home",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "offline-choices",
+    "passed": true
+  },
+  {
+    "width": 320,
+    "name": "offline-cast",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "title",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "help",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "contracts",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "prologue-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "prologue-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "prologue-3",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "prologue-4",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "prologue-5",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "prologue-6",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "prologue-7",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "home",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "status",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "status-detail",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "money-store",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "money-personal",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "voice",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "records",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "backup",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "cast",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "choices",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "choice-0",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "choice-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "choice-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "choice-3",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "meeting",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "investments-devil",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "optional-selected",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "working",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "week-one-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "week-one-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "week-two",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-outcome-success-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-outcome-success-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-fire-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-fire-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-fire-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-fire-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_register_machine-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_register_machine-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_register_machine-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_register_machine-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-outcome-great-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-outcome-great-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-outcome-great-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-delivery-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-delivery-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-delivery-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-rain-news-0",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-rain-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-rain-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-rain-rescue",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-rain-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-loyalty-news-0",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-loyalty-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-loyalty-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-loyalty-rescue",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-loyalty-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-rescue-news-0",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-rescue-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-rescue-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-rescue-rescue",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-rescue-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-outcome-failure-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-outcome-failure-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-outcome-failure-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-outcome-failure-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-memory-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-memory-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-memory-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-memory-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_camera-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_camera-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_camera-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_camera-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-blame-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-blame-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-blame-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_listen-news-0",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_listen-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_listen-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_listen-news-3",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_listen-news-4",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_listen-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "ending-story-arc_staff_listen",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-資金ショート！契約強制終了-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-資金ショート！契約強制終了-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-資金ショート！契約強制終了-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-資金ショート！契約強制終了-news-3",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-資金ショート！契約強制終了-news-4",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-資金ショート！契約強制終了-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "ending-ending-資金ショート！契約強制終了",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-donation-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-donation-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-donation-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-complaint-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-complaint-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-complaint-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_register_graduation-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_register_graduation-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_register_graduation-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-apology-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-apology-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-absent-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-absent-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-absent-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_chef-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_chef-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_chef-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-recall-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-recall-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-recall-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-freezer-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-freezer-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-freezer-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_robot-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_robot-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_robot-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-waste-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-waste-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-waste-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_fake-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_fake-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_fake-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-viral-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-viral-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-viral-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_register_boss-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_register_boss-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-audit-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-audit-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_label-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_label-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_label-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_label-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-explain-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-explain-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-explain-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_pizza-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_pizza-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_pizza-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_ignore-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_ignore-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_fee-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_fee-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_fee-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-rival-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-rival-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-rival-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_finale_steal-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_finale_steal-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-優良店の改革者-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-優良店の改革者-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "ending-ending-優良店の改革者",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_register_pay-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_register_pay-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-festival-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-festival-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-festival-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_real-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_bento_real-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-pop-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-pop-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-pop-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_resign-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_staff_resign-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_silence-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_silence-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_locals-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_locals-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_locals-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-tasting-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-tasting-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-tasting-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-power-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-power-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-power-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-accident-power-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_finale_vote-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_finale_vote-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-町に選ばれた再建者-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-町に選ばれた再建者-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "ending-ending-町に選ばれた再建者",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_free-news-0",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_free-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_free-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_free-news-3",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_free-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-local-rescue",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-local-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_open-news-0",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_open-accident",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_open-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_open-news-3",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_media_open-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-契約満了、更新なし-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-契約満了、更新なし-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "ending-ending-契約満了、更新なし",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_parade-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_parade-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_parade-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_festival_parade-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_finale_contract-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_finale_contract-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_finale_contract-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-責任者、荷物をまとめる-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-責任者、荷物をまとめる-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-責任者、荷物をまとめる-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "ending-ending-責任者、荷物をまとめる",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_finale_team-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_finale_team-news-1",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_finale_team-news-2",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-story-arc_finale_team-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-悪魔の敏腕コンサル-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-悪魔の敏腕コンサル-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "ending-ending-悪魔の敏腕コンサル",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-契約更新！-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-契約更新！-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "ending-ending-契約更新！",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-黒字の代償-outcome",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "branch-ending-黒字の代償-report",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "ending-ending-黒字の代償",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "large-balances",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "campaign-ending",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "offline-home",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "offline-choices",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "name": "offline-cast",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "title",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "help",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "contracts",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "prologue-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "prologue-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "prologue-3",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "prologue-4",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "prologue-5",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "prologue-6",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "prologue-7",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "home",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "status",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "status-detail",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "money-store",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "money-personal",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "voice",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "records",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "backup",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "cast",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "choices",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "choice-0",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "choice-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "choice-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "choice-3",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "meeting",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "investments-devil",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "optional-selected",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "working",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "week-one-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "week-one-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "week-two",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-outcome-success-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-outcome-success-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-fire-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-fire-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-fire-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-fire-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_register_machine-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_register_machine-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_register_machine-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_register_machine-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-outcome-great-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-outcome-great-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-outcome-great-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-delivery-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-delivery-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-delivery-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-rain-news-0",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-rain-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-rain-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-rain-rescue",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-rain-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-loyalty-news-0",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-loyalty-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-loyalty-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-loyalty-rescue",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-loyalty-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-rescue-news-0",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-rescue-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-rescue-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-rescue-rescue",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-rescue-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-outcome-failure-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-outcome-failure-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-outcome-failure-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-outcome-failure-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-memory-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-memory-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-memory-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-memory-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_camera-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_camera-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_camera-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_camera-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-blame-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-blame-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-blame-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_listen-news-0",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_listen-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_listen-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_listen-news-3",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_listen-news-4",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_listen-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "ending-story-arc_staff_listen",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-資金ショート！契約強制終了-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-資金ショート！契約強制終了-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-資金ショート！契約強制終了-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-資金ショート！契約強制終了-news-3",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-資金ショート！契約強制終了-news-4",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-資金ショート！契約強制終了-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "ending-ending-資金ショート！契約強制終了",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-donation-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-donation-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-donation-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-complaint-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-complaint-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-complaint-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_register_graduation-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_register_graduation-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_register_graduation-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-apology-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-apology-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-absent-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-absent-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-absent-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_chef-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_chef-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_chef-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-recall-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-recall-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-recall-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-freezer-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-freezer-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-freezer-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_robot-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_robot-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_robot-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-waste-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-waste-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-waste-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_fake-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_fake-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_fake-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-viral-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-viral-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-viral-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_register_boss-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_register_boss-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-audit-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-audit-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_label-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_label-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_label-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_label-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-explain-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-explain-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-explain-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_pizza-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_pizza-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_pizza-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_ignore-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_ignore-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_fee-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_fee-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_fee-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-rival-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-rival-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-rival-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_finale_steal-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_finale_steal-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-優良店の改革者-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-優良店の改革者-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "ending-ending-優良店の改革者",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_register_pay-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_register_pay-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-festival-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-festival-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-festival-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_real-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_bento_real-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-pop-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-pop-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-pop-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_resign-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_staff_resign-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_silence-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_silence-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_locals-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_locals-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_locals-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-tasting-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-tasting-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-tasting-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-power-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-power-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-power-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-accident-power-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_finale_vote-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_finale_vote-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-町に選ばれた再建者-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-町に選ばれた再建者-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "ending-ending-町に選ばれた再建者",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_free-news-0",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_free-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_free-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_free-news-3",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_free-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-local-rescue",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-local-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_open-news-0",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_open-accident",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_open-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_open-news-3",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_media_open-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-契約満了、更新なし-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-契約満了、更新なし-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "ending-ending-契約満了、更新なし",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_parade-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_parade-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_parade-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_festival_parade-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_finale_contract-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_finale_contract-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_finale_contract-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-責任者、荷物をまとめる-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-責任者、荷物をまとめる-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-責任者、荷物をまとめる-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "ending-ending-責任者、荷物をまとめる",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_finale_team-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_finale_team-news-1",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_finale_team-news-2",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-story-arc_finale_team-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-悪魔の敏腕コンサル-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-悪魔の敏腕コンサル-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "ending-ending-悪魔の敏腕コンサル",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-契約更新！-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-契約更新！-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "ending-ending-契約更新！",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-黒字の代償-outcome",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "branch-ending-黒字の代償-report",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "ending-ending-黒字の代償",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "large-balances",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "campaign-ending",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "offline-home",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "offline-choices",
+    "passed": true
+  },
+  {
+    "width": 390,
+    "name": "offline-cast",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "title",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "help",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "contracts",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "prologue-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "prologue-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "prologue-3",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "prologue-4",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "prologue-5",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "prologue-6",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "prologue-7",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "home",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "status",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "status-detail",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "money-store",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "money-personal",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "voice",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "records",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "backup",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "cast",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "choices",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "choice-0",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "choice-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "choice-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "choice-3",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "meeting",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "investments-devil",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "optional-selected",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "working",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "week-one-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "week-one-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "week-one-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "week-two",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-outcome-success-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-outcome-success-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-fire-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-fire-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-fire-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-fire-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_register_machine-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_register_machine-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_register_machine-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_register_machine-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-outcome-great-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-outcome-great-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-outcome-great-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-delivery-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-delivery-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-delivery-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-rain-news-0",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-rain-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-rain-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-rain-rescue",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-rain-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-loyalty-news-0",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-loyalty-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-loyalty-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-loyalty-rescue",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-loyalty-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-rescue-news-0",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-rescue-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-rescue-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-rescue-rescue",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-rescue-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-outcome-failure-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-outcome-failure-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-outcome-failure-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-outcome-failure-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-memory-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-memory-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-memory-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-memory-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_camera-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_camera-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_camera-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_camera-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-blame-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-blame-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-blame-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_listen-news-0",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_listen-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_listen-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_listen-news-3",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_listen-news-4",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_listen-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "ending-story-arc_staff_listen",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-資金ショート！契約強制終了-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-資金ショート！契約強制終了-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-資金ショート！契約強制終了-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-資金ショート！契約強制終了-news-3",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-資金ショート！契約強制終了-news-4",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-資金ショート！契約強制終了-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "ending-ending-資金ショート！契約強制終了",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-donation-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-donation-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-donation-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-complaint-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-complaint-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-complaint-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_register_graduation-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_register_graduation-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_register_graduation-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-apology-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-apology-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-absent-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-absent-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-absent-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_chef-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_chef-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_chef-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-recall-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-recall-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-recall-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-freezer-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-freezer-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-freezer-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_robot-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_robot-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_robot-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-waste-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-waste-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-waste-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_fake-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_fake-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_fake-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-viral-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-viral-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-viral-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_register_boss-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_register_boss-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-audit-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-audit-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_label-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_label-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_label-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_label-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-explain-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-explain-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-explain-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_pizza-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_pizza-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_pizza-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_ignore-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_ignore-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_fee-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_fee-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_fee-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-rival-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-rival-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-rival-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_finale_steal-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_finale_steal-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-優良店の改革者-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-優良店の改革者-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "ending-ending-優良店の改革者",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_register_pay-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_register_pay-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-festival-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-festival-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-festival-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_real-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_bento_real-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-pop-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-pop-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-pop-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_resign-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_staff_resign-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_silence-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_silence-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_locals-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_locals-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_locals-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-tasting-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-tasting-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-tasting-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-power-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-power-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-power-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-accident-power-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_finale_vote-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_finale_vote-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-町に選ばれた再建者-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-町に選ばれた再建者-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "ending-ending-町に選ばれた再建者",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_free-news-0",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_free-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_free-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_free-news-3",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_free-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-local-rescue",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-local-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_open-news-0",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_open-accident",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_open-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_open-news-3",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_media_open-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-契約満了、更新なし-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-契約満了、更新なし-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "ending-ending-契約満了、更新なし",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_parade-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_parade-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_parade-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_festival_parade-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_finale_contract-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_finale_contract-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_finale_contract-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-責任者、荷物をまとめる-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-責任者、荷物をまとめる-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-責任者、荷物をまとめる-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "ending-ending-責任者、荷物をまとめる",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_finale_team-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_finale_team-news-1",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_finale_team-news-2",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-story-arc_finale_team-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-悪魔の敏腕コンサル-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-悪魔の敏腕コンサル-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "ending-ending-悪魔の敏腕コンサル",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-契約更新！-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-契約更新！-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "ending-ending-契約更新！",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-黒字の代償-outcome",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "branch-ending-黒字の代償-report",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "ending-ending-黒字の代償",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "large-balances",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "campaign-ending",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "offline-home",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "offline-choices",
+    "passed": true
+  },
+  {
+    "width": 430,
+    "name": "offline-cast",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "title",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "help",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "contracts",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "prologue-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "prologue-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "prologue-3",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "prologue-4",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "prologue-5",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "prologue-6",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "prologue-7",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "home",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "status",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "status-detail",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "money-store",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "money-personal",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "voice",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "records",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "backup",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "cast",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "choices",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "choice-0",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "choice-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "choice-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "choice-3",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "meeting",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "investments-devil",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "optional-selected",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "working",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "week-one-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "week-one-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "week-two",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-outcome-success-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-outcome-success-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-fire-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-fire-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-fire-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-fire-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_register_machine-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_register_machine-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_register_machine-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_register_machine-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-outcome-great-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-outcome-great-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-outcome-great-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-delivery-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-delivery-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-delivery-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-rain-news-0",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-rain-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-rain-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-rain-rescue",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-rain-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-loyalty-news-0",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-loyalty-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-loyalty-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-loyalty-rescue",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-loyalty-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-rescue-news-0",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-rescue-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-rescue-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-rescue-rescue",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-rescue-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-outcome-failure-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-outcome-failure-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-outcome-failure-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-outcome-failure-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-memory-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-memory-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-memory-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-memory-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_camera-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_camera-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_camera-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_camera-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-blame-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-blame-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-blame-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_listen-news-0",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_listen-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_listen-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_listen-news-3",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_listen-news-4",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_listen-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "ending-story-arc_staff_listen",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-資金ショート！契約強制終了-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-資金ショート！契約強制終了-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-資金ショート！契約強制終了-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-資金ショート！契約強制終了-news-3",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-資金ショート！契約強制終了-news-4",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-資金ショート！契約強制終了-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "ending-ending-資金ショート！契約強制終了",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-donation-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-donation-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-donation-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-complaint-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-complaint-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-complaint-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_register_graduation-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_register_graduation-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_register_graduation-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-apology-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-apology-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-absent-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-absent-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-absent-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_chef-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_chef-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_chef-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-recall-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-recall-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-recall-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-freezer-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-freezer-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-freezer-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_robot-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_robot-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_robot-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-waste-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-waste-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-waste-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_fake-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_fake-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_fake-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-viral-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-viral-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-viral-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_register_boss-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_register_boss-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-audit-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-audit-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_label-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_label-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_label-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_label-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-explain-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-explain-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-explain-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_pizza-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_pizza-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_pizza-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_ignore-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_ignore-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_fee-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_fee-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_fee-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-rival-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-rival-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-rival-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_finale_steal-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_finale_steal-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-優良店の改革者-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-優良店の改革者-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "ending-ending-優良店の改革者",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_register_pay-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_register_pay-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-festival-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-festival-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-festival-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_real-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_bento_real-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-pop-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-pop-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-pop-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_resign-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_staff_resign-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_silence-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_silence-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_locals-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_locals-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_locals-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-tasting-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-tasting-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-tasting-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-power-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-power-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-power-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-accident-power-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_finale_vote-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_finale_vote-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-町に選ばれた再建者-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-町に選ばれた再建者-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "ending-ending-町に選ばれた再建者",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_free-news-0",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_free-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_free-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_free-news-3",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_free-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-local-rescue",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-local-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_open-news-0",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_open-accident",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_open-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_open-news-3",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_media_open-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-契約満了、更新なし-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-契約満了、更新なし-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "ending-ending-契約満了、更新なし",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_parade-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_parade-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_parade-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_festival_parade-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_finale_contract-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_finale_contract-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_finale_contract-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-責任者、荷物をまとめる-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-責任者、荷物をまとめる-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-責任者、荷物をまとめる-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "ending-ending-責任者、荷物をまとめる",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_finale_team-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_finale_team-news-1",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_finale_team-news-2",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-story-arc_finale_team-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-悪魔の敏腕コンサル-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-悪魔の敏腕コンサル-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "ending-ending-悪魔の敏腕コンサル",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-契約更新！-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-契約更新！-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "ending-ending-契約更新！",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-黒字の代償-outcome",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "branch-ending-黒字の代償-report",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "ending-ending-黒字の代償",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "large-balances",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "campaign-ending",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "offline-home",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "offline-choices",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "name": "offline-cast",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "title",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "help",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "contracts",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "prologue-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "prologue-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "prologue-3",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "prologue-4",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "prologue-5",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "prologue-6",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "prologue-7",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "home",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "status",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "status-detail",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "money-store",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "money-personal",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "voice",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "records",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "backup",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "cast",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "choices",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "choice-0",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "choice-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "choice-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "choice-3",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "meeting",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "investments-devil",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "optional-selected",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "working",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "week-one-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "week-one-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "week-two",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-outcome-success-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-outcome-success-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-fire-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-fire-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-fire-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-fire-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_register_machine-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_register_machine-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_register_machine-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_register_machine-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-outcome-great-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-outcome-great-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-outcome-great-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-delivery-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-delivery-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-delivery-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-rain-news-0",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-rain-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-rain-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-rain-rescue",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-rain-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-loyalty-news-0",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-loyalty-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-loyalty-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-loyalty-rescue",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-loyalty-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-rescue-news-0",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-rescue-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-rescue-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-rescue-rescue",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-rescue-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-outcome-failure-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-outcome-failure-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-outcome-failure-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-outcome-failure-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-memory-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-memory-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-memory-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-memory-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_camera-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_camera-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_camera-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_camera-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-blame-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-blame-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-blame-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_listen-news-0",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_listen-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_listen-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_listen-news-3",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_listen-news-4",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_listen-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "ending-story-arc_staff_listen",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-資金ショート！契約強制終了-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-資金ショート！契約強制終了-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-資金ショート！契約強制終了-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-資金ショート！契約強制終了-news-3",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-資金ショート！契約強制終了-news-4",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-資金ショート！契約強制終了-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "ending-ending-資金ショート！契約強制終了",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-donation-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-donation-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-donation-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-complaint-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-complaint-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-complaint-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_register_graduation-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_register_graduation-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_register_graduation-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-apology-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-apology-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-absent-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-absent-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-absent-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_chef-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_chef-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_chef-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-recall-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-recall-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-recall-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-freezer-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-freezer-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-freezer-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_robot-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_robot-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_robot-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-waste-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-waste-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-waste-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_fake-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_fake-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_fake-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-viral-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-viral-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-viral-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_register_boss-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_register_boss-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-audit-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-audit-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_label-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_label-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_label-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_label-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-explain-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-explain-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-explain-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_pizza-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_pizza-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_pizza-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_ignore-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_ignore-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_fee-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_fee-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_fee-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-rival-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-rival-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-rival-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_finale_steal-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_finale_steal-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-優良店の改革者-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-優良店の改革者-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "ending-ending-優良店の改革者",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_register_pay-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_register_pay-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-festival-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-festival-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-festival-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_real-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_bento_real-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-pop-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-pop-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-pop-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_resign-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_staff_resign-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_silence-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_silence-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_locals-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_locals-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_locals-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-tasting-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-tasting-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-tasting-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-power-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-power-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-power-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-accident-power-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_finale_vote-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_finale_vote-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-町に選ばれた再建者-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-町に選ばれた再建者-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "ending-ending-町に選ばれた再建者",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_free-news-0",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_free-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_free-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_free-news-3",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_free-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-local-rescue",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-local-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_open-news-0",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_open-accident",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_open-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_open-news-3",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_media_open-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-契約満了、更新なし-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-契約満了、更新なし-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "ending-ending-契約満了、更新なし",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_parade-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_parade-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_parade-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_festival_parade-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_finale_contract-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_finale_contract-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_finale_contract-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-責任者、荷物をまとめる-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-責任者、荷物をまとめる-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-責任者、荷物をまとめる-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "ending-ending-責任者、荷物をまとめる",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_finale_team-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_finale_team-news-1",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_finale_team-news-2",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-story-arc_finale_team-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-悪魔の敏腕コンサル-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-悪魔の敏腕コンサル-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "ending-ending-悪魔の敏腕コンサル",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-契約更新！-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-契約更新！-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "ending-ending-契約更新！",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-黒字の代償-outcome",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "branch-ending-黒字の代償-report",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "ending-ending-黒字の代償",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "large-balances",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "campaign-ending",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "offline-home",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "offline-choices",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "name": "offline-cast",
+    "passed": true
+  }
+]

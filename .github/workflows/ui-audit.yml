@@ -28,13 +28,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install --no-save playwright@1.62.1
+      - run: npm ci
       - run: npx playwright install --with-deps ${{ matrix.browser }}
       - run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
-      - run: node tests/full-screen-audit.cjs
+      - run: node tests/pixel-browser.cjs
         env:
           BROWSER: ${{ matrix.browser }}
-      - run: node tests/branch-screen-audit.cjs
+      - run: node tests/pixel-upgrade.cjs
         env:
           BROWSER: ${{ matrix.browser }}
       - uses: actions/upload-artifact@v4

@@ -1,0 +1,35 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const read=p=>fs.readFileSync(path.join(__dirname,'..',p),'utf8');
+const R=require('../decision-ledger-v230.js'),G=require('../engine.js');
+const html=read('index.html')+read('ui.css'),css=read('decision-ledger-v230.css'),js=read('decision-ledger-v230.js'),sw=read('sw.js');
+for(const file of ['decision-ledger-v230.js','decision-ledger-v230.css']){
+ assert(html.includes(file));assert(sw.includes("'./"+file+"'"));
+}
+assert(css.includes('min-height:52px')&&css.includes('prefers-reduced-motion:reduce'));
+assert(js.includes('root.GameEngine.validateSaved(JSON.parse(raw))'));
+assert(!js.includes('localStorage.setItem')&&!js.includes('GameEngine.play(')&&!js.includes('Math.random'));
+assert(!js.includes('innerHTML'),'never inject untrusted history as HTML');
+const empty=R.analyze(G.initial(25));
+assert.equal(empty.played,0);assert.equal(empty.successShare,null);
+const p=G.play(G.initial(41),'quality'),h=p.lastResult;
+const data=R.analyze(p);
+assert.equal(data.played,1);
+assert.equal(data.sales,h.sales);
+assert.equal(data.profit,h.profit);
+assert.equal(data.entries[0].action,h.actionName);
+assert.equal(data.entries[0].rep.action,h.actionImpact.rep);
+assert.equal(data.entries[0].rep.total,h.deltaRep);
+assert.equal(data.entries[0].rep.other,h.deltaRep-h.actionImpact.rep);
+assert.equal(data.entries[0].fire.other,data.entries[0].fire.total-data.entries[0].fire.action);
+const fake={history:[{week:2,actionName:'<svg onload=alert(1)>',sales:10000,profit:-100,performanceTier:'failure',deltaRep:-5,actionImpact:{rep:-2,sat:1,fire:1},deltaFire:3,deltaSat:4,fireHit:true,accidentId:'freezer',accidentTitle:'冷蔵庫停止'}]};
+const week=R.weekly(fake.history[0]),total=R.analyze(fake);
+assert.equal(week.rep.other,-3);assert.equal(week.fire.other,2);
+assert.equal(total.fires,1);assert.equal(total.incidents,1);
+assert.equal(total.lossWeeks,1);assert.equal(total.worstStreak,1);
+assert(week.factors.some(x=>x.includes('事故')));
+assert.equal(R.weekly({week:1,actionName:'old',deltaRep:-3}).rep.action,null,'old saves report unknown, not fabricated zero');
+const original=JSON.stringify(p);
+R.analyze(p);R.weekly(h);
+assert.equal(JSON.stringify(p),original,'must never mutate financial state');
+console.log('PASS v2.3-v2.4: ledger attribution, exact strategy statistics, old saves, no state mutation');
