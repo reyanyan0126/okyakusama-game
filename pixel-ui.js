@@ -1,0 +1,101 @@
+/* Presentation components only. No gameplay mutations. */
+(function (root) {
+  "use strict";
+  const esc = (x) =>
+    String(x ?? "").replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[c],
+    );
+  const money = (n) => Number(n || 0).toLocaleString("ja-JP") + "円";
+  const icon = (name) =>
+    `<img class="pixel-icon" src="assets/pixel/icon-${name}.svg" width="16" height="16" alt="">`;
+  const names = {
+    you: "あなた",
+    boss: "社長",
+    manager: "店長",
+    worker: "従業員",
+    customer: "森さん",
+    devil: "悪魔",
+  };
+  const character = (role = "you", mood = "normal", face = false) =>
+    `<img class="${face ? "portrait" : "character"}" src="assets/pixel/${role}-${mood}${face ? "-face" : ""}.svg" width="${face ? 32 : 48}" height="${face ? 32 : 64}" alt="${names[role]}・${{ normal: "普通", happy: "喜び", angry: "怒り", confused: "困惑", surprised: "驚き", sad: "落胆" }[mood]}">`;
+  const storeState = (s) =>
+    s.bankrupt
+      ? "closed"
+      : s.fire >= 50
+        ? "fire"
+        : s.cash < 85000
+          ? "crisis"
+          : s.staff < 45
+            ? "shortstaff"
+            : s.sat >= 70
+              ? "busy"
+              : "normal";
+  const store = (s, large = false) => {
+    const state = storeState(s);
+    return `<figure class="store ${large ? "large" : ""}"><img src="assets/pixel/store-${state}.svg" width="144" height="80" alt="モグモグマート・${{ closed: "閉店", fire: "炎上", crisis: "資金危機", shortstaff: "人手不足", busy: "繁盛", normal: "営業中" }[state]}"></figure>`;
+  };
+  const meter = (label, n) =>
+    `<label class="meter-label">${esc(label)} <b>${n}/100</b><meter min="0" max="100" value="${n}">${n}</meter></label>`;
+  const delta = (label, n, unit = "円") =>
+    `<div class="delta"><small>${esc(label)}</small><strong class="${n > 0 ? "positive" : n < 0 ? "negative" : ""}">${n > 0 ? "↑ +" : n < 0 ? "↓ −" : "±"}${Math.abs(n || 0).toLocaleString("ja-JP")}<small>${unit}</small></strong></div>`;
+  const dialogue = (role, text, mood = "normal") =>
+    `<div class="dialogue">${character(role, mood, true)}<div><small>${names[role]}</small><p>${esc(text)}</p></div></div>`;
+  const risk = (n) =>
+    `${icon("warning")}炎上 ${n >= 0.17 ? "高" : n >= 0.08 ? "中" : "低"} <small>${Math.round(n * 100)}%</small>`;
+  const details = (title, content) =>
+    `<details><summary>${esc(title)}</summary><div class="detail-body">${content}</div></details>`;
+  const costs = {
+    explain: 10000,
+    sale: 12000,
+    points: -16000,
+    pop: 23000,
+    tasting: 17000,
+    local: 11000,
+    restorestaff: 8000,
+    apology: 18000,
+    recall: 43000,
+    blame: -24000,
+    loyalty: 10000,
+    stamp: 9500,
+    audit: 11000,
+    maintenance: 26000,
+    airtax: -18000,
+    photo: 17000,
+    ceocut: -25000,
+    bills: -13000,
+    apologybot: 5000,
+    fix_equipment: 30000,
+    fix_people: 27000,
+    fix_fans: 24000,
+  };
+  const cost = (G, id) => G.STORIES.POLICIES_BY_ID[id]?.cost ?? costs[id] ?? 0;
+  const costLabel = (G, id) => {
+    const n = cost(G, id);
+    return n < 0 ? "削減目安 " + money(-n) : "施策費 " + money(n);
+  };
+  const api = {
+    esc,
+    money,
+    icon,
+    character,
+    storeState,
+    store,
+    meter,
+    delta,
+    dialogue,
+    risk,
+    details,
+    cost,
+    costLabel,
+  };
+  root.PixelUI = api;
+  if (typeof module === "object") module.exports = api;
+})(typeof window === "undefined" ? globalThis : window);

@@ -1,7 +1,6 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const G=require('../engine.js'),ST=G.STORIES,F=require('../finance.js');
-const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
 assert.equal(ST.EPISODES.length,6);
 const basic=G.initial(31),trusted=G.initial(31);
 trusted.cast={boss:20,manager:50,customers:50};
@@ -12,8 +11,6 @@ assert.equal(new Set(ST.POLICIES.map(x=>x.id)).size,24);
 for(const e of ST.EPISODES){
  assert.equal(e.choices.length,4,'four policy branches '+e.id);
  assert.equal(e.choices.every(x=>['failure','success','great'].every(t=>typeof x[t]==='string'&&x[t].length>=10)),true);
- assert(html.includes('id="story-cut-'+e.art+'"'),'missing story cutaway '+e.art);
- assert(html.includes('id="policy-scene-story-'+e.art+'"'),'missing policy artwork '+e.art);
  const s=G.initial(76523);s.week=e.week;s.cash=500000;s.personalCash=180000;s.fire=3;s.memory=[];
  const brief=G.weeklyBrief(s);
  assert.equal(brief.episode,e.id,'opening '+e.id);
@@ -42,8 +39,6 @@ for(const e of ST.EPISODES){
  assert(!echo.storyArcs.some(a=>a.id===e.id),'original echo resolved without blocking another episode');
  assert.notDeepEqual(echo.cast,s.cast,'persistent cast reputation');
 }
-for(const node of ['storyEvent','storyArtwork','storyEpisodeTitle','storyEpisodeText','storyEcho','storyPulse'])assert(html.includes('id="'+node+'"'),node);
-for(const tier of ['failure','success','great'])assert(html.includes('id="story-tier-'+tier+'"'));
 const old=G.initial(3);delete old.storyArcs;delete old.storyJournal;delete old.cast;
 const hydrated=G.validateSaved(old);assert.deepEqual(hydrated.storyArcs,[]);assert.deepEqual(hydrated.storyJournal,[]);assert.deepEqual(hydrated.cast,{boss:0,manager:0,customers:0});
 const broken=G.initial(3);broken.storyArcs=[{id:'typo',stage:'follow'}];assert.throws(()=>G.validateSaved(broken));

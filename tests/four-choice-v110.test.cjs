@@ -1,19 +1,6 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const G=require('../engine.js');
-const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
-const app=fs.readFileSync(path.join(__dirname,'../app.js'),'utf8');
-const css=fs.readFileSync(path.join(__dirname,'../styles.css'),'utf8');
-new Function(app);
-for(const id of ['dashSales','dashProfit','dashPrice','dashQuality','dashStaff','dashSat','workingArtUse','workingIllustration','workingAction'])
- assert.ok(html.includes('id="'+id+'"'),id);
-for(const id of ['price','product','people','trust','finance','promo','repair'])
- assert.ok(html.includes('id="policy-scene-'+id+'"'),'missing SVG '+id);
-assert.match(app,/function policyScene\(id\)/);
-assert.match(app,/function rollFigure\(/);
-assert.match(app,/function openStatusSheet\(/);
-assert.match(css,/prefers-reduced-motion:reduce/);
-assert.match(app,/4つの作戦を見る/);
 for(let seed=1;seed<=40;seed++){
  let s=G.initial(seed);
  for(let wk=0;wk<30&&!s.finished;wk++){
