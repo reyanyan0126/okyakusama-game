@@ -10,3 +10,7 @@ console.log('PASS speaker-separated dialogue, explicit mood/name, escaped conten
 assert.equal(U.narrative("営業が終わった。"),"<p>営業が終わった。</p>");
 assert(U.narrative(line).includes('data-role="manager"'));
 assert(U.dialogue("boss",'店長「黙れ」').includes('data-mood="angry"'));
+
+const nested=U.dialogue('boss','社長「客の「大満足」は載せろ」店長「はい」');
+assert(nested.includes('客の「大満足」は載せろ'));assert.equal((nested.match(/class="dialogue"/g)||[]).length,2);
+assert(U.dialogue('boss','社長「未完のセリフ').includes('未完のセリフ'));

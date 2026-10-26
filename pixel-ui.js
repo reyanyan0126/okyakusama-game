@@ -65,16 +65,23 @@
   function dialogue(role, text, mood = "normal") {
     role = names[role] ? role : "you";
     text = root.PlainCopy ? root.PlainCopy.text(text) : String(text ?? "");
-    const pattern = /(社長|店長|従業員|社員|店員|お客様|消費者|常連客|常連|森さん|客|あなた|悪魔)「([^」]*)」/g;
-    const matches = [...text.matchAll(pattern)];
-    if (!matches.length) return bubble(role,text,mood);
-    let at=0,html="";
-    for(const m of matches){
+    // Scan balanced Japanese quotes so quoted words inside a line stay intact.
+    const pattern = /(社長|店長|従業員|社員|店員|お客様|消費者|常連客|常連|森さん|客|あなた|悪魔)「/g;
+    let at=0,html="",m;
+    while((m=pattern.exec(text))){
+      const begin=pattern.lastIndex;
+      let end=begin,depth=1;
+      for(;end<text.length;end++){
+        if(text[end]==="「")depth++;
+        if(text[end]==="」"&&--depth===0)break;
+      }
+      if(depth!==0)break;
       const prefix=text.slice(at,m.index).replace(/^[。・\s]+|[。・\s]+$/g,"");
       if(prefix)html+=`<p class="dialogue-aside">${esc(prefix)}</p>`;
-      const who=aliases[m[1]], feeling=emotion(m[2],who===role?mood:"normal");
-      html+=bubble(who,m[2],feeling,m[1]);at=m.index+m[0].length;
+      const line=text.slice(begin,end),who=aliases[m[1]], feeling=emotion(line,who===role?mood:"normal");
+      html+=bubble(who,line,feeling,m[1]);at=end+1;pattern.lastIndex=at;
     }
+    if(!html)return bubble(role,text,mood);
     const tail=text.slice(at).replace(/^[。・\s]+|[。・\s]+$/g,"");
     if(tail)html+=`<p class="dialogue-aside">${esc(tail)}</p>`;
     return `<div class="conversation">${html}</div>`;

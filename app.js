@@ -272,7 +272,7 @@
     if (game.rescuePending) return go("rescue");
     if (returnScreen !== "history") setStage("report");
     render(
-      `<section class="stack"><div class="result-heading"><span class="eyebrow">第${h.week}週の決算</span><h1>${esc(h.title)}</h1></div><div class="delta-grid">${delta("店の資金", h.deltaCash)}${h.personalCashBefore === undefined ? '<div class="delta">自分の財布 <small>旧記録：増減不明</small></div>' : delta("自分の財布", h.personalCashAfter - h.personalCashBefore)}${delta("評判", h.deltaRep, "")}</div><p>${esc(h.body)}</p>${details(
+      `<section class="stack"><div class="result-heading"><span class="eyebrow">第${h.week}週の決算</span><h1>${esc(h.title)}</h1></div><div class="delta-grid">${delta("店の資金", h.deltaCash)}${h.personalCashBefore === undefined ? '<div class="delta">自分の財布 <small>旧記録：増減不明</small></div>' : delta("自分の財布", h.personalCashAfter - h.personalCashBefore)}${delta("評判", h.deltaRep, "")}</div>${U.narrative(h.body)}${details(
         "決算の内訳",
         ledger(h, "store") +
           ledger(h, "personal") +
@@ -285,7 +285,7 @@
             ["社会情勢", h.macroName || "旧記録：不明"],
           ]) +
           `<p>${esc(h.workforceNote || "")}</p><p>${esc(h.macroDetail || "")}</p><p>${esc(h.crisisResponse || "")}</p><p>${esc(h.devilNote || "")}</p><p>${esc(h.rescueText || "")}</p>`,
-      )}${dialogue("boss", C.resultSatire(h), h.fireHit ? "angry" : h.profit < 0 ? "sad" : "happy")}${button("reportContinue", returnScreen === "history" ? "経営に戻る" : game.finished ? "結末を見る" : "次の週へ", "primary")}</section>`,
+      )}${details("社長の反応", dialogue("boss", C.resultSatire(h), h.fireHit ? "angry" : h.profit < 0 ? "sad" : "happy"))}${button("reportContinue", returnScreen === "history" ? "経営に戻る" : game.finished ? "結末を見る" : "次の週へ", "primary")}</section>`,
     );
   }
   function resume() {
