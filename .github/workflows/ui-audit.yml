@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   regression:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +17,7 @@ jobs:
           node-version: '22'
       - run: node --test tests/*.test.cjs
   browsers:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -48,7 +48,7 @@ jobs:
   production:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: [regression, browsers]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     strategy:
       fail-fast: false
