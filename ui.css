@@ -666,3 +666,6 @@ meter {
     scroll-behavior: auto;
   }
 }
+
+/* Management release: native, accessible difficulty control. */
+select{display:block;max-width:100%;width:100%;min-height:44px;font:inherit;padding:10px;border:2px solid #315c49;border-radius:4px;background:#fffdf2;color:#243b2b}

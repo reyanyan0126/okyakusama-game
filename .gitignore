@@ -2,3 +2,5 @@ node_modules/
 test-artifacts/
 
 tests/ui-fixtures.json
+
+dist/

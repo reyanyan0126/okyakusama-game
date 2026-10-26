@@ -7,14 +7,11 @@ const assert = require("node:assert/strict"),
 const G = require("../engine.js"),
   U = require("../pixel-ui.js"),
   read = (f) => fs.readFileSync(path.join(__dirname, "..", f), "utf8");
-// The release is presentation-only: byte-for-byte economic and narrative sources.
+// Narrative remains byte-identical. Economic backward compatibility is checked
+// by the v3.0 campaign fingerprints in management-v310.test.cjs.
 for (const [f, hash] of Object.entries({
-  "engine.js":
-    "53964eb5a90f2a22e0dd23d696e9f2b29b0e044e1dba63cc2cf910fa25f445ab",
   "stories.js":
     "7ae3cdfe244fc8e33a0daf2183d6e3eba6309261957f5857ff3d163495297a31",
-  "finance.js":
-    "943334e82d5aa0e746e47ccc70a5338ba8a0ed47a46e3f40c3555ea5b8aaccac",
 }))
   assert.equal(crypto.createHash("sha256").update(read(f)).digest("hex"), hash);
 const html = read("index.html"),
@@ -24,7 +21,7 @@ assert.equal((html.match(/rel="stylesheet"/g) || []).length, 1);
 assert(!html.includes("manga") && !html.includes("cast-art"));
 assert.match(css,/image-rendering:\s*pixelated/);
 assert(!css.includes("@layer legacy"));
-assert(sw.includes("okyakusama-v3.0.0"));
+assert(sw.includes("okyakusama-v3.1.0"));
 for (const role of ["you", "boss", "manager", "worker", "customer", "devil"]) {
   const hashes = [];
   for (const mood of [
@@ -71,5 +68,5 @@ assert.equal(U.storeState({ ...G.initial(1), fire: 80 }), "fire");
 assert.equal(U.storeState({ ...G.initial(1), cash: 20000 }), "crisis");
 assert.equal(U.esc("<script>"), "&lt;script&gt;");
 console.log(
-  "PASS Pixel Edition assets, costs, unchanged engine/story/finance, cache manifest",
+  "PASS Pixel Edition assets, costs, preserved narrative and current finance, cache manifest",
 );
