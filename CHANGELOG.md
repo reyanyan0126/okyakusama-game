@@ -26,6 +26,7 @@ historical releases. Existing 30-week Pixel Edition remains intact.
 - Rewrote names and individual explanations for all 53 policies. Each label names the action directly; the explanation separates its benefit, cost/risk and joke.
 - Kept action IDs, financial rules and saved action names unchanged; historical names use the same display mapping.
 - Replaced shared episode descriptions with action-specific copy, and made compensation/closure choices explicit.
+- Simplified cost/risk vocabulary (施策費→作戦の費用, 原価→仕入れ代, 根本改善→原因を直す).
 - Offline cache advanced to management-cache-6.
 
 ### Dialogue revision — direct satire
