@@ -198,7 +198,7 @@
                 ["炎上度", signed(h.actionImpact.fire)],
               ])
             : "<p>旧セーブには作戦単独の記録がありません。</p>"
-        }<p>${esc(h.storyEvent?.quote || h.ceo)}</p><p>${esc(C.RESULT_PUNCH[h.actionId] || "")}</p>${h.performanceOdds ? `<p>失敗 ${h.performanceOdds.failure}% ／ 成功 ${h.performanceOdds.success}% ／ 大成功 ${h.performanceOdds.great}%</p>` : ""}`,
+        }<p>${esc(h.storyEvent?.quote || h.ceo)}</p><p>${esc(C.resultSatire(h))}</p>${h.performanceOdds ? `<p>失敗 ${h.performanceOdds.failure}% ／ 成功 ${h.performanceOdds.success}% ／ 大成功 ${h.performanceOdds.great}%</p>` : ""}`,
       )}${button("outcomeNext", T.news(h, G).length ? "ニュースを見る" : "決算を見る", "primary")}</section>`,
     );
   }
@@ -270,7 +270,7 @@
             ["社会情勢", h.macroName || "旧記録：不明"],
           ]) +
           `<p>${esc(h.workforceNote || "")}</p><p>${esc(h.macroDetail || "")}</p><p>${esc(h.crisisResponse || "")}</p><p>${esc(h.devilNote || "")}</p><p>${esc(h.rescueText || "")}</p>`,
-      )}${dialogue("boss", h.ceo, h.fireHit ? "angry" : h.profit < 0 ? "sad" : "happy")}${button("reportContinue", returnScreen === "history" ? "経営に戻る" : game.finished ? "結末を見る" : "次の週へ", "primary")}</section>`,
+      )}${dialogue("boss", C.resultSatire(h), h.fireHit ? "angry" : h.profit < 0 ? "sad" : "happy")}${button("reportContinue", returnScreen === "history" ? "経営に戻る" : game.finished ? "結末を見る" : "次の週へ", "primary")}</section>`,
     );
   }
   function resume() {

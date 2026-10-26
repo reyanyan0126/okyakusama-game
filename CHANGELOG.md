@@ -23,6 +23,9 @@ historical releases. Existing 30-week Pixel Edition remains intact.
 - Existing credit, investments, future consequences and bankruptcy/rescue remain.
 
 ### Events (original 0.9.7 scope)
+- Strengthen all 53 policy-specific CEO/customer lines and add three outcome reactions.
+  Targets include unpaid labor, KPI gaming, PR apologies, greenwashing and responsibility dumping.
+  Copy is presentation-only; RNG, money, saves and historical reports are unchanged.
 - Retirement, fatigue and supportive policy dialogue with CEO satire.
 - One-time hidden staff meeting after week 20 with sustained good workforce health.
 - Existing multi-stage episodes, customer complaints, scandals and callbacks remain.
