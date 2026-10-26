@@ -25,3 +25,21 @@ assert(!C.SATIRE.stamp.boss.includes('明日も'));
 assert(P.text('仕入れ原価が15%増。').includes('15%'));
 assert(P.text('採用・引継ぎ費18,000円。').includes('18,000円'));
 console.log(`PASS ${reviewed} source dialogue literals reviewed; 53 action voices; repeat rendering and numeric instructions preserved`);
+
+const before=JSON.stringify(G.ACTIONS);
+assert.equal(Object.keys(P.choices).length,G.ACTIONS.length);
+for(const action of G.ACTIONS){
+ const copy=P.choices[action.id];assert(copy,action.id);
+ assert.notEqual(P.text(action.name),action.name);
+ assert.equal(P.text(action.name),P.text(copy.name));
+ assert.equal(P.choiceDetail(action),copy.detail);
+ assert(copy.name.length<=32,action.id+' button too long');
+ assert(copy.detail.length<160,action.id+' explanation too long');
+ assert.equal(P.text(P.text(action.name)),P.text(action.name));
+}
+assert.equal(JSON.stringify(G.ACTIONS),before);
+assert.equal(new Set(Object.values(P.choices).map(x=>x.name)).size,53);
+assert.equal(new Set(Object.values(P.choices).map(x=>x.detail)).size,53);
+assert.equal(P.choiceDetail({id:'future-policy',detail:'fallback'}),'fallback');
+assert(fs.readFileSync('app.js','utf8').includes('window.PlainCopy.choiceDetail(a)'));
+console.log('PASS 53 distinct choice names/descriptions; immutable simulation inputs; unknown action fallback');

@@ -143,7 +143,7 @@
       d = G.rootDiagnosis(game),
       demand = G.boardroomDemand(game);
     render(
-      `${header("作戦を選ぶ")}<div class="stack"><div class="row"><small>今週は1つ。選んでから詳しく確認。</small><small>店 ${money(game.cash)}</small></div><div id="actions" class="choices" role="radiogroup" aria-label="今週の4つの作戦">${offers.map((a, i) => `<button class="choice action-option" role="radio" aria-checked="${a.id === game.selected}" data-choice="${esc(a.id)}">${icon(a.id.startsWith("fix_") ? "tools" : a.type === "hard" ? "coin" : "heart")}<strong>${esc(a.name)}</strong><span class="cost">${esc(U.costLabel(G, a.id))}</span><span class="effect">${esc(a.effect)}</span><span class="risk">${U.risk(G.previewRisk(game, a.id))}</span></button>`).join("")}</div><div id="selectedDetail" class="selected"><strong>${esc(a.name)}</strong><p>${esc(a.detail)}</p><div class="odds"><span>失敗 ${odds.failure}%</span><span>成功 ${odds.success}%</span><span>大成功 ${odds.great}%</span></div><p class="hint">施策費は家賃・仕入れ・投資とは別。削減額は成否で変動。炎上は別判定です。${a.id === "loan" ? "融資は最大20万円（失敗時16万円）。利益ではなく借金。毎週元金・利息の返済があります。" : ""}</p>${demand ? `<p class="hint">社長の推し「${esc(demand.actionName)}」で報酬 +${money(demand.bonus)}（店負担）</p>` : ""}</div>${details("経営会議・現場の証言", dialogue("manager", d.active ? (d.solved ? "根本原因は改善済み。" : d.clue + " " + d.witness) : G.boardroomSignal(game), "confused") + `<p>${esc(G.currentMacro(game).detail)}</p>`)}${details("追加投資・悪魔の取引", extras())}<p id="optionalSummary" class="hint">${project ? "投資：" + esc(G.PROJECTS.find((x) => x.id === project).name) : "追加投資なし"} ／ ${devil ? "悪魔：" + esc(G.DEVIL_OFFERS.find((x) => x.id === devil).name) : "契約なし"}</p>${button("advanceButton", "この作戦で営業する", "primary")}</div>`,
+      `${header("作戦を選ぶ")}<div class="stack"><div class="row"><small>今週は1つ。選んでから詳しく確認。</small><small>店 ${money(game.cash)}</small></div><div id="actions" class="choices" role="radiogroup" aria-label="今週の4つの作戦">${offers.map((a, i) => `<button class="choice action-option" role="radio" aria-checked="${a.id === game.selected}" data-choice="${esc(a.id)}">${icon(a.id.startsWith("fix_") ? "tools" : a.type === "hard" ? "coin" : "heart")}<strong>${esc(a.name)}</strong><span class="cost">${esc(U.costLabel(G, a.id))}</span><span class="effect">${esc(a.effect)}</span><span class="risk">${U.risk(G.previewRisk(game, a.id))}</span></button>`).join("")}</div><div id="selectedDetail" class="selected"><strong>${esc(a.name)}</strong><p>${esc(window.PlainCopy.choiceDetail(a))}</p><div class="odds"><span>失敗 ${odds.failure}%</span><span>成功 ${odds.success}%</span><span>大成功 ${odds.great}%</span></div><p class="hint">施策費は家賃・仕入れ・投資とは別。削減額は成否で変動。炎上は別判定です。${a.id === "loan" ? "融資は最大20万円（失敗時16万円）。利益ではなく借金。毎週元金・利息の返済があります。" : ""}</p>${demand ? `<p class="hint">社長の推し「${esc(demand.actionName)}」で報酬 +${money(demand.bonus)}（店負担）</p>` : ""}</div>${details("経営会議・現場の証言", dialogue("manager", d.active ? (d.solved ? "根本原因は改善済み。" : d.clue + " " + d.witness) : G.boardroomSignal(game), "confused") + `<p>${esc(G.currentMacro(game).detail)}</p>`)}${details("追加投資・悪魔の取引", extras())}<p id="optionalSummary" class="hint">${project ? "投資：" + esc(G.PROJECTS.find((x) => x.id === project).name) : "追加投資なし"} ／ ${devil ? "悪魔：" + esc(G.DEVIL_OFFERS.find((x) => x.id === devil).name) : "契約なし"}</p>${button("advanceButton", "この作戦で営業する", "primary")}</div>`,
     );
   }
   function extras() {
@@ -223,7 +223,7 @@
     const decision = pending() && item.title === h.accidentTitle,
       cost = Math.min(28000, Math.round(h.incidentCost * 0.48) + 4000);
     render(
-      `<section class="stack"><span class="eyebrow">ニュース ${newsIndex + 1} / ${items.length}</span><div class="result-heading">${icon(item.kind === "positive" ? "star" : item.visualId === "devil" ? "document" : "warning")}${character(item.visualId === "devil" ? "devil" : "worker", item.kind === "positive" ? "happy" : "surprised")}</div><h1>${esc(item.title)}</h1><p>${esc(item.text)}</p>${decision ? `<div class="panel stack"><h2>事故への対応</h2><p class="hint">補償：評判 +3・満足 +2・炎上 −3・不満 −5。費用を抑える：評判 −2・炎上 +3・不満 +4。</p><button id="accidentRepair" ${game.cash < cost ? "disabled" : ""}>補償する −${money(cost)}</button>${button("accidentIgnore", "費用を抑える")}</div>` : button("newsNext", "次へ", "primary")}</section>`,
+      `<section class="stack"><span class="eyebrow">ニュース ${newsIndex + 1} / ${items.length}</span><div class="result-heading">${icon(item.kind === "positive" ? "star" : item.visualId === "devil" ? "document" : "warning")}${character(item.visualId === "devil" ? "devil" : "worker", item.kind === "positive" ? "happy" : "surprised")}</div><h1>${esc(item.title)}</h1><p>${esc(item.text)}</p>${decision ? `<div class="panel stack"><h2>事故への対応</h2><p class="hint">補償：評判 +3・満足 +2・炎上 −3・不満 −5。補償代をケチる：評判 −2・炎上 +3・不満 +4。</p><button id="accidentRepair" ${game.cash < cost ? "disabled" : ""}>補償しろ。ケチるな −${money(cost)}</button>${button("accidentIgnore", "補償代をケチる。苦情は覚悟だ")}</div>` : button("newsNext", "次へ", "primary")}</section>`,
     );
   }
   function afterNews() {
@@ -244,7 +244,7 @@
         )
         .join(
           "",
-        )}</div>${button("rescueGiveUp", "再建を断念する", "quiet")}</section>`,
+        )}</div>${button("rescueGiveUp", "閉店する。もう金がない", "quiet")}</section>`,
     );
   }
   function ledger(h, kind) {
