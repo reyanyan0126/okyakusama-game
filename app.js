@@ -411,7 +411,7 @@
     const d = G.rootDiagnosis(game),
       macro = G.currentMacro(game);
     render(
-      `${header("店舗の詳細")}<section class="stack">${meter("評判", game.storeRep)}${meter("満足度", game.sat)}${meter("不満", game.frust)}${meter("炎上", game.fire)}${game.workforce ? `<div class="panel">${meter("士気",game.workforce.morale)}${meter("疲労",game.workforce.fatigue)}<p>今週決算時の離職率 ${game.workforce.turnover}% · 退職 ${game.workforce.departures}回</p><p>難易度：${esc(G.MANAGEMENT.DIFFICULTIES[game.difficulty].name)}</p></div>` : ""}${list(
+      `${header("店舗の詳細")}<section class="stack">${meter("評判", game.storeRep)}${meter("満足度", game.sat)}${meter("不満", game.frust)}${meter("炎上", game.fire)}${game.workforce ? `<div class="panel">${meter("士気",game.workforce.morale)}${meter("疲労",game.workforce.fatigue)}<p>直近決算の離職率 ${game.workforce.turnover}% · 退職 ${game.workforce.departures}回</p><p>難易度：${esc(G.MANAGEMENT.DIFFICULTIES[game.difficulty].name)}</p></div>` : ""}${list(
         [
           ["商品価格", money(game.price)],
           ["内容量", game.size + "g"],

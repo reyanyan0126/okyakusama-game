@@ -15,7 +15,7 @@ function workforce(s,id,roll){
  w.fatigue=clamp(w.fatigue+(60-s.staff)/5-3-(kind?6:0)-(s.upgrades?.people||0));
  w.morale=clamp(w.morale+(kind?7:0)-(cuts?9:0)+(s.sat>=75?2:0)-(w.fatigue>=65?5:0));
  const quality=clamp(s.staff*.5+w.morale*.35+(100-w.fatigue)*.15);
- w.turnover=Math.min(30,Math.max(0,Math.round((w.fatigue-55)*.3+(40-w.morale)*.25)));
+ w.turnover=Math.min(30,Math.max(0,Math.round(Math.max(0,w.fatigue-55)*.3+Math.max(0,40-w.morale)*.25)));
  const departed=roll*100<w.turnover;
  if(departed){w.departures++;s.staff=Math.max(30,s.staff-5);w.fatigue=clamp(w.fatigue+4);}
  const hidden=s.week>=20&&w.morale>=90&&w.fatigue<20&&w.departures===0&&!s.hiddenEventSeen;

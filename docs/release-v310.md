@@ -22,11 +22,14 @@
   no balance/stat/ending injection is used to prove reachability.
 - Invalid workforce fields, invalid difficulty, malformed/inconsistent history and
   duplicate hidden-event prevention tested.
-- Chromium management browser checks: 320/390/1024px; all difficulty options,
+- Chromium and WebKit management browser checks: 320/390/1024px; all difficulty options,
   actual new-game selection, workforce display, eight ending screens, achievement
   persistence, charts, malformed JSON and simulated storage quota failure pass.
-- Chromium installed-service-worker upgrade: save preserved, pending outcome
+- Chromium and WebKit installed-service-worker upgrade: save preserved, pending outcome
   resumed without reroll, new cache replaces old cache.
+- Chromium full-screen suite: 1,360 screens across 320/375/390/430/768/1024px, including full 30-week DOM campaigns, old save branches and offline use.
+- Legal-choice retirement replay: a real resignation and 18,000-yen expense with zero ledger residual. Low fatigue no longer cancels low morale in turnover calculations.
+- New-management offline reload tested by disconnecting the local HTTP server after service-worker activation, including the rules script and saved ending.
 - Static build: 110 required files copied successfully, no missing precache assets.
 
 ## Acceptance boundaries
@@ -59,3 +62,5 @@
 Publication must match the verified committed source. A branch or PR alone does
 not update Pages. Check merge/deployment status and compare published files before
 claiming the new version is live.
+
+Local WebKit needed additional shared libraries extracted into a temporary directory. The downloaded launcher was configured to preserve that library path; no application behavior or test assertion was bypassed. The normal GitHub Actions setup installs the standard WebKit dependencies.

@@ -18,6 +18,8 @@ historical releases. Existing 30-week Pixel Edition remains intact.
   save wages but worsen workforce health. Supportive policies and training help.
 - Service quality affects demand, satisfaction and complaints. Departures cost
   18,000 yen, booked as operating costs and itemized in the cash ledger.
+- Low fatigue does not negate low morale when calculating turnover. A legal-choice
+  replay tests a real retirement and its expense.
 - Existing credit, investments, future consequences and bankruptcy/rescue remain.
 
 ### Events (original 0.9.7 scope)

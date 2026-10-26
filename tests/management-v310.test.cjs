@@ -25,6 +25,7 @@ for(const [ending,route] of Object.entries(routes)){
  let s=G.initial(route.seed,{difficulty:route.difficulty});for(const id of route.actions){assert(G.weeklyOffers(s).some(o=>o.id===id));s=G.validateSaved(JSON.parse(JSON.stringify(finish(G.play(s,id)))));}
  assert(s.finished);assert.equal(G.ending(s).id,ending);assert(G.ending(s).legacyName);
 }
+const retirement=require('./fixtures/v310-retirement.json');let retired=G.initial(retirement.seed,{difficulty:retirement.difficulty});for(const id of retirement.actions){assert(G.weeklyOffers(retired).some(o=>o.id===id));retired=finish(G.play(retired,id));}assert.equal(retired.workforce.departures,1);assert.equal(retired.lastResult.workforceCost,18000);assert.equal(F.createLedger(retired.lastResult,'store').residual,0);
 const s=G.initial(1,{difficulty:'normal'});const bad=structuredClone(s);bad.workforce.morale=NaN;assert.throws(()=>G.validateSaved(bad));
 assert.throws(()=>G.initial(1,{difficulty:'unknown'}));
 for(const field of ['fatigue','turnover','departures']){const x=structuredClone(s);x.workforce[field]=-1;assert.throws(()=>G.validateSaved(x));}
