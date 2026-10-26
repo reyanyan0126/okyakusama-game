@@ -7,4 +7,4 @@ assert.equal(P.text('費用 18,000円 / 利益率 15% / 第12週'),'費用 18,00
 assert.equal(P.text('<script>alert(1)</script>'),'<script>alert(1)</script>'); // text-node-only; never parsed as markup
 assert(fs.readFileSync('app.js','utf8').includes('window.PlainCopy.apply(main)'));
 assert(fs.readFileSync('sw.js','utf8').includes("'./plain-copy.js'"));
-console.log('PASS 72 authored event outcomes; 108 display rewrites; numeric text and source records preserved; offline manifest');
+console.log('PASS 72 authored event outcomes; '+P.replacements.length+' display rewrites; numeric text and source records preserved; offline manifest');

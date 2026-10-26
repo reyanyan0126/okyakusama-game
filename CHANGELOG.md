@@ -22,6 +22,13 @@ historical releases. Existing 30-week Pixel Edition remains intact.
   replay tests a real retirement and its expense.
 - Existing credit, investments, future consequences and bankruptcy/rescue remain.
 
+### Dialogue revision — direct satire
+- Rewrote boss/customer remarks for all 53 actions, plus every existing reaction pool and result-tier response.
+- Rewrote all 72 major-event outcomes; expanded display mappings to 276 passages covering meetings, scene dialogue, witnesses, news, callbacks and endings.
+- Reviewed every character-attributed dialogue literal in the loaded engine/story/scene/management scripts. Kept financial instructions, numeric conditions and original save text intact.
+- Corrected the limited-sale joke to agree with the actual one-week promotion.
+- Added dialogue coverage and repeat-render checks; bumped the offline cache to management-cache-5.
+
 ### Events (original 0.9.7 scope)
 - Review existing display copy: rewrite all 72 major-event outcomes plus meeting, news, old/new endings and scene dialogue. Apply plain-language terms to all rendered screens and historical saves without modifying saved text or simulation.
 - Help now explains the selected difficulty target instead of claiming every game requires 2.55 million yen.

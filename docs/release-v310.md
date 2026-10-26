@@ -12,7 +12,7 @@
 
 ## Executed verification
 
-- Regression suite including management addition: 15/15 passed locally.
+- Latest regression suite including dialogue audit: 18/18 passed locally.
 - Forty complete legacy campaigns produce byte-identical final save fingerprints
   to the unmodified 3.0.0 engine, including RNG and every weekly report.
 - 120 new campaigns (40 per difficulty): every-week JSON roundtrip, integer finance,
@@ -30,7 +30,7 @@
 - Chromium full-screen suite: 1,360 screens across 320/375/390/430/768/1024px, including full 30-week DOM campaigns, old save branches and offline use.
 - Legal-choice retirement replay: a real resignation and 18,000-yen expense with zero ledger residual. Low fatigue no longer cancels low morale in turnover calculations.
 - New-management offline reload tested by disconnecting the local HTTP server after service-worker activation, including the rules script and saved ending.
-- Static build: 110 required files copied successfully, no missing precache assets.
+- Static build: 111 required files copied successfully, no missing precache assets.
 
 ## Acceptance boundaries
 
@@ -64,3 +64,13 @@ not update Pages. Check merge/deployment status and compare published files befo
 claiming the new version is live.
 
 Local WebKit needed additional shared libraries extracted into a temporary directory. The downloaded launcher was configured to preserve that library path; no application behavior or test assertion was bypassed. The normal GitHub Actions setup installs the standard WebKit dependencies.
+
+## Latest direct-dialogue revision (2026-10-26)
+
+- All 53 action boss/public pairs and existing reaction pools rewritten.
+- All 72 major-event outcomes rewritten; 276 display mappings now cover legacy dialogue.
+- Automated inventory checks 168 attributed dialogue literals in engine.js, stories.js, scene.js and management.js. Prologue and app-only speaker text reviewed separately. Mechanics/help text and the personal-family premise remain factual.
+- Chromium 320/390/1024px: copy DOM, actual meeting text, screenshots, no horizontal overflow, escaped markup and byte-identical old-save storage pass.
+- Chromium management browser suite rerun after the rewrite: all eight endings, new game, workforce, graphs, failed import preservation and offline reload pass at all three widths.
+- The 18-file regression suite passes after the final code changes; build contains 111 files.
+- Latest dialogue changes have not yet been verified in WebKit locally or on a physical iPhone. Earlier browser results above describe the management release before this copy revision.
