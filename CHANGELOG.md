@@ -23,6 +23,7 @@ historical releases. Existing 30-week Pixel Edition remains intact.
 - Existing credit, investments, future consequences and bankruptcy/rescue remain.
 
 ### Events (original 0.9.7 scope)
+- Rewrite the 53 satire pairs in plain Japanese with concrete situations and short punchlines; simplify older reaction vocabulary and outcome-specific lines.
 - Strengthen all 53 policy-specific CEO/customer lines and add three outcome reactions.
   Targets include unpaid labor, KPI gaming, PR apologies, greenwashing and responsibility dumping.
   Copy is presentation-only; RNG, money, saves and historical reports are unchanged.
