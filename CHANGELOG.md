@@ -23,6 +23,8 @@ historical releases. Existing 30-week Pixel Edition remains intact.
 - Existing credit, investments, future consequences and bankruptcy/rescue remain.
 
 ### Events (original 0.9.7 scope)
+- Review existing display copy: rewrite all 72 major-event outcomes plus meeting, news, old/new endings and scene dialogue. Apply plain-language terms to all rendered screens and historical saves without modifying saved text or simulation.
+- Help now explains the selected difficulty target instead of claiming every game requires 2.55 million yen.
 - Rewrite the 53 satire pairs in plain Japanese with concrete situations and short punchlines; simplify older reaction vocabulary and outcome-specific lines.
 - Strengthen all 53 policy-specific CEO/customer lines and add three outcome reactions.
   Targets include unpaid labor, KPI gaming, PR apologies, greenwashing and responsibility dumping.

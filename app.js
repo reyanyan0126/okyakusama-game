@@ -75,6 +75,7 @@
     `<dl class="number-list">${rows.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join("")}</dl>`;
   function render(html, withNav = false) {
     main.innerHTML = html + (withNav ? nav() : "");
+    window.PlainCopy.apply(main);
     window.scrollTo(0, 0);
     main.focus({ preventScroll: true });
   }
@@ -471,7 +472,7 @@
   }
   function help() {
     render(
-      `${header("遊び方", "title")}<div class="stack"><p>今週の課題を読み、4つの作戦から1つ選んで営業。30週間で利益255万円・評判50以上を目指します。</p>${list(
+      `${header("遊び方", "title")}<div class="stack"><p>今週の課題を読み、4つの作戦から1つ選んで営業。30週間で、選んだ難易度の利益目標と評判50以上を目指します。標準の利益目標は255万円です。</p>${list(
         [
           ["店の資金", "経費・投資・報酬の支払い"],
           ["自分の財布", "毎週の生活費・4週ごとの養育費"],
