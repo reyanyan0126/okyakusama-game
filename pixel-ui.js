@@ -24,8 +24,12 @@
     customer: "森さん",
     devil: "悪魔",
   };
-  const character = (role = "you", mood = "normal", face = false) =>
-    `<img class="${face ? "portrait" : "character"}" src="assets/pixel/${role}-${mood}${face ? "-face" : ""}.svg" width="${face ? 32 : 48}" height="${face ? 32 : 64}" alt="${names[role]}・${{ normal: "普通", happy: "喜び", angry: "怒り", confused: "困惑", surprised: "驚き", sad: "落胆" }[mood]}">`;
+  const moods = {normal:"平常",happy:"喜び",angry:"怒り",confused:"困惑",surprised:"驚き",sad:"落胆"};
+  const character = (role = "you", mood = "normal", face = false) => {
+    role = names[role] ? role : "you"; mood = moods[mood] ? mood : "normal";
+    const img = `<img class="${face ? "portrait" : "character"}" src="assets/pixel/${role}-${mood}${face ? "-face" : ""}.svg" width="${face ? 32 : 48}" height="${face ? 32 : 64}" alt="${names[role]}・${moods[mood]}">`;
+    return face ? img : `<figure class="cast-member" data-role="${role}" data-mood="${mood}">${img}<figcaption><b>${names[role]}</b><span>${moods[mood]}</span></figcaption></figure>`;
+  };
   const storeState = (s) =>
     s.bankrupt
       ? "closed"
@@ -46,12 +50,43 @@
     `<label class="meter-label">${esc(label)} <b>${n}/100</b><meter min="0" max="100" value="${n}">${n}</meter></label>`;
   const delta = (label, n, unit = "円") =>
     `<div class="delta"><small>${esc(label)}</small><strong class="${n > 0 ? "positive" : n < 0 ? "negative" : ""}">${n > 0 ? "↑ +" : n < 0 ? "↓ −" : "±"}${Math.abs(n || 0).toLocaleString("ja-JP")}<small>${unit}</small></strong></div>`;
-  const dialogue = (role, text, mood = "normal") =>
-    `<div class="dialogue">${character(role, mood, true)}<div><small>${names[role]}</small><p>${esc(text)}</p></div></div>`;
+  const aliases = {"社長":"boss","店長":"manager","従業員":"worker","社員":"worker","店員":"worker","客":"customer","お客様":"customer","消費者":"customer","常連":"customer","常連客":"customer","森さん":"customer","あなた":"you","悪魔":"devil"};
+  function emotion(text, fallback) {
+    if (/泣|落ち込|つら|辞め|寂し/.test(text)) return "sad";
+    if (/驚|びっくり|まさか/.test(text)) return "surprised";
+    if (/黙れ|お前|バカ|ふざけ|逃げるな|するな|じゃねえ|寄こせ/.test(text)) return "angry";
+    if (/ありがとう|うれし|喜|大成功|うまい|おいしい/.test(text)) return "happy";
+    if (/困|厳しい|分から|どうし|足りません/.test(text)) return "confused";
+    return moods[fallback] ? fallback : "normal";
+  }
+  function bubble(role, text, mood, label = names[role]) {
+    return `<div class="dialogue" data-role="${role}" data-mood="${mood}">${character(role,mood,true)}<div><div class="speaker"><strong>${esc(label)}</strong><span class="emotion">${moods[mood]}</span></div><p>${esc(text)}</p></div></div>`;
+  }
+  function dialogue(role, text, mood = "normal") {
+    role = names[role] ? role : "you";
+    text = root.PlainCopy ? root.PlainCopy.text(text) : String(text ?? "");
+    const pattern = /(社長|店長|従業員|社員|店員|お客様|消費者|常連客|常連|森さん|客|あなた|悪魔)「([^」]*)」/g;
+    const matches = [...text.matchAll(pattern)];
+    if (!matches.length) return bubble(role,text,mood);
+    let at=0,html="";
+    for(const m of matches){
+      const prefix=text.slice(at,m.index).replace(/^[。・\s]+|[。・\s]+$/g,"");
+      if(prefix)html+=`<p class="dialogue-aside">${esc(prefix)}</p>`;
+      const who=aliases[m[1]], feeling=emotion(m[2],who===role?mood:"normal");
+      html+=bubble(who,m[2],feeling,m[1]);at=m.index+m[0].length;
+    }
+    const tail=text.slice(at).replace(/^[。・\s]+|[。・\s]+$/g,"");
+    if(tail)html+=`<p class="dialogue-aside">${esc(tail)}</p>`;
+    return `<div class="conversation">${html}</div>`;
+  }
+  function narrative(text) {
+    text = root.PlainCopy ? root.PlainCopy.text(text) : String(text ?? "");
+    return /(社長|店長|従業員|社員|店員|お客様|消費者|常連客|常連|森さん|客|あなた|悪魔)「/.test(text) ? dialogue("you",text) : `<p>${esc(text)}</p>`;
+  }
   const risk = (n) =>
     `${icon("warning")}炎上 ${n >= 0.17 ? "高" : n >= 0.08 ? "中" : "低"} <small>${Math.round(n * 100)}%</small>`;
-  const details = (title, content) =>
-    `<details><summary>${esc(title)}</summary><div class="detail-body">${content}</div></details>`;
+  const details = (title, content, id = "") =>
+    `<details${id ? ` id="${esc(id)}"` : ""}><summary>${esc(title)}</summary><div class="detail-body">${content}</div></details>`;
   const costs = {
     explain: 10000,
     sale: 12000,
@@ -91,6 +126,7 @@
     meter,
     delta,
     dialogue,
+    narrative,
     risk,
     details,
     cost,

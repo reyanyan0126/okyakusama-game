@@ -22,6 +22,13 @@ historical releases. Existing 30-week Pixel Edition remains intact.
   replay tests a real retirement and its expense.
 - Existing credit, investments, future consequences and bankruptcy/rescue remain.
 
+### Presentation refresh — progress, readable cast and compact screens
+- Animate the weekly recap from 0 to 100%, with opening/sales/settlement phases, a completion hold and an immediate skip. Cancel stale animation callbacks when leaving the screen; no financial calculations are rerun.
+- Redraw all six pixel characters and six moods (72 full-body/portrait SVGs) with distinct silhouettes, clothes, props and enlarged expressions. Keep the deterministic character generator as the art source.
+- Split quoted dialogue by speaker after display-copy conversion; show each speaker and emotion explicitly. Full-body actors also receive visible name/emotion captions.
+- Reduce global spacing, store art, result art and choice-card decoration while keeping readable portraits and 44px controls. Move accounting caveats into a labelled disclosure.
+- Offline cache advanced to management-cache-7.
+
 ### Choice revision — direct action labels
 - Rewrote names and individual explanations for all 53 policies. Each label names the action directly; the explanation separates its benefit, cost/risk and joke.
 - Kept action IDs, financial rules and saved action names unchanged; historical names use the same display mapping.
