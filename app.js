@@ -180,21 +180,25 @@
     }
   }
   function working() {
-    render(`<section class="stack working"><div class="row"><h1>営業中</h1><span class="week">第${game.lastResult.week}週</span></div>${store(game)}<div class="actors">${character("worker", "normal")}${character("customer", "happy")}</div><div class="week-progress"><div class="row"><strong id="workingPhase" aria-live="polite">仕入れ・開店</strong><span id="workingPercent">0%</span></div><progress id="workingProgress" class="progress" aria-label="1週間の営業の経過" max="100" value="0"></progress><small>1週間の営業を振り返っています</small></div>${button("workingSkip", "演出を飛ばして結果へ", "primary")}</section>`);
-    const began = performance.now(), duration = 2600;
+    render(`<section class="stack working"><div class="row"><h1>営業中</h1><span class="week">第${game.lastResult.week}週</span></div>${store(game)}<div class="actors">${character("worker", "normal")}${character("customer", "happy")}</div><div class="week-progress"><div class="row"><strong id="workingPhase" aria-live="polite">仕入れ・開店</strong><span id="workingPercent">0%</span></div><div class="work-track" aria-hidden="true"><span id="workingFill" style="width:0%;background-color:#c56a12"></span></div><progress id="workingProgress" class="progress-sr" aria-label="1週間の営業の経過" max="100" value="0"></progress><small>営業が進んでいます…</small></div>${button("workingSkip", "演出を飛ばして結果へ", "primary")}</section>`);
+    const began = performance.now(), duration = 4200;
     let phase = 0;
     const tick = (now) => {
       if (screen !== "working") return;
       const percent = Math.min(100, Math.floor((now - began) / duration * 100));
       document.getElementById("workingProgress").value = percent;
       document.getElementById("workingPercent").textContent = percent + "%";
+      const fill = document.getElementById("workingFill");
+      fill.style.width = percent + "%";
       const next = percent < 30 ? 0 : percent < 75 ? 1 : percent < 100 ? 2 : 3;
+      fill.style.backgroundColor = ["#c56a12", "#176fb1", "#8050b4", "#258046"][next];
       if (next !== phase) {
         phase = next;
+        if (next === 3) document.querySelector(".week-progress small").textContent = "営業終了！ 結果を表示します";
         document.getElementById("workingPhase").textContent = ["仕入れ・開店", "接客・販売", "売上を集計", "営業終了"][phase];
       }
       if (percent < 100) workingFrame = requestAnimationFrame(tick);
-      else workingTimer = setTimeout(() => { setStage("outcome"); go("outcome"); }, 350);
+      else workingTimer = setTimeout(() => { setStage("outcome"); go("outcome"); }, 650);
     };
     workingFrame = requestAnimationFrame(tick);
   }
@@ -669,7 +673,7 @@
             )
               .map(
                 ([id, n]) =>
-                  `<section class="panel"><h2>${n}</h2><div class="row">${["normal", "happy", "angry", "confused", "surprised", "sad"].map((m) => character(id, m, true)).join("")}</div></section>`,
+                  `<section class="panel"><h2>${n}</h2>${character(id)}<div class="expression-grid">${["normal", "happy", "angry", "confused", "surprised", "sad"].map((m) => `<figure>${character(id, m, true)}<figcaption>${U.moods[m]}</figcaption></figure>`).join("")}</div></section>`,
               )
               .join("")}</div>`,
           );
