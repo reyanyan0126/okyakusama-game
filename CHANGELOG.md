@@ -22,6 +22,12 @@ historical releases. Existing 30-week Pixel Edition remains intact.
   replay tests a real retirement and its expense.
 - Existing credit, investments, future consequences and bankruptcy/rescue remain.
 
+### Readability follow-up — 2026-10-27
+- Pin browser CI to the official Playwright 1.56.1 image matching package-lock; use its preinstalled browsers and OS libraries instead of apt installation during each run.
+- Replace native visible progress rendering with an explicit 28px fill whose width and orange/blue/purple/green color are driven by elapsed time; keep semantic progress for assistive technology. Show progress for 4.2 seconds plus completion hold.
+- Redraw legs, shoes, eye whites and pupils; render complete 48×80 sprites at 96×160 and portraits at 96×96 without walk wobble. Label every gallery expression.
+- Cache revision 8 refreshes presentation assets without changing save or financial logic.
+
 ### Presentation refresh — progress, readable cast and compact screens
 - Wait for initial PWA installation before rapid reload tests, preventing a WebKit service-worker registration/navigation race without suppressing browser errors.
 - Animate the weekly recap from 0 to 100%, with opening/sales/settlement phases, a completion hold and an immediate skip. Cancel stale animation callbacks when leaving the screen; no financial calculations are rerun.

@@ -16,7 +16,8 @@ for role in ROLES:
    r(38,49,3,11,'red');r(34,58,7,3,'red')
   r(left-1,36,width+2,22,'ink');r(left,38,width,18,coat)
   if role=='customer':r(13,53,23,7,'purple')
-  for x in [16,27]:r(x,57,6,5,'ink');r(x-1,61,8,3,'ink')
+  for x in [15,28]:
+   r(x,56,7,19,'ink');r(x+1,58,4,12,'#586773');r(x-2,74,11,5,'ink');r(x-2,78,11,2,'white')
   ay=31 if mood in ['angry','surprised'] else 40
   for x in [left-5,left+width+1]:r(x,ay,4,15,'ink');r(x+1,ay+1,3,10,coat);r(x,ay+12,4,4,skin)
   if role=='you':
@@ -49,19 +50,19 @@ for role in ROLES:
    for x in [17,27]:r(x,24,6,2,'ink');r(x+1,22,4,2,'ink')
    r(20,29,11,5,'ink');r(21,29,9,2,'white');r(23,32,5,2,'red')
   elif mood=='angry':
-   for x in [17,27]:r(x,24,5,3,'ink')
+   for x in [17,27]:r(x,23,6,5,'white');r(x+2,24,3,4,'ink')
    r(16,20,4,2,'ink');r(20,21,4,2,'ink');r(26,21,4,2,'ink');r(30,20,4,2,'ink');r(20,30,11,4,'ink');r(21,31,9,1,'white')
    r(37,7,2,8,'red');r(34,10,8,2,'red')
   elif mood=='surprised':
    for x in [17,27]:r(x,21,6,7,'white');r(x+2,23,2,4,'ink')
    r(22,29,6,6,'ink');r(23,30,4,3,'red');r(40,3,2,7,'gold');r(40,12,2,2,'gold')
   elif mood=='sad':
-   for x in [17,27]:r(x,25,6,2,'ink');r(x+1,27,2,5,'blue')
+   for x in [17,27]:r(x,25,6,2,'ink');r(x+1,27,3,7,'#338cd1')
    r(21,32,8,2,'ink');r(23,30,4,2,'ink');r(17,21,4,1,'ink');r(29,21,4,1,'ink')
   elif mood=='confused':
-   r(17,22,6,2,'ink');r(28,20,5,2,'ink');r(18,25,3,3,'ink');r(28,25,3,3,'ink');r(22,31,4,2,'ink');r(26,30,4,2,'ink');r(36,20,3,6,'blue');r(37,18,2,3,'blue')
+   r(17,22,6,2,'ink');r(28,20,5,2,'ink');r(18,25,3,3,'ink');r(28,25,3,3,'ink');r(22,31,4,2,'ink');r(26,30,4,2,'ink');r(35,19,5,9,'ink');r(36,19,3,7,'#338cd1');r(37,17,2,3,'#338cd1')
   else:
-   for x in [18,28]:r(x,23,3,4,'ink')
+   for x in [17,27]:r(x,21,6,7,'white');r(x+2,22,3,5,'ink')
    r(21,31,8,2,'ink')
   if role=='you':
    for x in [15,26]:r(x,21,9,1,'ink');r(x,28,9,1,'ink');r(x,22,1,6,'ink');r(x+8,22,1,6,'ink')
@@ -70,5 +71,5 @@ for role in ROLES:
   if role=='devil' and mood in ['happy','angry']:r(21,30,2,3,'white');r(28,30,2,3,'white')
   art=''.join(parts)
   for face in [False,True]:
-   box='8 4 32 32' if face else '0 0 48 64';w,h=(32,32) if face else (48,64)
+   box='8 4 32 32' if face else '0 0 48 80';w,h=(32,32) if face else (48,80)
    (P/f'{role}-{mood}{"-face" if face else ""}.svg').write_text(f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="{box}" shape-rendering="crispEdges">{art}</svg>')

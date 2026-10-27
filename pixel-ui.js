@@ -27,7 +27,7 @@
   const moods = {normal:"平常",happy:"喜び",angry:"怒り",confused:"困惑",surprised:"驚き",sad:"落胆"};
   const character = (role = "you", mood = "normal", face = false) => {
     role = names[role] ? role : "you"; mood = moods[mood] ? mood : "normal";
-    const img = `<img class="${face ? "portrait" : "character"}" src="assets/pixel/${role}-${mood}${face ? "-face" : ""}.svg" width="${face ? 32 : 48}" height="${face ? 32 : 64}" alt="${names[role]}・${moods[mood]}">`;
+    const img = `<img class="${face ? "portrait" : "character"}" src="assets/pixel/${role}-${mood}${face ? "-face" : ""}.svg" width="${face ? 32 : 48}" height="${face ? 32 : 80}" alt="${names[role]}・${moods[mood]}">`;
     return face ? img : `<figure class="cast-member" data-role="${role}" data-mood="${mood}">${img}<figcaption><b>${names[role]}</b><span>${moods[mood]}</span></figcaption></figure>`;
   };
   const storeState = (s) =>
@@ -128,6 +128,7 @@
     money,
     icon,
     character,
+    moods,
     storeState,
     store,
     meter,
