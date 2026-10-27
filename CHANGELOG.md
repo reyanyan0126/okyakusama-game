@@ -22,6 +22,12 @@ historical releases. Existing 30-week Pixel Edition remains intact.
   replay tests a real retirement and its expense.
 - Existing credit, investments, future consequences and bankruptcy/rescue remain.
 
+### Concise interface — 2026-10-27
+- Review every active screen; remove repeated selection instructions, duplicate selected-action heading, empty optional summaries, progress narration and generic ledger explanations.
+- Use concise action labels and selected-account styling. Keep unique choice consequences, costs, repayment terms, incident effects, story dialogue and save warnings.
+- Consolidate non-obvious management/save rules in optional help; show extra trend sections only when data exists.
+- Cache revision 9; no simulation or save-schema changes.
+
 ### Readability follow-up — 2026-10-27
 - Pin browser CI to the official Playwright 1.56.1 image matching package-lock; use its preinstalled browsers and OS libraries instead of apt installation during each run.
 - Replace native visible progress rendering with an explicit 28px fill whose width and orange/blue/purple/green color are driven by elapsed time; keep semantic progress for assistive technology. Show progress for 4.2 seconds plus completion hold.

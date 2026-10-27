@@ -114,7 +114,7 @@
   }
   function contracts() {
     render(
-      `${header("新しい依頼", "title")}<section class="stack">${store(G.initial(1))}<div class="panel stack"><span class="eyebrow">再建案件 01</span><h2>モグモグマート</h2>${dialogue("manager", "来月の給料も厳しいんです。相談だけでも、できますか。", "confused")}${list(
+      `${header("新しい依頼", "title")}<section class="stack">${store(G.initial(1))}<div class="panel stack"><h2>モグモグマート</h2>${dialogue("manager", "来月の給料も厳しいんです。相談だけでも、できますか。", "confused")}${list(
         [
           ["契約期間", "30週間"],
           ["累計利益の目標", money(G.MANAGEMENT.DIFFICULTIES[difficulty].target)],
@@ -122,7 +122,7 @@
           ["店の資金", money(G.MANAGEMENT.DIFFICULTIES[difficulty].cash)],
           ["自分の財布", "2万8,000円"],
         ],
-      )}<label>難易度<select id="difficulty">${Object.entries(G.MANAGEMENT.DIFFICULTIES).map(([id,d])=>`<option value="${id}" ${difficulty===id?"selected":""}>${d.name}</option>`).join("")}</select></label><p class="hint">難易度は開始資金と利益目標を変更します。途中変更不可。人員削減は短期の経費を減らしますが、士気低下・疲労・離職につながります。</p>${hasSave ? '<p class="warn">新しく始めると現在のセーブを置き換えます。記録画面でバックアップできます。</p>' : ""}${button("acceptMarket", "依頼を受ける", "primary")}</div></section>`,
+      )}<label>難易度（途中変更不可）<select id="difficulty">${Object.entries(G.MANAGEMENT.DIFFICULTIES).map(([id,d])=>`<option value="${id}" ${difficulty===id?"selected":""}>${d.name}</option>`).join("")}</select></label>${hasSave ? '<p class="warn">新しく始めると現在のセーブを置き換えます。記録画面でバックアップできます。</p>' : ""}${button("acceptMarket", "依頼を受ける", "primary")}</div></section>`,
     );
   }
   function showPrologue() {
@@ -147,7 +147,7 @@
       d = G.rootDiagnosis(game),
       demand = G.boardroomDemand(game);
     render(
-      `${header("作戦を選ぶ")}<div class="stack"><div class="row"><small>今週は1つ。選んでから詳しく確認。</small><small>店 ${money(game.cash)}</small></div><div id="actions" class="choices" role="radiogroup" aria-label="今週の4つの作戦">${offers.map((a, i) => `<button class="choice action-option" role="radio" aria-checked="${a.id === game.selected}" data-choice="${esc(a.id)}"><strong>${esc(a.name)}</strong><span class="cost">${esc(U.costLabel(G, a.id))}</span><span class="effect">${esc(a.effect)}</span><span class="risk">${U.risk(G.previewRisk(game, a.id))}</span></button>`).join("")}</div><div id="selectedDetail" class="selected"><strong>${esc(a.name)}</strong><p>${esc(window.PlainCopy.choiceDetail(a))}</p><div class="odds"><span>失敗 ${odds.failure}%</span><span>成功 ${odds.success}%</span><span>大成功 ${odds.great}%</span></div>${details("費用・借金の注意点", `<p class="hint">施策費は家賃・仕入れ・投資とは別。削減額は成否で変動。炎上は別判定です。${a.id === "loan" ? "融資は最大20万円（失敗時16万円）。利益ではなく借金。毎週元金・利息の返済があります。" : ""}</p>`)}${demand ? `<p class="hint">社長の推し「${esc(demand.actionName)}」で報酬 +${money(demand.bonus)}（店負担）</p>` : ""}</div>${details("経営会議・現場の証言", dialogue("manager", d.active ? (d.solved ? "根本原因は改善済み。" : d.clue + " " + d.witness) : G.boardroomSignal(game), "confused") + `<p>${esc(G.currentMacro(game).detail)}</p>`)}${details("追加投資・悪魔の取引", extras(), "extras")}<p id="optionalSummary" class="hint">${project ? "投資：" + esc(G.PROJECTS.find((x) => x.id === project).name) : "追加投資なし"} ／ ${devil ? "悪魔：" + esc(G.DEVIL_OFFERS.find((x) => x.id === devil).name) : "契約なし"}</p>${button("advanceButton", "この作戦で営業する", "primary")}</div>`,
+      `${header("作戦を選ぶ")}<div class="stack"><div class="row"><small>店の資金 ${money(game.cash)}</small></div><div id="actions" class="choices" role="radiogroup" aria-label="今週の4つの作戦">${offers.map((a, i) => `<button class="choice action-option" role="radio" aria-checked="${a.id === game.selected}" data-choice="${esc(a.id)}"><strong>${esc(a.name)}</strong><span class="cost">${esc(U.costLabel(G, a.id))}</span><span class="effect">${esc(a.effect)}</span><span class="risk">${U.risk(G.previewRisk(game, a.id))}</span></button>`).join("")}</div><div id="selectedDetail" class="selected"><p>${esc(window.PlainCopy.choiceDetail(a))}</p><div class="odds"><span>失敗 ${odds.failure}%</span><span>成功 ${odds.success}%</span><span>大成功 ${odds.great}%</span></div>${details("費用・借金の注意点", `<p class="hint">施策費は家賃・仕入れ・投資とは別。削減額は成否で変動。炎上は別判定です。${a.id === "loan" ? "融資は最大20万円（失敗時16万円）。利益ではなく借金。毎週元金・利息の返済があります。" : ""}</p>`)}${demand ? `<p class="hint">社長の推し「${esc(demand.actionName)}」で報酬 +${money(demand.bonus)}（店負担）</p>` : ""}</div>${details("経営会議・現場の証言", dialogue("manager", d.active ? (d.solved ? "根本原因は改善済み。" : d.clue + " " + d.witness) : G.boardroomSignal(game), "confused") + `<p>${esc(G.currentMacro(game).detail)}</p>`)}${details("追加投資・悪魔の取引", extras(), "extras")}${project || devil ? `<p id="optionalSummary" class="hint">${[project ? "投資：" + esc(G.PROJECTS.find((x) => x.id === project).name) : "", devil ? "契約：" + esc(G.DEVIL_OFFERS.find((x) => x.id === devil).name) : ""].filter(Boolean).join(" ／ ")}</p>` : ""}${button("advanceButton", "営業する", "primary")}</div>`,
     );
   }
   function extras() {
@@ -160,7 +160,7 @@
       )
       .join(
         "",
-      )}</div><h3>${icon("document")} 悪魔の取引</h3><p>最大2回。契約中の再契約はできません。</p><div class="optional" role="radiogroup" aria-label="悪魔の契約"><button data-devil="" role="radio" aria-checked="${!devil}">契約しない</button>${G.DEVIL_OFFERS.map((p) => `<button data-devil="${p.id}" role="radio" aria-checked="${devil === p.id}" ${!G.pactAvailable(game) ? "disabled" : ""}><strong>${esc(p.name)}</strong><small>${esc(p.desc)}</small><span class="cost-flow"><span>今週<strong>${p.gain ? money(p.gain) : "集客 +35%"}</strong></span><span>→</span><span>第${game.week + p.dueOffset}週<strong>${p.price ? "返済 " + money(p.price) : "信用問題が再燃"}</strong></span></span></button>`).join("")}</div>`;
+      )}</div><h3>${icon("document")} 悪魔の取引</h3><p class="hint">契約 ${game.pactCount}/2${game.pacts.length ? " · 契約中は追加不可" : ""}</p><div class="optional" role="radiogroup" aria-label="悪魔の契約"><button data-devil="" role="radio" aria-checked="${!devil}">契約しない</button>${G.DEVIL_OFFERS.map((p) => `<button data-devil="${p.id}" role="radio" aria-checked="${devil === p.id}" ${!G.pactAvailable(game) ? "disabled" : ""}><strong>${esc(p.name)}</strong><small>${esc(p.desc)}</small><span class="cost-flow"><span>今週<strong>${p.gain ? money(p.gain) : "集客 +35%"}</strong></span><span>→</span><span>第${game.week + p.dueOffset}週<strong>${p.price ? "返済 " + money(p.price) : "信用問題が再燃"}</strong></span></span></button>`).join("")}</div>`;
   }
   function setStage(stage) {
     game.presentation = { week: game.lastResult.week, stage, newsIndex };
@@ -180,7 +180,7 @@
     }
   }
   function working() {
-    render(`<section class="stack working"><div class="row"><h1>営業中</h1><span class="week">第${game.lastResult.week}週</span></div>${store(game)}<div class="actors">${character("worker", "normal")}${character("customer", "happy")}</div><div class="week-progress"><div class="row"><strong id="workingPhase" aria-live="polite">仕入れ・開店</strong><span id="workingPercent">0%</span></div><div class="work-track" aria-hidden="true"><span id="workingFill" style="width:0%;background-color:#c56a12"></span></div><progress id="workingProgress" class="progress-sr" aria-label="1週間の営業の経過" max="100" value="0"></progress><small>営業が進んでいます…</small></div>${button("workingSkip", "演出を飛ばして結果へ", "primary")}</section>`);
+    render(`<section class="stack working"><div class="row"><h1>営業中</h1><span class="week">第${game.lastResult.week}週</span></div>${store(game)}<div class="actors">${character("worker", "normal")}${character("customer", "happy")}</div><div class="week-progress"><div class="row"><strong id="workingPhase" aria-live="polite">仕入れ・開店</strong><span id="workingPercent">0%</span></div><div class="work-track" aria-hidden="true"><span id="workingFill" style="width:0%;background-color:#c56a12"></span></div><progress id="workingProgress" class="progress-sr" aria-label="1週間の営業の経過" max="100" value="0"></progress></div>${button("workingSkip", "結果へ進む", "primary")}</section>`);
     const began = performance.now(), duration = 4200;
     let phase = 0;
     const tick = (now) => {
@@ -194,7 +194,6 @@
       fill.style.backgroundColor = ["#c56a12", "#176fb1", "#8050b4", "#258046"][next];
       if (next !== phase) {
         phase = next;
-        if (next === 3) document.querySelector(".week-progress small").textContent = "営業終了！ 結果を表示します";
         document.getElementById("workingPhase").textContent = ["仕入れ・開店", "接客・販売", "売上を集計", "営業終了"][phase];
       }
       if (percent < 100) workingFrame = requestAnimationFrame(tick);
@@ -266,8 +265,10 @@
     );
   }
   function ledger(h, kind) {
+    if (!h) return '<p class="hint">決算なし</p>';
     const l = F.createLedger(h, kind);
-    return `<table class="ledger"><caption>第${l.week}週・${kind === "personal" ? "自分の財布" : "店の資金"}</caption><tbody><tr><th>期首</th><td>${money(l.start)}</td></tr>${l.rows.map((r) => `<tr><th scope="row">${esc(r.label)}</th><td>${signed(r.amount)}円</td></tr>`).join("")}<tr><th>期末</th><td>${money(l.end)}</td></tr></tbody></table><p class="hint">${esc(l.note)}</p>`;
+    const note = /^(営業利益と口座|生活費と養育費)/.test(l.note) ? "" : l.note;
+    return `<table class="ledger"><caption>第${l.week}週・${kind === "personal" ? "自分の財布" : "店の資金"}</caption><tbody><tr><th>期首</th><td>${money(l.start)}</td></tr>${l.rows.map((r) => `<tr><th scope="row">${esc(r.label)}</th><td>${signed(r.amount)}円</td></tr>`).join("")}<tr><th>期末</th><td>${money(l.end)}</td></tr></tbody></table>${note ? `<p class="hint">${esc(note)}</p>` : ""}`;
   }
   function report() {
     const h = game.lastResult;
@@ -357,14 +358,14 @@
         return `<p><small>第${h.week}週 · ${esc(C.PUBLIC_NAMES[(h.week * 3 + i) % C.PUBLIC_NAMES.length])}</small><br>${esc(arr[(h.week + i) % arr.length])}</p>`;
       });
     render(
-      `${header("世論")}<section class="stack">${dialogue("customer", game.fire >= 50 ? "社長の謝罪より、商品の説明が聞きたい。" : game.frust >= 60 ? "お客様のために？ 誰のお客様？" : game.sat >= 75 ? "最近ちょっといいじゃない！" : "悪くはない。褒めてないけど。", game.fire >= 50 ? "angry" : game.sat >= 75 ? "happy" : "normal")}${meter("評判", game.storeRep)}${comments[0] || '<p class="hint">まだ口コミはありません。</p>'}${details("もっと見る", meter("満足度", game.sat) + meter("不満", game.frust) + meter("炎上", game.fire) + comments.slice(1).join(""))}</section>`,
+      `${header("世論")}<section class="stack">${dialogue("customer", game.fire >= 50 ? "社長の謝罪より、商品の説明が聞きたい。" : game.frust >= 60 ? "お客様のために？ 誰のお客様？" : game.sat >= 75 ? "最近ちょっといいじゃない！" : "悪くはない。褒めてないけど。", game.fire >= 50 ? "angry" : game.sat >= 75 ? "happy" : "normal")}${meter("評判", game.storeRep)}${comments[0] || '<p class="hint">口コミなし</p>'}${details("もっと見る", meter("満足度", game.sat) + meter("不満", game.frust) + meter("炎上", game.fire) + comments.slice(1).join(""))}</section>`,
       true,
     );
   }
   function chart(key="cashAfter",label="店の資金") {
     const h = game.history.filter(x=>Number.isFinite(x[key]));
     if (h.length < 2)
-      return '<p class="hint">2週分の記録から推移を表示します。</p>';
+      return '<p class="hint">グラフは2週目から</p>';
     const values = h.map((x) => x[key]),
       min = Math.min(0, ...values),
       max = Math.max(1, ...values),
@@ -384,7 +385,7 @@
         ["記録", h.length + "週"],
         ["累計利益", money(G.goalStatus(game).profit)],
         ["累計報酬", money(game.pay)],
-      ])}${chart()}${details("売上・利益・評判の推移",chart("sales","売上")+chart("profit","営業利益")+chart("repAfter","評判"))}${details("周回実績", `<p>${achievements().length} / 8 達成（このブラウザに保存）</p>${Object.entries(G.MANAGEMENT.ENDINGS).map(([id,e])=>`<p>${achievements().includes(id)?"達成":"未達"} · ${esc(e[0])}</p>`).join("")}<p class="hint">実績はゲームのJSONとは別保存です。端末移行では引き継がれません。</p>`)}${details(
+      ])}${chart()}${h.length >= 2 ? details("売上・利益・評判の推移",chart("sales","売上")+chart("profit","営業利益")+chart("repAfter","評判")) : ""}${details("周回実績", `<p>${achievements().length} / 8 達成</p>${Object.entries(G.MANAGEMENT.ENDINGS).map(([id,e])=>`<p>${achievements().includes(id)?"達成":"未達"} · ${esc(e[0])}</p>`).join("")}<p class="hint">実績は端末間で引き継げません。</p>`)}${details(
         "作戦の成績",
         list([
           [
@@ -421,8 +422,8 @@
               ])}${ledger(x, "store")}${ledger(x, "personal")}${x.storyEvent ? `<p>${esc(x.storyEvent.text)}</p><p>${esc(x.storyEvent.quote)}</p>` : ""}${(x.storyEcho || []).map((e) => `<p>${esc(e.text)}</p>`).join("")}`,
             ),
           )
-          .join("") || '<p class="hint">最初の一週間から記録が残ります。</p>'
-      }</div>${details("セーブ・設定", `<div class="backup">${button("exportSave", "バックアップ")}<label><span>復元するJSON</span><input type="file" id="importSave" accept=".json,application/json"></label></div><p>保存先はこの端末のブラウザです。別端末にはJSONで移せます。</p><button data-go="title">タイトルへ</button>${button("showCast", "登場人物")}`)}</section>`,
+          .join("")
+      }</div>${details("セーブ・設定", `<div class="backup">${button("exportSave", "セーブを書き出す")}<label><span>セーブを読み込む</span><input type="file" id="importSave" accept=".json,application/json"></label></div><p class="hint">読み込むと現在のセーブを置き換えます。</p><button data-go="title">タイトルへ</button>${button("showCast", "登場人物")}`)}</section>`,
       true,
     );
   }
@@ -430,7 +431,7 @@
     const d = G.rootDiagnosis(game),
       macro = G.currentMacro(game);
     render(
-      `${header("店舗の詳細")}<section class="stack">${meter("評判", game.storeRep)}${meter("満足度", game.sat)}${meter("不満", game.frust)}${meter("炎上", game.fire)}${game.workforce ? `<div class="panel">${meter("士気",game.workforce.morale)}${meter("疲労",game.workforce.fatigue)}<p>直近決算の離職率 ${game.workforce.turnover}% · 退職 ${game.workforce.departures}回</p><p>難易度：${esc(G.MANAGEMENT.DIFFICULTIES[game.difficulty].name)}</p></div>` : ""}${list(
+      `${header("店舗の詳細")}<section class="stack">${meter("評判", game.storeRep)}${meter("満足度", game.sat)}${meter("不満", game.frust)}${meter("炎上", game.fire)}${game.workforce ? `<div class="panel">${meter("士気",game.workforce.morale)}${meter("疲労",game.workforce.fatigue)}<p>離職率 ${game.workforce.turnover}% · 退職 ${game.workforce.departures}回</p><p>難易度：${esc(G.MANAGEMENT.DIFFICULTIES[game.difficulty].name)}</p></div>` : ""}${list(
         [
           ["商品価格", money(game.price)],
           ["内容量", game.size + "g"],
@@ -464,7 +465,7 @@
     const personal = moneyKind === "personal",
       due = G.PERSONAL.dueWeeks.find((w) => w >= game.week);
     render(
-      `${header(personal ? "自分の財布" : "店の資金")}<section class="stack"><div class="row">${button("moneyStoreTab", "店の資金")}${button("moneyPersonalTab", "自分の財布")}</div><div class="panel"><span class="eyebrow">現在残高</span><h1>${money(personal ? game.personalCash : game.cash)}</h1></div>${
+      `${header("お金")}<section class="stack"><div class="row"><button id="moneyStoreTab" aria-pressed="${!personal}">店の資金</button><button id="moneyPersonalTab" aria-pressed="${personal}">自分の財布</button></div><div class="panel"><span class="eyebrow">現在残高</span><h1>${money(personal ? game.personalCash : game.cash)}</h1></div>${
         personal
           ? list([
               ["毎週の生活費", money(G.PERSONAL.living)],
@@ -490,13 +491,10 @@
   }
   function help() {
     render(
-      `${header("遊び方", "title")}<div class="stack"><p>今週の課題を読み、4つの作戦から1つ選んで営業。30週間で、選んだ難易度の利益目標と評判50以上を目指します。標準の利益目標は255万円です。</p>${list(
-        [
-          ["店の資金", "経費・投資・報酬の支払い"],
-          ["自分の財布", "毎週の生活費・4週ごとの養育費"],
-          ["評判", "お客様の信用"],
-        ],
-      )}<p>作戦の失敗・成功・大成功と、事故・炎上は別判定。以前の選択から後日談が生まれます。投資や悪魔との取引は任意です。</p><p class="hint">端末内に自動保存します。記録からバックアップできます。本作の企業・事件・数字は架空です。</p>${button("aboutClose", "わかった", "primary")}</div>`,
+      `${header("遊び方", "title")}<div class="stack"><p>毎週、4つの作戦から1つ選んで営業。</p>${list([
+        ["契約期間", "30週間"],
+        ["目標", "累計利益の目標達成 ＋ 評判50以上"],
+      ])}${details("経営のコツ", "<p>人員削減は経費が減る一方、士気低下・疲労・離職につながります。</p><p>作戦の成否と事故・炎上は別判定。過去の選択も後の週に影響します。</p><p>営業利益と資金の増減は別。借入・投資・報酬も資金を動かします。生活費と養育費は自分の財布から支払います。</p>")}${details("保存・移行", "<p>このブラウザに自動保存。別端末へ移すときは「記録 → セーブ・設定」で書き出し・読み込みができます。実績は移せません。</p>")}<p class="hint">企業・事件・数字はフィクションです。</p>${button("aboutClose", "戻る", "primary")}</div>`,
     );
   }
   main.addEventListener("click", (e) => {
