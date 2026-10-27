@@ -25,6 +25,7 @@ historical releases. Existing 30-week Pixel Edition remains intact.
 ### Concise interface — 2026-10-27
 - Review every active screen; remove repeated selection instructions, duplicate selected-action heading, empty optional summaries, progress narration and generic ledger explanations.
 - Use concise action labels and selected-account styling. Keep unique choice consequences, costs, repayment terms, incident effects, story dialogue and save warnings.
+- Collapse the full choice explanation behind its details control; keep outcome odds and loan repayment warning visible.
 - Consolidate non-obvious management/save rules in optional help; show extra trend sections only when data exists.
 - Cache revision 9; no simulation or save-schema changes.
 
