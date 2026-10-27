@@ -216,9 +216,9 @@ const G = require("../engine.js"),
       await p.locator("[data-choice]").nth(i).click();
       await snap("choice-" + i);
     }
-    await p.locator("summary").first().click();
+    await p.getByText("経営会議・現場の証言", { exact: true }).click();
     await snap("meeting");
-    await p.locator("summary").nth(1).click();
+    await p.getByText("追加投資・悪魔の取引", { exact: true }).click();
     await snap("investments-devil");
     await p.locator('[data-project="people"]').click();
     await p.locator('[data-devil="personal"]').click();
