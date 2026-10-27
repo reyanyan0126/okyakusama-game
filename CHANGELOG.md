@@ -23,6 +23,7 @@ historical releases. Existing 30-week Pixel Edition remains intact.
 - Existing credit, investments, future consequences and bankruptcy/rescue remain.
 
 ### Presentation refresh — progress, readable cast and compact screens
+- Wait for initial PWA installation before rapid reload tests, preventing a WebKit service-worker registration/navigation race without suppressing browser errors.
 - Animate the weekly recap from 0 to 100%, with opening/sales/settlement phases, a completion hold and an immediate skip. Cancel stale animation callbacks when leaving the screen; no financial calculations are rerun.
 - Redraw all six pixel characters and six moods (72 full-body/portrait SVGs) with distinct silhouettes, clothes, props and enlarged expressions. Keep the deterministic character generator as the art source.
 - Split quoted dialogue by speaker after display-copy conversion; show each speaker and emotion explicitly. Full-body actors also receive visible name/emotion captions.
