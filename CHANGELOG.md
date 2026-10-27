@@ -22,6 +22,14 @@ historical releases. Existing 30-week Pixel Edition remains intact.
   replay tests a real retirement and its expense.
 - Existing credit, investments, future consequences and bankruptcy/rescue remain.
 
+### Distinct character identities — 2026-10-28
+- Redraw all six characters with distinct silhouettes and persistent identity details:
+  slim consultant with rectangular glasses and briefcase; broad, bald, moustached boss;
+  ponytailed manager with red bow and apron; capped worker with striped shirt and shorts;
+  silver-bunned Mori with round glasses, long skirt and cane; horned devil with wings and cape.
+- Regenerate all 72 full-body and portrait assets across six expressions per character.
+- Refresh the offline asset cache while preserving existing saves and game rules.
+
 ### Concise interface — 2026-10-27
 - Review every active screen; remove repeated selection instructions, duplicate selected-action heading, empty optional summaries, progress narration and generic ledger explanations.
 - Use concise action labels and selected-account styling. Keep unique choice consequences, costs, repayment terms, incident effects, story dialogue and save warnings.
