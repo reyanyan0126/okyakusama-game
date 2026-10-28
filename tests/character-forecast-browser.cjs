@@ -31,6 +31,7 @@ const G=require('../engine'),F=require('../forecast');
    saved.presentation={...saved.presentation,stage:'report'};
    await p.evaluate(s=>localStorage.setItem('okyakusama.save.v1',JSON.stringify(s)),saved);await p.reload();await p.locator('#titleResume').click();
    await p.getByText('予測と実績',{exact:true}).click();assert((await p.locator('main').innerText()).includes('営業利益・実績'));
+   await p.addStyleTag({url:'/node_modules/@fontsource/noto-sans-jp/400.css'});await p.addStyleTag({content:'body,button{font-family:"Noto Sans JP",sans-serif}'});await p.evaluate(()=>document.fonts.load('14px "Noto Sans JP"',document.body.innerText));
    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    await p.screenshot({path:out+'/forecast-'+width+'.png',fullPage:true});
    const stressed=G.initial(7,{difficulty:'normal'});stressed.workforce.fatigue=90;stressed.cash=20000;
