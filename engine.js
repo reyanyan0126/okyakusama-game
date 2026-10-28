@@ -461,7 +461,7 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  if(plan!==null){const cost=projectCost(input,plan);if(!PROJECTS_BY_ID[plan]||cost===null)throw Error('この設備投資は選べません');if(input.cash<cost)throw Error('投資資金が足りません');}
  const s=JSON.parse(JSON.stringify(input)),theWeek=s.week,brief=weeklyBrief(input),boardDemand=boardroomDemand(input);
  if(!s.upgrades)s.upgrades=blankUpgrades();
- // Publishable odds are evaluated before this week's optional investment, whose benefits start next week.
+ // Performance odds use pre-investment training; other upgrade benefits apply this week.
  const performance=resolvePerformance(s,id);
  const investment=plan?projectCost(s,plan):0;
  if(plan)s.upgrades[plan]++;

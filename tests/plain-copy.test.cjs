@@ -6,5 +6,6 @@ for(const old of Object.keys(P.terms))assert(!P.text(old).includes(old));
 assert.equal(P.text('費用 18,000円 / 利益率 15% / 第12週'),'費用 18,000円 / 利益率 15% / 第12週');
 assert.equal(P.text('<script>alert(1)</script>'),'<script>alert(1)</script>'); // text-node-only; never parsed as markup
 assert(fs.readFileSync('app.js','utf8').includes('window.PlainCopy.apply(main)'));
-assert(fs.readFileSync('sw.js','utf8').includes("'./plain-copy.js'"));
+const manifest=require('node:vm').runInNewContext(fs.readFileSync('sw.js','utf8').match(/const ASSETS = (\[.*?\]);/)[1]);
+assert(manifest.includes('./plain-copy.js'));
 console.log('PASS 72 authored event outcomes; '+P.replacements.length+' display rewrites; numeric text and source records preserved; offline manifest');

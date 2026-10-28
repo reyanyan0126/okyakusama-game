@@ -728,3 +728,22 @@ summary {padding:10px 0;min-height:44px;}.detail-body {padding-bottom:10px;gap:8
 
 /* Selected money account is visible without explanatory copy. */
 #moneyStoreTab[aria-pressed="true"],#moneyPersonalTab[aria-pressed="true"]{background:var(--green);color:var(--panel);border-color:var(--green);}
+
+/* 96x160 full sprites and 64x64 portraits at native integer scale. */
+.portrait,.dialogue .portrait {width:64px;height:64px;border:0;border-radius:0;}
+.dialogue {grid-template-columns:64px minmax(0,1fr);}
+.cast-member {animation:cast-enter .18s steps(3,end) both;}
+.cast-member .character {animation:cast-breathe 4s steps(2,end) 3;}
+.cast-member[data-mood="surprised"] .character {animation:cast-startle .35s steps(2,end) 1;}
+.cast-member[data-mood="angry"] .character {animation:cast-shake .3s steps(2,end) 2;}
+.cast-member[data-mood="happy"] .character {animation:cast-celebrate .4s steps(2,end) 2;}
+@keyframes cast-enter {from{opacity:0;translate:0 4px}to{opacity:1;translate:0 0}}
+@keyframes cast-breathe {0%,100%{translate:0 0}50%{translate:0 -1px}}
+@keyframes cast-startle {50%{translate:0 -4px}}
+@keyframes cast-shake {25%{translate:-1px 0}75%{translate:1px 0}}
+@keyframes cast-celebrate {50%{translate:0 -2px}}
+@media(prefers-reduced-motion:reduce){.cast-member,.cast-member .character{animation:none;translate:none}}
+
+.actors.leaving .cast-member {animation:cast-exit .15s steps(3,end) .45s both;}
+@keyframes cast-exit {from{opacity:1;translate:0 0}to{opacity:0;translate:0 4px}}
+@media(prefers-reduced-motion:reduce){.actors.leaving .cast-member{animation:none;translate:none}}

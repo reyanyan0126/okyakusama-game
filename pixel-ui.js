@@ -24,12 +24,27 @@
     customer: "森さん",
     devil: "悪魔",
   };
-  const moods = {normal:"平常",happy:"喜び",angry:"怒り",confused:"困惑",surprised:"驚き",sad:"落胆"};
-  const character = (role = "you", mood = "normal", face = false) => {
+  const moods = {normal:"平常",happy:"喜び",angry:"怒り",confused:"困惑",surprised:"驚き",sad:"落胆",anxious:"焦り",smug:"不敵な笑み"};
+  const character = (role = "you", mood = "normal", face = false, speaking = false) => {
     role = names[role] ? role : "you"; mood = moods[mood] ? mood : "normal";
-    const img = `<img class="${face ? "portrait" : "character"}" src="assets/pixel/${role}-${mood}${face ? "-face" : ""}.svg" width="${face ? 32 : 48}" height="${face ? 32 : 80}" alt="${names[role]}・${moods[mood]}">`;
+    const img = `<img class="${face ? "portrait" : "character"}" src="assets/pixel/${role}-${mood}${face ? speaking ? "-speaking" : "-face" : ""}.svg" width="${face ? 64 : 96}" height="${face ? 64 : 160}" alt="${names[role]}・${moods[mood]}">`;
     return face ? img : `<figure class="cast-member" data-role="${role}" data-mood="${mood}">${img}<figcaption><b>${names[role]}</b><span>${moods[mood]}</span></figcaption></figure>`;
   };
+  // Pure visual state: critical conditions take precedence over a good last week.
+  function stateMood(s, role) {
+    if (s.bankrupt || s.personalFailed) return "sad";
+    if (s.cash < 85000) return "anxious";
+    if (s.fire >= 50) return role === "customer" ? "angry" : "anxious";
+    if (role === "worker" || role === "manager") {
+      if (s.workforce?.fatigue >= 65 || s.workforce?.morale <= 35) return "sad";
+      if (s.staff < 45) return "confused";
+      if (s.workforce?.morale >= 80 && s.workforce?.fatigue <= 35) return "happy";
+    }
+    if (role === "customer") return s.frust >= 60 ? "angry" : s.sat >= 75 ? "happy" : "normal";
+    if (role === "devil") return s.pactCount > 0 ? "smug" : "normal";
+    if (role === "boss" && s.lastResult?.profit > 0) return "happy";
+    return "normal";
+  }
   const storeState = (s) =>
     s.bankrupt
       ? "closed"
@@ -60,9 +75,9 @@
     return moods[fallback] ? fallback : "normal";
   }
   function bubble(role, text, mood, label = names[role]) {
-    return `<div class="dialogue" data-role="${role}" data-mood="${mood}">${character(role,mood,true)}<div><div class="speaker"><strong>${esc(label)}</strong><span class="emotion">${moods[mood]}</span></div><p>${esc(text)}</p></div></div>`;
+    return `<div class="dialogue" data-role="${role}" data-mood="${mood}">${character(role,mood,true,true)}<div><div class="speaker"><strong>${esc(label)}</strong><span class="emotion">${moods[mood]}</span></div><p>${esc(text)}</p></div></div>`;
   }
-  function dialogue(role, text, mood = "normal") {
+  function dialogue(role, text, mood = "normal", statePriority = false) {
     role = names[role] ? role : "you";
     text = root.PlainCopy ? root.PlainCopy.text(text) : String(text ?? "");
     // Scan balanced Japanese quotes so quoted words inside a line stay intact.
@@ -78,7 +93,7 @@
       if(depth!==0)break;
       const prefix=text.slice(at,m.index).replace(/^[。・\s]+|[。・\s]+$/g,"");
       if(prefix)html+=`<p class="dialogue-aside">${esc(prefix)}</p>`;
-      const line=text.slice(begin,end),who=aliases[m[1]], feeling=emotion(line,who===role?mood:"normal");
+      const line=text.slice(begin,end),who=aliases[m[1]], feeling=statePriority&&who===role?mood:emotion(line,who===role?mood:"normal");
       html+=bubble(who,line,feeling,m[1]);at=end+1;pattern.lastIndex=at;
     }
     if(!html)return bubble(role,text,mood);
@@ -129,6 +144,7 @@
     icon,
     character,
     moods,
+    stateMood,
     storeState,
     store,
     meter,
