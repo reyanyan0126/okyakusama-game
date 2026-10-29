@@ -109,7 +109,7 @@
   }
   function title() {
     render(
-      `<section class="title"><span class="eyebrow">30週間の経営再建</span><h1><img class="pixel-logo" src="assets/pixel/logo.svg" width="136" height="20" alt="お客様のために。"></h1><p class="tagline">可愛い店で、黒い経営。</p>${store(G.initial(1), true)}<div class="buttons">${button("titleStart", "はじめる", "primary")}${hasSave && !loadError ? button("titleResume", "つづきから") : ""}${button("titleHelp", "遊び方", "quiet")}</div>${loadError ? '<p class="warn">セーブを読み込めませんでした。元データは上書きしていません。記録から書き出して保管できます。</p><button data-go="records">バックアップへ</button>' : ""}<p class="version">PIXEL EDITION · 3.2.0</p></section>`,
+      `<section class="title"><span class="eyebrow">30週間の経営再建</span><h1><img class="pixel-logo" src="assets/pixel/logo.svg" width="136" height="20" alt="お客様のために。"></h1><p class="tagline">可愛い店で、黒い経営。</p>${store(G.initial(1), true)}<div class="buttons">${button("titleStart", "はじめる", "primary")}${hasSave && !loadError ? button("titleResume", "つづきから") : ""}${button("titleHelp", "遊び方", "quiet")}</div>${loadError ? '<p class="warn">セーブを読み込めませんでした。元データは上書きしていません。記録から書き出して保管できます。</p><button data-go="records">バックアップへ</button>' : ""}<p class="version">PIXEL EDITION · 3.2.1</p></section>`,
     );
   }
   function contracts() {
