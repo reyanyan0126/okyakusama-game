@@ -36,6 +36,9 @@ jobs:
         with:
           node-version: '22'
       - run: npm ci
+      - run: node tests/pixel-upgrade.cjs
+        env:
+          BROWSER: ${{ matrix.browser }}
       - run: node tests/pixel-browser.cjs
         env:
           BROWSER: ${{ matrix.browser }}
@@ -49,9 +52,6 @@ jobs:
         env:
           BROWSER: ${{ matrix.browser }}
       - run: node tests/character-forecast-browser.cjs
-        env:
-          BROWSER: ${{ matrix.browser }}
-      - run: node tests/pixel-upgrade.cjs
         env:
           BROWSER: ${{ matrix.browser }}
       - uses: actions/upload-artifact@v4
