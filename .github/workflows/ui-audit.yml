@@ -12,6 +12,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -28,10 +30,15 @@ jobs:
         browser: [chromium, webkit]
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - run: npm ci
+      - run: node tests/pixel-upgrade.cjs
+        env:
+          BROWSER: ${{ matrix.browser }}
       - run: node tests/pixel-browser.cjs
         env:
           BROWSER: ${{ matrix.browser }}
@@ -44,7 +51,7 @@ jobs:
       - run: node tests/presentation-refresh-browser.cjs
         env:
           BROWSER: ${{ matrix.browser }}
-      - run: node tests/pixel-upgrade.cjs
+      - run: node tests/character-forecast-browser.cjs
         env:
           BROWSER: ${{ matrix.browser }}
       - uses: actions/upload-artifact@v4
@@ -66,6 +73,8 @@ jobs:
         browser: [chromium, webkit]
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'

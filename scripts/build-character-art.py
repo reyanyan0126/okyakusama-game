@@ -1,13 +1,14 @@
-"""Six distinct silhouettes, six expressions; deterministic pixel SVG source."""
+"""Six preserved identities, eight expressions, authored detail and restrained motion; deterministic pixel SVG source."""
 from pathlib import Path
 P=Path(__file__).resolve().parents[1]/'assets/pixel'
 COL={'ink':'#253238','skin':'#efbd91','shade':'#ce8d69','white':'#fff5dc','red':'#be443a','gold':'#e7b94c','blue':'#456f94','green':'#356b55','purple':'#825a88','hair':'#382d2d','silver':'#d8d5cd'}
 def rect(x,y,w,h,c):return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{COL.get(c,c)}"/>'
-ROLES=['you','boss','manager','worker','customer','devil'];MOODS=['normal','happy','angry','confused','surprised','sad']
+ROLES=['you','boss','manager','worker','customer','devil'];MOODS=['normal','happy','angry','confused','surprised','sad','anxious','smug']
 for role in ROLES:
  for mood in MOODS:
   parts=[]
-  def r(*a):parts.append(rect(*a))
+  def r(x,y,w,h,c):parts.append(rect(x*2,y*2,w*2,h*2,c))
+  def detail(*a):parts.append(rect(*a))
   skin='red' if role=='devil' else 'skin'; coat={'you':'blue','boss':'#584035','manager':'green','worker':'gold','customer':'purple','devil':'#553550'}[role]
   # Identity is carried by the outline and props, not just a palette swap.
   width={'you':18,'boss':34,'manager':22,'worker':20,'customer':26,'devil':18}[role];left=24-width//2
@@ -30,7 +31,10 @@ for role in ROLES:
     r(x,56,w,19,'ink');r(x+1,58,w-2,12,'#584035' if role=='boss' else '#456f94');r(x-2,74,w+4,5,'ink')
    r(x-2,78,10,2,'white')
   ay=31 if mood in ['angry','surprised'] else 40
-  for x in [left-5,left+width+1]:r(x,ay,4,15,'ink');r(x+1,ay+1,3,10,coat);r(x,ay+12,4,4,skin)
+  for x in [left-5,left+width+1]:
+   if mood in ['happy','anxious'] or (mood=='confused' and x>24):continue
+   r(x,ay,4,15,'ink');r(x+1,ay+1,3,10,coat)
+   if mood!='smug':r(x,ay+12,4,4,skin)
   if role=='you':
    r(20,38,8,5,'white');r(23,40,3,17,'red');r(17,39,3,14,'#79a5bb')
    r(3,48,12,18,'ink');r(4,50,10,14,'#835a37');r(6,46,6,4,'ink');r(7,47,4,2,'gold');r(8,55,3,3,'gold')
@@ -50,6 +54,19 @@ for role in ROLES:
   else:
    r(9,52,31,16,'ink');r(11,52,27,13,'#553550');r(13,65,6,6,'ink');r(29,65,7,6,'ink');r(22,65,5,5,'ink')
    r(18,38,14,5,'white');r(22,40,6,18,'gold');r(23,44,4,11,'red')
+  # Authored pose changes retain each role's silhouette and identifying props.
+  if mood=='happy':
+   for x in [left-5,left+width+1]:
+    r(x,30,4,12,'ink');r(x+1,31,2,9,coat);r(x,27,4,4,skin)
+  elif mood=='smug':
+   r(left+2,45,width-4,5,'ink');r(left+3,46,width-6,3,coat)
+   r(19,45,7,3,skin);r(23,49,7,3,skin)
+  elif mood=='confused':
+   r(left+width,36,4,12,'ink');r(left+width+1,37,2,10,coat)
+   r(29,34,7,4,skin);r(30,32,4,3,skin)
+  elif mood=='anxious':
+   for x in [left-5,left+width+1]:
+    r(x,24,4,20,'ink');r(x+1,26,2,16,coat);r(x,22,5,5,skin)
   # Head outline and hairstyle create immediately different silhouettes.
   if role=='boss':
    r(9,10,30,24,'ink');r(12,6,24,29,'ink');r(12,11,24,22,skin);r(15,7,18,8,skin);r(10,16,3,12,'hair');r(35,16,3,12,'hair');r(15,8,5,2,'white')
@@ -81,8 +98,11 @@ for role in ROLES:
   elif mood=='sad':
    for x in [17,27]:r(x,25,6,2,'ink');r(x+1,27,3,7,'#338cd1')
    r(21,32,8,2,'ink');r(23,30,4,2,'ink');r(17,21,4,1,'ink');r(29,21,4,1,'ink')
-  elif mood=='confused':
+  elif mood in ['confused','anxious']:
    r(17,22,6,2,'ink');r(28,20,5,2,'ink');r(18,25,3,3,'ink');r(28,25,3,3,'ink');r(22,31,4,2,'ink');r(26,30,4,2,'ink');r(35,19,5,9,'ink');r(36,19,3,7,'#338cd1');r(37,17,2,3,'#338cd1')
+  elif mood=='smug':
+   r(17,22,6,2,'ink');r(27,21,6,2,'ink');r(19,25,3,2,'ink');r(29,24,3,2,'ink')
+   r(20,31,8,2,'ink');r(28,29,3,3,'ink');r(21,31,7,1,'white')
   else:
    for x in [17,27]:r(x,21,6,7,'white');r(x+2,22,3,5,'ink')
    r(21,31,8,2,'ink')
@@ -98,7 +118,50 @@ for role in ROLES:
   if role=='worker':
    for x in [15,32]:r(x,29,2,2,'#a65a3d')
   if role=='devil' and mood in ['happy','angry']:r(21,30,2,3,'white');r(28,30,2,3,'white')
+  # Fine-grid highlights, seams, hair strands and hands are new 1px work,
+  # not interpolation of the old 48x80 image. Palette is shared by all roles.
+  for x,y,w,h,c in [(29,39,2,9,'shade'),(57,39,2,7,'shade'),
+                    (48,51,2,5,'shade'),(46,51,2,3,'white'),
+                    (34,59,3,1,'shade'),(56,59,3,1,'shade'),
+                    (left*2+2,80,1,14,'white'),((left+width)*2-3,84,1,21,'ink'),
+                    (31,146,7,1,'silver'),(57,146,7,1,'silver')]:
+   detail(x,y,w,h,c)
+  if role in ['you','manager']:
+   for x,y in [(29,19),(35,15),(45,18),(55,20),(63,26)]:
+    detail(x,y,1,5,'#66504a');detail(x+1,y,3,1,'#66504a')
+  elif role=='boss':
+   detail(33,17,12,1,'white');detail(29,63,4,1,'shade');detail(66,61,3,1,'shade')
+  elif role in ['customer','devil']:
+   for x in [27,33,39,57,63]:detail(x,20,1,8,'#a8afb0')
+  elif role=='worker':
+   detail(26,18,40,1,'#fff0aa');detail(43,19,1,7,'gold');detail(28,27,34,1,'#bd8958')
+  if role in ['you','boss']:
+   for x,y,w,h in [(35,80,2,6),(37,86,2,5),(39,91,2,5),(59,80,2,6),(57,86,2,5),(55,91,2,5)]:detail(x,y,w,h,'ink')
+   detail(47,111,2,2,'gold');detail(33,109,7,1,'ink')
+  elif role=='manager':
+   detail(35,91,2,33,'#d8d5cd');detail(62,91,2,33,'#d8d5cd')
+   detail(39,105,20,1,'ink');detail(39,106,1,8,'ink');detail(59,106,1,8,'ink')
+   detail(40,86,9,5,'gold');detail(42,87,5,1,'ink')
+  elif role=='worker':
+   detail(28,78,1,34,'#bd8958');detail(65,78,1,18,'#bd8958');detail(69,103,16,1,'gold')
+  elif role=='customer':
+   for x in [28,40,54,65]:detail(x,116,1,19,'#584035')
+   detail(39,86,1,16,'#fff0aa');detail(73,105,12,1,'white')
+  else:
+   for x in [26,68]:detail(x,108,1,19,'purple')
+   detail(47,91,2,15,'white');detail(18,12,1,15,'white')
+  if mood=='anxious':
+   detail(72,35,3,10,'#338cd1');detail(73,32,1,3,'#338cd1')
+   detail(42,62,16,2,'ink');detail(44,61,2,1,'ink');detail(54,61,2,1,'ink')
   art=''.join(parts)
+  blink=''
+  if mood not in ['happy','sad']:
+   blink='<g class="blink">'+''.join(rect(x,44,10,10,skin)+rect(x,50,10,2,'ink') for x in [34,54])+'</g>'
+  motion='<style>.blink{opacity:0;animation:blink 5.7s steps(1,end) infinite}@keyframes blink{0%,93%,100%{opacity:0}95%,98%{opacity:1}}.talk{opacity:0;animation:talk .6s steps(1,end) 6}@keyframes talk{0%,100%{opacity:0}50%{opacity:1}}@media(prefers-reduced-motion:reduce){.blink,.talk{animation:none;opacity:0}}</style>'
   for face in [False,True]:
-   box='8 4 32 32' if face else '0 0 48 80';w,h=(32,32) if face else (48,80)
-   (P/f'{role}-{mood}{"-face" if face else ""}.svg').write_text(f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="{box}" shape-rendering="crispEdges">{art}</svg>')
+   box='16 8 64 64' if face else '0 0 96 160';w,h=(64,64) if face else (96,160)
+   base=f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="{box}" shape-rendering="crispEdges">{motion}{art}{blink}'
+   (P/f'{role}-{mood}{"-face" if face else ""}.svg').write_text(base+'</svg>')
+   if face:
+    talk='<g class="talk">'+rect(42,60,16,8,skin)+rect(45,61,10,6,'ink')+rect(47,64,6,2,'red')+'</g>'
+    (P/f'{role}-{mood}-speaking.svg').write_text(base+talk+'</svg>')
