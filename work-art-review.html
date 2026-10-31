@@ -4,13 +4,13 @@
 :root{color-scheme:dark}body{margin:0;background:#121b1a;color:#f1efe5;font:15px system-ui,sans-serif}main{max-width:1100px;margin:auto;padding:18px}h1{font-size:1.4rem}p{line-height:1.6}.status{background:#26352f;padding:12px;border-radius:8px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:10px}.tile{margin:0;background:#22302d;border:1px solid #46584f;border-radius:8px;padding:9px;text-align:center}.tile img{display:block;width:100%;height:140px;object-fit:contain;image-rendering:pixelated}.tile figcaption{font-size:12px;overflow-wrap:anywhere;margin-top:5px}section{margin-top:26px}a{color:#9ce7bf}button{padding:10px;background:#294c3b;color:white;border:1px solid #72967e;border-radius:5px}button:focus-visible{outline:3px solid #fff}
 </style></head><body><main><h1>新ドット絵素材レビュー</h1><p class="status">このページは制作素材の確認用です。未審査の画像を本編の正式素材として扱いません。画像が未配置の場合は代替表示になります。</p><p><a href="./index.html">ゲームに戻る</a></p><div id="gallery"></div></main><script>
 "use strict";
-const groups=[["customers","お客様",8,5],["scenes","場面イラスト",4,3],["icons","UIアイコン",8,4],["special-customers","特殊顧客",4,4],["expressions","表情差分",8,4]];
+const groups=[["customers","お客様",8,5],["scenes","場面イラスト",4,3],["icons","UIアイコン",8,4],["special_customers","特殊顧客",4,4],["portraits","表情差分",8,4]];
 const gallery=document.querySelector("#gallery");
 for(const [id,label,cols,rows] of groups){
  const section=document.createElement("section"),title=document.createElement("h2"),grid=document.createElement("div");
  title.textContent=label+"（"+cols*rows+"枠）";grid.className="grid";
  for(let row=1;row<=rows;row++)for(let col=1;col<=cols;col++){
-  const name=id+"-"+String(row).padStart(2,"0")+"-"+String(col).padStart(2,"0");
+  const name=id+"_"+String(row).padStart(2,"0")+"_"+String(col).padStart(2,"0");
   const figure=document.createElement("figure"),img=document.createElement("img"),caption=document.createElement("figcaption");
   figure.className="tile";img.alt=label+" "+row+"-"+col;img.loading="lazy";img.src="assets/work-import/"+id+"/"+name+".png";
   img.onerror=()=>{img.onerror=null;img.removeAttribute("src");img.alt="未配置："+name;figure.dataset.missing="true";};
