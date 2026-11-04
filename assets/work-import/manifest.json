@@ -1,0 +1,798 @@
+{
+  "schema": 1,
+  "assetCount": 132,
+  "assets": [
+    {
+      "id": "customers_01_01",
+      "path": "customers/customers_01_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_01_02",
+      "path": "customers/customers_01_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_01_03",
+      "path": "customers/customers_01_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_01_04",
+      "path": "customers/customers_01_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_01_05",
+      "path": "customers/customers_01_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_01_06",
+      "path": "customers/customers_01_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_01_07",
+      "path": "customers/customers_01_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_01_08",
+      "path": "customers/customers_01_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_02_01",
+      "path": "customers/customers_02_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_02_02",
+      "path": "customers/customers_02_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_02_03",
+      "path": "customers/customers_02_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_02_04",
+      "path": "customers/customers_02_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_02_05",
+      "path": "customers/customers_02_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_02_06",
+      "path": "customers/customers_02_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_02_07",
+      "path": "customers/customers_02_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_02_08",
+      "path": "customers/customers_02_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_03_01",
+      "path": "customers/customers_03_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_03_02",
+      "path": "customers/customers_03_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_03_03",
+      "path": "customers/customers_03_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_03_04",
+      "path": "customers/customers_03_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_03_05",
+      "path": "customers/customers_03_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_03_06",
+      "path": "customers/customers_03_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_03_07",
+      "path": "customers/customers_03_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_03_08",
+      "path": "customers/customers_03_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_04_01",
+      "path": "customers/customers_04_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_04_02",
+      "path": "customers/customers_04_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_04_03",
+      "path": "customers/customers_04_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_04_04",
+      "path": "customers/customers_04_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_04_05",
+      "path": "customers/customers_04_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_04_06",
+      "path": "customers/customers_04_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_04_07",
+      "path": "customers/customers_04_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_04_08",
+      "path": "customers/customers_04_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_05_01",
+      "path": "customers/customers_05_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_05_02",
+      "path": "customers/customers_05_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_05_03",
+      "path": "customers/customers_05_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_05_04",
+      "path": "customers/customers_05_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_05_05",
+      "path": "customers/customers_05_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_05_06",
+      "path": "customers/customers_05_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_05_07",
+      "path": "customers/customers_05_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "customers_05_08",
+      "path": "customers/customers_05_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_01_01",
+      "path": "special_customers/special_customers_01_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_01_02",
+      "path": "special_customers/special_customers_01_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_01_03",
+      "path": "special_customers/special_customers_01_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_01_04",
+      "path": "special_customers/special_customers_01_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_02_01",
+      "path": "special_customers/special_customers_02_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_02_02",
+      "path": "special_customers/special_customers_02_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_02_03",
+      "path": "special_customers/special_customers_02_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_02_04",
+      "path": "special_customers/special_customers_02_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_03_01",
+      "path": "special_customers/special_customers_03_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_03_02",
+      "path": "special_customers/special_customers_03_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_03_03",
+      "path": "special_customers/special_customers_03_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_03_04",
+      "path": "special_customers/special_customers_03_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_04_01",
+      "path": "special_customers/special_customers_04_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_04_02",
+      "path": "special_customers/special_customers_04_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_04_03",
+      "path": "special_customers/special_customers_04_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "special_customers_04_04",
+      "path": "special_customers/special_customers_04_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_01_01",
+      "path": "icons/icons_01_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_01_02",
+      "path": "icons/icons_01_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_01_03",
+      "path": "icons/icons_01_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_01_04",
+      "path": "icons/icons_01_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_01_05",
+      "path": "icons/icons_01_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_01_06",
+      "path": "icons/icons_01_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_01_07",
+      "path": "icons/icons_01_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_01_08",
+      "path": "icons/icons_01_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_02_01",
+      "path": "icons/icons_02_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_02_02",
+      "path": "icons/icons_02_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_02_03",
+      "path": "icons/icons_02_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_02_04",
+      "path": "icons/icons_02_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_02_05",
+      "path": "icons/icons_02_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_02_06",
+      "path": "icons/icons_02_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_02_07",
+      "path": "icons/icons_02_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_02_08",
+      "path": "icons/icons_02_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_03_01",
+      "path": "icons/icons_03_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_03_02",
+      "path": "icons/icons_03_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_03_03",
+      "path": "icons/icons_03_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_03_04",
+      "path": "icons/icons_03_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_03_05",
+      "path": "icons/icons_03_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_03_06",
+      "path": "icons/icons_03_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_03_07",
+      "path": "icons/icons_03_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_03_08",
+      "path": "icons/icons_03_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_04_01",
+      "path": "icons/icons_04_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_04_02",
+      "path": "icons/icons_04_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_04_03",
+      "path": "icons/icons_04_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_04_04",
+      "path": "icons/icons_04_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_04_05",
+      "path": "icons/icons_04_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_04_06",
+      "path": "icons/icons_04_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_04_07",
+      "path": "icons/icons_04_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "icons_04_08",
+      "path": "icons/icons_04_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_01_01",
+      "path": "portraits/portraits_01_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_01_02",
+      "path": "portraits/portraits_01_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_01_03",
+      "path": "portraits/portraits_01_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_01_04",
+      "path": "portraits/portraits_01_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_01_05",
+      "path": "portraits/portraits_01_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_01_06",
+      "path": "portraits/portraits_01_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_01_07",
+      "path": "portraits/portraits_01_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_01_08",
+      "path": "portraits/portraits_01_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_02_01",
+      "path": "portraits/portraits_02_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_02_02",
+      "path": "portraits/portraits_02_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_02_03",
+      "path": "portraits/portraits_02_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_02_04",
+      "path": "portraits/portraits_02_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_02_05",
+      "path": "portraits/portraits_02_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_02_06",
+      "path": "portraits/portraits_02_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_02_07",
+      "path": "portraits/portraits_02_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_02_08",
+      "path": "portraits/portraits_02_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_03_01",
+      "path": "portraits/portraits_03_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_03_02",
+      "path": "portraits/portraits_03_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_03_03",
+      "path": "portraits/portraits_03_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_03_04",
+      "path": "portraits/portraits_03_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_03_05",
+      "path": "portraits/portraits_03_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_03_06",
+      "path": "portraits/portraits_03_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_03_07",
+      "path": "portraits/portraits_03_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_03_08",
+      "path": "portraits/portraits_03_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_04_01",
+      "path": "portraits/portraits_04_01.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_04_02",
+      "path": "portraits/portraits_04_02.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_04_03",
+      "path": "portraits/portraits_04_03.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_04_04",
+      "path": "portraits/portraits_04_04.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_04_05",
+      "path": "portraits/portraits_04_05.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_04_06",
+      "path": "portraits/portraits_04_06.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_04_07",
+      "path": "portraits/portraits_04_07.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "portraits_04_08",
+      "path": "portraits/portraits_04_08.png",
+      "reviewed": true,
+      "transparent": true
+    },
+    {
+      "id": "scenes_01_01",
+      "path": "scenes/scenes_01_01.png",
+      "reviewed": true,
+      "transparent": false
+    },
+    {
+      "id": "scenes_01_02",
+      "path": "scenes/scenes_01_02.png",
+      "reviewed": true,
+      "transparent": false
+    },
+    {
+      "id": "scenes_01_03",
+      "path": "scenes/scenes_01_03.png",
+      "reviewed": true,
+      "transparent": false
+    },
+    {
+      "id": "scenes_01_04",
+      "path": "scenes/scenes_01_04.png",
+      "reviewed": true,
+      "transparent": false
+    },
+    {
+      "id": "scenes_02_01",
+      "path": "scenes/scenes_02_01.png",
+      "reviewed": true,
+      "transparent": false
+    },
+    {
+      "id": "scenes_02_02",
+      "path": "scenes/scenes_02_02.png",
+      "reviewed": true,
+      "transparent": false
+    },
+    {
+      "id": "scenes_02_03",
+      "path": "scenes/scenes_02_03.png",
+      "reviewed": true,
+      "transparent": false
+    },
+    {
+      "id": "scenes_02_04",
+      "path": "scenes/scenes_02_04.png",
+      "reviewed": true,
+      "transparent": false
+    },
+    {
+      "id": "scenes_03_01",
+      "path": "scenes/scenes_03_01.png",
+      "reviewed": true,
+      "transparent": false
+    },
+    {
+      "id": "scenes_03_02",
+      "path": "scenes/scenes_03_02.png",
+      "reviewed": true,
+      "transparent": false
+    },
+    {
+      "id": "scenes_03_03",
+      "path": "scenes/scenes_03_03.png",
+      "reviewed": true,
+      "transparent": false
+    },
+    {
+      "id": "scenes_03_04",
+      "path": "scenes/scenes_03_04.png",
+      "reviewed": true,
+      "transparent": false
+    }
+  ]
+}
