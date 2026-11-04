@@ -747,3 +747,10 @@ summary {padding:10px 0;min-height:44px;}.detail-body {padding-bottom:10px;gap:8
 .actors.leaving .cast-member {animation:cast-exit .15s steps(3,end) .45s both;}
 @keyframes cast-exit {from{opacity:1;translate:0 0}to{opacity:0;translate:0 4px}}
 @media(prefers-reduced-motion:reduce){.actors.leaving .cast-member{animation:none;translate:none}}
+
+.event-art{display:block;width:min(100%,160px);height:auto;aspect-ratio:1;object-fit:contain;margin-inline:auto;image-rendering:pixelated;border-radius:6px}
+.store img.event-art{width:auto;height:100%;max-width:100%;object-fit:contain}
+.shop-guests{display:flex;align-items:flex-end;justify-content:center;gap:4px;min-width:0}
+.guest{width:clamp(42px,16vw,76px);height:80px;object-fit:contain;object-position:bottom;image-rendering:pixelated}
+.choice .pixel-icon{vertical-align:middle;margin-inline-end:4px}
+.portrait[data-fallback]{object-fit:contain}

@@ -14,8 +14,35 @@
         })[c],
     );
   const money = (n) => Number(n || 0).toLocaleString("ja-JP") + "円";
-  const icon = (name) =>
-    `<img class="pixel-icon" src="assets/pixel/icon-${name}.svg" width="16" height="16" alt="">`;
+  const pad = n => String(n).padStart(2, "0");
+  function art(group, index, columns, fallback, attributes) {
+    const row = pad(Math.floor((index - 1) / columns) + 1);
+    const col = pad((index - 1) % columns + 1);
+    return `<img src="assets/work-import/${group}/${group}_${row}_${col}.png" data-fallback="assets/pixel/${fallback}.svg" ${attributes}>`;
+  }
+  const symbols = {store:10,wallet:30,people:12,chart:31,document:18,warning:2,tools:11,coin:19,star:32};
+  function icon(name, index = symbols[name]) {
+    const attrs = 'class="pixel-icon" width="16" height="16" alt=""';
+    return index ? art("icons", index, 8, "icon-" + name, attrs) : `<img src="assets/pixel/icon-${name}.svg" ${attrs}>`;
+  }
+  const policySymbols = {raise:19,lower:25,shrink:28,cheap:22,quality:24,staff:7,explain:1,sale:15,points:32,pop:14,tasting:23,local:29,restorestaff:12,apology:6,recall:27,blame:5,loyalty:26,stamp:17,audit:18,maintenance:21,loan:30,airtax:3,photo:9,ceocut:16,bills:20,apologybot:1,fix_equipment:11,fix_people:8,fix_fans:4};
+  const policyIcon = id => icon("document", policySymbols[id] || 18);
+  const sceneLabels = ["夜の事務所","レジでの接客","商品の品出し","売場の清掃","経営会議","売場への申し入れ","ネットでの炎上","混雑するレジ","資金不足","再建の成功","閉店","店頭のスタッフ"];
+  function scene(index, fallback = "scene-office") {
+    return art("scenes", index, 4, fallback, `class="event-art" width="128" height="128" alt="${sceneLabels[index-1]}"`);
+  }
+  function guests(s) {
+    const week = Math.max(1, s.lastResult?.week || s.week || 1);
+    const seed = (s.rngSeed || 0) >>> 0;
+    const first = (seed % 40 + 7 * week) % 40;
+    const mood = s.fire >= 50 || s.frust >= 60 ? 3 : s.sat < 45 ? 4 : s.sat >= 70 ? 2 : 1;
+    const ids = s.sat >= 70 ? [first, (first + 13) % 40] : [first];
+    const visitors = ids.map(i => art("customers", i+1, 8, "customer-normal", `class="guest" data-guest="guest-${i+1}" alt="買い物中のお客様"`));
+    const regular = (seed % 4 + week) % 4;
+    const expression = ["平常","喜び","怒り","戸惑い"][mood-1];
+    visitors.push(art("special_customers", regular*4+mood, 4, "customer-"+["normal","happy","angry","confused"][mood-1], `class="guest" data-guest="regular-${regular+1}" alt="常連客・${expression}"`));
+    return `<div class="shop-guests">${visitors.join("")}</div>`;
+  }
   const names = {
     you: "あなた",
     boss: "社長",
@@ -27,6 +54,11 @@
   const moods = {normal:"平常",happy:"喜び",angry:"怒り",confused:"困惑",surprised:"驚き",sad:"落胆",anxious:"焦り",smug:"不敵な笑み"};
   const character = (role = "you", mood = "normal", face = false, speaking = false) => {
     role = names[role] ? role : "you"; mood = moods[mood] ? mood : "normal";
+    const portraitRow = {boss:1,worker:2,customer:3,devil:4}[role];
+    if (face && portraitRow) {
+      const expression = Object.keys(moods).indexOf(mood);
+      return art("portraits", (portraitRow-1)*8+expression+1, 8, role+"-"+mood+(speaking?"-speaking":"-face"), `class="portrait" width="64" height="64" alt="${names[role]}・${moods[mood]}"`);
+    }
     const img = `<img class="${face ? "portrait" : "character"}" src="assets/pixel/${role}-${mood}${face ? speaking ? "-speaking" : "-face" : ""}.svg" width="${face ? 64 : 96}" height="${face ? 64 : 160}" alt="${names[role]}・${moods[mood]}">`;
     return face ? img : `<figure class="cast-member" data-role="${role}" data-mood="${mood}">${img}<figcaption><b>${names[role]}</b><span>${moods[mood]}</span></figcaption></figure>`;
   };
@@ -59,7 +91,7 @@
               : "normal";
   const store = (s, large = false) => {
     const state = storeState(s);
-    return `<figure class="store ${large ? "large" : ""}"><img src="assets/pixel/store-${state}.svg" width="144" height="80" alt="モグモグマート・${{ closed: "閉店", fire: "炎上", crisis: "資金危機", shortstaff: "人手不足", busy: "繁盛", normal: "営業中" }[state]}"></figure>`;
+    return `<figure class="store ${large ? "large" : ""}">${scene({closed:11,fire:7,crisis:9,shortstaff:4,busy:8,normal:12}[state],"store-"+state)}</figure>`;
   };
   const meter = (label, n) =>
     `<label class="meter-label">${esc(label)} <b>${n}/100</b><meter min="0" max="100" value="${n}">${n}</meter></label>`;
@@ -145,6 +177,7 @@
     character,
     moods,
     stateMood,
+    scene, guests, policyIcon,
     storeState,
     store,
     meter,

@@ -171,6 +171,23 @@ const G = require("../engine.js"),
       }
       throw Error("theater stalled");
     };
+    if (width === 320) {
+      const count = await p.evaluate(async () => {
+        const manifest = await (await fetch("assets/work-import/manifest.json")).json();
+        for (const asset of manifest.assets) {
+          const img = new Image();
+          img.src = "assets/work-import/" + asset.path;
+          await img.decode();
+        }
+        return manifest.assets.length;
+      });
+      assert.equal(count,132);
+      const art = p.locator("img[data-fallback]").first();
+      const fallback = await art.getAttribute("data-fallback");
+      await art.evaluate(img => { img.src = "data:image/png,broken"; });
+      await p.waitForFunction(src => [...document.images].some(img => img.getAttribute("src") === src && img.complete && img.naturalWidth), fallback);
+      await p.reload();
+    }
     await snap("title");
     await click("titleHelp");
     await snap("help");

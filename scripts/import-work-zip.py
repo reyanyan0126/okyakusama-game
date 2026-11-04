@@ -28,7 +28,7 @@ def import_zip(archive:Path, output:Path):
             item=z.getinfo(name)
             if item.file_size>MAX_IMAGE: raise ValueError(f"Oversized asset: {name}")
             payload=z.read(item)
-            if not payload.startswith(b"\\x89PNG\\r\\n\\x1a\\n"):
+            if not payload.startswith(b"\x89PNG\r\n\x1a\n"):
                 raise ValueError(f"Invalid PNG: {name}")
             dest=output/name
             dest.parent.mkdir(parents=True,exist_ok=True)
@@ -41,7 +41,7 @@ def import_zip(archive:Path, output:Path):
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument("zip",type=Path)
-    parser.add_argument("--output",type=Path,default=Path("assets/work-import"))
+    parser.add_argument("--output",type=Path,default=Path("work-art-staging"))
     args=parser.parse_args()
     try: import_zip(args.zip,args.output)
     except (ValueError,KeyError,FileNotFoundError,BadZipFile) as error: parser.exit(1,str(error)+"\n")
