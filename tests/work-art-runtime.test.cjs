@@ -36,3 +36,16 @@ test("portraits preserve six roles and route all eight moods to distinct files",
     for (const src of sources) assert.ok(fs.existsSync(src));
   }
 });
+
+test("all six cast roles and eight moods use refreshed art in full and face views", () => {
+  for (const role of ["you","boss","manager","worker","customer","devil"]) {
+    for (const mood of Object.keys(U.moods)) {
+      for (const face of [false,true]) {
+        const html = U.character(role,mood,face,true);
+        const source = html.match(/src="([^"]+)"/)[1];
+        assert.ok(!source.startsWith("assets/pixel/"), role+" "+mood);
+        assert.ok(fs.existsSync(source),source);
+      }
+    }
+  }
+});
