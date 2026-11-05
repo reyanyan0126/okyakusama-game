@@ -77,6 +77,11 @@
   main.addEventListener("error", event => {
     const img = event.target;
     if (img instanceof HTMLImageElement && img.dataset.fallback) {
+      if (/assets\/pixel\/(you|boss|manager|worker|customer|devil)-/.test(img.dataset.fallback)) {
+        img.removeAttribute("src");
+        delete img.dataset.fallback;
+        return;
+      }
       img.src = img.dataset.fallback;
       delete img.dataset.fallback;
     }
@@ -116,7 +121,7 @@
   }
   function title() {
     render(
-      `<section class="title"><span class="eyebrow">30週間の経営再建</span><h1><img class="pixel-logo" src="assets/pixel/logo.svg" width="136" height="20" alt="お客様のために。"></h1><p class="tagline">可愛い店で、黒い経営。</p>${store(G.initial(1), true)}<div class="buttons">${button("titleStart", "はじめる", "primary")}${hasSave && !loadError ? button("titleResume", "つづきから") : ""}${button("titleHelp", "遊び方", "quiet")}</div>${loadError ? '<p class="warn">セーブを読み込めませんでした。元データは上書きしていません。記録から書き出して保管できます。</p><button data-go="records">バックアップへ</button>' : ""}<p class="version">PIXEL EDITION · 3.3.0</p></section>`,
+      `<section class="title"><span class="eyebrow">30週間の経営再建</span><h1><img class="pixel-logo" src="assets/pixel/logo.svg" width="136" height="20" alt="お客様のために。"></h1><p class="tagline">可愛い店で、黒い経営。</p>${store(G.initial(1), true)}<div class="buttons">${button("titleStart", "はじめる", "primary")}${hasSave && !loadError ? button("titleResume", "つづきから") : ""}${button("titleHelp", "遊び方", "quiet")}</div>${loadError ? '<p class="warn">セーブを読み込めませんでした。元データは上書きしていません。記録から書き出して保管できます。</p><button data-go="records">バックアップへ</button>' : ""}<p class="version">PIXEL EDITION · 3.3.1</p></section>`,
     );
   }
   function contracts() {
@@ -135,7 +140,7 @@
   function showPrologue() {
     const p = C.PROLOGUE[prologue];
     render(
-      `${header("はじまり", "contracts")}<div class="stack"><div class="prologue-figure">${prologue === 4 ? store(G.initial(1)) : `<figure class="store"><img src="assets/pixel/scene-${prologue === 6 ? "night" : prologue === 5 ? "contract" : prologue === 3 ? "meeting" : "office"}.svg" width="144" height="80" alt="${prologue === 6 ? "夜の事務所" : prologue === 5 ? "再建契約書" : "小さな事務所"}"></figure>`}${character(prologue === 3 ? "manager" : prologue === 6 ? "devil" : "you", ["sad", "sad", "surprised", "confused", "sad", "normal", "smug"][prologue])}</div><div class="dots" aria-label="${prologue + 1} / 7">${C.PROLOGUE.map((_, i) => `<i class="${i === prologue ? "active" : ""}"></i>`).join("")}</div><div class="panel stack"><small>${esc(p.speaker)}</small><h2>${esc(p.title)}</h2><p>${esc(p.text)}</p></div>${button("prologueNext", prologue === 6 ? "契約を始める" : "次へ", "primary")}</div>`,
+      `${header("はじまり", "contracts")}<div class="stack"><div class="prologue-figure">${prologue === 4 ? store(G.initial(1)) : `${U.scene(prologue === 6 ? 11 : prologue === 3 ? 5 : prologue === 5 ? 5 : 1)}`}${character(prologue === 3 ? "manager" : prologue === 6 ? "devil" : "you", ["sad", "sad", "surprised", "confused", "sad", "normal", "smug"][prologue])}</div><div class="dots" aria-label="${prologue + 1} / 7">${C.PROLOGUE.map((_, i) => `<i class="${i === prologue ? "active" : ""}"></i>`).join("")}</div><div class="panel stack"><small>${esc(p.speaker)}</small><h2>${esc(p.title)}</h2><p>${esc(p.text)}</p></div>${button("prologueNext", prologue === 6 ? "契約を始める" : "次へ", "primary")}</div>`,
     );
   }
   function home() {

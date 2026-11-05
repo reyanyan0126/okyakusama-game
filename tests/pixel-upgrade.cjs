@@ -26,8 +26,8 @@ await p.evaluate(async()=>{
  await registration.update();
  if(navigator.serviceWorker.controller===previous)await changed;
 });
-const cacheNames=await p.evaluate(async()=>{for(let i=0;i<100;i++){const keys=await caches.keys();if(keys.some(n=>n.startsWith('okyakusama-v3.3.0'))&&!keys.includes('okyakusama-v3.2.1-fresh-cache-1'))return keys;await new Promise(r=>setTimeout(r,50));}return caches.keys();});
-assert(cacheNames.some(n=>n.startsWith('okyakusama-v3.3.0')));
+const cacheNames=await p.evaluate(async()=>{for(let i=0;i<100;i++){const keys=await caches.keys();if(keys.some(n=>n.startsWith('okyakusama-v3.3.1'))&&!keys.includes('okyakusama-v3.2.1-fresh-cache-1'))return keys;await new Promise(r=>setTimeout(r,50));}return caches.keys();});
+assert(cacheNames.some(n=>n.startsWith('okyakusama-v3.3.1')));
 assert(!cacheNames.includes('okyakusama-v3.2.1-fresh-cache-1'));
 await p.reload();await p.locator('#titleResume').waitFor();
 assert.equal(await p.locator('.version').innerText(),'PIXEL EDITION · '+require('../package.json').version);

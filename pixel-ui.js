@@ -59,7 +59,7 @@
       const expression = Object.keys(moods).indexOf(mood);
       return art("portraits", (portraitRow-1)*8+expression+1, 8, role+"-"+mood+(speaking?"-speaking":"-face"), `class="portrait" width="64" height="64" alt="${names[role]}・${moods[mood]}"`);
     }
-    const img = `<img class="${face ? "portrait" : "character"}" src="assets/pixel/${role}-${mood}${face ? speaking ? "-speaking" : "-face" : ""}.svg" width="${face ? 64 : 96}" height="${face ? 64 : 160}" alt="${names[role]}・${moods[mood]}">`;
+    const img = `<img class="${face ? "portrait" : "character"}" src="assets/cast/${role}-${mood}${face ? "-face" : ""}.png" width="${face ? 64 : 96}" height="${face ? 64 : 160}" alt="${names[role]}・${moods[mood]}">`;
     return face ? img : `<figure class="cast-member" data-role="${role}" data-mood="${mood}">${img}<figcaption><b>${names[role]}</b><span>${moods[mood]}</span></figcaption></figure>`;
   };
   // Pure visual state: critical conditions take precedence over a good last week.

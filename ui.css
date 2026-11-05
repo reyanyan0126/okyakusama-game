@@ -754,3 +754,4 @@ summary {padding:10px 0;min-height:44px;}.detail-body {padding-bottom:10px;gap:8
 .guest{width:clamp(42px,16vw,76px);height:80px;object-fit:contain;object-position:bottom;image-rendering:pixelated}
 .choice .pixel-icon{vertical-align:middle;margin-inline-end:4px}
 .portrait[data-fallback]{object-fit:contain}
+.character{object-fit:contain}
