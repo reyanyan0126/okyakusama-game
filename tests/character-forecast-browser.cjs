@@ -55,7 +55,7 @@ const G=require('../engine'),F=require('../forecast');
    await p.evaluate(()=>{document.querySelector('main').innerHTML='<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:8px">'+['you','boss','manager','worker','customer','devil'].map(r=>Object.keys(PixelUI.moods).map(m=>PixelUI.character(r,m)).join('')).join('')+'</div>';document.querySelector('main').style.maxWidth='1024px';});
    await p.addStyleTag({url:'/node_modules/@fontsource/noto-sans-jp/400.css'});await p.addStyleTag({content:'body{font-family:"Noto Sans JP",sans-serif}'});await p.evaluate(()=>document.fonts.ready);await p.locator('img').evaluateAll(xs=>Promise.all(xs.map(x=>x.decode())));
    assert.equal(await p.locator('.character').count(),48);
-   const active=await p.locator('.character').first().evaluate(e=>getComputedStyle(e).animationName);assert.equal(active,reduced?'none':'cast-breathe');
+   const active=await p.locator('.character').first().evaluate(e=>getComputedStyle(e).animationName);assert.equal(active,'none','full-body feet remain grounded in both motion preferences');
    if(reduced)await p.screenshot({path:out+'/cast-48.png',fullPage:true});
    await c.close();console.log('PASS 48 decoded sprites, SVG blink/mouth frames and reduced motion',browserName,reduced);
   }

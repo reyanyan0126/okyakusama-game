@@ -90,6 +90,19 @@
     main.dataset.screen = screen;
     main.dataset.nav = String(withNav);
     main.innerHTML = html + (withNav ? nav() : "");
+    // Only single-step reading screens own the bottom action bar.
+    // Move the existing button, preserving delegated handlers and game state.
+    const readingCTA = {prologue:"prologueNext", working:"workingSkip", outcome:"outcomeNext", news:"newsNext", report:"reportContinue"}[screen];
+    const next = !withNav && readingCTA && main.querySelector("#" + readingCTA);
+    main.dataset.cta = String(Boolean(next));
+    if (next) {
+      const bar = document.createElement("div");
+      bar.className = "action-bar";
+      bar.setAttribute("role", "region");
+      bar.setAttribute("aria-label", "次の操作");
+      bar.append(next);
+      main.append(bar);
+    }
     window.PlainCopy.apply(main);
     window.scrollTo(0, 0);
     main.focus({ preventScroll: true });
@@ -121,7 +134,7 @@
   }
   function title() {
     render(
-      `<section class="title"><span class="eyebrow">30週間の経営再建</span><h1><img class="pixel-logo" src="assets/pixel/logo.svg" width="136" height="20" alt="お客様のために。"></h1><p class="tagline">可愛い店で、黒い経営。</p>${store(G.initial(1), true)}<div class="buttons">${button("titleStart", "はじめる", "primary")}${hasSave && !loadError ? button("titleResume", "つづきから") : ""}${button("titleHelp", "遊び方", "quiet")}</div>${loadError ? '<p class="warn">セーブを読み込めませんでした。元データは上書きしていません。記録から書き出して保管できます。</p><button data-go="records">バックアップへ</button>' : ""}<p class="version">PIXEL EDITION · 3.4.0</p></section>`,
+      `<section class="title"><span class="eyebrow">30週間の経営再建</span><h1><img class="pixel-logo" src="assets/pixel/logo.svg" width="136" height="20" alt="お客様のために。"></h1><p class="tagline">可愛い店で、黒い経営。</p>${store(G.initial(1), true)}<div class="buttons">${button("titleStart", "はじめる", "primary")}${hasSave && !loadError ? button("titleResume", "つづきから") : ""}${button("titleHelp", "遊び方", "quiet")}</div>${loadError ? '<p class="warn">セーブを読み込めませんでした。元データは上書きしていません。記録から書き出して保管できます。</p><button data-go="records">バックアップへ</button>' : ""}<p class="version">PIXEL EDITION · 3.5.0</p></section>`,
     );
   }
   function contracts() {
@@ -146,7 +159,7 @@
   function home() {
     const brief = G.weeklyBrief(game);
     render(
-      `<header><span class="brand">お客様のために。</span><span class="week">第${Math.min(game.week, G.campaignWeeks(game))}週 / ${G.campaignWeeks(game)}</span></header><div class="rule"><i style="width:${Math.min(100, ((game.week - 1) / G.campaignWeeks(game)) * 100)}%"></i></div><section class="stack"><div class="row"><h1>モグモグマート</h1><small>${esc({ normal: "営業中", busy: "繁盛", shortstaff: "人手不足", fire: "炎上", crisis: "資金危機", closed: "閉店" }[U.storeState(game)])}</small></div>${store(game)}<div class="stats"><button class="stat" data-finance="store"><span>${icon("store")}店の資金</span><strong>${(game.cash / 10000).toFixed(1)}<small>万円</small></strong></button><button class="stat" data-finance="personal"><span>${icon("wallet")}自分の財布</span><strong>${(game.personalCash / 10000).toFixed(1)}<small>万円</small></strong></button><div class="stat"><span>${icon("heart")}評判</span><strong>${game.storeRep}<small> / 100</small></strong></div></div><article class="task panel"><small>今週の課題</small><h2>${esc(brief.title)}</h2>${dialogue("boss", brief.quote, U.stateMood(game, "boss"), true)}${button("openProposals", game.rescuePending ? "再建を相談する" : game.finished ? "結末を見る" : "作戦を選ぶ", "primary")}</article><div class="home-tools"><button data-go="status" class="quiet">店舗の詳細</button>${game.lastResult ? button("lastReport", "前週の決算", "quiet") : ""}</div></section>`,
+      `<header><span class="brand">お客様のために。</span><span class="week">第${Math.min(game.week, G.campaignWeeks(game))}週 / ${G.campaignWeeks(game)}</span></header><div class="rule"><i style="width:${Math.min(100, ((game.week - 1) / G.campaignWeeks(game)) * 100)}%"></i></div><section class="stack"><div class="row"><h1>モグモグマート</h1><small>${esc({ normal: "営業中", busy: "繁盛", shortstaff: "人手不足", fire: "炎上", crisis: "資金危機", closed: "閉店" }[U.storeState(game)])}</small></div><div class="stats"><button class="stat" data-finance="store"><span>${icon("store")}店の資金</span><strong>${(game.cash / 10000).toFixed(1)}<small>万円</small></strong></button><button class="stat" data-finance="personal"><span>${icon("wallet")}自分の財布</span><strong>${(game.personalCash / 10000).toFixed(1)}<small>万円</small></strong></button><div class="stat"><span>${icon("heart")}評判</span><strong>${game.storeRep}<small> / 100</small></strong></div></div><article class="task panel"><small>今週の課題</small><h2>${esc(brief.title)}</h2>${dialogue("boss", brief.quote, U.stateMood(game, "boss"), true)}${button("openProposals", game.rescuePending ? "再建を相談する" : game.finished ? "結末を見る" : "作戦を選ぶ", "primary")}</article>${store(game)}<div class="home-tools"><button data-go="status" class="quiet">店舗の詳細</button>${game.lastResult ? button("lastReport", "前週の決算", "quiet") : ""}</div></section>`,
       true,
     );
   }
@@ -204,7 +217,7 @@
     }
   }
   function working() {
-    render(`<section class="stack working"><div class="row"><h1>営業中</h1><span class="week">第${game.lastResult.week}週</span></div><div class="actors" id="workingActors">${U.floor(game,0)}</div><div class="week-progress"><div class="row"><strong id="workingPhase" aria-live="polite">仕入れ・開店</strong><span id="workingPercent">0%</span></div><div class="work-track" aria-hidden="true"><span id="workingFill" style="width:0%;background-color:#c56a12"></span></div><progress id="workingProgress" class="progress-sr" aria-label="1週間の営業の経過" max="100" value="0"></progress></div>${button("workingSkip", "結果へ進む", "primary")}</section>`);
+    render(`<section class="stack working"><div class="row"><h1>営業中</h1><span class="week">第${game.lastResult.week}週</span></div><h2 id="workingPhase" class="phase-title" aria-live="polite">仕入れ・開店</h2><p class="working-summary">今週の作戦を現場で進めています。</p><div class="actors" id="workingActors">${U.floor(game,0)}</div><div class="week-progress"><div class="row"><strong>営業進行</strong><span id="workingPercent">0%</span></div><div class="work-track" aria-hidden="true"><span id="workingFill" style="width:0%;background-color:#c56a12"></span></div><progress id="workingProgress" class="progress-sr" aria-label="1週間の営業の経過" max="100" value="0"></progress></div>${button("workingSkip", "結果へ進む", "primary")}</section>`);
     const began = performance.now(), duration = 4200;
     let phase = 0;
     const tick = (now) => {
