@@ -182,10 +182,6 @@ const G = require("../engine.js"),
         return manifest.assets.length;
       });
       assert.equal(count,132);
-      const art = p.locator("img[data-fallback]").first();
-      const fallback = await art.getAttribute("data-fallback");
-      await art.evaluate(img => { img.src = "data:image/png,broken"; });
-      await p.waitForFunction(src => [...document.images].some(img => img.getAttribute("src") === src && img.complete && img.naturalWidth), fallback);
       await p.reload();
     }
     await snap("title");
@@ -200,6 +196,13 @@ const G = require("../engine.js"),
       await click("prologueNext");
     }
     await snap("home");
+    if(width===320){
+      const art = p.locator("img[data-fallback]").first();
+      const fallback = await art.getAttribute("data-fallback");
+      await art.evaluate(img => { img.src = "data:image/png,broken"; });
+      await p.waitForFunction(src => [...document.images].some(img => img.getAttribute("src") === src && img.complete && img.naturalWidth), fallback);
+    }
+
     // Home essentials stay in the first mobile viewport.
     const cta = await p.locator("#openProposals").boundingBox();
     assert(
@@ -208,7 +211,7 @@ const G = require("../engine.js"),
     );
     await p.locator('[data-go="status"]').click();
     await snap("status");
-    await p.locator("summary").click();
+    await p.getByText("現場の証言・人間関係", {exact:true}).click();
     await snap("status-detail");
     await click("statusDone");
     await p.locator('[data-finance="store"]').click();

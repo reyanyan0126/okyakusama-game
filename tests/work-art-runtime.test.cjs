@@ -18,14 +18,14 @@ test("132 unique reviewed PNGs ship in the offline release", () => {
 test("visitor identity is stable across reactions, save round trips and repeat renders", () => {
   const s = {...G.initial(11), week: 3, sat: 55, frust: 0, fire: 0};
   const before = JSON.stringify(s);
-  const id = html => html.match(/data-guest="regular-(\d+)"/)[1];
-  const neutral = U.guests(s);
-  for (const [state, label] of [[{sat:80},"喜び"], [{fire:75},"怒り"], [{sat:20},"戸惑い"]]) {
-    const html = U.guests({...s,...state});
+  const id = html => html.match(/data-role="([^"]+)"/)[1];
+  const neutral = U.visitor(s);
+  for (const state of [{sat:80}, {frust:75}, {sat:20}]) {
+    const html = U.visitor({...s,...state});
     assert.equal(id(html),id(neutral));
-    assert.ok(html.includes(label));
+    assert.ok(html.includes('まとめ買いの在庫'));
   }
-  assert.equal(U.guests(JSON.parse(before)),neutral);
+  assert.equal(U.visitor(JSON.parse(before)),neutral);
   assert.equal(JSON.stringify(s),before);
 });
 

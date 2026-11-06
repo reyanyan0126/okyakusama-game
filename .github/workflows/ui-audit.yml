@@ -51,6 +51,9 @@ jobs:
       - run: node tests/presentation-refresh-browser.cjs
         env:
           BROWSER: ${{ matrix.browser }}
+      - run: node tests/character-consistency-browser.cjs
+        env:
+          BROWSER: ${{ matrix.browser }}
       - run: node tests/character-forecast-browser.cjs
         env:
           BROWSER: ${{ matrix.browser }}
@@ -85,6 +88,10 @@ jobs:
           BROWSER: ${{ matrix.browser }}
           BASE_URL: https://reyanyan0126.github.io/okyakusama-game/
           AUDIT_PHASE: public
+      - run: node tests/character-consistency-browser.cjs
+        env:
+          BROWSER: ${{ matrix.browser }}
+          BASE_URL: https://reyanyan0126.github.io/okyakusama-game/
       - uses: actions/upload-artifact@v4
         if: always()
         with:

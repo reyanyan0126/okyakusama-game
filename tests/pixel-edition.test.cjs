@@ -21,7 +21,7 @@ assert.equal((html.match(/rel="stylesheet"/g) || []).length, 1);
 assert(!html.includes("manga") && !html.includes("cast-art"));
 assert.match(css,/image-rendering:\s*pixelated/);
 assert(!css.includes("@layer legacy"));
-assert(sw.includes("okyakusama-v3.3.1"));
+assert(sw.includes("okyakusama-v" + require("../package.json").version));
 for (const role of ["you", "boss", "manager", "worker", "customer", "devil"]) {
   const hashes = [];
   for (const mood of [
