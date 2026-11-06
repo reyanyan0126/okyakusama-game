@@ -148,7 +148,7 @@
   function dialogue(role, text, mood = "normal", statePriority = false) {
     text = root.PlainCopy ? root.PlainCopy.text(text) : canon.rewrite(text);
     const parts=canon.split(text);
-    if(!parts.some(p=>p.speaker))return names[role]?bubble(role,text,moods[mood]?mood:'normal'):`<p>${esc(text)}</p>`;
+    if(!parts.some(p=>p.speaker))return names[role]?bubble(role,canon.line(role,text),moods[mood]?mood:'normal'):`<p>${esc(text)}</p>`;
     return `<div class="conversation">${parts.map(p=>p.speaker?bubble(p.role,p.text,statePriority&&p.role===role?mood:emotion(p.text,p.role===role?mood:'normal'),p.speaker):p.text.replace(/[。・\s]/g,'')?`<p class="dialogue-aside">${esc(p.text)}</p>`:'').join('')}</div>`;
   }
   function narrative(text) {

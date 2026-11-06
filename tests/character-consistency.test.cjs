@@ -17,6 +17,8 @@ test('speaker parsing handles nested quotes, outsiders and empty speech safely',
  const text='元従業員「辞めました」社員「給料です」客「俺が会計？」森さん「私も並ぶね」社長の内緒話「俺の「大成功」だ」';
  assert.deepEqual(C.split(text).filter(x=>x.speaker).map(x=>x.role),[null,'worker',null,'customer','boss']);
  const html=U.dialogue('boss',text);assert.equal((html.match(/class="portrait"/g)||[]).length,3);assert(!html.includes('undefined'));assert.equal(U.dialogue('manager',''),'');assert.equal(U.character('typo'),'');assert.equal(U.character('boss','typo'),'');assert.equal(U.actor('boss','normal',''),'');
+ for(const raw of ['社長の謝罪より、商品の説明が聞きたい。','お客様のために？ 誰のお客様？','最近ちょっといいじゃない！','悪くはない。褒めてないけど。']){const html=U.dialogue('customer',raw);assert(!/説明しろ|ためだろ|じゃん|するなよ/.test(html));assert.equal(P.text(html),html);}
+ assert(!U.dialogue('worker','いつもの売り場に戻りました。').includes('始めるなよ'));
  assert(!U.narrative('記者「質問です」').includes('class="portrait"'));assert(!U.dialogue('boss','<script>').includes('<script>'));
 });
 test('all character and customer image paths exist; general and special IDs stay separate',()=>{

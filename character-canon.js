@@ -83,8 +83,15 @@ const edits={manager:{
 '修理代をケチるからだろ':'修理の予算を止めた結果ですね',
 'お前は『早くしろ』しか言わないだろ':'社長からは『早くしろ』しか聞いていませんけど',
 'まず相手に礼を言えよ':'まず、協力してくださった方にお礼をお願いします',
-'こっちの給料まで削る気か':'私たちの給料まで値引きしないでください'
+'こっちの給料まで削る気か':'私たちの給料まで値引きしないでください',
+'売り場は落ち着きました。社長、また余計なことを始めるなよ。':'売り場は落ち着きました。社長、しばらく見守っていてくださいね。'
+},customer:{
+'お辞儀はもういい。何を売ったか説明しろ。':'謝るより先に、商品のことを聞かせておくれ。',
+'お客様のために？ 社長の財布のためだろ。':'お客様のために、ってね。私の話も聞いてくれるかい。',
+'やればできるじゃん。今まで何してたんだよ。':'最近、買い物がしやすくなったね。また寄らせてもらうよ。',
+'悪くはない。そこでドヤ顔するなよ。':'悪くはないよ。ほめるのは、次の買い物の後にしようかね。'
 }};
-function rewrite(text){return split(String(text??'')).map(p=>p.speaker?p.speaker+'「'+(edits[p.role]?.[p.text]||p.text)+'」':p.text).join('');}
-const api={profiles,aliases,labels,split,edits,rewrite};root.CharacterCanon=api;if(typeof module==='object')module.exports=api;
+function line(role,text){return edits[role]?.[text]||text;}
+function rewrite(text){return split(String(text??'')).map(p=>p.speaker?p.speaker+'「'+line(p.role,p.text)+'」':p.text).join('');}
+const api={profiles,aliases,labels,split,edits,line,rewrite};root.CharacterCanon=api;if(typeof module==='object')module.exports=api;
 })(typeof window==='undefined'?globalThis:window);

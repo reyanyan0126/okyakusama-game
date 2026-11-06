@@ -15,7 +15,7 @@
     "stringOccurrences": 2121,
     "attributedOccurrences": 999,
     "uniqueAttributedLines": 334,
-    "rewrittenVoiceLines": 65
+    "rewrittenVoiceLines": 70
   },
   "profiles": {
     "you": {
@@ -482,6 +482,31 @@
       "role": "worker",
       "before": "こっちの給料まで削る気か",
       "after": "私たちの給料まで値引きしないでください"
+    },
+    {
+      "role": "worker",
+      "before": "売り場は落ち着きました。社長、また余計なことを始めるなよ。",
+      "after": "売り場は落ち着きました。社長、しばらく見守っていてくださいね。"
+    },
+    {
+      "role": "customer",
+      "before": "お辞儀はもういい。何を売ったか説明しろ。",
+      "after": "謝るより先に、商品のことを聞かせておくれ。"
+    },
+    {
+      "role": "customer",
+      "before": "お客様のために？ 社長の財布のためだろ。",
+      "after": "お客様のために、ってね。私の話も聞いてくれるかい。"
+    },
+    {
+      "role": "customer",
+      "before": "やればできるじゃん。今まで何してたんだよ。",
+      "after": "最近、買い物がしやすくなったね。また寄らせてもらうよ。"
+    },
+    {
+      "role": "customer",
+      "before": "悪くはない。そこでドヤ顔するなよ。",
+      "after": "悪くはないよ。ほめるのは、次の買い物の後にしようかね。"
     }
   ],
   "entries": [
