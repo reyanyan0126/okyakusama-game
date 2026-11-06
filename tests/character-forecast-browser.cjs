@@ -36,8 +36,8 @@ const G=require('../engine'),F=require('../forecast');
    await p.screenshot({path:out+'/forecast-'+width+'.png',fullPage:true});
    const stressed=G.initial(7,{difficulty:'normal'});stressed.workforce.fatigue=90;stressed.cash=20000;
    await p.evaluate(s=>localStorage.setItem('okyakusama.save.v1',JSON.stringify(s)),stressed);await p.reload();await p.locator('#titleResume').click();
-   assert.equal(await p.locator('.dialogue[data-role="boss"]').getAttribute('data-mood'),'anxious');
-   await p.locator('[data-go="status"]').click();assert.equal(await p.locator('.cast-member[data-role="worker"]').getAttribute('data-mood'),'anxious');
+   assert.equal(await p.locator('.dialogue[data-role="boss"]').count(),0);assert((await p.locator('.dialogue.anonymous').innerText()).includes('経理'));assert.equal(await p.locator('.dialogue.anonymous img').count(),0);
+   assert.equal(await p.locator('.cast-member[data-role="worker"]').getAttribute('data-mood'),'sad');assert(await p.locator('[data-action="交代で休憩中"]').count());await p.locator('[data-go="status"]').click();assert.equal(await p.locator('.cast-member').count(),0);
    assert.deepEqual(errors,[]);await c.close();console.log('PASS forecast UI/persistence/no reroll/state priority/overflow',browserName,width);
   }
   for(const reduced of [false,true]){

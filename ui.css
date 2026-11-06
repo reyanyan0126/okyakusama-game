@@ -755,3 +755,25 @@ summary {padding:10px 0;min-height:44px;}.detail-body {padding-bottom:10px;gap:8
 .choice .pixel-icon{vertical-align:middle;margin-inline-end:4px}
 .portrait[data-fallback]{object-fit:contain}
 .character{object-fit:contain}
+/* v3.4: Each station describes a job; no extra people baked into backgrounds. */
+.store-sign{margin:12px 0 20px;padding:24px 12px;border:3px solid var(--green,#315c49);border-top:12px solid #315c49;background:#fff9e9;text-align:center;border-radius:8px}
+.store-sign>span{font-weight:800;font-size:24px}.store-sign p{font-size:13px;margin:10px 0 0}
+.store-floor{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;align-items:stretch}
+.station{min-width:0;position:relative;background:#f8f3e4;border:1px solid var(--line);border-radius:8px;padding:8px;text-align:center;overflow:hidden}
+.station h3{font-size:12px;color:#315c49;margin:0 0 6px;border-bottom:1px solid var(--line);padding-bottom:5px}
+.station p{font-size:13px;text-align:left;margin:10px 0;line-height:1.7}
+.actor-task{position:relative;display:inline-block;max-width:100%}.actor-task .character{height:112px;width:auto;object-fit:contain}
+.actor-task .cast-member{display:flex;align-items:center}.actor-task .cast-member figcaption{flex-direction:column;gap:2px}
+.actor-task figcaption span{white-space:normal;border:0;padding:0;background:none;font-size:11px}
+.task-prop{position:absolute;right:-16px;top:60px;background:#fff8e3;border:1px solid var(--line);border-radius:4px;padding:3px}
+.task-prop .pixel-icon{width:24px;height:24px}.shop-guests{display:flex;justify-content:center;align-items:flex-end;gap:4px;max-width:100%;margin:0}
+.guest-task{margin:0;min-width:0;flex:1}.guest-task .guest{height:112px;width:100%;max-width:90px;object-fit:contain;image-rendering:pixelated}
+.guest-task figcaption{font-size:11px;line-height:1.5;overflow-wrap:anywhere}.store-floor .shop-guests{min-height:145px}
+.prologue-figure{display:block;padding:0;background:none;min-height:0;height:auto;position:static}
+.prologue-figure .character{position:static;transform:none;bottom:auto;right:auto;left:auto;opacity:1}
+.prologue-figure .station{max-width:100%;padding:10px}.prologue-figure .actor-task{display:inline-block}
+.working .actors{display:block;gap:0}.working .actor-task .character{height:160px;width:96px}.working .guest-task .guest{height:160px}
+.meeting-agenda{padding:10px;background:#e8eddf;border-left:3px solid #315c49;font-size:13px}
+.dialogue.anonymous{grid-template-columns:1fr;border-left:3px solid #b59c67;padding-left:12px}
+.public-post{background:var(--panel);border-left:3px solid #b59c67;padding:12px}.public-post p{margin-bottom:0}
+@media(prefers-reduced-motion:reduce){.actor-task *{animation:none!important}}

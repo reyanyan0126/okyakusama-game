@@ -1618,7 +1618,7 @@ const choices={
   }
 };
 function choiceDetail(action){return choices[action.id]?.detail??action.detail;}
-function text(value){let s=String(value??'');for(const [a,b]of replacements)s=s.split(a).join(b);for(const [a,b]of Object.entries(terms))s=s.split(a).join(b);return s;}
+function text(value){let s=String(value??'');for(const [a,b]of replacements)s=s.split(a).join(b);for(const [a,b]of Object.entries(terms))s=s.split(a).join(b);return (root.CharacterCanon || (typeof require==='function'?require('./character-canon'):null))?.rewrite(s) ?? s;}
 function apply(element){const walker=document.createTreeWalker(element,NodeFilter.SHOW_TEXT);let n;while(n=walker.nextNode()){if(!n.parentElement.closest('script,style,textarea'))n.nodeValue=text(n.nodeValue);}for(const el of element.querySelectorAll('[aria-label],[title],[alt]'))for(const key of ['aria-label','title','alt'])if(el.hasAttribute(key))el.setAttribute(key,text(el.getAttribute(key)));}
 const api={text,apply,replacements,terms,choices,choiceDetail};root.PlainCopy=api;if(typeof module==='object'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

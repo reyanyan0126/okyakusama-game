@@ -1,0 +1,18 @@
+'use strict';
+const {chromium,webkit}=require('playwright'),assert=require('node:assert/strict'),http=require('http'),fs=require('fs'),path=require('path'),G=require('../engine');
+(async()=>{
+ const server=http.createServer((q,r)=>{try{const file=path.join(__dirname,'..',q.url.split('?')[0]==='/'?'index.html':q.url.split('?')[0]);r.setHeader('Content-Type',({js:'text/javascript',css:'text/css',png:'image/png',svg:'image/svg+xml'})[file.split('.').pop()]||'text/html');r.end(fs.readFileSync(file));}catch{r.writeHead(404);r.end();}}).listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));
+ const name=process.env.BROWSER||'chromium',b=await {chromium,webkit}[name].launch(),out='test-artifacts/consistency-'+name;fs.mkdirSync(out,{recursive:true});
+ try{for(const width of [320,375,390,430]){const c=await b.newContext({viewport:{width,height:844},reducedMotion:'reduce'}),p=await c.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));p.setDefaultTimeout(10000);await p.goto(process.env.BASE_URL||'http://localhost:'+server.address().port);await p.evaluate(()=>navigator.serviceWorker.ready.then(()=>true));
+ const check=async(label)=>{await p.locator('img').evaluateAll(xs=>Promise.all(xs.map(x=>x.decode())));assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),label);assert.equal(await p.locator('img[src*="work-import/scenes"]').count(),0);
+ const bad=await p.locator('.dialogue').evaluateAll(xs=>xs.filter(el=>{const r=el.dataset.role,img=el.querySelector('img');if(r==='anonymous')return !!img;return !img||!img.naturalWidth;} ).length);assert.equal(bad,0,label);
+ assert.equal(await p.locator('.actor-task:not([data-action]),.guest-task:not([data-action])').count(),0);
+ await p.screenshot({path:`${out}/${width}-${label}.png`,fullPage:true});};
+ for(const [id,change,expected]of [['ordinary',{},'品出し中'],['shortstaff',{staff:30},'レジ応援中'],['fatigue',{workforce:{morale:40,fatigue:90,turnover:0,departures:0}},'交代で休憩中'],['angry',{frust:90},'商品の説明中'],['fire',{fire:80},'問い合わせ対応中'],['cash',{cash:20000},'支払い確認中'],['happy',{sat:90},'レジ対応中']]){
+ const s={...G.initial(12,{difficulty:'easy'}),quality:60,...change};await p.evaluate(s=>localStorage.setItem('okyakusama.save.v1',JSON.stringify(s)),s);await p.reload();await p.locator('#titleResume').click();assert(await p.locator(`[data-action="${expected}"]`).count(),id);await check(id);const btn=await p.locator('#openProposals').boundingBox();assert(btn.y+btn.height<=844,id+' CTA');
+ if(id==='angry'){await p.locator('[data-go="voice"]').click();assert.equal(await p.locator('.dialogue[data-role="customer"]').getAttribute('data-mood'),'angry');assert.equal(await p.locator('.shop-guests').count(),0);await check('angry-voice');}
+ }
+ for(let week=1;week<=4;week++){let s=G.initial(12,{difficulty:'easy'});s.cash=10000000;s.personalCash=1000000;while(s.week<week){s=G.play(s,G.weeklyOffers(s)[0].id);if(s.lastResult.accidentId&&!s.lastResult.accidentPositive&&s.lastResult.incidentCost>0&&s.lastResult.accidentResponse===null)s=G.handleAccident(s,'repair');}s.presentation=null;await p.evaluate(s=>localStorage.setItem('okyakusama.save.v1',JSON.stringify(s)),s);await p.reload();await p.locator('#titleResume').click();await p.locator('[data-go="status"]').click();await p.getByText('売場の常連との会話',{exact:true}).click();assert.equal(await p.locator('.dialogue[data-role="'+(week===1?'customer':'regular-'+week)+'"]').count(),1);await check('regular-'+week);}
+ assert.deepEqual(errors,[]);await c.close();console.log('PASS',name,width,'7 store states, angry voice, 4 persistent regulars, portraits, actions, CTA and overflow');}
+ }finally{await b.close();server.close();}
+})().catch(e=>{console.error(e);process.exitCode=1});
