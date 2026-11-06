@@ -44,7 +44,7 @@
     const count=context==='queue'&&s.staff<45?2:1;
     return `<div class="shop-guests" data-purpose="${context}">${Array.from({length:count},(_,i)=>{
       const g=pool[(offset+i)%pool.length],action=context==='queue'?'会計を待っている':g.action;
-      return `<figure class="guest-task" data-customer-id="${g.id}" data-action="${action}">${art('customers',g.index,8,'customer-'+(wanted==='angry'?'angry':wanted==='happy'?'happy':'normal'),`class="guest" data-guest="${g.id}" alt="来店客・${action}"`)}<figcaption>${esc(action)}</figcaption></figure>`;
+      return `<figure class="guest-task" data-customer-id="${g.id}" data-action="${action}"><img src="assets/ui/${g.id}.png" class="guest" data-guest="${g.id}" width="280" height="224" alt="来店客・${action}"><figcaption>${esc(action)}</figcaption></figure>`;
     }).join('')}</div>`;
   }
   const names = {
@@ -58,12 +58,7 @@
   const moods = {normal:"平常",happy:"喜び",angry:"怒り",confused:"困惑",surprised:"驚き",sad:"落胆",anxious:"焦り",smug:"不敵な笑み"};
   const character = (role = "you", mood = "normal", face = false, speaking = false) => {
     if (!names[role] || !moods[mood]) return "";
-    const portraitRow = {boss:1,worker:2,customer:3,devil:4}[role];
-    if (face && portraitRow) {
-      const expression = Object.keys(moods).indexOf(mood);
-      return art("portraits", (portraitRow-1)*8+expression+1, 8, role+"-"+mood+(speaking?"-speaking":"-face"), `class="portrait" width="64" height="64" alt="${names[role]}・${moods[mood]}"`);
-    }
-    const img = `<img class="${face ? "portrait" : "character"}" src="assets/cast/${role}-${mood}${face ? "-face" : ""}.png" width="${face ? 64 : 96}" height="${face ? 64 : 160}" alt="${names[role]}・${moods[mood]}">`;
+    const img = `<img class="${face ? "portrait" : "character"}" src="assets/ui/${role}-${mood}${face ? "-face" : ""}.png" width="${face ? 128 : 256}" height="${face ? 128 : 224}" alt="${names[role]}・${moods[mood]}">`;
     return face ? img : `<figure class="cast-member" data-role="${role}" data-mood="${mood}">${img}<figcaption><b>${names[role]}</b><span>${moods[mood]}</span></figcaption></figure>`;
   };
   // Pure visual state: critical conditions take precedence over a good last week.
@@ -126,7 +121,7 @@
     const line=p.id==='mori'?(s.frust>=60?'この前より待つようになったね。帰る前に買えるかしら。':s.sat>=70?'いつもの品があって助かったよ。また寄るね。':'いつもの品を見に来たよ。今日もあるかね。'):p.row===2?'いつもの商品の場所を教えてください。棚が変わったようですね。':p.row===3?'いつもの品をまとめて買いたいんです。在庫はありますか。':'メモの品を探しています。広告と同じものはどちらですか。';
     if(p.id==='mori')return dialogue('customer',line,mood);
     const index=(p.row-1)*4+({normal:1,happy:2,angry:3}[mood]);
-    return `<div class="dialogue" data-role="${p.id}" data-mood="${mood}" data-action="${p.habit}">${art('special_customers',index,4,'customer-'+mood,`class="portrait" alt="常連客・${p.habit}"`)}<div><div class="speaker"><strong>常連客 ${p.row}</strong><span>${p.habit}</span></div><p>${esc(line)}</p></div></div>`;
+    return `<div class="dialogue" data-role="${p.id}" data-mood="${mood}" data-action="${p.habit}"><img src="assets/ui/regular-${p.row}-${({normal:1,happy:2,angry:3}[mood])}-face.png" class="portrait" width="128" height="128" alt="常連客・${p.habit}"><div><div class="speaker"><strong>常連客 ${p.row}</strong><span>${p.habit}</span></div><p>${esc(line)}</p></div></div>`;
   }
   const meter = (label, n) =>
     `<label class="meter-label">${esc(label)} <b>${n}/100</b><meter min="0" max="100" value="${n}">${n}</meter></label>`;

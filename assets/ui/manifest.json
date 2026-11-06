@@ -1,0 +1,4150 @@
+{
+  "version": 1,
+  "method": "alpha crop; common body scale; head-only portrait crop",
+  "assets": [
+    {
+      "source": "assets/cast/you-normal.png",
+      "output": "assets/ui/you-normal.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        198
+      ],
+      "crop": [
+        36,
+        10,
+        161,
+        197
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        65,
+        37,
+        190,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-normal-face.png",
+      "output": "assets/ui/you-normal-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        36,
+        10,
+        161,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        5,
+        125,
+        124
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-happy.png",
+      "output": "assets/ui/you-happy.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        198
+      ],
+      "crop": [
+        36,
+        11,
+        160,
+        197
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        66,
+        38,
+        190,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-happy-face.png",
+      "output": "assets/ui/you-happy-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        36,
+        11,
+        160,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        5,
+        125,
+        124
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-angry.png",
+      "output": "assets/ui/you-angry.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        198
+      ],
+      "crop": [
+        34,
+        14,
+        159,
+        197
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        65,
+        41,
+        190,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-angry-face.png",
+      "output": "assets/ui/you-angry-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        35,
+        14,
+        159,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        7,
+        125,
+        123
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-confused.png",
+      "output": "assets/ui/you-confused.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        198
+      ],
+      "crop": [
+        31,
+        4,
+        157,
+        196
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        65,
+        32,
+        191,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-confused-face.png",
+      "output": "assets/ui/you-confused-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        31,
+        4,
+        157,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        3,
+        125,
+        127
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-surprised.png",
+      "output": "assets/ui/you-surprised.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        198
+      ],
+      "crop": [
+        30,
+        3,
+        164,
+        196
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        61,
+        31,
+        195,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-surprised-face.png",
+      "output": "assets/ui/you-surprised-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        30,
+        3,
+        164,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        6,
+        125,
+        123
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-sad.png",
+      "output": "assets/ui/you-sad.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        198
+      ],
+      "crop": [
+        25,
+        16,
+        148,
+        196
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        66,
+        44,
+        189,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-sad-face.png",
+      "output": "assets/ui/you-sad-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        25,
+        16,
+        148,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        7,
+        125,
+        122
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-anxious.png",
+      "output": "assets/ui/you-anxious.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        198
+      ],
+      "crop": [
+        26,
+        14,
+        152,
+        196
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        65,
+        42,
+        191,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-anxious-face.png",
+      "output": "assets/ui/you-anxious-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        26,
+        14,
+        152,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        8,
+        125,
+        122
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-smug.png",
+      "output": "assets/ui/you-smug.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        198
+      ],
+      "crop": [
+        32,
+        14,
+        155,
+        196
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        66,
+        42,
+        189,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/you-smug-face.png",
+      "output": "assets/ui/you-smug-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        32,
+        14,
+        155,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        6,
+        125,
+        123
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/boss-normal.png",
+      "output": "assets/ui/boss-normal.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        195
+      ],
+      "crop": [
+        34,
+        13,
+        155,
+        191
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        67,
+        46,
+        188,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_01_01.png",
+      "output": "assets/ui/boss-normal-face.png",
+      "kind": "face",
+      "sourceSize": [
+        190,
+        197
+      ],
+      "crop": [
+        0,
+        0,
+        190,
+        190
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 190,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/boss-happy.png",
+      "output": "assets/ui/boss-happy.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        195
+      ],
+      "crop": [
+        25,
+        15,
+        153,
+        191
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        64,
+        48,
+        192,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_01_02.png",
+      "output": "assets/ui/boss-happy-face.png",
+      "kind": "face",
+      "sourceSize": [
+        193,
+        197
+      ],
+      "crop": [
+        0,
+        0,
+        193,
+        193
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 193,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/boss-angry.png",
+      "output": "assets/ui/boss-angry.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        195
+      ],
+      "crop": [
+        21,
+        11,
+        166,
+        191
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        55,
+        44,
+        200,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_01_03.png",
+      "output": "assets/ui/boss-angry-face.png",
+      "kind": "face",
+      "sourceSize": [
+        194,
+        197
+      ],
+      "crop": [
+        0,
+        0,
+        194,
+        194
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 194,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/boss-confused.png",
+      "output": "assets/ui/boss-confused.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        195
+      ],
+      "crop": [
+        20,
+        0,
+        160,
+        191
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        58,
+        33,
+        198,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_01_04.png",
+      "output": "assets/ui/boss-confused-face.png",
+      "kind": "face",
+      "sourceSize": [
+        185,
+        205
+      ],
+      "crop": [
+        0,
+        0,
+        185,
+        185
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 185,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/boss-surprised.png",
+      "output": "assets/ui/boss-surprised.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        195
+      ],
+      "crop": [
+        22,
+        0,
+        165,
+        191
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        56,
+        33,
+        199,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_01_05.png",
+      "output": "assets/ui/boss-surprised-face.png",
+      "kind": "face",
+      "sourceSize": [
+        188,
+        209
+      ],
+      "crop": [
+        0,
+        0,
+        188,
+        188
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 188,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/boss-sad.png",
+      "output": "assets/ui/boss-sad.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        195
+      ],
+      "crop": [
+        17,
+        18,
+        150,
+        191
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        61,
+        51,
+        194,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_01_06.png",
+      "output": "assets/ui/boss-sad-face.png",
+      "kind": "face",
+      "sourceSize": [
+        192,
+        188
+      ],
+      "crop": [
+        0,
+        0,
+        192,
+        188
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        1,
+        128,
+        127
+      ],
+      "headHeight": 192,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/boss-anxious.png",
+      "output": "assets/ui/boss-anxious.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        195
+      ],
+      "crop": [
+        22,
+        17,
+        150,
+        191
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        64,
+        50,
+        192,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_01_07.png",
+      "output": "assets/ui/boss-anxious-face.png",
+      "kind": "face",
+      "sourceSize": [
+        189,
+        189
+      ],
+      "crop": [
+        0,
+        0,
+        189,
+        189
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 189,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/boss-smug.png",
+      "output": "assets/ui/boss-smug.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        195
+      ],
+      "crop": [
+        21,
+        15,
+        146,
+        191
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        65,
+        48,
+        190,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_01_08.png",
+      "output": "assets/ui/boss-smug-face.png",
+      "kind": "face",
+      "sourceSize": [
+        185,
+        189
+      ],
+      "crop": [
+        0,
+        0,
+        185,
+        185
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 185,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-normal.png",
+      "output": "assets/ui/manager-normal.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        36,
+        3,
+        158,
+        193
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        67,
+        34,
+        189,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-normal-face.png",
+      "output": "assets/ui/manager-normal-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        36,
+        3,
+        158,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        5,
+        3,
+        122,
+        127
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-happy.png",
+      "output": "assets/ui/manager-happy.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        33,
+        4,
+        158,
+        193
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        65,
+        35,
+        190,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-happy-face.png",
+      "output": "assets/ui/manager-happy-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        33,
+        4,
+        158,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        3,
+        124,
+        127
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-angry.png",
+      "output": "assets/ui/manager-angry.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        30,
+        5,
+        157,
+        194
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        64,
+        35,
+        191,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-angry-face.png",
+      "output": "assets/ui/manager-angry-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        30,
+        5,
+        157,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        4,
+        125,
+        126
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-confused.png",
+      "output": "assets/ui/manager-confused.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        26,
+        3,
+        160,
+        194
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        61,
+        33,
+        195,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-confused-face.png",
+      "output": "assets/ui/manager-confused-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        26,
+        3,
+        160,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        6,
+        125,
+        123
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-surprised.png",
+      "output": "assets/ui/manager-surprised.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        28,
+        0,
+        164,
+        194
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        60,
+        30,
+        196,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-surprised-face.png",
+      "output": "assets/ui/manager-surprised-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        28,
+        0,
+        164,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        4,
+        125,
+        124
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-sad.png",
+      "output": "assets/ui/manager-sad.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        27,
+        6,
+        155,
+        194
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        64,
+        36,
+        192,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-sad-face.png",
+      "output": "assets/ui/manager-sad-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        27,
+        6,
+        155,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        5,
+        125,
+        125
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-anxious.png",
+      "output": "assets/ui/manager-anxious.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        27,
+        5,
+        156,
+        194
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        63,
+        35,
+        192,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-anxious-face.png",
+      "output": "assets/ui/manager-anxious-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        27,
+        5,
+        156,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        5,
+        125,
+        125
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-smug.png",
+      "output": "assets/ui/manager-smug.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        29,
+        4,
+        155,
+        194
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        65,
+        34,
+        191,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/manager-smug-face.png",
+      "output": "assets/ui/manager-smug-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        130
+      ],
+      "crop": [
+        29,
+        4,
+        155,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        3,
+        125,
+        127
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/worker-normal.png",
+      "output": "assets/ui/worker-normal.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        38,
+        3,
+        162,
+        193
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        66,
+        34,
+        190,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_02_01.png",
+      "output": "assets/ui/worker-normal-face.png",
+      "kind": "face",
+      "sourceSize": [
+        183,
+        224
+      ],
+      "crop": [
+        0,
+        0,
+        183,
+        183
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 183,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/worker-happy.png",
+      "output": "assets/ui/worker-happy.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        39,
+        3,
+        160,
+        193
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        67,
+        34,
+        188,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_02_02.png",
+      "output": "assets/ui/worker-happy-face.png",
+      "kind": "face",
+      "sourceSize": [
+        182,
+        224
+      ],
+      "crop": [
+        0,
+        0,
+        182,
+        182
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 182,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/worker-angry.png",
+      "output": "assets/ui/worker-angry.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        33,
+        5,
+        161,
+        193
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        64,
+        36,
+        192,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_02_03.png",
+      "output": "assets/ui/worker-angry-face.png",
+      "kind": "face",
+      "sourceSize": [
+        185,
+        218
+      ],
+      "crop": [
+        0,
+        0,
+        185,
+        185
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 185,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/worker-confused.png",
+      "output": "assets/ui/worker-confused.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        27,
+        0,
+        157,
+        193
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        63,
+        31,
+        193,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_02_04.png",
+      "output": "assets/ui/worker-confused-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        214
+      ],
+      "crop": [
+        0,
+        0,
+        181,
+        181
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 181,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/worker-surprised.png",
+      "output": "assets/ui/worker-surprised.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        26,
+        0,
+        163,
+        193
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        59,
+        31,
+        196,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_02_05.png",
+      "output": "assets/ui/worker-surprised-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        216
+      ],
+      "crop": [
+        0,
+        0,
+        181,
+        181
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 181,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/worker-sad.png",
+      "output": "assets/ui/worker-sad.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        25,
+        6,
+        148,
+        193
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        66,
+        37,
+        189,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_02_06.png",
+      "output": "assets/ui/worker-sad-face.png",
+      "kind": "face",
+      "sourceSize": [
+        176,
+        212
+      ],
+      "crop": [
+        0,
+        0,
+        176,
+        176
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 176,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/worker-anxious.png",
+      "output": "assets/ui/worker-anxious.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        25,
+        8,
+        149,
+        193
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        66,
+        39,
+        190,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_02_07.png",
+      "output": "assets/ui/worker-anxious-face.png",
+      "kind": "face",
+      "sourceSize": [
+        178,
+        214
+      ],
+      "crop": [
+        0,
+        0,
+        178,
+        178
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 178,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/worker-smug.png",
+      "output": "assets/ui/worker-smug.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        194
+      ],
+      "crop": [
+        29,
+        6,
+        151,
+        193
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        67,
+        37,
+        189,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_02_08.png",
+      "output": "assets/ui/worker-smug-face.png",
+      "kind": "face",
+      "sourceSize": [
+        177,
+        215
+      ],
+      "crop": [
+        0,
+        0,
+        177,
+        177
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 177,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/customer-normal.png",
+      "output": "assets/ui/customer-normal.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        166
+      ],
+      "crop": [
+        34,
+        2,
+        153,
+        165
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        68,
+        61,
+        187,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_03_01.png",
+      "output": "assets/ui/customer-normal-face.png",
+      "kind": "face",
+      "sourceSize": [
+        178,
+        220
+      ],
+      "crop": [
+        2,
+        0,
+        178,
+        178
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        2,
+        0,
+        127,
+        128
+      ],
+      "headHeight": 178,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/customer-happy.png",
+      "output": "assets/ui/customer-happy.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        166
+      ],
+      "crop": [
+        31,
+        3,
+        155,
+        165
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        66,
+        62,
+        190,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_03_02.png",
+      "output": "assets/ui/customer-happy-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        219
+      ],
+      "crop": [
+        0,
+        0,
+        178,
+        181
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        2,
+        0,
+        125,
+        128
+      ],
+      "headHeight": 181,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/customer-angry.png",
+      "output": "assets/ui/customer-angry.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        166
+      ],
+      "crop": [
+        26,
+        4,
+        166,
+        166
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        58,
+        62,
+        198,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_03_03.png",
+      "output": "assets/ui/customer-angry-face.png",
+      "kind": "face",
+      "sourceSize": [
+        188,
+        216
+      ],
+      "crop": [
+        0,
+        0,
+        188,
+        188
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        1,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 188,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/customer-confused.png",
+      "output": "assets/ui/customer-confused.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        166
+      ],
+      "crop": [
+        24,
+        0,
+        162,
+        165
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        59,
+        59,
+        197,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_03_04.png",
+      "output": "assets/ui/customer-confused-face.png",
+      "kind": "face",
+      "sourceSize": [
+        177,
+        216
+      ],
+      "crop": [
+        0,
+        0,
+        171,
+        177
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        2,
+        0,
+        124,
+        128
+      ],
+      "headHeight": 177,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/customer-surprised.png",
+      "output": "assets/ui/customer-surprised.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        166
+      ],
+      "crop": [
+        25,
+        0,
+        166,
+        165
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        57,
+        59,
+        198,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_03_05.png",
+      "output": "assets/ui/customer-surprised-face.png",
+      "kind": "face",
+      "sourceSize": [
+        179,
+        220
+      ],
+      "crop": [
+        0,
+        0,
+        179,
+        179
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 179,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/customer-sad.png",
+      "output": "assets/ui/customer-sad.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        166
+      ],
+      "crop": [
+        22,
+        8,
+        150,
+        165
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        64,
+        67,
+        192,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_03_06.png",
+      "output": "assets/ui/customer-sad-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        209
+      ],
+      "crop": [
+        0,
+        0,
+        178,
+        181
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        1,
+        0,
+        125,
+        128
+      ],
+      "headHeight": 181,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/customer-anxious.png",
+      "output": "assets/ui/customer-anxious.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        166
+      ],
+      "crop": [
+        26,
+        4,
+        148,
+        165
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        67,
+        63,
+        189,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_03_07.png",
+      "output": "assets/ui/customer-anxious-face.png",
+      "kind": "face",
+      "sourceSize": [
+        177,
+        214
+      ],
+      "crop": [
+        0,
+        0,
+        176,
+        177
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        126,
+        128
+      ],
+      "headHeight": 177,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/customer-smug.png",
+      "output": "assets/ui/customer-smug.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        166
+      ],
+      "crop": [
+        25,
+        4,
+        144,
+        166
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        68,
+        62,
+        187,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_03_08.png",
+      "output": "assets/ui/customer-smug-face.png",
+      "kind": "face",
+      "sourceSize": [
+        174,
+        213
+      ],
+      "crop": [
+        0,
+        0,
+        174,
+        174
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 174,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/devil-normal.png",
+      "output": "assets/ui/devil-normal.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        139
+      ],
+      "crop": [
+        39,
+        5,
+        152,
+        136
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        71,
+        93,
+        184,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_04_01.png",
+      "output": "assets/ui/devil-normal-face.png",
+      "kind": "face",
+      "sourceSize": [
+        188,
+        208
+      ],
+      "crop": [
+        0,
+        0,
+        188,
+        188
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 188,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/devil-happy.png",
+      "output": "assets/ui/devil-happy.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        139
+      ],
+      "crop": [
+        31,
+        5,
+        153,
+        136
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        67,
+        93,
+        189,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_04_02.png",
+      "output": "assets/ui/devil-happy-face.png",
+      "kind": "face",
+      "sourceSize": [
+        189,
+        204
+      ],
+      "crop": [
+        2,
+        0,
+        189,
+        189
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        2,
+        0,
+        127,
+        128
+      ],
+      "headHeight": 189,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/devil-angry.png",
+      "output": "assets/ui/devil-angry.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        139
+      ],
+      "crop": [
+        25,
+        7,
+        163,
+        137
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        59,
+        94,
+        197,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_04_03.png",
+      "output": "assets/ui/devil-angry-face.png",
+      "kind": "face",
+      "sourceSize": [
+        193,
+        209
+      ],
+      "crop": [
+        0,
+        0,
+        193,
+        193
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 193,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/devil-confused.png",
+      "output": "assets/ui/devil-confused.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        139
+      ],
+      "crop": [
+        29,
+        0,
+        156,
+        136
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        64,
+        88,
+        191,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_04_04.png",
+      "output": "assets/ui/devil-confused-face.png",
+      "kind": "face",
+      "sourceSize": [
+        179,
+        202
+      ],
+      "crop": [
+        0,
+        0,
+        179,
+        179
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 179,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/devil-surprised.png",
+      "output": "assets/ui/devil-surprised.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        139
+      ],
+      "crop": [
+        31,
+        0,
+        160,
+        136
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        63,
+        88,
+        192,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_04_05.png",
+      "output": "assets/ui/devil-surprised-face.png",
+      "kind": "face",
+      "sourceSize": [
+        192,
+        208
+      ],
+      "crop": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 192,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/devil-sad.png",
+      "output": "assets/ui/devil-sad.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        139
+      ],
+      "crop": [
+        32,
+        10,
+        151,
+        136
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        68,
+        98,
+        187,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_04_06.png",
+      "output": "assets/ui/devil-sad-face.png",
+      "kind": "face",
+      "sourceSize": [
+        183,
+        190
+      ],
+      "crop": [
+        0,
+        0,
+        183,
+        183
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 183,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/devil-anxious.png",
+      "output": "assets/ui/devil-anxious.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        139
+      ],
+      "crop": [
+        29,
+        9,
+        149,
+        136
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        68,
+        97,
+        188,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_04_07.png",
+      "output": "assets/ui/devil-anxious-face.png",
+      "kind": "face",
+      "sourceSize": [
+        191,
+        197
+      ],
+      "crop": [
+        0,
+        0,
+        191,
+        191
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 191,
+      "headBox": null
+    },
+    {
+      "source": "assets/cast/devil-smug.png",
+      "output": "assets/ui/devil-smug.png",
+      "kind": "body",
+      "sourceSize": [
+        181,
+        139
+      ],
+      "crop": [
+        28,
+        8,
+        141,
+        136
+      ],
+      "size": [
+        256,
+        224
+      ],
+      "alphaBounds": [
+        71,
+        96,
+        184,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/portraits/portraits_04_08.png",
+      "output": "assets/ui/devil-smug-face.png",
+      "kind": "face",
+      "sourceSize": [
+        181,
+        199
+      ],
+      "crop": [
+        0,
+        0,
+        181,
+        181
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "headHeight": 181,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_01_01.png",
+      "output": "assets/ui/guest-1.png",
+      "kind": "guest",
+      "sourceSize": [
+        126,
+        194
+      ],
+      "crop": [
+        0,
+        0,
+        126,
+        194
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        77,
+        30,
+        203,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_01_02.png",
+      "output": "assets/ui/guest-2.png",
+      "kind": "guest",
+      "sourceSize": [
+        131,
+        200
+      ],
+      "crop": [
+        0,
+        0,
+        131,
+        200
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        74,
+        24,
+        205,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_01_03.png",
+      "output": "assets/ui/guest-3.png",
+      "kind": "guest",
+      "sourceSize": [
+        214,
+        201
+      ],
+      "crop": [
+        0,
+        0,
+        214,
+        201
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        33,
+        23,
+        247,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_01_04.png",
+      "output": "assets/ui/guest-4.png",
+      "kind": "guest",
+      "sourceSize": [
+        150,
+        201
+      ],
+      "crop": [
+        0,
+        0,
+        150,
+        201
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        65,
+        23,
+        215,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_01_05.png",
+      "output": "assets/ui/guest-5.png",
+      "kind": "guest",
+      "sourceSize": [
+        140,
+        192
+      ],
+      "crop": [
+        0,
+        0,
+        140,
+        192
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        70,
+        32,
+        210,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_01_06.png",
+      "output": "assets/ui/guest-6.png",
+      "kind": "guest",
+      "sourceSize": [
+        140,
+        192
+      ],
+      "crop": [
+        0,
+        0,
+        140,
+        192
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        70,
+        32,
+        210,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_01_07.png",
+      "output": "assets/ui/guest-7.png",
+      "kind": "guest",
+      "sourceSize": [
+        163,
+        185
+      ],
+      "crop": [
+        0,
+        0,
+        163,
+        185
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        58,
+        39,
+        221,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_01_08.png",
+      "output": "assets/ui/guest-8.png",
+      "kind": "guest",
+      "sourceSize": [
+        165,
+        185
+      ],
+      "crop": [
+        0,
+        0,
+        165,
+        185
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        57,
+        39,
+        222,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_02_01.png",
+      "output": "assets/ui/guest-9.png",
+      "kind": "guest",
+      "sourceSize": [
+        146,
+        186
+      ],
+      "crop": [
+        0,
+        0,
+        146,
+        186
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        67,
+        38,
+        213,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_02_02.png",
+      "output": "assets/ui/guest-10.png",
+      "kind": "guest",
+      "sourceSize": [
+        173,
+        196
+      ],
+      "crop": [
+        0,
+        0,
+        173,
+        196
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        53,
+        28,
+        226,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_02_03.png",
+      "output": "assets/ui/guest-11.png",
+      "kind": "guest",
+      "sourceSize": [
+        179,
+        206
+      ],
+      "crop": [
+        0,
+        0,
+        179,
+        206
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        50,
+        18,
+        229,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_02_04.png",
+      "output": "assets/ui/guest-12.png",
+      "kind": "guest",
+      "sourceSize": [
+        167,
+        208
+      ],
+      "crop": [
+        0,
+        0,
+        167,
+        208
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        56,
+        16,
+        223,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_02_05.png",
+      "output": "assets/ui/guest-13.png",
+      "kind": "guest",
+      "sourceSize": [
+        174,
+        205
+      ],
+      "crop": [
+        0,
+        0,
+        174,
+        205
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        53,
+        19,
+        227,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_02_06.png",
+      "output": "assets/ui/guest-14.png",
+      "kind": "guest",
+      "sourceSize": [
+        229,
+        203
+      ],
+      "crop": [
+        0,
+        0,
+        229,
+        203
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        25,
+        21,
+        254,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_02_07.png",
+      "output": "assets/ui/guest-15.png",
+      "kind": "guest",
+      "sourceSize": [
+        133,
+        202
+      ],
+      "crop": [
+        0,
+        0,
+        133,
+        202
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        73,
+        22,
+        206,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_02_08.png",
+      "output": "assets/ui/guest-16.png",
+      "kind": "guest",
+      "sourceSize": [
+        152,
+        184
+      ],
+      "crop": [
+        0,
+        0,
+        152,
+        184
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        64,
+        40,
+        216,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_03_01.png",
+      "output": "assets/ui/guest-17.png",
+      "kind": "guest",
+      "sourceSize": [
+        168,
+        176
+      ],
+      "crop": [
+        0,
+        0,
+        168,
+        176
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        56,
+        48,
+        224,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_03_02.png",
+      "output": "assets/ui/guest-18.png",
+      "kind": "guest",
+      "sourceSize": [
+        181,
+        186
+      ],
+      "crop": [
+        0,
+        0,
+        181,
+        186
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        49,
+        38,
+        230,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_03_03.png",
+      "output": "assets/ui/guest-19.png",
+      "kind": "guest",
+      "sourceSize": [
+        150,
+        182
+      ],
+      "crop": [
+        0,
+        0,
+        150,
+        182
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        65,
+        42,
+        215,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_03_04.png",
+      "output": "assets/ui/guest-20.png",
+      "kind": "guest",
+      "sourceSize": [
+        148,
+        187
+      ],
+      "crop": [
+        0,
+        0,
+        148,
+        187
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        66,
+        37,
+        214,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_03_05.png",
+      "output": "assets/ui/guest-21.png",
+      "kind": "guest",
+      "sourceSize": [
+        204,
+        187
+      ],
+      "crop": [
+        0,
+        0,
+        204,
+        187
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        38,
+        37,
+        242,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_03_06.png",
+      "output": "assets/ui/guest-22.png",
+      "kind": "guest",
+      "sourceSize": [
+        152,
+        184
+      ],
+      "crop": [
+        0,
+        0,
+        152,
+        184
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        64,
+        40,
+        216,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_03_07.png",
+      "output": "assets/ui/guest-23.png",
+      "kind": "guest",
+      "sourceSize": [
+        150,
+        182
+      ],
+      "crop": [
+        0,
+        0,
+        150,
+        182
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        65,
+        42,
+        215,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_03_08.png",
+      "output": "assets/ui/guest-24.png",
+      "kind": "guest",
+      "sourceSize": [
+        140,
+        183
+      ],
+      "crop": [
+        0,
+        0,
+        140,
+        183
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        70,
+        41,
+        210,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_04_01.png",
+      "output": "assets/ui/guest-25.png",
+      "kind": "guest",
+      "sourceSize": [
+        134,
+        184
+      ],
+      "crop": [
+        0,
+        0,
+        134,
+        184
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        73,
+        40,
+        207,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_04_02.png",
+      "output": "assets/ui/guest-26.png",
+      "kind": "guest",
+      "sourceSize": [
+        180,
+        194
+      ],
+      "crop": [
+        0,
+        0,
+        180,
+        194
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        50,
+        30,
+        230,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_04_03.png",
+      "output": "assets/ui/guest-27.png",
+      "kind": "guest",
+      "sourceSize": [
+        194,
+        175
+      ],
+      "crop": [
+        0,
+        0,
+        194,
+        175
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        43,
+        49,
+        237,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_04_04.png",
+      "output": "assets/ui/guest-28.png",
+      "kind": "guest",
+      "sourceSize": [
+        138,
+        187
+      ],
+      "crop": [
+        0,
+        0,
+        138,
+        187
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        71,
+        37,
+        209,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_04_05.png",
+      "output": "assets/ui/guest-29.png",
+      "kind": "guest",
+      "sourceSize": [
+        139,
+        183
+      ],
+      "crop": [
+        0,
+        0,
+        139,
+        183
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        70,
+        41,
+        209,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_04_06.png",
+      "output": "assets/ui/guest-30.png",
+      "kind": "guest",
+      "sourceSize": [
+        209,
+        183
+      ],
+      "crop": [
+        0,
+        0,
+        209,
+        183
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        35,
+        41,
+        244,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_04_07.png",
+      "output": "assets/ui/guest-31.png",
+      "kind": "guest",
+      "sourceSize": [
+        157,
+        187
+      ],
+      "crop": [
+        0,
+        0,
+        157,
+        187
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        61,
+        37,
+        218,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_04_08.png",
+      "output": "assets/ui/guest-32.png",
+      "kind": "guest",
+      "sourceSize": [
+        171,
+        189
+      ],
+      "crop": [
+        0,
+        0,
+        171,
+        189
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        54,
+        35,
+        225,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_05_01.png",
+      "output": "assets/ui/guest-33.png",
+      "kind": "guest",
+      "sourceSize": [
+        141,
+        192
+      ],
+      "crop": [
+        0,
+        0,
+        141,
+        192
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        69,
+        32,
+        210,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_05_02.png",
+      "output": "assets/ui/guest-34.png",
+      "kind": "guest",
+      "sourceSize": [
+        156,
+        195
+      ],
+      "crop": [
+        0,
+        0,
+        156,
+        195
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        62,
+        29,
+        218,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_05_03.png",
+      "output": "assets/ui/guest-35.png",
+      "kind": "guest",
+      "sourceSize": [
+        133,
+        195
+      ],
+      "crop": [
+        0,
+        0,
+        133,
+        195
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        73,
+        29,
+        206,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_05_04.png",
+      "output": "assets/ui/guest-36.png",
+      "kind": "guest",
+      "sourceSize": [
+        166,
+        195
+      ],
+      "crop": [
+        0,
+        0,
+        166,
+        195
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        57,
+        29,
+        223,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_05_05.png",
+      "output": "assets/ui/guest-37.png",
+      "kind": "guest",
+      "sourceSize": [
+        140,
+        192
+      ],
+      "crop": [
+        0,
+        0,
+        140,
+        192
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        70,
+        32,
+        210,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_05_06.png",
+      "output": "assets/ui/guest-38.png",
+      "kind": "guest",
+      "sourceSize": [
+        176,
+        195
+      ],
+      "crop": [
+        0,
+        0,
+        176,
+        195
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        52,
+        29,
+        228,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_05_07.png",
+      "output": "assets/ui/guest-39.png",
+      "kind": "guest",
+      "sourceSize": [
+        184,
+        197
+      ],
+      "crop": [
+        0,
+        0,
+        184,
+        197
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        48,
+        27,
+        232,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/customers/customers_05_08.png",
+      "output": "assets/ui/guest-40.png",
+      "kind": "guest",
+      "sourceSize": [
+        167,
+        193
+      ],
+      "crop": [
+        0,
+        0,
+        167,
+        193
+      ],
+      "size": [
+        280,
+        224
+      ],
+      "alphaBounds": [
+        56,
+        31,
+        223,
+        224
+      ],
+      "headHeight": null,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_01_01.png",
+      "output": "assets/ui/regular-1-1-face.png",
+      "kind": "face",
+      "sourceSize": [
+        192,
+        276
+      ],
+      "crop": [
+        5,
+        0,
+        177,
+        145
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        2,
+        10,
+        126,
+        118
+      ],
+      "headHeight": 145,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_01_02.png",
+      "output": "assets/ui/regular-1-2-face.png",
+      "kind": "face",
+      "sourceSize": [
+        209,
+        276
+      ],
+      "crop": [
+        0,
+        0,
+        201,
+        145
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        17,
+        127,
+        111
+      ],
+      "headHeight": 145,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_01_03.png",
+      "output": "assets/ui/regular-1-3-face.png",
+      "kind": "face",
+      "sourceSize": [
+        223,
+        273
+      ],
+      "crop": [
+        0,
+        0,
+        214,
+        145
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        19,
+        127,
+        108
+      ],
+      "headHeight": 145,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_01_04.png",
+      "output": "assets/ui/regular-1-4-face.png",
+      "kind": "face",
+      "sourceSize": [
+        217,
+        275
+      ],
+      "crop": [
+        4,
+        0,
+        217,
+        145
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        1,
+        19,
+        128,
+        109
+      ],
+      "headHeight": 145,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_02_01.png",
+      "output": "assets/ui/regular-2-1-face.png",
+      "kind": "face",
+      "sourceSize": [
+        223,
+        282
+      ],
+      "crop": [
+        0,
+        0,
+        144,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        2,
+        7,
+        126,
+        121
+      ],
+      "headHeight": null,
+      "headBox": [
+        40,
+        0,
+        184,
+        130
+      ]
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_02_02.png",
+      "output": "assets/ui/regular-2-2-face.png",
+      "kind": "face",
+      "sourceSize": [
+        226,
+        286
+      ],
+      "crop": [
+        0,
+        0,
+        152,
+        130
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        1,
+        10,
+        127,
+        117
+      ],
+      "headHeight": null,
+      "headBox": [
+        26,
+        0,
+        178,
+        130
+      ]
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_02_03.png",
+      "output": "assets/ui/regular-2-3-face.png",
+      "kind": "face",
+      "sourceSize": [
+        229,
+        292
+      ],
+      "crop": [
+        0,
+        0,
+        159,
+        140
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        1,
+        7,
+        126,
+        120
+      ],
+      "headHeight": null,
+      "headBox": [
+        26,
+        0,
+        185,
+        140
+      ]
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_02_04.png",
+      "output": "assets/ui/regular-2-4-face.png",
+      "kind": "face",
+      "sourceSize": [
+        222,
+        285
+      ],
+      "crop": [
+        0,
+        0,
+        167,
+        140
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        10,
+        128,
+        117
+      ],
+      "headHeight": null,
+      "headBox": [
+        28,
+        0,
+        195,
+        140
+      ]
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_03_01.png",
+      "output": "assets/ui/regular-3-1-face.png",
+      "kind": "face",
+      "sourceSize": [
+        244,
+        320
+      ],
+      "crop": [
+        52,
+        0,
+        244,
+        160
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        1,
+        10,
+        128,
+        118
+      ],
+      "headHeight": 160,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_03_02.png",
+      "output": "assets/ui/regular-3-2-face.png",
+      "kind": "face",
+      "sourceSize": [
+        264,
+        313
+      ],
+      "crop": [
+        0,
+        0,
+        214,
+        160
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        15,
+        127,
+        113
+      ],
+      "headHeight": 160,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_03_03.png",
+      "output": "assets/ui/regular-3-3-face.png",
+      "kind": "face",
+      "sourceSize": [
+        271,
+        313
+      ],
+      "crop": [
+        0,
+        0,
+        253,
+        160
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        0,
+        22,
+        128,
+        106
+      ],
+      "headHeight": 160,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_03_04.png",
+      "output": "assets/ui/regular-3-4-face.png",
+      "kind": "face",
+      "sourceSize": [
+        240,
+        306
+      ],
+      "crop": [
+        20,
+        0,
+        231,
+        160
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        1,
+        14,
+        127,
+        113
+      ],
+      "headHeight": 160,
+      "headBox": null
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_04_01.png",
+      "output": "assets/ui/regular-4-1-face.png",
+      "kind": "face",
+      "sourceSize": [
+        219,
+        311
+      ],
+      "crop": [
+        7,
+        0,
+        131,
+        145
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        11,
+        1,
+        118,
+        127
+      ],
+      "headHeight": null,
+      "headBox": [
+        33,
+        0,
+        164,
+        145
+      ]
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_04_02.png",
+      "output": "assets/ui/regular-4-2-face.png",
+      "kind": "face",
+      "sourceSize": [
+        208,
+        309
+      ],
+      "crop": [
+        0,
+        0,
+        135,
+        145
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        5,
+        1,
+        123,
+        127
+      ],
+      "headHeight": null,
+      "headBox": [
+        43,
+        0,
+        178,
+        145
+      ]
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_04_03.png",
+      "output": "assets/ui/regular-4-3-face.png",
+      "kind": "face",
+      "sourceSize": [
+        263,
+        310
+      ],
+      "crop": [
+        0,
+        0,
+        136,
+        145
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        4,
+        1,
+        123,
+        127
+      ],
+      "headHeight": null,
+      "headBox": [
+        68,
+        0,
+        204,
+        145
+      ]
+    },
+    {
+      "source": "assets/work-import/special_customers/special_customers_04_04.png",
+      "output": "assets/ui/regular-4-4-face.png",
+      "kind": "face",
+      "sourceSize": [
+        252,
+        307
+      ],
+      "crop": [
+        0,
+        0,
+        141,
+        145
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        3,
+        1,
+        124,
+        127
+      ],
+      "headHeight": null,
+      "headBox": [
+        58,
+        0,
+        199,
+        145
+      ]
+    }
+  ]
+}
