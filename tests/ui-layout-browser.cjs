@@ -50,6 +50,33 @@ const {chromium,webkit}=require('playwright'),assert=require('node:assert/strict
    else if(await p.locator('#reportContinue').count()){await check('report',true);break;}
    else break;
   }
+  // The two reported iPhone screens come from successive weeks of one real run.
+  const failed = G.play(G.initial(2), "shrink");
+  assert.equal(failed.lastResult.performanceTier, "failure");
+  failed.presentation = {week:1,stage:"outcome",newsIndex:0};
+  await load(failed);
+  assert.deepEqual(await p.locator(".impact-grid dd").allTextContents(), ["-4","-4","+9"]);
+  assert.equal(await p.locator(".portrait").count(), 1);
+  assert.equal(await p.locator(".dialogue").getAttribute("data-mood"), "angry");
+  const visibleAbove = async (selector, footer) => {
+    const item = await p.locator(selector).boundingBox();
+    const end = await p.locator(footer).boundingBox();
+    assert(item && item.y >= 0 && item.y + item.height <= end.y, selector + " inside first viewport");
+  };
+  await visibleAbove(".result-summary details", ".action-bar");
+  await p.screenshot({path:path.join(out,width+"-shrink-failure.png")});
+  await p.locator(".result-summary summary").click();
+  assert.equal(await p.locator(".portrait").count(), 1);
+  failed.presentation = null;
+  await load(failed);
+  assert.equal(await p.locator(".character,.portrait,.guest").count(), 0);
+  assert((await p.locator(".brief-note").innerText()).includes("30人"));
+  await visibleAbove("#openProposals", ".nav");
+  await p.screenshot({path:path.join(out,width+"-register-home.png")});
+  await p.locator("#openProposals").click();
+  assert.equal(await p.locator("[data-choice]").count(), 4);
+  assert.equal(await p.locator("#extras").getAttribute("open"), null);
+  await p.screenshot({path:path.join(out,width+"-register-options.png")});
   const s=G.initial(12,{difficulty:'easy'}),played=G.play(s,G.weeklyOffers(s)[0].id);
   Object.assign(played.lastResult,{accidentId:'complaint',accidentTitle:'苦情への対応',accidentText:'商品の説明を求められています。',accidentPositive:false,incidentCost:20000,accidentResponse:null});played.presentation={week:1,stage:'news',newsIndex:0};await load(played);
   for(let i=0;i<15&&await p.locator('#newsNext').count();i++)await p.locator('#newsNext').click();await check('accident-choice',false);assert.equal(await p.locator('#accidentIgnore').count(),1);

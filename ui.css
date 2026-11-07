@@ -327,6 +327,7 @@ header small {
   color: var(--muted);
 }
 .dialogue p {
+  white-space: pre-line;
   font-size: 14px;
   margin-top: 3px;
   line-height: 1.6;
@@ -1000,3 +1001,14 @@ meter {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; }
 }
+
+.floor-summary { border-block-start: 1px solid var(--line); margin: 14px 0 0; padding-top: 10px; }
+.floor-summary small { display: block; color: var(--muted); }
+.brief-note .speaker { display: inline; font-weight: bold; }
+.impact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 12px 0; border-block: 1px solid var(--line); }
+.impact-grid div { text-align: center; }
+.impact-grid dt { font-size: 13px; }
+.impact-grid dd { margin: 2px 0 0; font-size: 22px; font-weight: bold; font-variant-numeric: tabular-nums; }
+.result-heading[data-tier="failure"] h1 { color: #943a2e; }
+.result-heading[data-tier="great"] h1,.result-heading[data-tier="success"] h1 { color: var(--green); }
+.result-summary h2 { margin-bottom: 6px; }

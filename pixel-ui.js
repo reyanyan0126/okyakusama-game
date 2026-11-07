@@ -144,7 +144,17 @@
     text = root.PlainCopy ? root.PlainCopy.text(text) : canon.rewrite(text);
     const parts=canon.split(text);
     if(!parts.some(p=>p.speaker))return names[role]?bubble(role,canon.line(role,text),moods[mood]?mood:'normal'):`<p>${esc(text)}</p>`;
-    return `<div class="conversation">${parts.map(p=>p.speaker?bubble(p.role,p.text,statePriority&&p.role===role?mood:emotion(p.text,p.role===role?mood:'normal'),p.speaker):p.text.replace(/[。・\s]/g,'')?`<p class="dialogue-aside">${esc(p.text)}</p>`:'').join('')}</div>`;
+    const groups = [];
+    for (const p of parts) {
+      if (!p.speaker && !p.text.replace(/[。・\s]/g, "")) continue;
+      const prev = groups.at(-1);
+      if (p.speaker && prev?.speaker === p.speaker) prev.lines.push(p.text);
+      else groups.push({...p, lines:[p.text]});
+    }
+    return `<div class="conversation">${groups.map(p => {
+      if (!p.speaker) return `<p class="dialogue-aside">${esc(p.text)}</p>`;
+      return bubble(p.role, p.lines.join("\n"), statePriority && p.role === role ? mood : emotion(p.text,p.role===role?mood:"normal"), p.speaker);
+    }).join("")}</div>`;
   }
   function narrative(text) {
     text = root.PlainCopy ? root.PlainCopy.text(text) : canon.rewrite(text);
@@ -188,7 +198,7 @@
     money,
     icon,
     character,
-    moods,
+    moods, names,
     stateMood,
     scene, guests, policyIcon, actor, station, activity, floor, prologueScene, visitor, customerProfiles, specialProfiles,
     storeState,

@@ -34,3 +34,9 @@ test('store actions use state, not random people, without changing simulation',(
  assert.equal(U.guests(s,'news'),'');assert.equal(U.guests(s,'voice'),'');assert.equal(JSON.stringify(s),before);
  const app=fs.readFileSync('app.js','utf8');assert(!app.includes('U.scene('));assert(!app.includes('U.guests('));
 });
+
+test('consecutive lines share a portrait until the speaker changes', () => {
+  const html = U.dialogue('boss','社長「一つ目」 社長「二つ目」 店長「確認します」社長「三つ目」');
+  assert.equal((html.match(/class="portrait"/g)||[]).length,3);
+  for(const line of ['一つ目','二つ目','確認します','三つ目']) assert(html.includes(line));
+});
