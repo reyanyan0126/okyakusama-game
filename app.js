@@ -163,7 +163,7 @@
     const taskTitle = window.PlainCopy.text(brief.title).split(/(?:社長|店長)「/)[0].trim();
     const field = `<p class="floor-summary" data-action="${esc(activity.action)}"><small>現在の売場</small> ${esc(U.names[activity.role])} · ${esc(activity.action)}</p>`;
     render(
-      `<header><span class="brand">お客様のために。</span><span class="week">第${Math.min(game.week, G.campaignWeeks(game))}週 / ${G.campaignWeeks(game)}</span></header><div class="rule"><i style="width:${Math.min(100, ((game.week - 1) / G.campaignWeeks(game)) * 100)}%"></i></div><section class="stack"><div class="row"><h1>モグモグマート</h1><small>${esc({ normal: "営業中", busy: "繁盛", shortstaff: "人手不足", fire: "炎上", crisis: "資金危機", closed: "閉店" }[U.storeState(game)])}</small></div><div class="stats"><button class="stat" data-finance="store"><span>${icon("store")}店の資金</span><strong>${(game.cash / 10000).toFixed(1)}<small>万円</small></strong></button><button class="stat" data-finance="personal"><span>${icon("wallet")}自分の財布</span><strong>${(game.personalCash / 10000).toFixed(1)}<small>万円</small></strong></button><div class="stat"><span>${icon("heart")}評判</span><strong>${game.storeRep}<small> / 100</small></strong></div></div><article class="task panel"><small>今週の課題</small><h2>${esc(taskTitle)}</h2>${quote ? `<p class="brief-note"><span class="speaker">${esc(quote.speaker)}</span>「${esc(quote.text)}」</p>` : ""}${field}${button("openProposals", game.rescuePending ? "再建を相談する" : game.finished ? "結末を見る" : "作戦を選ぶ", "primary")}</article><div class="home-tools"><button data-go="status" class="quiet">店舗の詳細</button>${game.lastResult ? button("lastReport", "前週の決算", "quiet") : ""}</div></section>`,
+      `<header><span class="brand">モグモグマート</span><span class="week">第${Math.min(game.week, G.campaignWeeks(game))}週 / ${G.campaignWeeks(game)}</span></header><div class="rule"><i style="width:${Math.min(100, ((game.week - 1) / G.campaignWeeks(game)) * 100)}%"></i></div><section class="stack"><div class="stats"><button class="stat" data-finance="store"><span>${icon("store")}店の資金</span><strong>${(game.cash / 10000).toFixed(1)}<small>万円</small></strong></button><button class="stat" data-finance="personal"><span>${icon("wallet")}自分の財布</span><strong>${(game.personalCash / 10000).toFixed(1)}<small>万円</small></strong></button><div class="stat"><span>${icon("heart")}評判</span><strong>${game.storeRep}<small> / 100</small></strong></div></div><article class="task panel"><small>今週の課題</small><h1>${esc(taskTitle)}</h1>${quote ? `<p class="brief-note"><span class="speaker">${esc(quote.speaker)}</span>「${esc(quote.text)}」</p>` : ""}${field}${button("openProposals", game.rescuePending ? "再建を相談する" : game.finished ? "結末を見る" : "作戦を選ぶ", "primary")}</article><div class="home-tools"><button data-go="status" class="quiet">店舗の詳細</button>${game.lastResult ? button("lastReport", "前週の決算", "quiet") : ""}</div></section>`,
       true,
     );
   }
@@ -264,7 +264,7 @@
     const policy = G.STORIES.POLICIES_BY_ID[h.actionId];
     const source = window.PlainCopy.text(policy?.[tier] || h.storyEvent?.text || "");
     const parts = window.CharacterCanon.split(source);
-    const facts = parts.filter(part => !part.speaker).map(part => part.text).join("").replace(/^[。・\s]+/, "");
+    const facts = parts.find(part => !part.speaker && /[^。・\s]/.test(part.text))?.text.match(/[^。・\s][^。]*。?/)?.[0];
     const summary = facts || {
       failure: "現場は手順に追われ、狙った効果を十分に出せなかった。",
       success: "予定どおりに作戦を実行できた。",
@@ -280,7 +280,7 @@
       <div class="result-heading" data-tier="${esc(tier)}"><span class="eyebrow">第${h.week}週・作戦の結果</span>
         <h1>${{failure:"失敗…",success:"成功！",great:"大成功！"}[tier]}</h1></div>
       <div><h2>${esc(h.actionName)}</h2><p>${esc(summary)}</p></div>
-      ${impact ? `<dl class="impact-grid">${[["評判",impact.rep],["満足度",impact.sat],["炎上度",impact.fire]].map(([label,n]) => `<div><dt>${label}</dt><dd>${signed(n)}</dd></div>`).join("")}</dl>` : "<p>旧セーブには作戦単独の記録がありません。</p>"}
+      ${impact ? `<dl class="impact-grid">${[["評判",impact.rep],["満足度",impact.sat],["炎上度",impact.fire]].map(([label,n]) => `<div><dt>${label}</dt><dd data-trend="${(label === "炎上度" ? -n : n) > 0 ? "better" : n === 0 ? "same" : "worse"}">${signed(n)}</dd></div>`).join("")}</dl>` : "<p>旧セーブには作戦単独の記録がありません。</p>"}
       ${dialogue(reaction.role, reaction.text, mood)}
       ${odds ? `<small>実行前の見込み　失敗 ${odds.failure}% ／ 成功 ${odds.success}% ／ 大成功 ${odds.great}%</small>` : ""}
       ${notes.length ? details("作戦の詳細を見る", notes.map(text => `<p>${esc(text)}</p>`).join("")) : ""}

@@ -332,7 +332,7 @@ header small {
   margin-top: 3px;
   line-height: 1.6;
 }
-.task h2 {
+.task h1 {
   margin-bottom: 8px;
 }
 .task .primary {
@@ -1007,6 +1007,8 @@ meter {
 .brief-note .speaker { display: inline; font-weight: bold; }
 .impact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 12px 0; border-block: 1px solid var(--line); }
 .impact-grid div { text-align: center; }
+.impact-grid [data-trend="worse"] { color: #943a2e; }
+.impact-grid [data-trend="better"] { color: var(--green); }
 .impact-grid dt { font-size: 13px; }
 .impact-grid dd { margin: 2px 0 0; font-size: 22px; font-weight: bold; font-variant-numeric: tabular-nums; }
 .result-heading[data-tier="failure"] h1 { color: #943a2e; }
