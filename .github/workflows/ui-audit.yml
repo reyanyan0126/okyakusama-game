@@ -39,6 +39,9 @@ jobs:
       - run: node tests/pixel-upgrade.cjs
         env:
           BROWSER: ${{ matrix.browser }}
+      - run: node tests/weekly-scenes-browser.cjs
+        env:
+          BROWSER: ${{ matrix.browser }}
       - run: node tests/pixel-browser.cjs
         env:
           BROWSER: ${{ matrix.browser }}
@@ -86,6 +89,10 @@ jobs:
           node-version: '22'
       - run: npm ci
       - run: node tests/wait-public.cjs
+      - run: node tests/weekly-scenes-browser.cjs
+        env:
+          BROWSER: ${{ matrix.browser }}
+          BASE_URL: https://reyanyan0126.github.io/okyakusama-game/
       - run: node tests/pixel-browser.cjs
         env:
           BROWSER: ${{ matrix.browser }}

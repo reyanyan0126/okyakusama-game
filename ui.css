@@ -1014,3 +1014,34 @@ meter {
 .result-heading[data-tier="failure"] h1 { color: #943a2e; }
 .result-heading[data-tier="great"] h1,.result-heading[data-tier="success"] h1 { color: var(--green); }
 .result-summary h2 { margin-bottom: 6px; }
+
+/* Bound the decision surface while leaving type and illustrations readable. */
+.decision { gap: 8px; }
+.choice[aria-checked="true"] { background: #e7f2df; border-color: #315c49; }
+.sub-decisions, .wallet-tabs, .vitals { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+.sub-decisions button, .wallet-tabs button { width: 100%; }
+.wallet-tabs strong, .trust meter { display: block; }
+.wallet-tabs [aria-pressed="true"] { background: var(--green); color: white; }
+.estimate { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px; padding: 8px; background: #e9efdf; font-size: 12px; }
+.witness, .brief-note { margin: 0; border-left: 3px solid #b69a56; padding: 5px 9px; font-size: 13px; }
+.decision-sheet { color: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; width: min(94vw,480px); max-height: 85dvh; padding: 18px; }
+.decision-sheet::backdrop { background: #182a23a8; }
+.decision-sheet form { margin-top: 10px; }
+.profit-bars { margin: 0; border-block: 1px solid var(--line); padding: 8px 0; }
+.profit-bars div { display: grid; grid-template-columns: 6em 1fr; align-items: center; margin: 5px 0; }
+.profit-bars dd { margin: 0; position: relative; text-align: right; }
+.profit-bars i { position: absolute; inset: 0 auto 0 0; }
+.profit-bars .out { background: #f2d5c8; }
+.profit-bars .in { background: #c4dfba; }
+.profit-bars b { position: relative; padding-inline: 4px; font-variant-numeric: tabular-nums; }
+.trust { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); font-size: 12px; }
+.trust meter { width: 90%; }
+.timeline { display: grid; gap: 4px; }
+.timeline button { text-align: left; }
+.timeline b { float: right; }
+.payline { list-style: none; padding-left: 14px; border-left: 3px solid #87a488; margin-left: 8px; }
+.payline li { position: relative; padding: 5px 0; }
+.payline li::before { content: ""; position: absolute; left: -20px; top: 14px; background: var(--green); width: 9px; height: 9px; border-radius: 50%; }
+.cash-balance { color: var(--red); font-size: 20px; font-variant-numeric: tabular-nums; }
+.prologue-figure { padding: 0; }
+.task .brief-note { margin-top: 8px; }

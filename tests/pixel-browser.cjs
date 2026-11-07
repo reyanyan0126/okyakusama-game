@@ -101,7 +101,7 @@ const G = require("../engine.js"),
             return (
               r.width &&
               r.height &&
-              !e.closest("svg") &&
+              !e.closest("svg,.composed-scene") &&
               (r.right > innerWidth + 1 || r.left < -1)
             );
           })
@@ -196,13 +196,6 @@ const G = require("../engine.js"),
       await click("prologueNext");
     }
     await snap("home");
-    if(width===320){
-      const art = p.locator("img[data-fallback]").first();
-      const fallback = await art.getAttribute("data-fallback");
-      await art.evaluate(img => { img.src = "data:image/png,broken"; });
-      await p.waitForFunction(src => [...document.images].some(img => img.getAttribute("src") === src && img.complete && img.naturalWidth), fallback);
-    }
-
     // Home essentials stay in the first mobile viewport.
     const cta = await p.locator("#openProposals").boundingBox();
     assert(
@@ -211,8 +204,7 @@ const G = require("../engine.js"),
     );
     await p.locator('[data-go="status"]').click();
     await snap("status");
-    await p.getByText("現場の証言・人間関係", {exact:true}).click();
-    await snap("status-detail");
+    assert.equal(await p.locator(".trust meter").count(),3);
     await click("statusDone");
     await p.locator('[data-finance="store"]').click();
     await snap("money-store");
@@ -236,15 +228,15 @@ const G = require("../engine.js"),
       await p.locator("[data-choice]").nth(i).click();
       await snap("choice-" + i);
     }
-    await p.getByText("経営会議・現場の証言", { exact: true }).click();
-    await snap("meeting");
-    await p.getByText("追加投資・悪魔の取引", { exact: true }).click();
-    await snap("investments-devil");
-    await p.locator('[data-project="people"]').click();
-    await p.locator('[data-devil="personal"]').click();
-    await snap("optional-selected");
-    await p.locator('[data-project=""]').click();
-    await p.locator('[data-devil=""]').click();
+    for (const [kind,selected] of [["project","people"],["devil","personal"]]) {
+      await p.locator(`[data-sheet="${kind}"]`).click();
+      await snap(kind);
+      await p.locator(`dialog [data-${kind}="${selected}"]`).click();
+      assert.equal(await p.locator("dialog[open]").count(),0);
+      await p.locator(`[data-sheet="${kind}"]`).click();
+      assert.equal(await p.locator(`dialog [data-${kind}="${selected}"]`).getAttribute("aria-checked"),"true");
+      await p.locator(`dialog [data-${kind}=""]`).click();
+    }
     await click("advanceButton");
     if (await p.locator("#workingSkip").count()) await snap("working");
     await drain("week-one");

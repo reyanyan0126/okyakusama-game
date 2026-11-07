@@ -41,5 +41,5 @@ assert.equal(JSON.stringify(G.ACTIONS),before);
 assert.equal(new Set(Object.values(P.choices).map(x=>x.name)).size,53);
 assert.equal(new Set(Object.values(P.choices).map(x=>x.detail)).size,53);
 assert.equal(P.choiceDetail({id:'future-policy',detail:'fallback'}),'fallback');
-assert(fs.readFileSync('app.js','utf8').includes('window.PlainCopy.choiceDetail(a)'));
+assert(fs.readFileSync('app.js','utf8').includes('window.PlainCopy.choices[a.id]?.name'));
 console.log('PASS 53 distinct choice names/descriptions; immutable simulation inputs; unknown action fallback');
