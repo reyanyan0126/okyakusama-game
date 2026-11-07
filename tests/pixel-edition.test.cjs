@@ -17,7 +17,7 @@ for (const [f, hash] of Object.entries({
 const html = read("index.html"),
   css = read("ui.css"),
   sw = read("sw.js");
-assert.equal((html.match(/rel="stylesheet"/g) || []).length, 1);
+assert.deepEqual([...html.matchAll(/rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]), ["ui.css","scene-composer.css"]);
 assert(!html.includes("manga") && !html.includes("cast-art"));
 assert.match(css,/image-rendering:\s*pixelated/);
 assert(!css.includes("@layer legacy"));
