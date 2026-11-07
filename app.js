@@ -389,7 +389,17 @@
     const e = G.ending(game),
       g = G.goalStatus(game);
     recordAchievement(e);
-    render(`<section class="stack"><small>契約終了</small><h1>${esc(e.name)}</h1>${scene("ending",{endingId:e.id})}<p>${esc(e.line)}</p>${list([["累計利益 / 目標",money(g.profit)+" / "+money(game.contractGoal)],["評判 / 条件",game.storeRep+" / 50"],["自分の財布",money(game.personalCash)]])}${button("endRestart","もう一度はじめる","primary")}<button data-go="records">記録を見る</button></section>`);
+    const endings = {
+      ideal:"今日もレジが開いた。いつもの客も、休憩から戻った店員も笑っている。",
+      profit:"決算の数字が目標を超えた。社長が真っ先に見たのは、自分の取り分だった。",
+      customer:"常連の好きな品を棚に残した。店に届いたお礼の手紙は、帳簿に載らない。",
+      black:"帳簿を閉じたあとも、バックヤードの明かりは消えなかった。",
+      viral:"店の名前は町じゅうに広まった。広報のスマホは、今も鳴りやまない。",
+      legend:"再建の表彰式。あなたが書いた報告書を、社長が壇上で読み上げた。",
+      bankrupt:"最後の客を見送って、店長がシャッターを下ろした。",
+      revenge:"契約最終日。社長の署名があるのは、あなたに責任を移す書類だけだった。"
+    };
+    render(`<section class="stack"><small>契約終了</small><h1>${esc(e.name)}</h1>${scene("ending",{endingId:e.id})}<p>${esc(endings[e.id] || e.line)}</p>${list([["累計利益 / 目標",money(g.profit)+" / "+money(game.contractGoal)],["評判 / 条件",game.storeRep+" / 50"],["自分の財布",money(game.personalCash)]])}${button("endRestart","もう一度はじめる","primary")}<button data-go="records">記録を見る</button></section>`);
   }
   function reviewText(h) {
     const pool = [...(C.REACTIONS[h.actionId] || ["次の決算を見ようか。"]),...(C.EXTRA_REACTIONS[h.actionId] || [])];
@@ -431,8 +441,9 @@
   }
   function status() {
     const d = G.rootDiagnosis(game);
+    const statusQuote = game.cash<85000 ? "店長「仕入れ先への振り込みが先です」" : game.fire>=50 ? "店長「説明を求める電話が続いています」" : game.staff<45 ? "従業員「次のレジ交代、誰が入れますか」" : game.sat>=70 ? "従業員「今日は二台目のレジも開けました」" : d.active&&!d.solved ? d.witness || d.clue : "従業員「今日も売場を開けました」";
     const trust = [["社長","boss"],["店長","manager"],["常連","customers"]];
-    render(`${header("店舗の詳細")}<section class="stack">${scene("status")}<div class="vitals">${meter("人員",game.staff)}${meter("満足",game.sat)}${meter("不満",game.frust)}${meter("炎上",game.fire)}${game.workforce?meter("士気",game.workforce.morale)+meter("疲労",game.workforce.fatigue):""}</div><p class="witness">${esc(d.active&&!d.solved ? d.witness || d.clue : "従業員「今日も売場を開けました」")}</p><div class="trust">${trust.map(([label,key])=>`<label>${label}の信頼 <b>${signed(game.cast?.[key])}</b><meter min="-100" max="100" value="${game.cast?.[key]||0}"></meter></label>`).join("")}</div>${button("statusDone","経営に戻る","primary")}</section>`);
+    render(`${header("店舗の詳細")}<section class="stack">${scene("status")}<div class="vitals">${meter("人員",game.staff)}${meter("満足",game.sat)}${meter("不満",game.frust)}${meter("炎上",game.fire)}${game.workforce?meter("士気",game.workforce.morale)+meter("疲労",game.workforce.fatigue):""}</div><p class="witness">${esc(statusQuote)}</p><div class="trust">${trust.map(([label,key])=>`<label>${label}の信頼 <b>${signed(game.cast?.[key])}</b><meter min="-100" max="100" value="${game.cast?.[key]||0}"></meter></label>`).join("")}</div>${button("statusDone","経営に戻る","primary")}</section>`);
   }
   let moneyKind = "store";
   function finance() {

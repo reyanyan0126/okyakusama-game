@@ -51,6 +51,7 @@ async function audit(browser, width, base) {
         figures:fig?{...fig.dataset}:null,
         details:[...m.querySelectorAll("summary")].map(el=>el.textContent),
         images:[...m.querySelectorAll("img")].map(el=>el.getAttribute("src")),
+        sceneImages:[...m.querySelectorAll("svg image")].map(el=>el.getAttribute("href")),
         heading:m.querySelector("h1")?.innerText, documentHeight:document.documentElement.scrollHeight};
     });
     assert.deepEqual(errors,[],name);
@@ -132,7 +133,7 @@ async function audit(browser, width, base) {
         if(state.rescuePending)state=G.resolveRescue(state,G.rescueOptions(state)[0].id);
       }
       assert.equal(G.ending(state).id,id);
-      await load(state);await shot("18-ending-"+id);
+      await load(state);await shot("18-ending-"+id);assert.equal(await page.locator("main").getAttribute("data-screen"),"ending");
     }
     console.log("PASS",browserName,width,evidence.length,"screens");
   } finally {await context.close();}

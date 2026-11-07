@@ -247,7 +247,7 @@
       const facade=roomArt("front")+rect(77,30,203,66,"#d2b993")+rect(89,43,53,47,blue)+rect(153,43,48,53,ink)+rect(160,48,33,40,"#92c4c1")+rect(211,43,53,47,blue)+rect(71,12,216,24,ink)+type(179,29,"モグモグマート",17,paper,"middle")+group(37,94,crate())+person("worker",263,39,64,68,"normal");
       return `<figure class="composed-scene"><svg viewBox="0 0 360 144" role="img" aria-label="店先に商品が並ぶモグモグマート">${facade}</svg></figure>`;
     }
-    return `<figure class="composed-scene" data-phase="${escape(phase)}" data-scene="${escape(key)}" data-action="${escape(actionId||"")}" data-step="${step}" data-art="${escape(art||"")}" data-visual="${escape(visualId||"")}"><svg viewBox="0 0 360 144" role="img" aria-label="${escape(def.description)}"><title>${escape(def.description)}</title>${roomArt(def.room)}${people}${def.lead?counter:""}${props}${stepArt}${reactionArt}</svg><figcaption>${escape(def.sign)}</figcaption></figure>`;
+    return `<figure class="composed-scene" data-phase="${escape(phase)}" data-scene="${escape(key)}" data-action-id="${escape(actionId||"")}" data-step="${step}" data-art="${escape(art||"")}" data-visual="${escape(visualId||"")}"><svg viewBox="0 0 360 144" role="img" aria-label="${escape(def.description)}"><title>${escape(def.description)}</title>${roomArt(def.room)}${people}${def.lead?counter:""}${props}${stepArt}${reactionArt}</svg><figcaption>${escape(def.sign)}</figcaption></figure>`;
   }
   root.SceneComposer={render,actions,events,briefs,story,news,endings};
 })(typeof window==="undefined"?globalThis:window);
