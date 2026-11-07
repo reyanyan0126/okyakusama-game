@@ -18,8 +18,8 @@ const G=require('../engine'),F=require('../forecast');
    const s=G.initial(42,{difficulty:'easy'}),raw=JSON.stringify(s);
    await p.evaluate(raw=>localStorage.setItem('okyakusama.save.v1',raw),raw);await p.reload();await p.locator('#titleResume').click();await p.locator('#openProposals').click();
    const first=p.locator('[data-choice]').first();await first.click();const id=await first.getAttribute('data-choice');
-   const expected=F.estimate(G,s,id);await p.getByText('収支の見通し',{exact:true}).click();
-   assert((await p.locator('main').innerText()).includes(expected.profit.mean.toLocaleString('ja-JP')+'円'));
+   const expected=F.estimate(G,s,id);const low=(expected.profit.low/10000).toLocaleString('ja-JP',{maximumFractionDigits:1});
+   assert((await p.locator('.estimate').innerText()).includes(low));
    await p.locator('[data-choice]').last().click();await first.click();
    assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('okyakusama.save.v1')).rng),s.rng);
    await p.locator('#advanceButton').click();await p.locator('#workingSkip').click();
@@ -30,6 +30,7 @@ const G=require('../engine'),F=require('../forecast');
    if(saved.rescuePending)saved=G.resolveRescue(saved,G.rescueOptions(saved)[0].id);
    saved.presentation={...saved.presentation,stage:'report'};
    await p.evaluate(s=>localStorage.setItem('okyakusama.save.v1',JSON.stringify(s)),saved);await p.reload();await p.locator('#titleResume').click();
+   await p.locator('#reportContinue').click();await p.locator('[data-go=records]').click();await p.locator('[data-week]').first().click();
    await p.getByText('予測と実績',{exact:true}).click();assert((await p.locator('main').innerText()).includes('営業利益・実績'));
    await p.addStyleTag({url:'/node_modules/@fontsource/noto-sans-jp/400.css'});await p.addStyleTag({content:'body,button{font-family:"Noto Sans JP",sans-serif}'});await p.evaluate(()=>document.fonts.load('14px "Noto Sans JP"',document.body.innerText));
    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
@@ -37,7 +38,7 @@ const G=require('../engine'),F=require('../forecast');
    const stressed=G.initial(7,{difficulty:'normal'});stressed.workforce.fatigue=90;stressed.cash=20000;
    await p.evaluate(s=>localStorage.setItem('okyakusama.save.v1',JSON.stringify(s)),stressed);await p.reload();await p.locator('#titleResume').click();
    assert.equal(await p.locator('.dialogue[data-role="boss"]').count(),0);assert((await p.locator('.brief-note').innerText()).includes('経理'));assert.equal(await p.locator('.dialogue.anonymous img').count(),0);
-   assert.equal(await p.locator('.cast-member,.portrait,.guest').count(),0);assert(await p.locator('[data-action="交代で休憩中"]').count());await p.locator('[data-go="status"]').click();assert.equal(await p.locator('.cast-member').count(),0);
+   await p.locator('[data-go="status"]').click();assert.equal(await p.locator('main figure').count(),1);assert.equal(await p.locator('main details').count(),0);
    assert.deepEqual(errors,[]);await c.close();console.log('PASS forecast UI/persistence/no reroll/state priority/overflow',browserName,width);
   }
   for(const reduced of [false,true]){

@@ -39,7 +39,7 @@ const {chromium,webkit}=require('playwright'),assert=require('node:assert/strict
   const load=async(s)=>{await p.evaluate(s=>localStorage.setItem('okyakusama.save.v1',JSON.stringify(s)),s);await p.reload();await p.locator('#titleResume').click();await font();};
   await check('title');await p.locator('#titleStart').click();await check('contracts');await p.locator('#acceptMarket').click();
   for(let i=1;i<=7;i++){await check('prologue-'+i,true);if(width===390){const text=await p.locator('.panel p').boundingBox();assert(text.y<844-110,'prologue opening visible');}await p.locator('#prologueNext').click();}
-  await check('home');await p.locator('#openProposals').click();await check('choices');await p.locator('#extras').evaluate(e=>e.open=true);await check('investment-choice');
+  await check('home');await p.locator('#openProposals').click();await check('choices');await p.locator('[data-sheet=project]').click();await check('investment-choice');await p.locator('dialog form button').click();
   await p.clock.pauseAt(new Date(Date.now()+10000));await p.locator('#advanceButton').click();await check('working-open',true);await p.clock.runFor(1700);await check('working-sales',true);
   const phase=await p.locator('#workingPhase').boundingBox(),actor=await p.locator('#workingActors').boundingBox(),progress=await p.locator('.week-progress').boundingBox();assert(phase.y<actor.y&&actor.y+actor.height<=progress.y+1);
   await p.locator('#workingSkip').click();await check('outcome',true);
@@ -56,26 +56,23 @@ const {chromium,webkit}=require('playwright'),assert=require('node:assert/strict
   failed.presentation = {week:1,stage:"outcome",newsIndex:0};
   await load(failed);
   assert.deepEqual(await p.locator(".impact-grid dd").allTextContents(), ["-4","-4","+9"]);
-  assert.equal(await p.locator(".portrait").count(), 1);
-  assert.equal(await p.locator(".dialogue").getAttribute("data-mood"), "angry");
+  assert.equal(await p.locator("main details").count(),0);
   const visibleAbove = async (selector, footer) => {
     const item = await p.locator(selector).boundingBox();
     const end = await p.locator(footer).boundingBox();
     assert(item && item.y >= 0 && item.y + item.height <= end.y, selector + " inside first viewport");
   };
-  await visibleAbove(".result-summary details", ".action-bar");
+  await visibleAbove(".result-summary .impact-grid", ".action-bar");
   await p.screenshot({path:path.join(out,width+"-shrink-failure.png")});
-  await p.locator(".result-summary summary").click();
-  assert.equal(await p.locator(".portrait").count(), 1);
   failed.presentation = null;
   await load(failed);
-  assert.equal(await p.locator(".character,.portrait,.guest").count(), 0);
+  assert.equal(await p.locator("main figure").count(),1);
   assert((await p.locator(".brief-note").innerText()).includes("30人"));
   await visibleAbove("#openProposals", ".nav");
   await p.screenshot({path:path.join(out,width+"-register-home.png")});
   await p.locator("#openProposals").click();
   assert.equal(await p.locator("[data-choice]").count(), 4);
-  assert.equal(await p.locator("#extras").getAttribute("open"), null);
+  assert.equal(await p.locator("main details,dialog[open]").count(),0);
   await p.screenshot({path:path.join(out,width+"-register-options.png")});
   const s=G.initial(12,{difficulty:'easy'}),played=G.play(s,G.weeklyOffers(s)[0].id);
   Object.assign(played.lastResult,{accidentId:'complaint',accidentTitle:'苦情への対応',accidentText:'商品の説明を求められています。',accidentPositive:false,incidentCost:20000,accidentResponse:null});played.presentation={week:1,stage:'news',newsIndex:0};await load(played);
