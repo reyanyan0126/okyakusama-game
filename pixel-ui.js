@@ -189,8 +189,8 @@
     fix_fans: 24000,
   };
   const cost = (G, id) => G.STORIES.POLICIES_BY_ID[id]?.cost ?? costs[id] ?? 0;
-  const costLabel = (G, id) => {
-    const n = cost(G, id);
+  const costLabel = (G, id, state) => {
+    const n = state?.strategyVersion===380 ? root.StrategyStyles.adjustedCost(state,id,cost(G,id)) : cost(G,id);
     return n < 0 ? "削減目安 " + money(-n) : "施策費 " + money(n);
   };
   const api = {

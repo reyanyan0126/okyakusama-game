@@ -4,20 +4,20 @@ const {chromium,webkit}=require('playwright'),assert=require('node:assert/strict
 const G=require('../engine.js'),root=path.resolve(__dirname,'..');
 const gitArgs=['-c','safe.directory='+root];
 // Fail before starting the server if the historical source cannot be read.
-cp.execFileSync('git',[...gitArgs,'cat-file','-e','30b9c14fc443833205914a2626afbaeafbf9c64e:index.html'],{cwd:root});
+cp.execFileSync('git',[...gitArgs,'cat-file','-e','304f58454bb1bc0e6e6da324eec948226c646b9e:index.html'],{cwd:root});
 const deadline=setTimeout(()=>{console.error('PWA upgrade did not complete within 60 seconds');process.exit(1);},60000);
 (async()=>{let old=true;
 const server=http.createServer((q,r)=>{const file=q.url.split('?')[0];r.setHeader('Cache-Control',file==='/sw.js'?'no-store':'public, max-age=3600');
  if(old){
   try{const relative=file==='/'?'index.html':file.slice(1);if(relative.includes('..'))throw Error('bad path');
    r.setHeader('Content-Type',({'js':'text/javascript','html':'text/html','css':'text/css','svg':'image/svg+xml','png':'image/png','webmanifest':'application/manifest+json'})[relative.split('.').pop()]||'application/octet-stream');
-   r.end(cp.execFileSync('git',[...gitArgs,'show','30b9c14fc443833205914a2626afbaeafbf9c64e:'+relative],{cwd:root,maxBuffer:4000000}));
+   r.end(cp.execFileSync('git',[...gitArgs,'show','304f58454bb1bc0e6e6da324eec948226c646b9e:'+relative],{cwd:root,maxBuffer:4000000}));
   }catch{r.writeHead(404);r.end();}return;
  }
  try{const f=path.join(root,file==='/'?'index.html':file);r.setHeader('Content-Type',({'js':'text/javascript','html':'text/html','css':'text/css','svg':'image/svg+xml','png':'image/png','webmanifest':'application/manifest+json'})[f.split('.').pop()]||'application/octet-stream');r.end(fs.readFileSync(f));}catch{r.writeHead(404);r.end();}
 }).listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));const b=await ({chromium,webkit})[process.env.BROWSER||'chromium'].launch(),p=await b.newPage();p.setDefaultTimeout(20000);
 await p.goto('http://localhost:'+server.address().port+'/');await p.evaluate(async()=>{await navigator.serviceWorker.ready;});await p.waitForFunction(()=>!!navigator.serviceWorker.controller);
-const save=G.play(G.initial(51),G.weeklyOffers(G.initial(51))[0].id);save.presentation={week:1,stage:'outcome',newsIndex:0};await p.evaluate(s=>localStorage.setItem('okyakusama.save.v1',JSON.stringify(s)),save);
+const save=await p.evaluate(()=>{const s=GameEngine.initial(51,{difficulty:"normal",choiceEdition:370});return GameEngine.play(s,GameEngine.weeklyOffers(s)[0].id);});save.presentation={week:1,stage:'outcome',newsIndex:0};await p.evaluate(s=>localStorage.setItem('okyakusama.save.v1',JSON.stringify(s)),save);
 old=false;
 await p.evaluate(async()=>{
  const previous=navigator.serviceWorker.controller;
@@ -26,10 +26,11 @@ await p.evaluate(async()=>{
  await registration.update();
  if(navigator.serviceWorker.controller===previous)await changed;
 });
-const cacheNames=await p.evaluate(async(version)=>{for(let i=0;i<100;i++){const keys=await caches.keys();if(keys.some(n=>n.startsWith('okyakusama-v'+version))&&!keys.includes('okyakusama-v3.5.0-layout-flow-1'))return keys;await new Promise(r=>setTimeout(r,50));}return caches.keys();},require('../package.json').version);
+const cacheNames=await p.evaluate(async(version)=>{for(let i=0;i<100;i++){const keys=await caches.keys();if(keys.some(n=>n.startsWith('okyakusama-v'+version))&&!keys.includes('okyakusama-v3.7.0-one-screen-1'))return keys;await new Promise(r=>setTimeout(r,50));}return caches.keys();},require('../package.json').version);
 assert(cacheNames.some(n=>n.startsWith('okyakusama-v'+require('../package.json').version)));
-assert(!cacheNames.includes('okyakusama-v3.5.0-layout-flow-1'));
+assert(!cacheNames.includes('okyakusama-v3.7.0-one-screen-1'));
 await p.reload();await p.locator('#titleResume').waitFor();
 assert.equal(await p.locator('.version').innerText(),'PIXEL EDITION · '+require('../package.json').version);
 assert.deepEqual(await p.evaluate(()=>JSON.parse(localStorage.getItem('okyakusama.save.v1'))),save);await p.locator('#titleResume').click();await p.locator('#outcomeNext').waitFor();assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('okyakusama.save.v1')).rng),save.rng);
-console.log('PASS actual v3.5.0 baseline installed cache upgrade; exact save preservation; pending outcome resumes without reroll');await b.close();server.close();clearTimeout(deadline);})().catch(e=>{console.error(e);process.exit(1)});
+const migrated=await p.evaluate(()=>JSON.parse(localStorage.getItem('okyakusama.save.v1')));assert.equal(migrated.strategyVersion,380);assert.equal(migrated.cash,save.cash);assert.deepEqual(migrated.history,save.history);
+console.log('PASS actual v3.7.0 baseline installed cache upgrade; exact save preservation; pending outcome resumes without reroll');await b.close();server.close();clearTimeout(deadline);})().catch(e=>{console.error(e);process.exit(1)});

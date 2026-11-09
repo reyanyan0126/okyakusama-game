@@ -1045,3 +1045,23 @@ meter {
 .cash-balance { color: var(--red); font-size: 20px; font-variant-numeric: tabular-nums; }
 .prologue-figure { padding: 0; }
 .task .brief-note { margin-top: 8px; }
+.planning-strip { display:grid; gap:2px; }
+.planning-strip button { text-align:left; padding:3px 8px; min-height:32px; border:0; background:#e6eadc; color:#304c40; font-size:12px; }
+.planning-strip span + span { margin-left:8px; }
+.season-page { display:grid; gap:12px; }
+.season-page > small { color:var(--green); font-weight:700; }
+.goal-options { display:grid; gap:8px; }
+.goal-options button, .build-grid article, .perk-reward { display:grid; text-align:left; gap:4px; background:var(--panel); padding:12px; border:1px solid var(--line); border-left:4px solid var(--green); }
+.goal-options strong { font-size:18px; }
+.goal-options small { color:var(--muted); }
+.perk-swap,.build-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }
+.build-grid article { padding:8px; font-size:12px; }
+.build-grid meter { width:100%; }
+.goal-hint { padding:5px 8px; background:#e4eddb; font-size:12px; }
+.goal-hint b { margin-left:6px; }
+.style-tag { background:#e1eadb; padding:1px 3px; font-size:10px; }
+.future-list { list-style:none; padding:0; }
+.future-list li { display:grid; grid-template-columns:4em 1fr; gap:6px; padding:7px 0; border-bottom:1px solid var(--line); }
+.future-list p,.season-log p { font-size:13px; }
+.future-list small { color:#2e6552; }
+.future-list .possible { color:#814a26; }

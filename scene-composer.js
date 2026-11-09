@@ -238,16 +238,47 @@
       for(let i=0;i<3;i++)people+=png("guest-"+(1+((s.week||1)*3+i)%40),210+i*40,29+i*4,69,84);
     }else if(def.cast)people+=person(def.cast,230,27,98,96,def.cast==="customer"&&unhappyCustomer?"angry":face);
     else if(reaction)people+=person("customer",230,28,98,96,unhappyCustomer?"angry":face);
+    let shopLayer="",buildCaption="";
+    if(s.strategyVersion===380 && ["home","status","preview","working","outcome","ending"].includes(phase) && key!=="closed"){
+      const trend=root.StrategyStyles.dominant(s);
+      const displays={
+        QUALITY:()=>group(6,68,crate()+group(20,9,tray()),.58),
+        PEOPLE:()=>person("worker",0,25,65,66,"happy"),
+        LOCAL:()=>group(5,65,board("地元直送",mint),.62),
+        COST:()=>group(7,66,crate(true),.7),
+        PROMOTION:()=>group(7,67,board("特売",red),.66),
+        TRUST:()=>group(10,60,doc(),.86),
+        EFFICIENCY:()=>group(19,75,objectArt("selfscan",""),.48),
+        BLACK:()=>group(6,63,board("売上優先",red),.64)
+      };
+      if(trend?.level && displays[trend.id]){
+        buildCaption=trend.name+" Lv"+trend.level;
+        shopLayer=trend.id==="PEOPLE" && [def.lead,def.cast].includes("worker") ? group(12,60,doc(),.9) : displays[trend.id]();
+      }
+      if(s.upgrades?.equipment>=2 && ["back","kitchen"].includes(def.room)){
+        shopLayer+=group(312,64,rect(0,-39,38,66,blue)+rect(3,-36,32,27,"#b1d8dc")+rect(4,-4,30,1,paper)+rect(27,-1,2,8,ink));
+        buildCaption=buildCaption || "設備更新";
+      }
+    }
     const counter=rect(39,97,195,31,wood)+rect(35,94,203,7,paper)+rect(47,106,174,4,"#c39e73");
     const trayX=phase==="working"&&step===0?106:153;
     const props=group(trayX,84,objectArt(def.subject,def.sign));
     const stepArt=phase==="working"&&step===3?group(258,95,doc()+group(32,2,coins())):"";
     const reactionArt=reaction?group(299,26,rect(-13,-13,29,21,paper)+path("M-7 7l-5 7 13-7Z",paper)+type(2,2,tier==="failure"||unhappyCustomer?"!?":tier==="great"?"♥":"♪",14,tier==="failure"?red:blue,"middle")):"";
+    let buildArt="";
+    if(s.strategyVersion===380 && ["status","home","ending"].includes(phase) && def.room!=="closed"){
+      const trend=root.StrategyStyles.dominant(s);
+      if(trend?.level){
+        const cue={QUALITY:["produce","産直棚"],PEOPLE:["roster","交代表"],LOCAL:["card","常連証"],COST:["ledger","経費表"],PROMOTION:["banner","本日特売"],TRUST:["label","価格内訳"],EFFICIENCY:["selfscan","自動精算"],BLACK:["highprice","新価格"]}[trend.id];
+        buildArt=group(314,100,objectArt(cue[0],cue[1]),.58);
+      }
+      if(s.upgrades?.equipment>=2 && def.room==="kitchen")buildArt+=group(19,72,objectArt("fridge","設備更新"),.5);
+    }
     if(phase==="title"){
       const facade=roomArt("front")+rect(77,30,203,66,"#d2b993")+rect(89,43,53,47,blue)+rect(153,43,48,53,ink)+rect(160,48,33,40,"#92c4c1")+rect(211,43,53,47,blue)+rect(71,12,216,24,ink)+type(179,29,"モグモグマート",17,paper,"middle")+group(37,94,crate())+person("worker",263,39,64,68,"normal");
       return `<figure class="composed-scene"><svg viewBox="0 0 360 144" role="img" aria-label="店先に商品が並ぶモグモグマート">${facade}</svg></figure>`;
     }
-    return `<figure class="composed-scene" data-phase="${escape(phase)}" data-scene="${escape(key)}" data-action-id="${escape(actionId||"")}" data-step="${step}" data-art="${escape(art||"")}" data-visual="${escape(visualId||"")}"><svg viewBox="0 0 360 144" role="img" aria-label="${escape(def.description)}"><title>${escape(def.description)}</title>${roomArt(def.room)}${people}${def.lead?counter:""}${props}${stepArt}${reactionArt}</svg><figcaption>${escape(def.sign)}</figcaption></figure>`;
+    return `<figure class="composed-scene" data-phase="${escape(phase)}" data-scene="${escape(key)}" data-action-id="${escape(actionId||"")}" data-step="${step}" data-art="${escape(art||"")}" data-visual="${escape(visualId||"")}"><svg viewBox="0 0 360 144" role="img" aria-label="${escape(def.description)}"><title>${escape(def.description)}</title>${roomArt(def.room)}${shopLayer}${people}${def.lead?counter:""}${props}${buildArt}${stepArt}${reactionArt}</svg><figcaption>${escape(def.sign)}</figcaption>${buildCaption?`<small class="scene-build">${escape(buildCaption)}</small>`:""}</figure>`;
   }
   root.SceneComposer={render,actions,events,briefs,story,news,endings};
 })(typeof window==="undefined"?globalThis:window);

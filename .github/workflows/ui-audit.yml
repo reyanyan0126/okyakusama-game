@@ -39,6 +39,9 @@ jobs:
       - run: node tests/pixel-upgrade.cjs
         env:
           BROWSER: ${{ matrix.browser }}
+      - run: node tests/strategy-browser.cjs
+        env:
+          BROWSER: ${{ matrix.browser }}
       - run: node tests/weekly-scenes-browser.cjs
         env:
           BROWSER: ${{ matrix.browser }}

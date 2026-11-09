@@ -42,7 +42,7 @@ for(let seed=1;seed<=60;seed++){
   }
   if(s.lastResult.accidentId&&!s.lastResult.accidentPositive&&s.lastResult.incidentCost>0&&!s.lastResult.accidentResponse)s=G.handleAccident(s,'ignore');
   if(s.rescuePending)s=G.resolveRescue(s,G.rescueOptions(s)[0]?.id||'giveup');
-  assert.deepEqual(G.validateSaved(s),s);
+  const upgraded=G.validateSaved(s);assert.deepEqual(upgraded.history,s.history);assert.equal(upgraded.rng,s.rng);assert.deepEqual(G.validateSaved(upgraded),upgraded);
  }
 }
 assert(memories>0);
