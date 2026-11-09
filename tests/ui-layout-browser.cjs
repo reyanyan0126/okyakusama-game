@@ -39,6 +39,7 @@ const {chromium,webkit}=require('playwright'),assert=require('node:assert/strict
   const load=async(s)=>{await p.evaluate(s=>localStorage.setItem('okyakusama.save.v1',JSON.stringify(s)),s);await p.reload();await p.locator('#titleResume').click();await font();};
   await check('title');await p.locator('#titleStart').click();await check('contracts');await p.locator('#acceptMarket').click();
   for(let i=1;i<=7;i++){await check('prologue-'+i,true);if(width===390){const text=await p.locator('.panel p').boundingBox();assert(text.y<844-110,'prologue opening visible');}await p.locator('#prologueNext').click();}
+ await p.locator('[data-goal]').first().click();
   await check('home');await p.locator('#openProposals').click();await check('choices');await p.locator('[data-sheet=project]').click();await check('investment-choice');await p.locator('dialog form button').click();
   await p.clock.pauseAt(new Date(Date.now()+10000));await p.locator('#advanceButton').click();await check('working-open',true);await p.clock.runFor(1700);await check('working-sales',true);
   const phase=await p.locator('#workingPhase').boundingBox(),actor=await p.locator('#workingActors').boundingBox(),progress=await p.locator('.week-progress').boundingBox();assert(phase.y<actor.y&&actor.y+actor.height<=progress.y+1);

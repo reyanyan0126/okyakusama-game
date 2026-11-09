@@ -11,6 +11,7 @@ const finals=Object.entries(require('./fixtures/v370-endings.json')).map(([id,r]
  await p.goto('http://localhost:'+server.address().port);await p.locator('#titleStart').click();
  for(const difficulty of ['easy','hard','normal']){await p.locator('#difficulty').selectOption(difficulty);assert((await p.locator('main').innerText()).includes(G.MANAGEMENT.DIFFICULTIES[difficulty].target.toLocaleString('ja-JP')));}
  await p.locator('#difficulty').selectOption('easy');await p.locator('#acceptMarket').click();for(let i=0;i<7;i++)await p.locator('#prologueNext').click();
+ await p.locator('[data-goal]').first().click();
  const initial=await p.evaluate(()=>JSON.parse(localStorage.getItem('okyakusama.save.v1')));assert.equal(initial.difficulty,'easy');assert.equal(initial.cash,300000);
  await p.locator('[data-go="status"]').click();assert((await p.locator('main').innerText()).includes('士気'));assert((await p.locator('main').innerText()).includes('疲労'));
  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

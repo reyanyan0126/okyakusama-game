@@ -76,6 +76,9 @@ const ROOT_CASES={
 };
 const ROOT_ACTIONS=Object.values(ROOT_CASES).map(c=>({id:c.action,icon:'',name:c.solution,effect:'根本改善 / 今週の費用'+(c.cost/10000).toFixed(1)+'万円',detail:c.payoff+'。投資は今週の営業費に計上。',type:'kind'}));
 ACTIONS.push(...ROOT_ACTIONS,...STORIES.POLICIES);
+const Style=typeof module==='object'&&module.exports?require('./strategy-styles'):root.StrategyStyles;
+const Season=typeof module==='object'&&module.exports?require('./season-goals'):root.SeasonGoals;
+for(const a of ACTIONS)a.styleTags=Style.tags[a.id];
 const ACTIONS_BY_ID=Object.fromEntries(ACTIONS.map(a=>[a.id,a]));
 // A choice's strategic role is distinct from its existing performance/RNG type.
 const CHOICE_CLASSES={
@@ -361,11 +364,16 @@ function legacyEnding(s){
  if(g.profitGap===0)return {icon:'',name:'黒字の代償',line:'利益目標は達成。しかし店の評判は契約条件に届かなかった。',passed:false};
  return {icon:'',name:'契約満了、更新なし',line:'社長「努力は評価する。目標は未達だ。私の給料は守ってくれ。」',passed:false};
 }
+function strategic(s){
+ s.strategyVersion=380;s.stylePoints=Style.pointsFromHistory(s.history);
+ Season.initialize(s);return s;
+}
 function initial(seed,options){
  let n=Number(seed);if(!Number.isFinite(n))n=Date.now();n=n>>>0;if(n===0)n=246813579;
  const state={version:VERSION,campaignWeeks:MAX_WEEKS,rng:n,rngSeed:n,rootCause:['equipment','people','fans'][n%3],rootSolved:false,momentum:0,storyArcs:[],storyJournal:[],cast:{boss:0,manager:0,customers:0},personalCash:PERSONAL.start,arrears:0,personalFailed:false,pactCount:0,pacts:[],week:1,finished:false,selected:'shrink',skill:50,notoriety:5,pay:0,price:200,size:100,quality:60,staff:60,storeRep:58,fire:4,sat:61,frust:32,sales:480000,profit:61000,cash:195000,contractGoal:CONTRACT.profit,debt:0,maintenance:0,upgrades:blankUpgrades(),lowCashWeeks:0,bankrupt:false,rescuePending:false,rescueUsed:0,ownerFundUsed:false,boycottWeeks:0,memory:[],history:[],lastResult:null};
  if(options?.choiceEdition===370)state.choiceEdition=370;
- return options?.difficulty?M.setup(state,options.difficulty):state;
+ const result=options?.difficulty?M.setup(state,options.difficulty):state;
+ return options?.strategyVersion===380?strategic(result):result;
 }
 
 /* Three outcomes: a failed action performs at 80%, ordinary success at
@@ -382,6 +390,7 @@ function performanceOdds(s,id){
  if(s.fire>=50){failure+=bold?8:4;great-=3;}
  if(s.frust>=70)failure+=3;
  failure-=(s.upgrades?.people||0)*2;
+ if(s.strategyVersion===380)failure-=Style.benefit(s,id).failure;
  // Trust earned across episodes changes practical success odds. These are
  // small bounded modifiers, separate from the displayed random draw.
  const relationships=s.cast||{boss:0,manager:0,customers:0};
@@ -516,6 +525,7 @@ function resolveRescue(input,id){
  return s;
 }
 function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(input))throw Error('ゲームは終了しています');if(!ACTIONS_BY_ID[id]||!enabled(input,id))throw Error('この施策は選べません');
+ if(input.strategyVersion===380&&(input.seasonReview||Season.needsGoal(input)))throw Error('先に今期の目標や報酬を選んでください');
  const devil=opts?.devil??null;
  if(devil!==null&&(!DEVIL_OFFERS.some(x=>x.id===devil)||!pactAvailable(input)))throw Error('悪魔と契約できません');
  const plan=opts?.project??null;
@@ -530,6 +540,19 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  const beforeAction=Object.fromEntries(PERFORMANCE_NUMBERS.map(key=>[key,s[key]]));
  const action=applyPerformance(s,id,applyAction(s,id),beforeAction,performance);
  s.momentum=performance.tier==='failure'?0:Math.min(3,(s.momentum||0)+(performance.tier==='great'?2:1));
+ const b=s.strategyVersion===380?Style.benefit(input,id):null;
+ if(b){
+  action.extra=Style.adjustedCost(input,id,action.extra);
+  action.demandFactor*=b.demand;
+  const has=k=>Style.tags[id].includes(k);
+  const bonus=performance.tier!=='failure'&&['QUALITY','TRUST'].some(k=>has(k)&&Style.rank(s,k)===3)?1:0;
+  adjust(s,{storeRep:b.rep+bonus,sat:b.sat,frust:b.frust,fire:b.fire});
+  if(s.workforce)s.workforce.fatigue=cap(s.workforce.fatigue+b.fatigue,0,100);
+  const change=(k,n)=>{s.cast[k]=cap(s.cast[k]+n,-100,100);};
+  if(has('PEOPLE'))change('manager',1);
+  if(has('LOCAL')||has('QUALITY'))change('customers',1);
+  if(has('BLACK')){change('boss',2);change('customers',-1);change('manager',-1);}
+ }
  const storyResult=STORIES.storyResult(s,brief,id,performance.tier,ACTIONS_BY_ID[id]);
  const actionSnapshot={rep:s.storeRep-previous.rep,fire:s.fire-previous.fire,sat:s.sat-previous.sat,frust:s.frust-previous.frust};
  const storyEcho=STORIES.echoes(s);
@@ -581,7 +604,7 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  const due=s.memory.filter(x=>x.due<=theWeek);
  s.memory=s.memory.filter(x=>x.due>theWeek).concat(due.slice(1).map(m=>({kind:m.kind,due:theWeek+1}))); 
  if(due.length){const m=due[0];memoryEvent=true;title=MEMORY_NEWS[m.kind][0];body=MEMORY_NEWS[m.kind][1];eventType='memory';adjust(s,{frust:5,fire:8,storeRep:-3});}
- const chance=risk(s),roll=draw(s);
+ const chance=cap(risk(s)+(b?.risk||0),.01,.50),roll=draw(s);
  if(roll<chance){
   fireHit=true;eventType='fire';title=' SNSで大炎上！';body=memoryEvent?'過去の施策が再燃。「これは偶然ではなく経営方針」とまで話題に。':'「お客様のために」がトレンド入り。引用符だけが好意的。';
   adjust(s,{fire:27,frust:10,sat:-5,storeRep:-9,notoriety:11,skill:-6});
@@ -595,7 +618,7 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  const accident=selectAccident(s);
  let incidentCost=0;
  if(accident){
-  incidentCost=Math.round(accident.cost*(1-.22*(s.upgrades.equipment??0)));demandModifier*=accident.demand;
+  incidentCost=Math.round(accident.cost*(['freezer','power'].includes(accident.id)?b?.accident??1:1)*(1-.22*(s.upgrades.equipment??0)));demandModifier*=accident.demand;
   adjust(s,{sat:accident.sat,storeRep:accident.rep,fire:accident.fire,frust:accident.frust});
   if(!fireHit&&!memoryEvent){title=accident.title;body=accident.body;eventType='accident';}
   else body+=' '+accident.body;
@@ -621,7 +644,7 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  demand*=workforce.demand*action.demandFactor*demandModifier*diagnosisDemand*macro.demand*devilDemand*(1+.045*s.upgrades.people+.055*s.upgrades.fans)*(.97+draw(s)*.06);
  const units=cap(int(demand),500,4200),effectivePrice=s.price-action.discount;
  const sales=units*effectivePrice,cost=Math.round(unitCost(s)*macro.cost);
- const rent=75000,utilities=30000,payroll=50000-(60-s.staff)*800;
+ const rent=75000,utilities=Math.round(30000*(b?.utilities??1)),payroll=50000-(60-s.staff)*800;
  const fixed=rent+utilities+payroll+macro.fixed;
  const interest=s.debt>0?3000:0,principal=Math.min(s.debt,10000);
  const profit=units*(effectivePrice-cost)-fixed-action.extra-incidentCost-interest-macroPenalty-rootLoss-workforce.cost+macroBonus;
@@ -634,7 +657,7 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  s.sales=sales;s.profit=profit;
  // Weekly operating bills are deducted even when no initiative is taken. Loan principal is a cash-flow item, not P&L.
  // The consulting fee is actual money leaving the client's account.
- const boardroomBonus=boardDemand?.actionId===id?boardDemand.bonus:0;
+ const boardroomBonus=boardDemand?.actionId===id?boardDemand.bonus+(b&&s.cast.boss>=10&&ACTIONS_BY_ID[id].choiceClass==='GREEDY'&&performance.tier!=='failure'?1000:0):0;
  s.cash+=profit+action.financing-principal-investment-fee-devilPayment-boardroomBonus;
  s.personalCash+=boardroomBonus;s.debt-=principal;s.pay+=fee+boardroomBonus;
  const supportDue=PERSONAL.dueWeeks.includes(theWeek)?PERSONAL.support:0;
@@ -651,8 +674,10 @@ function play(input,id,opts={}){if(input.finished||input.week>campaignWeeks(inpu
  if(s.maintenance>0)s.maintenance--;
  const report={...(s.managementVersion===1?{workforceCost:workforce.cost,workforceNote:workforce.note,serviceQuality:workforce.quality,workforceAfter:{...s.workforce},repAfter:s.storeRep}:{}),actionImpact:actionSnapshot,storyEvent:storyResult,storyEcho:storyEcho.items,performanceTier:performance.tier,performanceRoll:performance.roll,performanceOdds:performance.odds,performanceMultiplier:performance.multiplier,momentumAfter:s.momentum,crisisResponse,rescueChoice:null,rescueAmount:0,rescueName:'',week:theWeek,scenarioId:brief.id,scenarioTitle:brief.title,rootLoss,rootCause:s.rootCause||null,rootFixedThisWeek:id.startsWith('fix_')&&s.rootSolved,boardroomBonus,
  boardroomDemandId:boardDemand?.actionId||null,actionId:id,actionName:ACTIONS_BY_ID[id].name,title,body,ceo:fireHit?'社長「君の提案だったよね？ わたしは聞いてないよね？」':(QUOTES[id]||STORIES.castLine(s)),eventType,sales,profit,fee,units,price:effectivePrice,cost,extra:action.extra,rent,utilities,payroll,interest,principal,financing:action.financing,investment,projectId:plan,projectLabel:plan?PROJECTS_BY_ID[plan].name:"なし",incidentCost,accidentResponse:accident?.positive?'not_needed':null,accidentPositive:!!accident?.positive,accidentId:accident?.id||null,accidentTitle:accident?.title||'',accidentIcon:accident?.icon||'',cashBefore:previous.cash,cashAfter:s.cash,deltaCash:s.cash-previous.cash,debtAfter:s.debt,macroId:macro.id,macroName:macro.name,macroTag:macro.tag,macroDetail:macro.detail,macroPenalty,macroBonus,macroFixed:macro.fixed,devilId:devil,devilNote,devilPayment,personalDevilPayment,personalCashBefore:previous.personalCash,personalCashAfter:s.personalCash,arrearsBefore:previous.arrears,arrearsAfter:s.arrears,personalLiving:PERSONAL.living,supportDue,supportPaid,feeFromStore:fee,personalFailed:s.personalFailed,fireHit,boycottHit,boycottActive,memoryEvent,...(memoryEvent&&s.choiceEdition===370?{memoryActionId:due[0].kind}:{}),chance,roll,deltaSales:sales-previous.sales,deltaRep:s.storeRep-previous.rep,deltaSat:s.sat-previous.sat,deltaFrust:s.frust-previous.frust,deltaFire:s.fire-previous.fire,deltaSkill:s.skill-previous.skill};
+ if(b){report.combo=Style.combo(input,id);Style.award(s.stylePoints,report);}
  s.history.push(report);s.lastResult=report;s.week++;
  if(s.week>campaignWeeks(s)||s.bankrupt||s.personalFailed)s.finished=true;
+ if(b)Season.settle(s);
  if(!weeklyOffers(s).some(a=>a.id===s.selected))s.selected=s.finished?s.selected:weeklyOffers(s)[0].id;
  return s;
 }
@@ -719,9 +744,14 @@ function validateSaved(x){if(!x||typeof x!=='object'||Array.isArray(x)||x.versio
  clone.memory=clone.memory.map(m=>({kind:m.kind,due:m.due}));
  clone.history=clone.history.map(h=>({...h,title:String(h.title).slice(0,240),body:String(h.body).slice(0,400),ceo:typeof h.ceo==='string'?h.ceo.slice(0,240):'',actionName:ACTIONS_BY_ID[h.actionId].name}));
  clone.lastResult=clone.history.length?clone.history[clone.history.length-1]:null;
+ if(clone.choiceEdition===370&&clone.strategyVersion===undefined)strategic(clone);
+ if(clone.strategyVersion!==undefined){
+  if(clone.strategyVersion!==380||!clone.stylePoints||Object.keys(clone.stylePoints).length!==8||Object.keys(Style.styles).some(k=>!Number.isInteger(clone.stylePoints[k])||clone.stylePoints[k]<0||clone.stylePoints[k]>90))throw Error('経営スタイルの記録が不正です');
+  Season.validate(clone);
+ }
  return clone;
 }
-function previewRisk(s,id){if(!ACTIONS_BY_ID[id]||!enabled(s,id))return risk(s);const clone=JSON.parse(JSON.stringify(s));applyAction(clone,id);return risk(clone);}
+function previewRisk(s,id){if(!ACTIONS_BY_ID[id]||!enabled(s,id))return risk(s);const clone=JSON.parse(JSON.stringify(s));applyAction(clone,id);return cap(risk(clone)+(s.strategyVersion===380?Style.benefit(s,id).risk:0),.01,.50);}
 const engine={BRIEFS,THEMATIC_OFFERS,MANAGEMENT:M,VERSION,MAX_WEEKS,STORIES,campaignWeeks,LEGACY_WEEKS,CONTRACT,ROOT_CASES,rootDiagnosis,PERSONAL,MACROS,DEVIL_OFFERS,currentMacro,pactAvailable,PROJECTS,availableProjects,projectCost,ACTIONS,ACCIDENTS,weeklyBrief,weeklyOffers,boardroomDemand,boardroomSignal,goalStatus,ending,initial,play,handleAccident,rescueOptions,resolveRescue,risk,performanceOdds,previewRisk,unitCost,enabled,validateSaved};
 root.GameEngine=engine;
 if(typeof module==='object'&&module.exports)module.exports=engine;

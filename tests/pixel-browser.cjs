@@ -195,6 +195,7 @@ const G = require("../engine.js"),
       await snap("prologue-" + (i + 1));
       await click("prologueNext");
     }
+ await p.locator('[data-goal]').first().click();
     await snap("home");
     // Home essentials stay in the first mobile viewport.
     const cta = await p.locator("#openProposals").boundingBox();

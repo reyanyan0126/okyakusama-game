@@ -1,0 +1,12 @@
+'use strict';
+const assert=require('node:assert/strict');
+const G=require('../engine');
+const {run,simulate}=require('../scripts/strategy-balance.cjs');
+const routes=require('./fixtures/v380-endings.json');
+assert.deepEqual(Object.keys(routes).sort(),Object.keys(G.MANAGEMENT.ENDINGS).sort());
+for(const [ending,r] of Object.entries(routes))assert.equal(run(r.seed,r.difficulty,'QUALITY',r).ending,ending);
+const rows=simulate(4);
+assert.equal(rows.length,108);
+assert(rows.some(r=>r.missedContinued));
+assert(rows.some(r=>r.passed));
+assert(rows.some(r=>!r.passed));
